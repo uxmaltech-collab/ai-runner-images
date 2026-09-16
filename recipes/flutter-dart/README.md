@@ -47,6 +47,19 @@ The launcher sets `FLUTTER_ROOT` and `PUB_CACHE` to the writable copy and passes
 
 ## Qualification after sealing
 
+Darwin checks symlink permissions when a nonadministrator calls `readlink(2)`. The SDK seal therefore gives public symlinks mode `0555`, records their modes and preserves their targets. A restrictive builder umask previously left 17 root-owned links at `0700`; real nonadministrator Flutter startup failed while cloning those links. A regular-file-only APFS clone test did not cover this case.
+
+For an affected sealed SDK, preserve its parent and run this bounded repair inside a **new accountless derivative**. Stage `repair-symlink-modes.py` and `pins.json` together. Supply the actual previous `SDK-READY.json` digest from the retained installation receipt and a fresh private evidence directory:
+
+```sh
+/opt/macos-tart-bootstrap/python/bin/python3.12 -I -B \
+  /tmp/flutter-dart/repair-symlink-modes.py \
+  --expected-ready-sha256 "$PREVIOUS_SDK_READY_SHA256" \
+  --evidence-dir /opt/ai-runner-images/flutter-symlink-repair
+```
+
+The repair verifies the full existing regular-file inventory and SHA-256 values, exact symlink targets and seed identity before changing anything. It preserves the original SDK manifest and ready marker in the private evidence directory, records an intent, changes only symlink modes and reissues both metadata files with new digests. It does not download, extract, precache, create accounts or alter regular SDK payloads. If interrupted, reconcile the intent and metadata before another mutation. The resulting derivative still needs normal shutdown, its own stopped-image manifest and the intended nonadministrator qualification; the repair receipt alone does not qualify it.
+
 The image owner creates a disposable qualification clone and uses its intended nonadministrator job user. It does not add a qualification account to the sealed base image. With the declared PATH, run:
 
 ```sh

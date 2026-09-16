@@ -111,8 +111,12 @@ def inventory_and_seal(root):
             info = path.lstat()
             relative = path.relative_to(root).as_posix()
             if stat.S_ISLNK(info.st_mode):
-                entries.append({'path': relative, 'kind': 'symlink', 'target': os.readlink(path)})
+                target = os.readlink(path)
                 os.lchown(path, 0, 0)
+                # Darwin enforces symlink read permissions for readlink(2).
+                # A restrictive builder umask must not make public SDK links unreadable.
+                os.chmod(path, 0o555, follow_symlinks=False)
+                entries.append({'path': relative, 'kind': 'symlink', 'target': target, 'mode': 0o555})
             elif stat.S_ISDIR(info.st_mode):
                 path.chmod(0o555)
                 os.chown(path, 0, 0)
