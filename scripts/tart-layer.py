@@ -42,6 +42,7 @@ def main():
     parser.add_argument('--parent-digest')
     parser.add_argument('--parent-manifest', type=Path)
     parser.add_argument('--shutdown-receipt', type=Path)
+    parser.add_argument('--boot-receipt', type=Path)
     argv = sys.argv[1:]
     separator = argv.index('--') if '--' in argv else len(argv)
     args = parser.parse_args(argv[:separator])
@@ -129,12 +130,27 @@ def main():
             result.update(source=str(args.source), destination=str(target), original_metadata_preserved=True, method='APFS-copy-on-write')
         elif args.operation == 'boot':
             stopped()
-            stdout = args.receipt.with_suffix('.vm.stdout').open('xb')
-            stderr = args.receipt.with_suffix('.vm.stderr').open('xb')
             argv = prefix + ['run', args.vm, '--no-graphics', '--no-audio', '--no-clipboard'] + binding['network_args']
-            p = subprocess.Popen(argv, stdin=subprocess.DEVNULL, stdout=stdout, stderr=stderr, start_new_session=True, close_fds=True)
-            stdout.close(); stderr.close()
-            result.update(pid=p.pid, boot_argv=argv)
+            exit_path = args.receipt.with_suffix('.vm-exit.json')
+            assert not exit_path.exists()
+            monitor = '''import subprocess,sys,json,os,datetime
+from pathlib import Path
+os.umask(0o077)
+record=Path(sys.argv[1]); command=json.loads(sys.argv[4])
+def save(value):
+ temporary=record.with_suffix('.writing');temporary.write_text(json.dumps(value,indent=2)+'\\n');temporary.replace(record)
+with open(sys.argv[2],'xb') as out,open(sys.argv[3],'xb') as err:
+ child=subprocess.Popen(command,stdin=subprocess.DEVNULL,stdout=out,stderr=err,close_fds=True)
+ value={'pid':child.pid,'started_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'exit_code':None};save(value)
+ code=child.wait();value.update(exit_code=code,finished_at=datetime.datetime.now(datetime.timezone.utc).isoformat());save(value)
+sys.exit(0 if code==0 else 1)
+'''
+            p = subprocess.Popen([sys.executable, '-I', '-B', '-c', monitor, str(exit_path),
+                                  str(args.receipt.with_suffix('.vm.stdout')),
+                                  str(args.receipt.with_suffix('.vm.stderr')), json.dumps(argv)],
+                                 stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                                 start_new_session=True, close_fds=True)
+            result.update(pid=p.pid, boot_argv=argv, vm_exit_receipt=str(exit_path))
             save()
             deadline = time.monotonic() + args.timeout
             while time.monotonic() < deadline:
@@ -184,6 +200,18 @@ def main():
                 raise RuntimeError('Normal guest shutdown not observed; preserve and reconcile owned VM')
             result.update(normal_guest_shutdown_observed=True, forced_stop_used=False,
                           shutdown_observations=observations)
+            if args.boot_receipt:
+                boot = json.loads(args.boot_receipt.read_text())
+                assert boot['vm'] == args.vm and boot['status'] == 'complete'
+                exit_path = Path(boot['vm_exit_receipt'])
+                deadline = time.monotonic() + 10
+                while time.monotonic() < deadline:
+                    outcome = json.loads(exit_path.read_text())
+                    if outcome['exit_code'] is not None:
+                        break
+                    time.sleep(0.1)
+                assert outcome['exit_code'] == 0, 'Tart did not confirm normal guest exit'
+                result.update(vm_exit_receipt=str(exit_path), vm_exit_sha256=digest(exit_path), vm_exit_code=0)
         elif args.operation == 'seal':
             stopped()
             assert args.shutdown_receipt, 'A verified normal guest shutdown is required'
@@ -191,6 +219,7 @@ def main():
             assert shutdown['status'] == 'complete' and shutdown['vm'] == args.vm
             assert shutdown['operation'] == 'stop' and shutdown.get('normal_guest_shutdown_observed') is True
             assert shutdown.get('forced_stop_used') is False
+            assert shutdown.get('vm_exit_code') == 0, 'The retained Tart process exit must be verified'
             result['shutdown_receipt_sha256'] = digest(args.shutdown_receipt)
             assert args.source_commit and re.fullmatch('[0-9a-f]{40}', args.source_commit)
             assert args.parent_digest and re.fullmatch('[0-9a-f]{64}', args.parent_digest)
