@@ -6,6 +6,7 @@ an image. VM copies and stopped artifact manifests remain separate from runtime
 admission. Each invocation writes its own command/result receipt.
 """
 import argparse
+import contextlib
 import datetime
 import fcntl
 import hashlib
@@ -68,13 +69,15 @@ def main():
         temporary.write_text(json.dumps(result, indent=2) + '\n')
         temporary.replace(args.receipt)
 
-    def run(argv, timeout=120, data=None):
+    def run(argv, timeout=120, input_path=None):
         record = {'argv': argv, 'started_at': now()}
         result['commands'].append(record)
         save()
         timed_out = False
         try:
-            p = subprocess.run(argv, input=data, capture_output=True, timeout=timeout)
+            with contextlib.ExitStack() as stack:
+                source = stack.enter_context(input_path.open('rb')) if input_path else subprocess.DEVNULL
+                p = subprocess.run(argv, stdin=source, capture_output=True, timeout=timeout)
         except subprocess.TimeoutExpired as error:
             timed_out = True
             p = subprocess.CompletedProcess(argv, 124, error.stdout or b'', error.stderr or b'')
@@ -149,8 +152,7 @@ def main():
                 raise RuntimeError('RPC readiness deadline exceeded; reconcile owned VM')
         elif args.operation == 'exec':
             assert args.command
-            data = args.input.read_bytes() if args.input else None
-            run(prefix + ['exec', '-i', args.vm] + args.command, timeout=args.timeout, data=data)
+            run(prefix + ['exec', '-i', args.vm] + args.command, timeout=args.timeout, input_path=args.input)
         elif args.operation == 'stop':
             run(prefix + ['stop', args.vm], timeout=args.timeout)
             stopped()
