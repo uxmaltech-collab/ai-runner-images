@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "layer": "flutter-dart",
+  "parent_layer": "agent-build",
+  "required_parent_engines": ["codex", "claude", "grok"],
+  "platform": "darwin-arm64",
+  "flutter_version": "3.47.4",
+  "flutter_revision": "9584c6713b324636289d067944a46fd6b49df14b",
+  "engine_revision": "06a2e2a110089dff50fe635cffd2a61e1b24fbcd",
+  "dart_version": "3.13.3",
+  "archive": {
+    "name": "flutter_macos_arm64_3.47.4-stable.zip",
+    "url": "https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_arm64_3.47.4-stable.zip",
+    "bytes": 2261358207,
+    "sha256": "c6af6fa1d64946167b8637ba4c5a7bb3b8574729a1ebe931decd4924dbab7061"
+  },
+  "release_metadata_url": "https://storage.googleapis.com/flutter_infra_release/releases/releases_macos.json",
+  "qualification_scope": "Neutral Flutter/Dart image mechanics. A fixture is not customer staging acceptance."
+}
