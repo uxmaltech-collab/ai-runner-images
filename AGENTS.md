@@ -1,14 +1,15 @@
 # Working in this repository
 
-Use English for versioned code, comments, documentation and PR descriptions. Keep this repository focused on reproducible image composition, compatibility locks, qualification fixtures and operating knowledge.
+Use English for versioned code, comments, documentation and PR descriptions. This repository is the shared home for runner images and toolchains across iOS/macOS, Android, Linux, web and future platforms. It owns reproducible image recipes, tool installation and launch support, compatibility locks, artifact catalogs, qualification fixtures and operating knowledge for all organizations.
 
-The requested image order is Tart macOS/Xcode/Maestro base, then one combined agent-build layer with Codex + Claude + Grok-build, then Flutter/Dart support. Record an explicit immutable parent for each layer. Do not turn the combined agent layer into per-engine variants. Keep authentication outside sealed images.
+For Flutter iOS, the required image order is Tart macOS/Xcode/Maestro base, then one combined agent-build layer with Codex + Claude + Grok-build, then Flutter/Dart support. Other platforms use their native base and compatible tool payloads, retaining all three engines together. Record an explicit immutable parent for each layer. Do not turn the combined agent layer into per-engine variants. Keep authentication outside sealed images.
 
 ## Ownership and scope
 
 - Reuse canonical executor, host installer, guest/session/RPC and resolver components from their existing owners. Do not copy checkpoint repair scripts into a second production implementation.
+- Register new platform and tool support here. Scope declarations are plans until recipes, artifacts and actual qualification exist; never label an Android or Linux image validated using iOS evidence.
 - Keep application flows and business code in their owning application/package repositories. Neutral fixtures here qualify the image mechanics; they do not establish a customer's staging acceptance.
-- Keep host-specific account, APFS, endpoint, keychain and network bindings in the host owner's declaration. Never assume a personal shell environment is the executor's environment.
+- Keep host-specific identities, storage, endpoint and network bindings in the host owner's declaration, including APFS/keychain settings where macOS requires them. Never assume a personal shell environment is the executor's environment.
 - Preserve unrelated accounts, services, VMs, builders, original image tuples, worktrees and receipts.
 
 ## Evidence and execution
@@ -19,7 +20,7 @@ The requested image order is Tart macOS/Xcode/Maestro base, then one combined ag
 - Record exact source commits, dependency closure, tool builds/hashes, image identities, actual test results and owned cleanup. Distinguish plans, isolated tests, image admission and real application execution.
 - Select regressions by the changed surface. Reuse valid evidence for unchanged inputs; do not repeat full suites for documentation edits, transfers or handoffs.
 - Preserve failures and partial evidence. Optional narrative/media problems become explicit warnings; do not turn failed assertions into passed results or claim a different commit was tested.
-- Build and interact with the app in the intended nonadministrator guest/session. Independent replay reconstructs exact committed inputs in a clean execution and excludes agent credentials.
+- Qualify each image in its intended unprivileged execution context. For GUI applications, build and interact with the real app in that guest/session or emulator/browser context. Independent replay reconstructs exact committed inputs in a clean execution and excludes agent credentials.
 
 ## Secrets and artifacts
 

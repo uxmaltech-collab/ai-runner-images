@@ -1,6 +1,21 @@
 # AI runner images
 
-Reusable image recipes, compatibility locks and operating knowledge for agents that build and test real applications. The first platform uses this exact composition:
+The shared home for **all runner images and tools** across **iOS/macOS, Android, Linux, web and future platforms**, reusable across organizations and repositories. This includes image recipes, tool installers and launchers, compatibility locks, artifact identities, qualification evidence and operating knowledge for `resolver`, `create-journey`, `test-e2e` and other supported jobs.
+
+## Platform scope
+
+| Platform | Image and tool scope | Current evidence in this repository |
+| --- | --- | --- |
+| iOS/macOS | Tart, macOS, Xcode, Simulator, Java, Maestro, the combined agent layer and optional Flutter/Dart support | Flutter iOS Hello World image qualified; exact local artifacts and receipts recorded |
+| Android | Linux base, Android SDK/emulator, Java, Maestro, the combined agent layer and optional Flutter/Dart support | In scope; image implementation and qualification pending |
+| Linux | Linux runner bases, the combined agent layer, build toolchains and job utilities | In scope; image implementation and qualification pending |
+| Web | Linux runner capabilities for browsers and Playwright, using the combined agent layer | In scope; image implementation and qualification pending |
+
+The [platform catalog](catalog/platforms.json) records scope and demonstrated status separately. The [platform guide](docs/platforms.md) describes how images and tools are organized. iOS is the first qualified implementation; the repository is not limited to Apple or Flutter workloads.
+
+## First qualified composition: Flutter iOS
+
+The iOS image uses this exact composition:
 
 1. **Tart macOS/Xcode/Maestro base**, including iOS Simulator and required platform runtimes such as Java.
 2. **One agent-build layer containing Codex, Claude and Grok-build together**, with their complete runtime/companion dependencies.
@@ -8,7 +23,7 @@ Reusable image recipes, compatibility locks and operating knowledge for agents t
 
 Each layer records its exact parent digest. Engines are installed together in the shared agent layer; authentication is supplied only to authorized jobs and never sealed into any layer.
 
-This repository owns image composition and its qualification records. The existing executor, guest/session/RPC protocol, ordinary resolver and external publisher remain in their canonical owners. A Linux Docker image cannot supply the native Xcode execution environment used here.
+This repository owns image and toolchain composition and its qualification records. The existing executor, guest/session/RPC protocol, ordinary resolver and external publisher remain in their canonical owners. Platform recipes consume those canonical components and supply the tools needed by the existing jobs.
 
 ## Current status
 
@@ -20,7 +35,7 @@ This repository owns image composition and its qualification records. The existi
 | EnviaFlores native iOS reference | Canary #2343 completed exploration, staging build, Maestro smoke/journey, delivered-flow replay, verified external publication and cleanup. Its image contains the EnviaFlores pack and app-specific driver; it is a historical consumer-specific reference, not the neutral base's direct parent. |
 | Lastmile application integration | Source discovery completed for the host app, driver package and direct shared dependencies. The app requests absent driver ref `v0.5.1`; no Lastmile Flutter build is claimed. |
 
-The three current logical layers have these artifact-manifest SHA-256 identities:
+The three current Flutter iOS logical layers have these artifact-manifest SHA-256 identities:
 
 ```text
 native base 2a77a0c4faed3dcbf9524d6c9238eddaa1cddce0af9b130f8f0577d76d69eceb
@@ -55,7 +70,7 @@ The initial Flutter precache exposed a missing builder DNS step: the public netw
 
 Reuse host commissioning and unchanged image/tool qualification when their relevant bytes and inputs are identical. A repository onboarding changes app/source/environment bindings and tests the resulting real application. A CLI/module correction should use the supported stopped-image component update instead of reinstalling Xcode. Host changes, toolchain changes and application changes have different validation scopes.
 
-Run the existing agent inside the ephemeral guest for exploration and code changes. Rebuild and replay delivered flows independently at exact committed source identities without agent credentials. Optional prose or oversized media produces warnings and must not suppress useful code/evidence delivery; failed assertions remain failed.
+Run the existing agent inside the selected isolated runtime for exploration and code changes. Rebuild and replay delivered flows independently at exact committed source identities without agent credentials. Optional prose or oversized media produces warnings and must not suppress useful code/evidence delivery; failed assertions remain failed.
 
 Managed credentials and repository environments are supplied per job. No personal session, private key, token or staging value belongs in a sealed image, Git example or public evidence. Future organizations bind their own authority, environments and publication targets; they do not inherit EnviaFlores defaults.
 
