@@ -14,22 +14,25 @@ This repository owns image composition and its qualification records. The existi
 
 | Entry | Evidence and limits |
 | --- | --- |
-| Native macOS/Xcode/Maestro base | Built and sealed. Root builder checks recorded macOS 26.6.2, Xcode 26.5, iOS Simulator 26.5, Maestro 2.10.0 and Java 17. The source image's inventoried consumer/old-agent components were removed; these checks do not claim an application build. |
-| Shared Codex + Claude + Grok-build layer | Built and sealed with all three engines together: Codex 0.151.0 and its companion, Claude 2.1.266 and Grok-build 1.0.24. Installation receipts verify exact executable bytes. Nonadministrator launch qualification is tracked separately. |
-| Flutter/Dart layer | Built and sealed with Flutter 3.47.4, Dart 3.13.3 and successful iOS precache. The protected SDK seed and writable per-user clone launcher are installed. Hello World build/UI/cleanup qualification remains separate from installation. |
+| Native macOS/Xcode/Maestro base | Sealed v3 base: macOS 26.6.2, Xcode 26.5, iOS Simulator 26.5, Maestro 2.10.0 and Java 17. Its tools passed qualification in the final Flutter derivative's nonadministrator Aqua session. |
+| Shared Codex + Claude + Grok-build layer | All three engines are installed together: Codex 0.151.0 and its companion, Claude 2.1.266 and Grok-build 1.0.24. Exact payload hashes and all three native CLI launches passed as UID 502. Authentication remains job-time configuration. |
+| Flutter/Dart layer | Sealed v4 image with Flutter 3.47.4 and Dart 3.13.3. A fresh nonadministrator SDK clone built the real iOS Hello World app, installed and launched it on an isolated iPhone 17 / iOS 26.5 simulator, and passed Maestro assertions. Simulator and qualification VM cleanup are verified. |
 | EnviaFlores native iOS reference | Canary #2343 completed exploration, staging build, Maestro smoke/journey, delivered-flow replay, verified external publication and cleanup. Its image contains the EnviaFlores pack and app-specific driver; it is a historical consumer-specific reference, not the neutral base's direct parent. |
 | Lastmile application integration | Source discovery completed for the host app, driver package and direct shared dependencies. The app requests absent driver ref `v0.5.1`; no Lastmile Flutter build is claimed. |
 
-The three stopped Tart layers have these artifact-manifest SHA-256 identities:
+The three current logical layers have these artifact-manifest SHA-256 identities:
 
 ```text
-retained source 64cdc33e58f67d7cbd8b8a95cc39cb3b7c86e0f56134dbdf8c69b47970c67e0b
-  -> native base 0d7cd86cdff86a7f3422c858c4b0da5e1cfc426d01f05864d7b0c09786f080f8
-  -> all agents 69d8b384545966a9e88473794dbda2719f9e92a10892735f68a391723eea53d5
-  -> Flutter    7a261446e45bce12105c2b6ebb74759c05fa2cd54dc45c663cf34c418ce88c05
+native base 2a77a0c4faed3dcbf9524d6c9238eddaa1cddce0af9b130f8f0577d76d69eceb
+all agents  2e1c0f79e7b14ed43d811824507af63472885a0cbf49df86ee2071de3977227d
+Flutter     33fb89bdccd573057c11388bdf2dc243fbf8a4d5ceea46d2c577c93e2e2dd9be
 ```
 
 The [image catalog](catalog/images.json) and [composition record](docs/image-composition.md) distinguish source provenance, installation and qualification. These artifacts are currently local to the Mac; the manifest hashes are not OCI references. No executor admission or production binding change is implied by sealing a layer. The [accepted native reference](provenance/accepted-enviaflores-ios.json) records the historical canary's separate image, app/flow commit and publication evidence.
+
+The [Hello World qualification](qualification/flutter-ios-hello-world-20260916/README.md) records the real build, all-engine CLI checks, JUnit, screenshots, exact fixture inputs and cleanup. Maestro verified `Hello World`, `Count: 0`, the `Increment` action and `Count: 1`: one test, zero failures. The image has no authenticated agent session, and this neutral fixture does not establish Lastmile staging acceptance.
+
+The catalog preserves physical repair ancestry separately from those three logical capabilities. Earlier images with public-directory, shutdown-persistence or SDK-symlink failures remain historical ineligible records. The successful qualification uses the exact v4 image above; it does not retroactively validate those failed attempts.
 
 ## Where to start
 

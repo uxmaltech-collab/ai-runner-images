@@ -1,0 +1,35 @@
+{
+  "argv": [
+    "/opt/ai-runner-images/flutter/bin/flutter",
+    "build",
+    "ios",
+    "--simulator",
+    "--debug",
+    "--target",
+    "lib/main.dart"
+  ],
+  "cwd": "/Users/qualifier/hello-world-01/runner_hello_world",
+  "exit_code": 0,
+  "finished_at_utc": "2026-09-16T18:50:06.371318+00:00",
+  "logs": {
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout": {
+      "bytes": 239,
+      "sha256": "d01dd80a6bb346791a122b2c4353943764f99fd17d51277266865549d4b122aa"
+    }
+  },
+  "name": "flutter-build",
+  "output_bytes": [
+    239,
+    0
+  ],
+  "pid": 1153,
+  "process_group": 1153,
+  "process_group_absent": true,
+  "process_reaped": true,
+  "started_at_utc": "2026-09-16T18:47:23.780192+00:00",
+  "timeout_seconds": 1200
+}

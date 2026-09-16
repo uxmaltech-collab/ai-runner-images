@@ -1,0 +1,23 @@
+{
+  "aqua": {
+    "managername": "Aqua",
+    "manageruid": "502"
+  },
+  "console_gid": 20,
+  "console_uid": 502,
+  "directory_groups": [
+    12,
+    20,
+    61,
+    100
+  ],
+  "egid": 20,
+  "euid": 502,
+  "gid": 20,
+  "home": "/Users/qualifier",
+  "nonadministrator": true,
+  "posix_groups": [
+    20
+  ],
+  "uid": 502
+}

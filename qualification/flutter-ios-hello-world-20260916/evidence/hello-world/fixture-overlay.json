@@ -1,0 +1,14 @@
+{
+  ".maestro/flows/hello-world.yaml": {
+    "bytes": 261,
+    "sha256": "92ef7de96458e5c4c1a43efb399ca7cc1ef6b9f094ae5c05001c7bc853ecfc64"
+  },
+  "lib/main.dart": {
+    "bytes": 988,
+    "sha256": "60dd7b2c64d7aa0001d8fb23d85ac01257898e6084dd3af95473e04af981cefd"
+  },
+  "pubspec.yaml": {
+    "bytes": 233,
+    "sha256": "f991939abc182471f87609906588b28eb414ce74b3a94c01efc180fae4e9b489"
+  }
+}

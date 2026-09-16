@@ -1,0 +1,1786 @@
+{
+  "artifacts": [
+    {
+      "catalog_id": "macos-xcode-maestro-base-v2-20260916",
+      "local_tart_name": "uxmal-macos-xcode-maestro-v2-20260916",
+      "logical_layer": "macos-xcode-maestro-base",
+      "manifest": {
+        "files": {
+          "config.json": {
+            "bytes": 587,
+            "sha256": "24417667911590518d3ddd56c0dd0be342ab20ae8e74e189f380d058d7934ef9"
+          },
+          "disk.img": {
+            "bytes": 140000000000,
+            "sha256": "d13436f0f5ff5faef9628f17901453921320788080a9307ce6e69be657c34ead"
+          },
+          "nvram.bin": {
+            "bytes": 33579164,
+            "sha256": "4c3ac7e5da4785e83dffdcc9139261e2dccc784a0e08ef158c5ba6db6dbbbc40"
+          }
+        },
+        "kind": "tart-layer-artifact",
+        "parent_manifest_sha256": "0d7cd86cdff86a7f3422c858c4b0da5e1cfc426d01f05864d7b0c09786f080f8",
+        "recipe_commit": "83218f154bbf63f26f49b6cce532fdd85c9dd78e",
+        "runtime_admission": false,
+        "schema_version": 1,
+        "source_repository": "uxmaltech-collab/ai-runner-images"
+      },
+      "manifest_file": {
+        "bytes": 614,
+        "private_original_basename": "base-v2-seal.manifest.json",
+        "sha256": "cc981b5d67cb99b935b26b65b63e1af32879e71be5578107c2b083c2f3033a7b"
+      },
+      "manifest_sha256": "cc981b5d67cb99b935b26b65b63e1af32879e71be5578107c2b083c2f3033a7b",
+      "seal": {
+        "command_outputs": [
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:14:57.346135+00:00",
+            "started_at": "2026-09-16T18:14:57.324083+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "base-v2-seal.1.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 185,
+              "private_original_basename": "base-v2-seal.1.stdout",
+              "sha256": "0ae992f4f1f5628526dc25c35b95ed480d60a9598d982b14f9a4279a6580aed9"
+            }
+          },
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:16:02.054136+00:00",
+            "started_at": "2026-09-16T18:16:02.008854+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "base-v2-seal.2.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 185,
+              "private_original_basename": "base-v2-seal.2.stdout",
+              "sha256": "543a7109174c258c2ee429da0ecd39957b79b7606167adf183a116137c27af93"
+            }
+          }
+        ],
+        "finished_at": "2026-09-16T18:16:02.054942+00:00",
+        "operation": "seal",
+        "original_receipt": {
+          "bytes": 3848,
+          "private_original_basename": "base-v2-seal.json",
+          "sha256": "b16083ded454a87f83b2c634545500ecb20602c57c0c26221d4ef43e2c091d01"
+        },
+        "runtime_admission": false,
+        "started_at": "2026-09-16T18:14:57.323718+00:00",
+        "status": "complete",
+        "vm": "uxmal-macos-xcode-maestro-v2-20260916"
+      }
+    },
+    {
+      "catalog_id": "shared-agent-build-v2-20260916",
+      "local_tart_name": "uxmal-all-agents-v2-20260916",
+      "logical_layer": "shared-agent-build",
+      "manifest": {
+        "files": {
+          "config.json": {
+            "bytes": 587,
+            "sha256": "74e3479fd1a863a23b48fe1f0fce2f92259f3abd8aa954a501abfa0c18ef97ae"
+          },
+          "disk.img": {
+            "bytes": 140000000000,
+            "sha256": "03292b040a856ecd89d476df21c20c2233775b787a450a8e0b72c0407dbad688"
+          },
+          "nvram.bin": {
+            "bytes": 33579164,
+            "sha256": "f221f62650cae03daeb295fb54734a39aab8d9d8a32584eb6d9ff0974609c47f"
+          }
+        },
+        "kind": "tart-layer-artifact",
+        "parent_manifest_sha256": "cc981b5d67cb99b935b26b65b63e1af32879e71be5578107c2b083c2f3033a7b",
+        "recipe_commit": "83218f154bbf63f26f49b6cce532fdd85c9dd78e",
+        "runtime_admission": false,
+        "schema_version": 1,
+        "source_repository": "uxmaltech-collab/ai-runner-images"
+      },
+      "manifest_file": {
+        "bytes": 614,
+        "private_original_basename": "agents-v2-seal.manifest.json",
+        "sha256": "2c6e60ace780e10fcc3d449b3e5b2e3714cb8b60523bf11f7caff5be02507291"
+      },
+      "manifest_sha256": "2c6e60ace780e10fcc3d449b3e5b2e3714cb8b60523bf11f7caff5be02507291",
+      "seal": {
+        "command_outputs": [
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:16:18.510709+00:00",
+            "started_at": "2026-09-16T18:16:18.488544+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "agents-v2-seal.1.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 185,
+              "private_original_basename": "agents-v2-seal.1.stdout",
+              "sha256": "3cf8ee3a10b04fb6c7537d965fae97d6c9249b8eb4434f315b12b6fec3a9f8ef"
+            }
+          },
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:17:23.362486+00:00",
+            "started_at": "2026-09-16T18:17:23.312632+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "agents-v2-seal.2.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 185,
+              "private_original_basename": "agents-v2-seal.2.stdout",
+              "sha256": "2ce201ad930d49c513e607d631cc5afcb6481f3fda8b288c590ec4c018161f2c"
+            }
+          }
+        ],
+        "finished_at": "2026-09-16T18:17:23.363037+00:00",
+        "operation": "seal",
+        "original_receipt": {
+          "bytes": 3831,
+          "private_original_basename": "agents-v2-seal.json",
+          "sha256": "9efd722cdc678d80b443c19ee61dc1fc6896a3f3909221f03f1b1ec226aad8e1"
+        },
+        "runtime_admission": false,
+        "started_at": "2026-09-16T18:16:18.488180+00:00",
+        "status": "complete",
+        "vm": "uxmal-all-agents-v2-20260916"
+      }
+    },
+    {
+      "catalog_id": "macos-xcode-maestro-base-v3-20260916",
+      "local_tart_name": "uxmal-macos-xcode-maestro-v3-20260916",
+      "logical_layer": "macos-xcode-maestro-base",
+      "manifest": {
+        "files": {
+          "config.json": {
+            "bytes": 587,
+            "sha256": "0e7710bf9da9b492f33ddecef6e7dec5ef8b33e5ff46fb3027a402a0b79d859b"
+          },
+          "disk.img": {
+            "bytes": 140000000000,
+            "sha256": "42964159cca2d80f44ce0be9e27ad4c548669efd1868564ea2b39325f96596a3"
+          },
+          "nvram.bin": {
+            "bytes": 33579164,
+            "sha256": "01a320e236a7c04dd91fad4e9d8ef9d1f9ad2abe19c5c3d7a969491017c66725"
+          }
+        },
+        "kind": "tart-layer-artifact",
+        "parent_manifest_sha256": "0d7cd86cdff86a7f3422c858c4b0da5e1cfc426d01f05864d7b0c09786f080f8",
+        "recipe_commit": "24e82727c9509d406ed60d44dc71fde95e71550b",
+        "runtime_admission": false,
+        "schema_version": 1,
+        "source_repository": "uxmaltech-collab/ai-runner-images"
+      },
+      "manifest_file": {
+        "bytes": 614,
+        "private_original_basename": "base-v3-seal.manifest.json",
+        "sha256": "2a77a0c4faed3dcbf9524d6c9238eddaa1cddce0af9b130f8f0577d76d69eceb"
+      },
+      "manifest_sha256": "2a77a0c4faed3dcbf9524d6c9238eddaa1cddce0af9b130f8f0577d76d69eceb",
+      "normal_shutdown": {
+        "command_outputs": [
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:22:54.376027+00:00",
+            "started_at": "2026-09-16T18:22:54.308107+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "base-v3-stop.1.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 0,
+              "private_original_basename": "base-v3-stop.1.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          {
+            "exit_code": 1,
+            "finished_at": "2026-09-16T18:22:59.778127+00:00",
+            "started_at": "2026-09-16T18:22:54.376383+00:00",
+            "stderr": {
+              "bytes": 51,
+              "private_original_basename": "base-v3-stop.2.stderr",
+              "sha256": "b7fb147c32b739c82fa3806d5f239ee3432006751045a1dd6c00e786e8bba163"
+            },
+            "stdout": {
+              "bytes": 0,
+              "private_original_basename": "base-v3-stop.2.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:22:59.803051+00:00",
+            "started_at": "2026-09-16T18:22:59.778466+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "base-v3-stop.3.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 185,
+              "private_original_basename": "base-v3-stop.3.stdout",
+              "sha256": "c1087d3e9f12d422b6555a50c0151cf2555b124b8663582da2ccab5a01527dae"
+            }
+          }
+        ],
+        "finished_at": "2026-09-16T18:22:59.803571+00:00",
+        "forced_stop_used": false,
+        "normal_guest_shutdown_observed": true,
+        "operation": "stop",
+        "original_receipt": {
+          "bytes": 4620,
+          "private_original_basename": "base-v3-stop.json",
+          "sha256": "9a49b5070ba2a7055866a97d0e5f4b5ad6cbf500ed8fb3551fe570bfc0265c20"
+        },
+        "runtime_admission": false,
+        "shutdown_observations": [
+          {
+            "at": "2026-09-16T18:22:59.803408+00:00",
+            "running": false,
+            "state": "stopped"
+          }
+        ],
+        "started_at": "2026-09-16T18:22:54.307623+00:00",
+        "status": "complete",
+        "vm": "uxmal-macos-xcode-maestro-v3-20260916",
+        "vm_exit_code": 0,
+        "vm_exit_receipt": {
+          "bytes": 142,
+          "private_original_basename": "base-v3-boot.vm-exit.json",
+          "sha256": "0f5cbd889822b00b84eb8c62927e9e4e0017a1d180ab56cf499850fef8906435"
+        }
+      },
+      "repair": {
+        "command_outputs": [
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:22:54.174534+00:00",
+            "started_at": "2026-09-16T18:22:53.672092+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "base-v3-public-permissions.1.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 287,
+              "private_original_basename": "base-v3-public-permissions.1.stdout",
+              "sha256": "b3971be42d5ea716ca427b08f18f1db75271c9b0df609b989c9e5b7ec4feec93"
+            }
+          }
+        ],
+        "finished_at": "2026-09-16T18:22:54.174883+00:00",
+        "operation": "exec",
+        "original_receipt": {
+          "bytes": 1709,
+          "private_original_basename": "base-v3-public-permissions.json",
+          "sha256": "5c9d624c37da4040f21957d6d6148ce31c8af8ea1203ac1be8ce484b2923aee8"
+        },
+        "runtime_admission": false,
+        "started_at": "2026-09-16T18:22:53.671547+00:00",
+        "status": "complete",
+        "vm": "uxmal-macos-xcode-maestro-v3-20260916"
+      },
+      "seal": {
+        "command_outputs": [
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:22:59.852277+00:00",
+            "started_at": "2026-09-16T18:22:59.830319+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "base-v3-seal.1.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 185,
+              "private_original_basename": "base-v3-seal.1.stdout",
+              "sha256": "6d3753b0e3d0e86d96d7f4858511901f9b4ebb00b62b800cd2b99fc9f24d3026"
+            }
+          },
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:24:04.723527+00:00",
+            "started_at": "2026-09-16T18:24:04.669943+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "base-v3-seal.2.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 185,
+              "private_original_basename": "base-v3-seal.2.stdout",
+              "sha256": "2b2d98610054aedb10eb949e58c5639989db7769610468b115a7988351102df6"
+            }
+          }
+        ],
+        "finished_at": "2026-09-16T18:24:04.723975+00:00",
+        "operation": "seal",
+        "original_receipt": {
+          "bytes": 3945,
+          "private_original_basename": "base-v3-seal.json",
+          "sha256": "e8596eabab60b7d25f7f3df862d7fac92f55989c4fdaef43f8e3a4f8b1fdee8b"
+        },
+        "runtime_admission": false,
+        "started_at": "2026-09-16T18:22:59.829966+00:00",
+        "status": "complete",
+        "vm": "uxmal-macos-xcode-maestro-v3-20260916"
+      }
+    },
+    {
+      "catalog_id": "shared-agent-build-v3-20260916",
+      "installation": {
+        "command_outputs": [
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:24:20.445508+00:00",
+            "started_at": "2026-09-16T18:24:19.607857+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "agents-v3-install.1.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 207,
+              "private_original_basename": "agents-v3-install.1.stdout",
+              "sha256": "044adf253dc12ebb3795a73b7014f6b6e927afe2d49ebb51fa61ac9ad8e9a92d"
+            }
+          }
+        ],
+        "finished_at": "2026-09-16T18:24:20.445840+00:00",
+        "operation": "exec",
+        "original_receipt": {
+          "bytes": 2080,
+          "private_original_basename": "agents-v3-install.json",
+          "sha256": "a52a10f8fb9c10546699c229a2967e4e8f1aaf67498ac03f312c01fa11d6dcd2"
+        },
+        "runtime_admission": false,
+        "started_at": "2026-09-16T18:24:19.607376+00:00",
+        "status": "complete",
+        "vm": "uxmal-all-agents-v3-20260916"
+      },
+      "installed_engine_bytes": {
+        "at_utc": "2026-09-16T18:24:20.027015+00:00",
+        "binary_execution": false,
+        "configuration_or_credentials_created": false,
+        "engines": [
+          "codex",
+          "claude",
+          "grok"
+        ],
+        "input_staging_removed": true,
+        "installed": true,
+        "network_calls": 0,
+        "operation": "native-agent-layer-installation",
+        "pins_sha256": "0f1ee7fee8928058ce88b33d3ae9546871ffec1f6cf8be398522f5d0c5aff5c3",
+        "prefix": "/opt/ai-runner-images/agents",
+        "runtime_path": "/opt/ai-runner-images/agents/bin",
+        "schema_version": 1,
+        "source_files": [
+          {
+            "bytes": 231563824,
+            "destination": "/opt/ai-runner-images/agents/codex/codex",
+            "path": "/private/tmp/ai-runner-agents-input/artifacts/codex",
+            "sha256": "98491713ffb196061003ee148636e743997cc31d76144ba7c53462269896891d"
+          },
+          {
+            "bytes": 62703072,
+            "destination": "/opt/ai-runner-images/agents/codex/codex-code-mode-host",
+            "path": "/private/tmp/ai-runner-agents-input/artifacts/codex-code-mode-host",
+            "sha256": "f5c96dc8cca0f760f525076c1f9f4efad31355c0fe18efb56e76df7e40592376"
+          },
+          {
+            "bytes": 199422144,
+            "destination": "/opt/ai-runner-images/agents/claude/claude",
+            "path": "/private/tmp/ai-runner-agents-input/artifacts/claude-2.1.266-darwin-arm64",
+            "sha256": "553d1b9e9e7068b275c0a783c7e139ff6503096f286e674c8c919379fb0eca62"
+          },
+          {
+            "bytes": 137364416,
+            "destination": "/opt/ai-runner-images/agents/grok/grok",
+            "path": "/private/tmp/ai-runner-agents-input/artifacts/grok-1.0.24-macos-aarch64",
+            "sha256": "4291021c1570a7c8610277a3d65490a5e54b50311e222c6b4614264f02a215b3"
+          }
+        ]
+      },
+      "local_tart_name": "uxmal-all-agents-v3-20260916",
+      "logical_layer": "shared-agent-build",
+      "manifest": {
+        "files": {
+          "config.json": {
+            "bytes": 587,
+            "sha256": "7079698e8969d61d2283e5f4f6dc659733b459fd3638c8748f62a64157ad6430"
+          },
+          "disk.img": {
+            "bytes": 140000000000,
+            "sha256": "9d03a15a26689e1ac61881c0526fa3d91ac0be725ccb74fd688d75450f4a5d3c"
+          },
+          "nvram.bin": {
+            "bytes": 33579164,
+            "sha256": "e9d48c7c54940a6892e8f13feb9bf7e23ac6c59c88cfbb1d230fd0592a9f409e"
+          }
+        },
+        "kind": "tart-layer-artifact",
+        "parent_manifest_sha256": "2a77a0c4faed3dcbf9524d6c9238eddaa1cddce0af9b130f8f0577d76d69eceb",
+        "recipe_commit": "24e82727c9509d406ed60d44dc71fde95e71550b",
+        "runtime_admission": false,
+        "schema_version": 1,
+        "source_repository": "uxmaltech-collab/ai-runner-images"
+      },
+      "manifest_file": {
+        "bytes": 614,
+        "private_original_basename": "agents-v3-seal.manifest.json",
+        "sha256": "2e1c0f79e7b14ed43d811824507af63472885a0cbf49df86ee2071de3977227d"
+      },
+      "manifest_sha256": "2e1c0f79e7b14ed43d811824507af63472885a0cbf49df86ee2071de3977227d",
+      "normal_shutdown": {
+        "command_outputs": [
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:24:20.997647+00:00",
+            "started_at": "2026-09-16T18:24:20.920162+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "agents-v3-stop.1.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 0,
+              "private_original_basename": "agents-v3-stop.1.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:24:21.062093+00:00",
+            "started_at": "2026-09-16T18:24:20.997973+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "agents-v3-stop.2.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 52,
+              "private_original_basename": "agents-v3-stop.2.stdout",
+              "sha256": "20761ffbdcae61123e7211bcfe4f36873b7f10dab3bf521f13679b753210f06e"
+            }
+          },
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:24:21.092505+00:00",
+            "started_at": "2026-09-16T18:24:21.062520+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "agents-v3-stop.3.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 184,
+              "private_original_basename": "agents-v3-stop.3.stdout",
+              "sha256": "a04736a9a7df84c675a6058edfd15df4e9a1cfc0ed37e9b8621e05864438d83d"
+            }
+          },
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:24:23.131267+00:00",
+            "started_at": "2026-09-16T18:24:23.099042+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "agents-v3-stop.4.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 184,
+              "private_original_basename": "agents-v3-stop.4.stdout",
+              "sha256": "577716852534c5ebb8a722312b3c5dc272f4c96a57528a85ee8657db27ebc2b3"
+            }
+          },
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:24:25.167446+00:00",
+            "started_at": "2026-09-16T18:24:25.140468+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "agents-v3-stop.5.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 184,
+              "private_original_basename": "agents-v3-stop.5.stdout",
+              "sha256": "b4f9ad787ebae4e570d8ceb3db2bc912e9eb95eb53030dbb8758cb413ed3a4d5"
+            }
+          },
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:24:27.243463+00:00",
+            "started_at": "2026-09-16T18:24:27.177956+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "agents-v3-stop.6.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 185,
+              "private_original_basename": "agents-v3-stop.6.stdout",
+              "sha256": "7b640649b74935da52d92a5426934ab5a0453fc3e3cd8eac90b8e784b49b059b"
+            }
+          }
+        ],
+        "finished_at": "2026-09-16T18:24:27.244343+00:00",
+        "forced_stop_used": false,
+        "normal_guest_shutdown_observed": true,
+        "operation": "stop",
+        "original_receipt": {
+          "bytes": 8540,
+          "private_original_basename": "agents-v3-stop.json",
+          "sha256": "437f116274e199992589a5c117e0abea9295511f955230edde57b2b2dfbe9027"
+        },
+        "runtime_admission": false,
+        "shutdown_observations": [
+          {
+            "at": "2026-09-16T18:24:21.092924+00:00",
+            "running": true,
+            "state": "running"
+          },
+          {
+            "at": "2026-09-16T18:24:23.131657+00:00",
+            "running": true,
+            "state": "running"
+          },
+          {
+            "at": "2026-09-16T18:24:25.167875+00:00",
+            "running": true,
+            "state": "running"
+          },
+          {
+            "at": "2026-09-16T18:24:27.244094+00:00",
+            "running": false,
+            "state": "stopped"
+          }
+        ],
+        "started_at": "2026-09-16T18:24:20.919741+00:00",
+        "status": "complete",
+        "vm": "uxmal-all-agents-v3-20260916",
+        "vm_exit_code": 0,
+        "vm_exit_receipt": {
+          "bytes": 142,
+          "private_original_basename": "agents-v3-boot.vm-exit.json",
+          "sha256": "9e1508a91a71b247398d5e097084a2fb012a9d92cba83bb1f5c247e0a8d02b93"
+        }
+      },
+      "parent_next_boot_readback": {
+        "command_outputs": [
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:24:17.471751+00:00",
+            "started_at": "2026-09-16T18:24:17.206851+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "agents-v3-parent-readback.1.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 34,
+              "private_original_basename": "agents-v3-parent-readback.1.stdout",
+              "sha256": "0ec7c5c3015ff2cea7d3f5e21dabd6ee07027754ad9614ba4f53c6d8052939ca"
+            }
+          }
+        ],
+        "finished_at": "2026-09-16T18:24:17.472144+00:00",
+        "operation": "exec",
+        "original_receipt": {
+          "bytes": 1978,
+          "private_original_basename": "agents-v3-parent-readback.json",
+          "sha256": "0784b974e563e89e19ad4cd0b647480cfe9c7f1479d5d378e3c6fe080dbc1b04"
+        },
+        "runtime_admission": false,
+        "started_at": "2026-09-16T18:24:17.206253+00:00",
+        "status": "complete",
+        "vm": "uxmal-all-agents-v3-20260916"
+      },
+      "seal": {
+        "command_outputs": [
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:24:27.299633+00:00",
+            "started_at": "2026-09-16T18:24:27.277720+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "agents-v3-seal.1.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 185,
+              "private_original_basename": "agents-v3-seal.1.stdout",
+              "sha256": "24cbff32598925efbb8865cf47d464fbbe0f31a4c54b243a42069171e73ddda2"
+            }
+          },
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:25:32.124582+00:00",
+            "started_at": "2026-09-16T18:25:32.077120+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "agents-v3-seal.2.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 185,
+              "private_original_basename": "agents-v3-seal.2.stdout",
+              "sha256": "8cc91e61c71b42b884afec963ab168ed96f954a7efa4eb156bc105fe2454e4ae"
+            }
+          }
+        ],
+        "finished_at": "2026-09-16T18:25:32.125026+00:00",
+        "operation": "seal",
+        "original_receipt": {
+          "bytes": 3928,
+          "private_original_basename": "agents-v3-seal.json",
+          "sha256": "b7d81d972fb04ee6d78c466af4b89895e380f03cb34c5044efa5050e3f11370d"
+        },
+        "runtime_admission": false,
+        "started_at": "2026-09-16T18:24:27.277335+00:00",
+        "status": "complete",
+        "vm": "uxmal-all-agents-v3-20260916"
+      }
+    },
+    {
+      "catalog_id": "flutter-dart-ios-v3-20260916",
+      "installation": {
+        "command_outputs": [
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:26:21.798471+00:00",
+            "started_at": "2026-09-16T18:25:52.435620+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "flutter-v3-install.1.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 124,
+              "private_original_basename": "flutter-v3-install.1.stdout",
+              "sha256": "86565e5ac26d8f0d1a214eb3b1b809cd87ddd95d912dcfef3accb1b6f83d77a7"
+            }
+          }
+        ],
+        "finished_at": "2026-09-16T18:26:21.798808+00:00",
+        "operation": "exec",
+        "original_receipt": {
+          "bytes": 1987,
+          "private_original_basename": "flutter-v3-install.json",
+          "sha256": "2182da5ce1c11dceae04210094a9685543d741d4311613ecff9eb0c335037597"
+        },
+        "runtime_admission": false,
+        "started_at": "2026-09-16T18:25:52.435197+00:00",
+        "status": "complete",
+        "vm": "uxmal-flutter-dart-v3-20260916"
+      },
+      "installation_output": {
+        "bytes": 10177,
+        "private_original_basename": "flutter-v3-finish.1.stdout",
+        "sha256": "e26524f02a0a8289e42610068dc8d785daec2260d8ce5d70e4968f3a4ed2c7bd"
+      },
+      "local_tart_name": "uxmal-flutter-dart-v3-20260916",
+      "logical_layer": "flutter-dart-ios",
+      "manifest": {
+        "files": {
+          "config.json": {
+            "bytes": 587,
+            "sha256": "d3c4cf0fc974173d48142977a08253407bbedcdd1ccb3eaf1db8845a337abfb6"
+          },
+          "disk.img": {
+            "bytes": 140000000000,
+            "sha256": "d4b442eee4d65568069679ce2486aec01010bc7c6b91c4b0ead1f2fe9811d89b"
+          },
+          "nvram.bin": {
+            "bytes": 33579164,
+            "sha256": "e9c1b2bf0e9c328b52ee311617b81fbc4caa2b9107798d93b6d1f15b08a42579"
+          }
+        },
+        "kind": "tart-layer-artifact",
+        "parent_manifest_sha256": "2e1c0f79e7b14ed43d811824507af63472885a0cbf49df86ee2071de3977227d",
+        "recipe_commit": "24e82727c9509d406ed60d44dc71fde95e71550b",
+        "runtime_admission": false,
+        "schema_version": 1,
+        "source_repository": "uxmaltech-collab/ai-runner-images"
+      },
+      "manifest_file": {
+        "bytes": 614,
+        "private_original_basename": "flutter-v3-seal.manifest.json",
+        "sha256": "1e7b252367856a95ba5f7d47d00ac9162f6761301783c9fecb4c299c353c0dcf"
+      },
+      "manifest_sha256": "1e7b252367856a95ba5f7d47d00ac9162f6761301783c9fecb4c299c353c0dcf",
+      "normal_shutdown": {
+        "command_outputs": [
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:26:22.077646+00:00",
+            "started_at": "2026-09-16T18:26:22.031735+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "flutter-v3-stop.1.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 0,
+              "private_original_basename": "flutter-v3-stop.1.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          {
+            "exit_code": 1,
+            "finished_at": "2026-09-16T18:26:27.596378+00:00",
+            "started_at": "2026-09-16T18:26:22.078013+00:00",
+            "stderr": {
+              "bytes": 51,
+              "private_original_basename": "flutter-v3-stop.2.stderr",
+              "sha256": "b7fb147c32b739c82fa3806d5f239ee3432006751045a1dd6c00e786e8bba163"
+            },
+            "stdout": {
+              "bytes": 0,
+              "private_original_basename": "flutter-v3-stop.2.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:26:27.620767+00:00",
+            "started_at": "2026-09-16T18:26:27.596731+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "flutter-v3-stop.3.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 185,
+              "private_original_basename": "flutter-v3-stop.3.stdout",
+              "sha256": "df231da6712c4f97a0a1e48bd6c7d3c947a932159efe1073527f210c7a0288c1"
+            }
+          }
+        ],
+        "finished_at": "2026-09-16T18:26:27.621255+00:00",
+        "forced_stop_used": false,
+        "normal_guest_shutdown_observed": true,
+        "operation": "stop",
+        "original_receipt": {
+          "bytes": 4613,
+          "private_original_basename": "flutter-v3-stop.json",
+          "sha256": "ad59915e5705a3b916fe331175bbb5c173e04e698eaa0a8ebcbf597e4a700a85"
+        },
+        "runtime_admission": false,
+        "shutdown_observations": [
+          {
+            "at": "2026-09-16T18:26:27.621106+00:00",
+            "running": false,
+            "state": "stopped"
+          }
+        ],
+        "started_at": "2026-09-16T18:26:22.031274+00:00",
+        "status": "complete",
+        "vm": "uxmal-flutter-dart-v3-20260916",
+        "vm_exit_code": 0,
+        "vm_exit_receipt": {
+          "bytes": 142,
+          "private_original_basename": "flutter-v3-boot.vm-exit.json",
+          "sha256": "776f9b477efbee11c58f2dfe1770f9df3cd6a2a581c3e7420b6f3377b15497e6"
+        }
+      },
+      "parent_next_boot_readback": {
+        "command_outputs": [
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:25:44.908497+00:00",
+            "started_at": "2026-09-16T18:25:44.619093+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "flutter-v3-parent-readback.1.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 61,
+              "private_original_basename": "flutter-v3-parent-readback.1.stdout",
+              "sha256": "ea6492678696536904cd8f74a96516247fc1c01f1de1c39caeb9977ed6297aeb"
+            }
+          }
+        ],
+        "finished_at": "2026-09-16T18:25:44.908864+00:00",
+        "operation": "exec",
+        "original_receipt": {
+          "bytes": 2175,
+          "private_original_basename": "flutter-v3-parent-readback.json",
+          "sha256": "afb754b451f0e204f0ca4d465674c85c1574ff917e8be98c8066aaa69ab43391"
+        },
+        "runtime_admission": false,
+        "started_at": "2026-09-16T18:25:44.618666+00:00",
+        "status": "complete",
+        "vm": "uxmal-flutter-dart-v3-20260916"
+      },
+      "sdk_ready": {
+        "agent_engines_in_parent": [
+          "codex",
+          "claude",
+          "grok"
+        ],
+        "archive_sha256": "c6af6fa1d64946167b8637ba4c5a7bb3b8574729a1ebe931decd4924dbab7061",
+        "dart_version": "3.13.3",
+        "flutter_revision": "9584c6713b324636289d067944a46fd6b49df14b",
+        "flutter_version": "3.47.4",
+        "manifest_sha256": "2a4caa2bb12026ca664608dbce3a8575d512eea022259d676fe36885e04cd6a5",
+        "precache_platforms": [
+          "ios"
+        ],
+        "schema_version": 1,
+        "status": "precache-complete-and-sealed"
+      },
+      "sdk_ready_sha256": "585dce6fd1a983d7e552e8d716c52aa9484f019cc9b1535fe4a0b4534b2b08d7",
+      "seal": {
+        "command_outputs": [
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:26:27.669821+00:00",
+            "started_at": "2026-09-16T18:26:27.647948+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "flutter-v3-seal.1.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 185,
+              "private_original_basename": "flutter-v3-seal.1.stdout",
+              "sha256": "cf3a98375f74e1ce73c1f3b0ed0d18f3a7624c7e96e89b344a478c75533e3282"
+            }
+          },
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:27:32.590504+00:00",
+            "started_at": "2026-09-16T18:27:32.543080+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "flutter-v3-seal.2.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 185,
+              "private_original_basename": "flutter-v3-seal.2.stdout",
+              "sha256": "969cc2f68651b53f993c788fd5220c7c1f2c405ae80f1c6230547c62a0fde7f7"
+            }
+          }
+        ],
+        "finished_at": "2026-09-16T18:27:32.590966+00:00",
+        "operation": "seal",
+        "original_receipt": {
+          "bytes": 3939,
+          "private_original_basename": "flutter-v3-seal.json",
+          "sha256": "b9158f975a591fc733b909214ac1405c38ae9c72628720977427dbfb8d13c176"
+        },
+        "runtime_admission": false,
+        "started_at": "2026-09-16T18:26:27.647591+00:00",
+        "status": "complete",
+        "vm": "uxmal-flutter-dart-v3-20260916"
+      }
+    },
+    {
+      "before_shutdown_permission_readback": {
+        "all_repaired_links_readable": true,
+        "count": 17,
+        "gid": 20,
+        "public_recipe_staging_removed": true,
+        "scope": "POSIX readability; accountless builder; no app/session acceptance",
+        "sdk_ready_sha256": "0410e81b5c289fc11e551b62f890cef7aef4f49adcf541ba7b56204e828c70c2",
+        "uid": 502
+      },
+      "catalog_id": "flutter-dart-ios-v4-20260916",
+      "local_tart_name": "uxmal-flutter-dart-v4-20260916",
+      "logical_layer": "flutter-dart-ios",
+      "manifest": {
+        "files": {
+          "config.json": {
+            "bytes": 587,
+            "sha256": "f65f0906edadea10d761a702da22f28ffabb82ca89cc65cd0e1bcdd7eac5b0e6"
+          },
+          "disk.img": {
+            "bytes": 140000000000,
+            "sha256": "92dea22fe532cbabf94ddea33edbe65e770f820127632c68be3fdbedd7712aed"
+          },
+          "nvram.bin": {
+            "bytes": 33579164,
+            "sha256": "bab5aca226bd5752237e2213269caaf3a03e78afa214edfd78af41e5f66ae51c"
+          }
+        },
+        "kind": "tart-layer-artifact",
+        "parent_manifest_sha256": "1e7b252367856a95ba5f7d47d00ac9162f6761301783c9fecb4c299c353c0dcf",
+        "recipe_commit": "4e41365a51b5476b3ffe717ff81624559d5d3254",
+        "runtime_admission": false,
+        "schema_version": 1,
+        "source_repository": "uxmaltech-collab/ai-runner-images"
+      },
+      "manifest_file": {
+        "bytes": 614,
+        "private_original_basename": "flutter-v4-seal.manifest.json",
+        "sha256": "33fb89bdccd573057c11388bdf2dc243fbf8a4d5ceea46d2c577c93e2e2dd9be"
+      },
+      "manifest_sha256": "33fb89bdccd573057c11388bdf2dc243fbf8a4d5ceea46d2c577c93e2e2dd9be",
+      "normal_shutdown": {
+        "bound_boot": {
+          "command_outputs": [
+            {
+              "exit_code": 0,
+              "finished_at": "2026-09-16T18:37:38.313122+00:00",
+              "started_at": "2026-09-16T18:37:38.291327+00:00",
+              "stderr": {
+                "bytes": 0,
+                "private_original_basename": "flutter-v4-boot.1.stderr",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout": {
+                "bytes": 185,
+                "private_original_basename": "flutter-v4-boot.1.stdout",
+                "sha256": "e7ab75b5679c40d4ea8e5bf2193078c1773569739b2f8853f77d53eeadd8bf2d"
+              }
+            },
+            {
+              "exit_code": 0,
+              "finished_at": "2026-09-16T18:37:50.431003+00:00",
+              "started_at": "2026-09-16T18:37:50.398342+00:00",
+              "stderr": {
+                "bytes": 0,
+                "private_original_basename": "flutter-v4-boot.2.stderr",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout": {
+                "bytes": 37,
+                "private_original_basename": "flutter-v4-boot.2.stdout",
+                "sha256": "adebf3ec56e6595b44187e0eb5501f8ebf9bf60651e4b1652c8329a4223de04d"
+              }
+            },
+            {
+              "exit_code": 0,
+              "finished_at": "2026-09-16T18:37:50.481210+00:00",
+              "started_at": "2026-09-16T18:37:50.431381+00:00",
+              "stderr": {
+                "bytes": 0,
+                "private_original_basename": "flutter-v4-boot.3.stderr",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout": {
+                "bytes": 0,
+                "private_original_basename": "flutter-v4-boot.3.stdout",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              }
+            },
+            {
+              "exit_code": 0,
+              "finished_at": "2026-09-16T18:37:50.534811+00:00",
+              "started_at": "2026-09-16T18:37:50.481728+00:00",
+              "stderr": {
+                "bytes": 0,
+                "private_original_basename": "flutter-v4-boot.4.stderr",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout": {
+                "bytes": 16,
+                "private_original_basename": "flutter-v4-boot.4.stdout",
+                "sha256": "f3bf881cfabdbdad899df5f134c1ca4fa3bc8e297f935908d780ae526e88890f"
+              }
+            }
+          ],
+          "finished_at": "2026-09-16T18:37:50.535515+00:00",
+          "operation": "boot",
+          "original_receipt": {
+            "bytes": 9604,
+            "private_original_basename": "flutter-v4-boot.json",
+            "sha256": "c85d9416b718d14c98097ad1ce1f82dc39e90f351ccfa3d8a460d893f74d31e4"
+          },
+          "runtime_admission": false,
+          "started_at": "2026-09-16T18:37:38.290965+00:00",
+          "status": "complete",
+          "vm": "uxmal-flutter-dart-v4-20260916"
+        },
+        "command_outputs": [
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:41:20.221129+00:00",
+            "started_at": "2026-09-16T18:41:20.184759+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "flutter-v4-stop.1.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 37,
+              "private_original_basename": "flutter-v4-stop.1.stdout",
+              "sha256": "adebf3ec56e6595b44187e0eb5501f8ebf9bf60651e4b1652c8329a4223de04d"
+            }
+          },
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:41:20.266246+00:00",
+            "started_at": "2026-09-16T18:41:20.221584+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "flutter-v4-stop.2.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 0,
+              "private_original_basename": "flutter-v4-stop.2.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          {
+            "exit_code": 1,
+            "finished_at": "2026-09-16T18:41:25.955201+00:00",
+            "started_at": "2026-09-16T18:41:20.266678+00:00",
+            "stderr": {
+              "bytes": 51,
+              "private_original_basename": "flutter-v4-stop.3.stderr",
+              "sha256": "b7fb147c32b739c82fa3806d5f239ee3432006751045a1dd6c00e786e8bba163"
+            },
+            "stdout": {
+              "bytes": 52,
+              "private_original_basename": "flutter-v4-stop.3.stdout",
+              "sha256": "20761ffbdcae61123e7211bcfe4f36873b7f10dab3bf521f13679b753210f06e"
+            }
+          },
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:41:25.983996+00:00",
+            "started_at": "2026-09-16T18:41:25.955675+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "flutter-v4-stop.4.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 185,
+              "private_original_basename": "flutter-v4-stop.4.stdout",
+              "sha256": "944f8c8ca19d1bc744f75d1ea28f8ee8ff05ec5a6f7f2afc2bb7a8d95e037408"
+            }
+          }
+        ],
+        "finished_at": "2026-09-16T18:41:25.984582+00:00",
+        "forced_stop_used": false,
+        "guest_boot_uuid": "A09A3FBF-B466-455E-86B0-C7CDE1A2B743",
+        "normal_guest_shutdown_observed": true,
+        "operation": "stop",
+        "original_receipt": {
+          "bytes": 6600,
+          "private_original_basename": "flutter-v4-stop.json",
+          "sha256": "37e479b91ab0bfd0475ae9b5536a5dc5087a45dd65a26a0660d526beb6e95d0c"
+        },
+        "runtime_admission": false,
+        "shutdown_observations": [
+          {
+            "at": "2026-09-16T18:41:25.984339+00:00",
+            "running": false,
+            "state": "stopped"
+          }
+        ],
+        "started_at": "2026-09-16T18:41:20.184025+00:00",
+        "status": "complete",
+        "vm": "uxmal-flutter-dart-v4-20260916",
+        "vm_exit_code": 0,
+        "vm_exit_receipt": {
+          "bytes": 142,
+          "private_original_basename": "flutter-v4-boot.vm-exit.json",
+          "sha256": "86fadcfb6c96a7db4a91b73db668180e0e4aa82885acefe00bb8bbba37d66b4d"
+        }
+      },
+      "readback_receipt": {
+        "command_outputs": [
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:41:20.148142+00:00",
+            "started_at": "2026-09-16T18:41:20.061330+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "flutter-v4-readback.1.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 279,
+              "private_original_basename": "flutter-v4-readback.1.stdout",
+              "sha256": "c910e067489b495e201059e5118c13074d383a445afc73b0c61fc4d3b0b61ae3"
+            }
+          }
+        ],
+        "finished_at": "2026-09-16T18:41:20.148546+00:00",
+        "operation": "exec",
+        "original_receipt": {
+          "bytes": 2559,
+          "private_original_basename": "flutter-v4-readback.json",
+          "sha256": "d82401ab49f81dab4f5ac576b1f6589fd63823b9d3461d5f4f4702e90db2faff"
+        },
+        "runtime_admission": false,
+        "started_at": "2026-09-16T18:41:20.060799+00:00",
+        "status": "complete",
+        "vm": "uxmal-flutter-dart-v4-20260916"
+      },
+      "repair": {
+        "accounts_created": false,
+        "extraction_repeated": false,
+        "finished_at_utc": "2026-09-16T18:41:20.045136+00:00",
+        "links": [
+          {
+            "after": "0o555",
+            "before": "0o700",
+            "path": "sdk/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/FlutterMacOS",
+            "target": "Versions/Current/FlutterMacOS"
+          },
+          {
+            "after": "0o555",
+            "before": "0o700",
+            "path": "sdk/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Headers",
+            "target": "Versions/Current/Headers"
+          },
+          {
+            "after": "0o555",
+            "before": "0o700",
+            "path": "sdk/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Modules",
+            "target": "Versions/Current/Modules"
+          },
+          {
+            "after": "0o555",
+            "before": "0o700",
+            "path": "sdk/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Resources",
+            "target": "Versions/Current/Resources"
+          },
+          {
+            "after": "0o555",
+            "before": "0o700",
+            "path": "sdk/bin/cache/artifacts/engine/darwin-x64-profile/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/Current",
+            "target": "A"
+          },
+          {
+            "after": "0o555",
+            "before": "0o700",
+            "path": "sdk/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/FlutterMacOS",
+            "target": "Versions/Current/FlutterMacOS"
+          },
+          {
+            "after": "0o555",
+            "before": "0o700",
+            "path": "sdk/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Headers",
+            "target": "Versions/Current/Headers"
+          },
+          {
+            "after": "0o555",
+            "before": "0o700",
+            "path": "sdk/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Modules",
+            "target": "Versions/Current/Modules"
+          },
+          {
+            "after": "0o555",
+            "before": "0o700",
+            "path": "sdk/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Resources",
+            "target": "Versions/Current/Resources"
+          },
+          {
+            "after": "0o555",
+            "before": "0o700",
+            "path": "sdk/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/Current",
+            "target": "A"
+          },
+          {
+            "after": "0o555",
+            "before": "0o700",
+            "path": "sdk/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/FlutterMacOS",
+            "target": "Versions/Current/FlutterMacOS"
+          },
+          {
+            "after": "0o555",
+            "before": "0o700",
+            "path": "sdk/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Headers",
+            "target": "Versions/Current/Headers"
+          },
+          {
+            "after": "0o555",
+            "before": "0o700",
+            "path": "sdk/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Modules",
+            "target": "Versions/Current/Modules"
+          },
+          {
+            "after": "0o555",
+            "before": "0o700",
+            "path": "sdk/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Resources",
+            "target": "Versions/Current/Resources"
+          },
+          {
+            "after": "0o555",
+            "before": "0o700",
+            "path": "sdk/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Versions/Current",
+            "target": "A"
+          },
+          {
+            "after": "0o555",
+            "before": "0o700",
+            "path": "sdk/.claude/skills",
+            "target": "../.agents/skills"
+          },
+          {
+            "after": "0o555",
+            "before": "0o700",
+            "path": "sdk/engine/src/flutter/lib/web_ui/test/ui/paragraph_performance_test.dart",
+            "target": "../webparagraph/paragraph_performance_test.dart"
+          }
+        ],
+        "network_calls": 0,
+        "nonadministrator_qualification": "pending-in-disposable-qualification-clone",
+        "operation": "repair-public-sdk-symlink-modes",
+        "precache_repeated": false,
+        "previous_manifest_sha256": "2a4caa2bb12026ca664608dbce3a8575d512eea022259d676fe36885e04cd6a5",
+        "previous_ready_sha256": "585dce6fd1a983d7e552e8d716c52aa9484f019cc9b1535fe4a0b4534b2b08d7",
+        "regular_file_contents_changed": false,
+        "schema_version": 1,
+        "sdk_manifest_sha256": "33afd658c3253611d019727934ff4e5dc4021f9732f438ed7a2aab79b7165e4a",
+        "sdk_ready_sha256": "0410e81b5c289fc11e551b62f890cef7aef4f49adcf541ba7b56204e828c70c2",
+        "started_at_utc": "2026-09-16T18:41:19.906540+00:00",
+        "status": "complete",
+        "verified_regular_file_bytes": 4476671089,
+        "verified_regular_files": 29265
+      },
+      "repair_receipt": {
+        "command_outputs": [
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:41:20.025810+00:00",
+            "started_at": "2026-09-16T18:41:08.649704+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "flutter-v4-repair.1.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 4320,
+              "private_original_basename": "flutter-v4-repair.1.stdout",
+              "sha256": "e72795fcdaf814c5ecdce616fd2653a237722526ae6827548b6ffcc6800baa7e"
+            }
+          }
+        ],
+        "finished_at": "2026-09-16T18:41:20.026247+00:00",
+        "operation": "exec",
+        "original_receipt": {
+          "bytes": 1937,
+          "private_original_basename": "flutter-v4-repair.json",
+          "sha256": "1af4824c2633929d0cae930dde3362e2f50865d2fc658d3f0f76045133739e4f"
+        },
+        "runtime_admission": false,
+        "started_at": "2026-09-16T18:41:08.649156+00:00",
+        "status": "complete",
+        "vm": "uxmal-flutter-dart-v4-20260916"
+      },
+      "repair_scope": "Flutter SDK symlink modes and metadata only; no SDK extraction, precache, network request or regular-file content change.",
+      "seal": {
+        "command_outputs": [
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:41:26.034499+00:00",
+            "started_at": "2026-09-16T18:41:26.011787+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "flutter-v4-seal.1.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 185,
+              "private_original_basename": "flutter-v4-seal.1.stdout",
+              "sha256": "d19ab5fb77e57789881b2d4bd3b356e78c8ec9ccfd7dc46cadcefc4a1fec89d0"
+            }
+          },
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:42:30.984823+00:00",
+            "started_at": "2026-09-16T18:42:30.940758+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "flutter-v4-seal.2.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 185,
+              "private_original_basename": "flutter-v4-seal.2.stdout",
+              "sha256": "852201d8d2d35e96d99a30029d53ddae1865049d592311bb673dcdafa3144565"
+            }
+          }
+        ],
+        "finished_at": "2026-09-16T18:42:30.985248+00:00",
+        "operation": "seal",
+        "original_receipt": {
+          "bytes": 3939,
+          "private_original_basename": "flutter-v4-seal.json",
+          "sha256": "6749cfed79531713e15f172a24e6a6e5c33fd6aaf3d7ab48b5f7b9be8f6b717d"
+        },
+        "runtime_admission": false,
+        "started_at": "2026-09-16T18:41:26.011433+00:00",
+        "status": "complete",
+        "vm": "uxmal-flutter-dart-v4-20260916"
+      }
+    }
+  ],
+  "completed_qualification": {
+    "image_manifest_sha256": "33fb89bdccd573057c11388bdf2dc243fbf8a4d5ceea46d2c577c93e2e2dd9be",
+    "path": "qualification/flutter-ios-hello-world-20260916/summary.json",
+    "sha256": "9dfba899ecdfb52ee7f419b1c241cb6d5114f62494af54c755220a3f6fb70bc5"
+  },
+  "failures_preserved": [
+    {
+      "cause": "Two public tool directories were root-owned mode 0700; nonadministrator Flutter execution failed.",
+      "cleanup": {
+        "at_utc": "2026-09-16T18:13:34.414716+00:00",
+        "original_receipt": {
+          "bytes": 734,
+          "private_original_basename": "qualification-failed-cleanup.json",
+          "sha256": "a99a923db5608285bb790d696b377b6a87aed819df5dbb731bc9a1e2a0088151"
+        },
+        "owned_disposable_clone_absent": true,
+        "preserved_images": [
+          "uxmal-macos-xcode-maestro-20260916",
+          "uxmal-all-agents-20260916",
+          "uxmal-flutter-dart-20260916"
+        ]
+      },
+      "diagnostic_receipt": {
+        "command_outputs": [
+          {
+            "exit_code": 2,
+            "finished_at": "2026-09-16T18:09:09.591897+00:00",
+            "started_at": "2026-09-16T18:09:09.400623+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "qualification-flutter-probe-diagnostic.1.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 100,
+              "private_original_basename": "qualification-flutter-probe-diagnostic.1.stdout",
+              "sha256": "8a07a19b4e835d62f43b2dc1a29f9fb1e02cf5efdb2be88b921d15cbb53131e4"
+            }
+          }
+        ],
+        "error_type": "RuntimeError",
+        "finished_at": "2026-09-16T18:09:09.592333+00:00",
+        "operation": "exec",
+        "original_receipt": {
+          "bytes": 1883,
+          "private_original_basename": "qualification-flutter-probe-diagnostic.json",
+          "sha256": "eecae44faeb1355a66e70149390a37251c2f9e42d29348ce73886b4d55628f57"
+        },
+        "runtime_admission": false,
+        "started_at": "2026-09-16T18:09:09.400156+00:00",
+        "status": "failed",
+        "vm": "uxmal-flutter-qualification-20260916"
+      },
+      "id": "v1-public-directory-traversal",
+      "repair_observation": {
+        "accounts_created": false,
+        "directories": [
+          {
+            "after": "0o755",
+            "before": "0o700",
+            "path": "/opt/ai-runner-images"
+          },
+          {
+            "after": "0o755",
+            "before": "0o700",
+            "path": "/opt/ai-runner-images/bin"
+          }
+        ],
+        "files_or_credentials_changed": false,
+        "operation": "repair-public-tool-directory-traversal"
+      },
+      "result": {
+        "error_type": "PermissionError",
+        "passed": false,
+        "reason_code": "qualification-operation-failed"
+      },
+      "status": "observed-failure"
+    },
+    {
+      "canonical_correction_commit": "24e82727c9509d406ed60d44dc71fde95e71550b",
+      "finding": "The next child boot lacked the prior directory repair and agent installation despite pre-stop receipts.",
+      "id": "v2-parent-readback",
+      "lost_writes_mechanism": "not established",
+      "next_boot_observation": {
+        "agent_receipt": false,
+        "children": [
+          "bin",
+          "toolchain-paths.json",
+          "rpc-installation.json",
+          "neutralization-intent.json",
+          "base-receipt.json",
+          "flutter-installation-v2"
+        ],
+        "mode": "0o700",
+        "repair": false
+      },
+      "observation_receipt": {
+        "command_outputs": [
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:18:41.630480+00:00",
+            "started_at": "2026-09-16T18:18:41.566994+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "flutter-v2-parent-observation.1.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 245,
+              "private_original_basename": "flutter-v2-parent-observation.1.stdout",
+              "sha256": "ffb046be5f290f16e5f5771f9042d04b5971a6e4ee771744f253fb372dcf7333"
+            }
+          }
+        ],
+        "finished_at": "2026-09-16T18:18:41.630936+00:00",
+        "operation": "exec",
+        "original_receipt": {
+          "bytes": 2025,
+          "private_original_basename": "flutter-v2-parent-observation.json",
+          "sha256": "c8422d4f5445c82f4596b4ff44871e4fb5ca9fd0776eb31fc8d81653b6e55bc7"
+        },
+        "runtime_admission": false,
+        "started_at": "2026-09-16T18:18:41.566370+00:00",
+        "status": "complete",
+        "vm": "uxmal-flutter-dart-v2-20260916"
+      },
+      "prior_agent_installation_receipt": {
+        "command_outputs": [
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:16:18.143620+00:00",
+            "started_at": "2026-09-16T18:16:17.725840+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "agents-v2-finish.1.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 1454,
+              "private_original_basename": "agents-v2-finish.1.stdout",
+              "sha256": "e475e006ef347a3cd331dc4a0fd5dd0a9fa640370a1b9d30d7003d085e16b430"
+            }
+          }
+        ],
+        "finished_at": "2026-09-16T18:16:18.144037+00:00",
+        "operation": "exec",
+        "original_receipt": {
+          "bytes": 1672,
+          "private_original_basename": "agents-v2-finish.json",
+          "sha256": "001f3abb7152923529adbee0ff370f6487bd9a1f0f1f0c9a5a91de25d1a7b3a4"
+        },
+        "runtime_admission": false,
+        "started_at": "2026-09-16T18:16:17.725380+00:00",
+        "status": "complete",
+        "vm": "uxmal-all-agents-v2-20260916"
+      },
+      "prior_directory_repair_receipt": {
+        "command_outputs": [
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:14:55.790035+00:00",
+            "started_at": "2026-09-16T18:14:55.233801+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "base-v2-public-permissions.1.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 287,
+              "private_original_basename": "base-v2-public-permissions.1.stdout",
+              "sha256": "b3971be42d5ea716ca427b08f18f1db75271c9b0df609b989c9e5b7ec4feec93"
+            }
+          }
+        ],
+        "finished_at": "2026-09-16T18:14:55.790611+00:00",
+        "operation": "exec",
+        "original_receipt": {
+          "bytes": 1709,
+          "private_original_basename": "base-v2-public-permissions.json",
+          "sha256": "b7ebb1971856651c3b15dc2fd916c38144fd8daa6384953119a707cc8fe2fec8"
+        },
+        "runtime_admission": false,
+        "started_at": "2026-09-16T18:14:55.233304+00:00",
+        "status": "complete",
+        "vm": "uxmal-macos-xcode-maestro-v2-20260916"
+      },
+      "shutdown_correction": "The previous thin wrapper used Tart stop. The corrected owner uses guest sync and shutdown, VM process exit 0, stopped state and released files before sealing.",
+      "status": "observed-failure"
+    },
+    {
+      "cause": "Root-owned SDK symlinks retained mode 0700; nonadministrator readlink/clone failed with errno 13.",
+      "cleanup": {
+        "at_utc": "2026-09-16T18:37:24.827662+00:00",
+        "failure_archive_sha256": "cfbb0ca96aa590170e8ab5c0bdadca9bc95560971aa486fd46f1ecc3a751f058",
+        "failure_scope": "SDK symlink readability, before application build or simulator creation",
+        "original_receipt": {
+          "bytes": 936,
+          "private_original_basename": "qualification-v3-failed-cleanup.json",
+          "sha256": "9ca68715dabdfde0122a43bc6dd219322bd52f3fa44d18b506d8fdb5512145e0"
+        },
+        "owned_disposable_clone_absent": true,
+        "preserved_images": [
+          "uxmal-macos-xcode-maestro-v3-20260916",
+          "uxmal-all-agents-v3-20260916",
+          "uxmal-flutter-dart-v3-20260916"
+        ]
+      },
+      "failed_commands": [
+        {
+          "error": "SDK symlink read/clone permission failure, errno 13 (EACCES)",
+          "exit": 1,
+          "name": "flutter"
+        },
+        {
+          "error": "SDK symlink read/clone permission failure, errno 13 (EACCES)",
+          "exit": 1,
+          "name": "dart"
+        }
+      ],
+      "id": "v3-flutter-sdk-symlink-readability",
+      "observations": [
+        {
+          "gid": 0,
+          "mode": "0o700",
+          "path": "/opt/ai-runner-images/flutter/3.47.4/sdk/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework/Resources",
+          "symlink": true,
+          "target": "Versions/Current/Resources",
+          "uid": 0
+        },
+        {
+          "gid": 0,
+          "mode": "0o700",
+          "path": "/opt/ai-runner-images/flutter/3.47.4/sdk/.claude/skills",
+          "symlink": true,
+          "target": "../.agents/skills",
+          "uid": 0
+        },
+        {
+          "gid": 0,
+          "mode": "0o700",
+          "path": "/opt/ai-runner-images/flutter/3.47.4/sdk/engine/src/flutter/lib/web_ui/test/ui/paragraph_performance_test.dart",
+          "symlink": true,
+          "target": "../webparagraph/paragraph_performance_test.dart",
+          "uid": 0
+        },
+        {
+          "errno": 13,
+          "nonadmin_path": ".claude/skills"
+        },
+        {
+          "errno": 13,
+          "nonadmin_path": "engine/src/flutter/lib/web_ui/test/ui/paragraph_performance_test.dart"
+        }
+      ],
+      "scope": "Before application build or simulator creation",
+      "status": "observed-failure",
+      "symlink_diagnostic_receipt": {
+        "command_outputs": [
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:36:02.807776+00:00",
+            "started_at": "2026-09-16T18:36:02.760649+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "qualification-v3-symlink-diagnostic.1.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 806,
+              "private_original_basename": "qualification-v3-symlink-diagnostic.1.stdout",
+              "sha256": "849122258407a3e538e52713df02ca847f81c08a04d39edfe0ffb89d08f9c8e1"
+            }
+          }
+        ],
+        "finished_at": "2026-09-16T18:36:02.808085+00:00",
+        "operation": "exec",
+        "original_receipt": {
+          "bytes": 2655,
+          "private_original_basename": "qualification-v3-symlink-diagnostic.json",
+          "sha256": "81c01170506eb9418f2624b58b9da6857bda78d4b2740645b41297d0b653c26b"
+        },
+        "runtime_admission": false,
+        "started_at": "2026-09-16T18:36:02.760173+00:00",
+        "status": "complete",
+        "vm": "uxmal-flutter-qualification-v3-20260916"
+      },
+      "version_diagnostic_receipt": {
+        "command_outputs": [
+          {
+            "exit_code": 0,
+            "finished_at": "2026-09-16T18:35:27.620132+00:00",
+            "started_at": "2026-09-16T18:34:49.434940+00:00",
+            "stderr": {
+              "bytes": 0,
+              "private_original_basename": "qualification-v3-version-diagnostic.1.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 21629,
+              "private_original_basename": "qualification-v3-version-diagnostic.1.stdout",
+              "sha256": "d5118bea4cdc58041a0d4c415cd7cd4c88e2e0be1621f527d6b031e7ee167bb8"
+            }
+          }
+        ],
+        "finished_at": "2026-09-16T18:35:27.620507+00:00",
+        "operation": "exec",
+        "original_receipt": {
+          "bytes": 2215,
+          "private_original_basename": "qualification-v3-version-diagnostic.json",
+          "sha256": "632cc6b8507539e8eaa90f49c2b7aef4d79432326d1dee7ff1a9d9d14c25e745"
+        },
+        "runtime_admission": false,
+        "started_at": "2026-09-16T18:34:49.434385+00:00",
+        "status": "complete",
+        "vm": "uxmal-flutter-qualification-v3-20260916"
+      }
+    }
+  ],
+  "kind": "sanitized-layer-composition-recovery-record",
+  "limitations": [
+    "All original artifacts and failed attempts remain historical evidence.",
+    "Version-command success is not authenticated model execution or an application build.",
+    "Local-only composition; no executor admission, production rebinding or registry publication is implied.",
+    "Shutdown failure mechanisms are not inferred beyond observed state and source semantics."
+  ],
+  "logical_layers": [
+    {
+      "capability": "macos-xcode-maestro-base",
+      "catalog_id": "macos-xcode-maestro-base-v3-20260916",
+      "manifest_sha256": "2a77a0c4faed3dcbf9524d6c9238eddaa1cddce0af9b130f8f0577d76d69eceb"
+    },
+    {
+      "capability": "shared-agent-build",
+      "catalog_id": "shared-agent-build-v3-20260916",
+      "manifest_sha256": "2e1c0f79e7b14ed43d811824507af63472885a0cbf49df86ee2071de3977227d"
+    },
+    {
+      "capability": "flutter-dart-ios",
+      "catalog_id": "flutter-dart-ios-v4-20260916",
+      "manifest_sha256": "33fb89bdccd573057c11388bdf2dc243fbf8a4d5ceea46d2c577c93e2e2dd9be"
+    }
+  ],
+  "pending_operations": [],
+  "qualification_scope": "Actual Flutter-v4 HelloWorld, all3 CLI launch, simulator and VM cleanup; no production admission or authenticated agents",
+  "reusable_nonadministrator_tool_evidence": {
+    "agent_commands_receipt": {
+      "command_outputs": [
+        {
+          "exit_code": 0,
+          "finished_at": "2026-09-16T18:36:20.040915+00:00",
+          "started_at": "2026-09-16T18:36:19.481006+00:00",
+          "stderr": {
+            "bytes": 0,
+            "private_original_basename": "qualification-v3-agent-versions.1.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "bytes": 68,
+            "private_original_basename": "qualification-v3-agent-versions.1.stdout",
+            "sha256": "2426e678772cef0d6928aea3ee054e066a3f345ef31de2139120eab74d0a806a"
+          }
+        }
+      ],
+      "finished_at": "2026-09-16T18:36:20.041267+00:00",
+      "operation": "exec",
+      "original_receipt": {
+        "bytes": 1835,
+        "private_original_basename": "qualification-v3-agent-versions.json",
+        "sha256": "0b6b6482673bb3a6e35599c28adbd636b1d94c98386901850f2947c0a80985c5"
+      },
+      "runtime_admission": false,
+      "started_at": "2026-09-16T18:36:19.480538+00:00",
+      "status": "complete",
+      "vm": "uxmal-flutter-qualification-v3-20260916"
+    },
+    "application_build_tested": false,
+    "commands": [
+      {
+        "exit": 0,
+        "name": "codex",
+        "stderr": "",
+        "stdout": "codex-cli 0.151.0\n"
+      },
+      {
+        "exit": 0,
+        "name": "claude",
+        "stderr": "",
+        "stdout": "2.1.266 (Claude Code)\n"
+      },
+      {
+        "exit": 0,
+        "name": "grok",
+        "stderr": "",
+        "stdout": "grok 1.0.24 (68e414c661e3)\n"
+      },
+      {
+        "exit": 0,
+        "name": "maestro",
+        "stderr": "",
+        "stdout": "2.10.0\n"
+      },
+      {
+        "exit": 0,
+        "name": "python",
+        "stderr": "",
+        "stdout": "Python 3.12.14\n"
+      },
+      {
+        "exit": 0,
+        "name": "xcrun",
+        "stderr": "",
+        "stdout": "xcrun version 72.\n"
+      }
+    ],
+    "context": "Disposable v3 Flutter descendant, GUI session of UID 502",
+    "managed_authentication_tested": false,
+    "version_diagnostic_receipt": {
+      "command_outputs": [
+        {
+          "exit_code": 0,
+          "finished_at": "2026-09-16T18:35:27.620132+00:00",
+          "started_at": "2026-09-16T18:34:49.434940+00:00",
+          "stderr": {
+            "bytes": 0,
+            "private_original_basename": "qualification-v3-version-diagnostic.1.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "bytes": 21629,
+            "private_original_basename": "qualification-v3-version-diagnostic.1.stdout",
+            "sha256": "d5118bea4cdc58041a0d4c415cd7cd4c88e2e0be1621f527d6b031e7ee167bb8"
+          }
+        }
+      ],
+      "finished_at": "2026-09-16T18:35:27.620507+00:00",
+      "operation": "exec",
+      "original_receipt": {
+        "bytes": 2215,
+        "private_original_basename": "qualification-v3-version-diagnostic.json",
+        "sha256": "632cc6b8507539e8eaa90f49c2b7aef4d79432326d1dee7ff1a9d9d14c25e745"
+      },
+      "runtime_admission": false,
+      "started_at": "2026-09-16T18:34:49.434385+00:00",
+      "status": "complete",
+      "vm": "uxmal-flutter-qualification-v3-20260916"
+    }
+  },
+  "schema_version": 1,
+  "source_catalog": {
+    "bytes": 12658,
+    "private_original_basename": "images.json",
+    "sha256": "6290d532ab1a1bbcd77f33d94af0b5af54554b5bad836c50fc03ec67f90589ae"
+  }
+}

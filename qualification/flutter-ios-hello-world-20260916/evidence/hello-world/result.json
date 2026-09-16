@@ -1,0 +1,1176 @@
+{
+  "agent_credentials_present": false,
+  "agent_invoked": false,
+  "app": {
+    "bundle_id": "tech.uxmal.runnerHelloWorld",
+    "compiled_flutter_files": {
+      "Frameworks/App.framework/App": {
+        "bytes": 83952,
+        "sha256": "5544ffa41f8b5a519a7adf714f52bcc179ebf158a6d7ff1f95b52b75679bc38f"
+      },
+      "Frameworks/App.framework/flutter_assets/kernel_blob.bin": {
+        "bytes": 43272016,
+        "sha256": "2d871d7112d1787699e48201ec4a4173ceb7b3f12edfebb0b8e6dbc2506474b7"
+      }
+    },
+    "executable": {
+      "bytes": 123808,
+      "sha256": "8ea40ef1742df25dc2f5279d63e309976096b0d6e95edd775625e60f46b6d30e"
+    },
+    "info_plist": {
+      "bytes": 2022,
+      "sha256": "ee150af0814fb3d43bed825557c805088acab0f954f16636d42195c4086419ee"
+    },
+    "path": "/Users/qualifier/hello-world-01/runner_hello_world/build/ios/iphonesimulator/Runner.app",
+    "platforms": [
+      "iPhoneSimulator"
+    ]
+  },
+  "cleanup": {
+    "command_groups_confirmed": true,
+    "confirmed": true,
+    "delete_exit_code": 0,
+    "owned_simulator_absent": true,
+    "shutdown_exit_code": 0
+  },
+  "commands": [
+    {
+      "argv": [
+        "/bin/launchctl",
+        "managername"
+      ],
+      "cwd": "/Users/qualifier/hello-world-01",
+      "exit_code": 0,
+      "finished_at_utc": "2026-09-16T18:47:12.245122+00:00",
+      "logs": {
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 5,
+          "sha256": "f331546b2cd54016f45e418995000ecd8a6dbece30b5085337f3cfc897124768"
+        }
+      },
+      "name": "managername",
+      "output_bytes": [
+        5,
+        0
+      ],
+      "pid": 951,
+      "process_group": 951,
+      "process_group_absent": true,
+      "process_reaped": true,
+      "started_at_utc": "2026-09-16T18:47:12.239844+00:00",
+      "timeout_seconds": 10
+    },
+    {
+      "argv": [
+        "/bin/launchctl",
+        "manageruid"
+      ],
+      "cwd": "/Users/qualifier/hello-world-01",
+      "exit_code": 0,
+      "finished_at_utc": "2026-09-16T18:47:12.249876+00:00",
+      "logs": {
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 4,
+          "sha256": "38500003733a95b652379a66ee15b3192b116bfcfcdb1aa830956af22a82c66c"
+        }
+      },
+      "name": "manageruid",
+      "output_bytes": [
+        4,
+        0
+      ],
+      "pid": 952,
+      "process_group": 952,
+      "process_group_absent": true,
+      "process_reaped": true,
+      "started_at_utc": "2026-09-16T18:47:12.245483+00:00",
+      "timeout_seconds": 10
+    },
+    {
+      "argv": [
+        "/opt/ai-runner-images/flutter/bin/flutter",
+        "--version",
+        "--machine"
+      ],
+      "cwd": "/Users/qualifier/hello-world-01",
+      "exit_code": 0,
+      "finished_at_utc": "2026-09-16T18:47:12.501866+00:00",
+      "logs": {
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 665,
+          "sha256": "4d62dcf64d8a5ff5b732c65a6da2a78ff01b8eaf0831cff05bdd9636625fca11"
+        }
+      },
+      "name": "flutter-version",
+      "output_bytes": [
+        665,
+        0
+      ],
+      "pid": 953,
+      "process_group": 953,
+      "process_group_absent": true,
+      "process_reaped": true,
+      "started_at_utc": "2026-09-16T18:47:12.250521+00:00",
+      "timeout_seconds": 90
+    },
+    {
+      "argv": [
+        "/opt/macos-tart-bootstrap/public-tools/Xcode_26.5-runner.app/Contents/Developer/usr/bin/xcodebuild",
+        "-version"
+      ],
+      "cwd": "/Users/qualifier/hello-world-01",
+      "exit_code": 0,
+      "finished_at_utc": "2026-09-16T18:47:12.570930+00:00",
+      "logs": {
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 31,
+          "sha256": "5f6350250c6f298d06e1435819ddd1539d6c84785aaa8d824c2ac74f57914d03"
+        }
+      },
+      "name": "xcode-version",
+      "output_bytes": [
+        31,
+        0
+      ],
+      "pid": 989,
+      "process_group": 989,
+      "process_group_absent": true,
+      "process_reaped": true,
+      "started_at_utc": "2026-09-16T18:47:12.502997+00:00",
+      "timeout_seconds": 90
+    },
+    {
+      "argv": [
+        "/opt/ai-runner-images/bin/maestro",
+        "--version"
+      ],
+      "cwd": "/Users/qualifier/hello-world-01",
+      "exit_code": 0,
+      "finished_at_utc": "2026-09-16T18:47:21.183447+00:00",
+      "logs": {
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 7,
+          "sha256": "d2dbab0fd36c72f378865aeea0bb1d7b27e3e1637a4f3b0de0a108ecba8b48e1"
+        }
+      },
+      "name": "maestro-version",
+      "output_bytes": [
+        7,
+        0
+      ],
+      "pid": 995,
+      "process_group": 995,
+      "process_group_absent": true,
+      "process_reaped": true,
+      "started_at_utc": "2026-09-16T18:47:12.571384+00:00",
+      "timeout_seconds": 90
+    },
+    {
+      "argv": [
+        "/opt/ai-runner-images/flutter/bin/flutter",
+        "create",
+        "--empty",
+        "--platforms=ios",
+        "--org",
+        "tech.uxmal",
+        "--project-name",
+        "runner_hello_world",
+        "--no-pub",
+        "/Users/qualifier/hello-world-01/runner_hello_world"
+      ],
+      "cwd": "/Users/qualifier/hello-world-01",
+      "exit_code": 0,
+      "finished_at_utc": "2026-09-16T18:47:22.961287+00:00",
+      "logs": {
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 454,
+          "sha256": "ece7eff60961eb17feb534f4f009dbc502df755f27bf06f8baaf1c493309051c"
+        }
+      },
+      "name": "flutter-create",
+      "output_bytes": [
+        454,
+        0
+      ],
+      "pid": 1080,
+      "process_group": 1080,
+      "process_group_absent": true,
+      "process_reaped": true,
+      "started_at_utc": "2026-09-16T18:47:21.195477+00:00",
+      "timeout_seconds": 180
+    },
+    {
+      "argv": [
+        "/opt/ai-runner-images/flutter/bin/flutter",
+        "pub",
+        "get"
+      ],
+      "cwd": "/Users/qualifier/hello-world-01/runner_hello_world",
+      "exit_code": 0,
+      "finished_at_utc": "2026-09-16T18:47:23.779124+00:00",
+      "logs": {
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 678,
+          "sha256": "dab1c41dae0b01519e942607d5671ea00f4c2d3d20024e7c8083474e12c3600c"
+        }
+      },
+      "name": "flutter-pub-get",
+      "output_bytes": [
+        678,
+        0
+      ],
+      "pid": 1116,
+      "process_group": 1116,
+      "process_group_absent": true,
+      "process_reaped": true,
+      "started_at_utc": "2026-09-16T18:47:22.964122+00:00",
+      "timeout_seconds": 300
+    },
+    {
+      "argv": [
+        "/opt/ai-runner-images/flutter/bin/flutter",
+        "build",
+        "ios",
+        "--simulator",
+        "--debug",
+        "--target",
+        "lib/main.dart"
+      ],
+      "cwd": "/Users/qualifier/hello-world-01/runner_hello_world",
+      "exit_code": 0,
+      "finished_at_utc": "2026-09-16T18:50:06.371318+00:00",
+      "logs": {
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 239,
+          "sha256": "d01dd80a6bb346791a122b2c4353943764f99fd17d51277266865549d4b122aa"
+        }
+      },
+      "name": "flutter-build",
+      "output_bytes": [
+        239,
+        0
+      ],
+      "pid": 1153,
+      "process_group": 1153,
+      "process_group_absent": true,
+      "process_reaped": true,
+      "started_at_utc": "2026-09-16T18:47:23.780192+00:00",
+      "timeout_seconds": 1200
+    },
+    {
+      "argv": [
+        "/usr/bin/xcrun",
+        "simctl",
+        "list",
+        "--json"
+      ],
+      "cwd": "/Users/qualifier/hello-world-01",
+      "exit_code": 0,
+      "finished_at_utc": "2026-09-16T18:50:07.204418+00:00",
+      "logs": {
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 88933,
+          "sha256": "d28d3d55fbe8868b0b68ca244ec4bb172b8671dbd9ac06cc285262a5e13b430d"
+        }
+      },
+      "name": "simulator-inventory",
+      "output_bytes": [
+        88933,
+        0
+      ],
+      "pid": 1850,
+      "process_group": 1850,
+      "process_group_absent": true,
+      "process_reaped": true,
+      "started_at_utc": "2026-09-16T18:50:06.407563+00:00",
+      "timeout_seconds": 30
+    },
+    {
+      "argv": [
+        "/usr/bin/xcrun",
+        "simctl",
+        "create",
+        "runner-image-qualification-4aa94d2b62494ba9824315efeb1d82b7",
+        "com.apple.CoreSimulator.SimDeviceType.iPhone-17",
+        "com.apple.CoreSimulator.SimRuntime.iOS-26-5"
+      ],
+      "cwd": "/Users/qualifier/hello-world-01",
+      "exit_code": 0,
+      "finished_at_utc": "2026-09-16T18:50:07.413080+00:00",
+      "logs": {
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 37,
+          "sha256": "5b24d8c20683dd7ab95d09cc9dd160632a259e9d41f34b912adade5142c3c3b6"
+        }
+      },
+      "name": "simulator-create",
+      "output_bytes": [
+        37,
+        0
+      ],
+      "pid": 1857,
+      "process_group": 1857,
+      "process_group_absent": true,
+      "process_reaped": true,
+      "started_at_utc": "2026-09-16T18:50:07.206303+00:00",
+      "timeout_seconds": 60
+    },
+    {
+      "argv": [
+        "/usr/bin/xcrun",
+        "simctl",
+        "boot",
+        "48530555-8EDF-4131-9A80-454493A22225"
+      ],
+      "cwd": "/Users/qualifier/hello-world-01",
+      "exit_code": 0,
+      "finished_at_utc": "2026-09-16T18:50:08.772498+00:00",
+      "logs": {
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "name": "simulator-boot",
+      "output_bytes": [
+        0,
+        0
+      ],
+      "pid": 1867,
+      "process_group": 1867,
+      "process_group_absent": true,
+      "process_reaped": true,
+      "started_at_utc": "2026-09-16T18:50:07.424937+00:00",
+      "timeout_seconds": 30
+    },
+    {
+      "argv": [
+        "/usr/bin/xcrun",
+        "simctl",
+        "bootstatus",
+        "48530555-8EDF-4131-9A80-454493A22225",
+        "-b"
+      ],
+      "cwd": "/Users/qualifier/hello-world-01",
+      "exit_code": 0,
+      "finished_at_utc": "2026-09-16T18:50:49.615832+00:00",
+      "logs": {
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 6595,
+          "sha256": "ce832bd3a4cde20756d49dcf89b7ac03668f8a2145a8a32767fc57100cd40b1f"
+        }
+      },
+      "name": "simulator-bootstatus",
+      "output_bytes": [
+        6595,
+        0
+      ],
+      "pid": 1888,
+      "process_group": 1888,
+      "process_group_absent": true,
+      "process_reaped": true,
+      "started_at_utc": "2026-09-16T18:50:08.778412+00:00",
+      "timeout_seconds": 240
+    },
+    {
+      "argv": [
+        "/usr/bin/xcrun",
+        "simctl",
+        "install",
+        "48530555-8EDF-4131-9A80-454493A22225",
+        "/Users/qualifier/hello-world-01/runner_hello_world/build/ios/iphonesimulator/Runner.app"
+      ],
+      "cwd": "/Users/qualifier/hello-world-01",
+      "exit_code": 0,
+      "finished_at_utc": "2026-09-16T18:51:10.578252+00:00",
+      "logs": {
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "name": "simulator-install",
+      "output_bytes": [
+        0,
+        0
+      ],
+      "pid": 2104,
+      "process_group": 2104,
+      "process_group_absent": true,
+      "process_reaped": true,
+      "started_at_utc": "2026-09-16T18:50:49.856218+00:00",
+      "timeout_seconds": 120
+    },
+    {
+      "argv": [
+        "/usr/bin/xcrun",
+        "simctl",
+        "launch",
+        "48530555-8EDF-4131-9A80-454493A22225",
+        "tech.uxmal.runnerHelloWorld"
+      ],
+      "cwd": "/Users/qualifier/hello-world-01",
+      "exit_code": 0,
+      "finished_at_utc": "2026-09-16T18:51:17.345528+00:00",
+      "logs": {
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 34,
+          "sha256": "bd68f9e9c930a20bac97eeb6259beb670ed06c7fc489cc4c3f9c3db3403870b9"
+        }
+      },
+      "name": "simulator-launch",
+      "output_bytes": [
+        34,
+        0
+      ],
+      "pid": 2169,
+      "process_group": 2169,
+      "process_group_absent": true,
+      "process_reaped": true,
+      "started_at_utc": "2026-09-16T18:51:10.657407+00:00",
+      "timeout_seconds": 60
+    },
+    {
+      "argv": [
+        "/opt/ai-runner-images/bin/maestro",
+        "--device",
+        "48530555-8EDF-4131-9A80-454493A22225",
+        "test",
+        "--format",
+        "JUNIT",
+        "--output",
+        "/Users/qualifier/hello-world-01/evidence/maestro/junit.xml",
+        "--test-output-dir",
+        "/Users/qualifier/hello-world-01/evidence/maestro",
+        "--debug-output",
+        "/Users/qualifier/hello-world-01/evidence/maestro/debug",
+        "/Users/qualifier/hello-world-01/runner_hello_world/.maestro/flows/hello-world.yaml"
+      ],
+      "cwd": "/Users/qualifier/hello-world-01/runner_hello_world",
+      "exit_code": 0,
+      "finished_at_utc": "2026-09-16T18:52:15.884825+00:00",
+      "logs": {
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 86,
+          "sha256": "24bf1472b957865cb30a63f2cb84c35ab9ff6c6b7fa1734757b95d1709400fb3"
+        }
+      },
+      "name": "maestro-test",
+      "output_bytes": [
+        86,
+        0
+      ],
+      "pid": 2186,
+      "process_group": 2186,
+      "process_group_absent": true,
+      "process_reaped": true,
+      "started_at_utc": "2026-09-16T18:51:17.359196+00:00",
+      "timeout_seconds": 360
+    },
+    {
+      "argv": [
+        "/usr/bin/xcrun",
+        "simctl",
+        "io",
+        "48530555-8EDF-4131-9A80-454493A22225",
+        "screenshot",
+        "/Users/qualifier/hello-world-01/evidence/hello-world-final.png"
+      ],
+      "cwd": "/Users/qualifier/hello-world-01",
+      "exit_code": 0,
+      "finished_at_utc": "2026-09-16T18:52:17.079960+00:00",
+      "logs": {
+        "stderr": {
+          "bytes": 236,
+          "sha256": "2d743ad411429c0fd6a46150238d3625927feaabfb3d8ecfd8b3876319da71ca"
+        },
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "name": "simulator-screenshot",
+      "output_bytes": [
+        0,
+        236
+      ],
+      "pid": 2481,
+      "process_group": 2481,
+      "process_group_absent": true,
+      "process_reaped": true,
+      "started_at_utc": "2026-09-16T18:52:15.898414+00:00",
+      "timeout_seconds": 30
+    },
+    {
+      "argv": [
+        "/usr/bin/xcrun",
+        "simctl",
+        "shutdown",
+        "48530555-8EDF-4131-9A80-454493A22225"
+      ],
+      "cwd": "/Users/qualifier/hello-world-01",
+      "exit_code": 0,
+      "finished_at_utc": "2026-09-16T18:52:20.314976+00:00",
+      "logs": {
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "name": "cleanup-shutdown",
+      "output_bytes": [
+        0,
+        0
+      ],
+      "pid": 2486,
+      "process_group": 2486,
+      "process_group_absent": true,
+      "process_reaped": true,
+      "started_at_utc": "2026-09-16T18:52:17.083304+00:00",
+      "timeout_seconds": 60
+    },
+    {
+      "argv": [
+        "/usr/bin/xcrun",
+        "simctl",
+        "delete",
+        "48530555-8EDF-4131-9A80-454493A22225"
+      ],
+      "cwd": "/Users/qualifier/hello-world-01",
+      "exit_code": 0,
+      "finished_at_utc": "2026-09-16T18:52:20.457014+00:00",
+      "logs": {
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "name": "cleanup-delete",
+      "output_bytes": [
+        0,
+        0
+      ],
+      "pid": 2494,
+      "process_group": 2494,
+      "process_group_absent": true,
+      "process_reaped": true,
+      "started_at_utc": "2026-09-16T18:52:20.321096+00:00",
+      "timeout_seconds": 60
+    },
+    {
+      "argv": [
+        "/usr/bin/xcrun",
+        "simctl",
+        "list",
+        "devices",
+        "--json"
+      ],
+      "cwd": "/Users/qualifier/hello-world-01",
+      "exit_code": 0,
+      "finished_at_utc": "2026-09-16T18:52:20.608958+00:00",
+      "logs": {
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 5980,
+          "sha256": "73f058e217edffc4663391a13e8e68a793f49a971fd70b9402ce4868ce1bfe04"
+        }
+      },
+      "name": "cleanup-verify-absence",
+      "output_bytes": [
+        5980,
+        0
+      ],
+      "pid": 2497,
+      "process_group": 2497,
+      "process_group_absent": true,
+      "process_reaped": true,
+      "started_at_utc": "2026-09-16T18:52:20.470545+00:00",
+      "timeout_seconds": 30
+    }
+  ],
+  "execution_identity": {
+    "aqua": {
+      "managername": "Aqua",
+      "manageruid": "502"
+    },
+    "console_gid": 20,
+    "console_uid": 502,
+    "directory_groups": [
+      12,
+      20,
+      61,
+      100
+    ],
+    "egid": 20,
+    "euid": 502,
+    "gid": 20,
+    "home": "/Users/qualifier",
+    "nonadministrator": true,
+    "posix_groups": [
+      20
+    ],
+    "uid": 502
+  },
+  "finished_at_utc": "2026-09-16T18:52:20.627534+00:00",
+  "fixture_files": {
+    ".maestro/flows/hello-world.yaml": {
+      "bytes": 261,
+      "sha256": "92ef7de96458e5c4c1a43efb399ca7cc1ef6b9f094ae5c05001c7bc853ecfc64"
+    },
+    "lib/main.dart": {
+      "bytes": 988,
+      "sha256": "60dd7b2c64d7aa0001d8fb23d85ac01257898e6084dd3af95473e04af981cefd"
+    },
+    "pubspec.yaml": {
+      "bytes": 233,
+      "sha256": "f991939abc182471f87609906588b28eb414ce74b3a94c01efc180fae4e9b489"
+    }
+  },
+  "image": "uxmaltech-collab/ai-runner-images/flutter@sha256:33fb89bdccd573057c11388bdf2dc243fbf8a4d5ceea46d2c577c93e2e2dd9be",
+  "input_tool_files": {
+    "flutter": {
+      "bytes": 118,
+      "path": "/opt/ai-runner-images/flutter/bin/flutter",
+      "sha256": "fe249df00d5999cfc8237b31ce02dcacc399c1541c7055c1900589f664c6fe18"
+    },
+    "maestro": {
+      "bytes": 201,
+      "path": "/opt/ai-runner-images/bin/maestro",
+      "sha256": "481ab171332792f35f8af7578cef62b1a9d74abae3d69f1d8bc479d45042c856"
+    }
+  },
+  "maestro": {
+    "assertions": [
+      "Hello World visible",
+      "Count: 0 visible",
+      "Increment tapped",
+      "Count: 1 visible"
+    ],
+    "exit_code": 0,
+    "flow_sha256": "92ef7de96458e5c4c1a43efb399ca7cc1ef6b9f094ae5c05001c7bc853ecfc64",
+    "junit": {
+      "bytes": 479,
+      "sha256": "39cf9b787d521377aebe66520ab7a280c5d4acf19b9c110a0f90b529833d0109"
+    },
+    "test_cases": 1
+  },
+  "operation": "flutter-ios-reference-qualification",
+  "preexisting_simulator_udids": [
+    "468E65BA-8935-4C70-B8E8-5058E0028FDF",
+    "46B63722-8CEB-48A0-A0A0-328CE5652F74",
+    "57806353-9485-4E1C-8D5A-2A82BFE12A02",
+    "786D5F1D-2EC3-459D-BDC2-65FF9FC3CD3B",
+    "7D894976-69D2-4C62-89F9-13A53E602004",
+    "B5D9E50A-F416-4F07-9C0C-27502C6181B8",
+    "BF56C6C9-214C-4FAC-86E9-43C4C79B0C88",
+    "C09B141D-6479-4C62-960B-17E6559292D8",
+    "C8879693-0D36-424A-BB80-4C6106ED4674",
+    "E7D6A38C-A77D-4CEB-8842-7B7EECFC3DB8",
+    "EA158B09-C2AC-4C21-8A0F-16D3552DEF0D"
+  ],
+  "schema_version": 1,
+  "simulator_name": "runner-image-qualification-4aa94d2b62494ba9824315efeb1d82b7",
+  "simulator_selection": {
+    "device_type": {
+      "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 17.simdevicetype",
+      "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-17",
+      "maxRuntimeVersion": 4294967295,
+      "maxRuntimeVersionString": "65535.255.255",
+      "minRuntimeVersion": 1703936,
+      "minRuntimeVersionString": "26.0.0",
+      "modelIdentifier": "iPhone18,3",
+      "name": "iPhone 17",
+      "productFamily": "iPhone"
+    },
+    "runtime": {
+      "buildversion": "23F77",
+      "bundlePath": "/Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime",
+      "identifier": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+      "isAvailable": true,
+      "isInternal": false,
+      "lastUsage": {
+        "arm64": "2026-09-16T18:48:00Z"
+      },
+      "name": "iOS 26.5",
+      "platform": "iOS",
+      "runtimeRoot": "/Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot",
+      "supportedArchitectures": [
+        "arm64"
+      ],
+      "supportedDeviceTypes": [
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 17 Pro.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro",
+          "name": "iPhone 17 Pro",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 17 Pro Max.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro-Max",
+          "name": "iPhone 17 Pro Max",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 17e.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-17e",
+          "name": "iPhone 17e",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone Air.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-Air",
+          "name": "iPhone Air",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 17.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-17",
+          "name": "iPhone 17",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 16 Pro.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-16-Pro",
+          "name": "iPhone 16 Pro",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 16 Pro Max.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-16-Pro-Max",
+          "name": "iPhone 16 Pro Max",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 16e.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-16e",
+          "name": "iPhone 16e",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 16.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-16",
+          "name": "iPhone 16",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 16 Plus.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-16-Plus",
+          "name": "iPhone 16 Plus",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 15 Pro.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-15-Pro",
+          "name": "iPhone 15 Pro",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 15 Pro Max.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-15-Pro-Max",
+          "name": "iPhone 15 Pro Max",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 15.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-15",
+          "name": "iPhone 15",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 15 Plus.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-15-Plus",
+          "name": "iPhone 15 Plus",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 14 Pro.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-14-Pro",
+          "name": "iPhone 14 Pro",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 14 Pro Max.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-14-Pro-Max",
+          "name": "iPhone 14 Pro Max",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 14.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-14",
+          "name": "iPhone 14",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 14 Plus.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-14-Plus",
+          "name": "iPhone 14 Plus",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone SE (3rd generation).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-SE-3rd-generation",
+          "name": "iPhone SE (3rd generation)",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 13 Pro.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-13-Pro",
+          "name": "iPhone 13 Pro",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 13 Pro Max.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-13-Pro-Max",
+          "name": "iPhone 13 Pro Max",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 13.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-13",
+          "name": "iPhone 13",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 13 mini.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-13-mini",
+          "name": "iPhone 13 mini",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 12 Pro.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-12-Pro",
+          "name": "iPhone 12 Pro",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 12 Pro Max.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-12-Pro-Max",
+          "name": "iPhone 12 Pro Max",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 12.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-12",
+          "name": "iPhone 12",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 12 mini.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-12-mini",
+          "name": "iPhone 12 mini",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone SE (2nd generation).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-SE--2nd-generation-",
+          "name": "iPhone SE (2nd generation)",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 11 Pro.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-11-Pro",
+          "name": "iPhone 11 Pro",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 11 Pro Max.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-11-Pro-Max",
+          "name": "iPhone 11 Pro Max",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPhone 11.simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-11",
+          "name": "iPhone 11",
+          "productFamily": "iPhone"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Pro 13-inch (M5) (16GB).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Pro-13-inch-M5-16GB",
+          "name": "iPad Pro 13-inch (M5) (16GB)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Pro 13-inch (M5).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Pro-13-inch-M5-12GB",
+          "name": "iPad Pro 13-inch (M5)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Pro 11-inch (M5) (16GB).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Pro-11-inch-M5-16GB",
+          "name": "iPad Pro 11-inch (M5) (16GB)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Pro 11-inch (M5).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Pro-11-inch-M5-12GB",
+          "name": "iPad Pro 11-inch (M5)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Pro 11-inch (M4) (16GB).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Pro-11-inch-M4-16GB",
+          "name": "iPad Pro 11-inch (M4) (16GB)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Pro 11-inch (M4).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Pro-11-inch-M4-8GB",
+          "name": "iPad Pro 11-inch (M4)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Pro 13-inch (M4) (16GB).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Pro-13-inch-M4-16GB",
+          "name": "iPad Pro 13-inch (M4) (16GB)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Pro 13-inch (M4).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Pro-13-inch-M4-8GB",
+          "name": "iPad Pro 13-inch (M4)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Air 13-inch (M4).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Air-13-inch-M4",
+          "name": "iPad Air 13-inch (M4)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Air 11-inch (M4).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Air-11-inch-M4",
+          "name": "iPad Air 11-inch (M4)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad (A16).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-A16",
+          "name": "iPad (A16)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Air 13-inch (M3).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Air-13-inch-M3",
+          "name": "iPad Air 13-inch (M3)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Air 11-inch (M3).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Air-11-inch-M3",
+          "name": "iPad Air 11-inch (M3)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Air 11-inch (M2).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Air-11-inch-M2",
+          "name": "iPad Air 11-inch (M2)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Air 13-inch (M2).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Air-13-inch-M2",
+          "name": "iPad Air 13-inch (M2)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad mini (A17 Pro).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-mini-A17-Pro",
+          "name": "iPad mini (A17 Pro)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Pro (11-inch) (4th generation) (16GB).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Pro-11-inch-4th-generation-16GB",
+          "name": "iPad Pro (11-inch) (4th generation) (16GB)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Pro (11-inch) (4th generation).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Pro-11-inch-4th-generation-8GB",
+          "name": "iPad Pro (11-inch) (4th generation)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Pro (12.9-inch) (6th generation) (16GB).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Pro-12-9-inch-6th-generation-16GB",
+          "name": "iPad Pro (12.9-inch) (6th generation) (16GB)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Pro (12.9-inch) (6th generation).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Pro-12-9-inch-6th-generation-8GB",
+          "name": "iPad Pro (12.9-inch) (6th generation)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad (10th generation).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-10th-generation",
+          "name": "iPad (10th generation)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Air (5th generation).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Air-5th-generation",
+          "name": "iPad Air (5th generation)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad mini (6th generation).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-mini-6th-generation",
+          "name": "iPad mini (6th generation)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Pro (11-inch) (3rd generation).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Pro-11-inch-3rd-generation",
+          "name": "iPad Pro (11-inch) (3rd generation)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Pro (12.9-inch) (5th generation).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Pro-12-9-inch-5th-generation",
+          "name": "iPad Pro (12.9-inch) (5th generation)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad (9th generation).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-9th-generation",
+          "name": "iPad (9th generation)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Air (4th generation).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Air--4th-generation-",
+          "name": "iPad Air (4th generation)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad (8th generation).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad--8th-generation-",
+          "name": "iPad (8th generation)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Air (3rd generation).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Air--3rd-generation-",
+          "name": "iPad Air (3rd generation)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad mini (5th generation).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-mini--5th-generation-",
+          "name": "iPad mini (5th generation)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Pro (11-inch) (2nd generation).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Pro--11-inch---2nd-generation-",
+          "name": "iPad Pro (11-inch) (2nd generation)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Pro (12.9-inch) (4th generation).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Pro--12-9-inch---4th-generation-",
+          "name": "iPad Pro (12.9-inch) (4th generation)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Pro (11-inch) (1st generation).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Pro--11-inch-",
+          "name": "iPad Pro (11-inch) (1st generation)",
+          "productFamily": "iPad"
+        },
+        {
+          "bundlePath": "/Library/Developer/CoreSimulator/Profiles/DeviceTypes/iPad Pro (12.9-inch) (3rd generation).simdevicetype",
+          "identifier": "com.apple.CoreSimulator.SimDeviceType.iPad-Pro--12-9-inch---3rd-generation-",
+          "name": "iPad Pro (12.9-inch) (3rd generation)",
+          "productFamily": "iPad"
+        }
+      ],
+      "version": "26.5"
+    }
+  },
+  "simulator_udid": "48530555-8EDF-4131-9A80-454493A22225",
+  "source_commit": "4e41365a51b5476b3ffe717ff81624559d5d3254",
+  "started_at_utc": "2026-09-16T18:47:12.239275+00:00",
+  "status": "passed",
+  "versions": {
+    "flutter": "{\n  \"frameworkVersion\": \"3.47.4\",\n  \"channel\": \"stable\",\n  \"repositoryUrl\": \"https://github.com/flutter/flutter.git\",\n  \"frameworkRevision\": \"9584c6713b324636289d067944a46fd6b49df14b\",\n  \"frameworkCommitDate\": \"2026-09-10 15:25:10 -0700\",\n  \"engineRevision\": \"06a2e2a110089dff50fe635cffd2a61e1b24fbcd\",\n  \"engineCommitDate\": \"2026-09-03 16:07:13.000Z\",\n  \"engineContentHash\": \"0e228ec8c8d2abc9fcf1d053e8a40665bb859ec7\",\n  \"engineBuildDate\": \"2026-09-03 09:39:13.722\",\n  \"dartSdkVersion\": \"3.13.3\",\n  \"devToolsVersion\": \"2.60.0\",\n  \"flutterVersion\": \"3.47.4\",\n  \"flutterRoot\": \"/Users/qualifier/Library/Caches/ai-runner-images/flutter-3.47.4-0410e81b5c289fc1/sdk\"\n}",
+    "maestro": "2.10.0",
+    "xcode": "Xcode 26.5\nBuild version 17F42"
+  },
+  "warnings": []
+}

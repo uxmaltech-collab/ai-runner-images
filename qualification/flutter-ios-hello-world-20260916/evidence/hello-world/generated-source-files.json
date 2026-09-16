@@ -1,0 +1,58 @@
+{
+  ".maestro/flows/hello-world.yaml": {
+    "bytes": 261,
+    "sha256": "92ef7de96458e5c4c1a43efb399ca7cc1ef6b9f094ae5c05001c7bc853ecfc64"
+  },
+  "analysis_options.yaml": {
+    "bytes": 94,
+    "sha256": "51da7bd7ed2226a27d4be64d52548cef2343321a7f051cb98f2c2dae4a19ec53"
+  },
+  "ios/Flutter/AppFrameworkInfo.plist": {
+    "bytes": 720,
+    "sha256": "da12038f9b2688a8a26160fea2609fa8fcb11421448c109f09c0f573efe7698d"
+  },
+  "ios/Flutter/Debug.xcconfig": {
+    "bytes": 30,
+    "sha256": "a82d7765b37116ee4821d2cd1d65942febf8032353757ffb0826eabde785b4a6"
+  },
+  "ios/Flutter/Generated.xcconfig": {
+    "bytes": 1133,
+    "sha256": "3d70e5f751057dc30169b654867757866a157056d46e3a25b2d71554e2c8a6c1"
+  },
+  "ios/Flutter/Release.xcconfig": {
+    "bytes": 30,
+    "sha256": "a82d7765b37116ee4821d2cd1d65942febf8032353757ffb0826eabde785b4a6"
+  },
+  "ios/Flutter/ephemeral/.swift_pm.lock": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "ios/Runner.xcodeproj/project.pbxproj": {
+    "bytes": 25779,
+    "sha256": "f9d9a69baae08141125c83b3a981058b87b526ecc2cae1fbd4effd39fc0992b4"
+  },
+  "ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist": {
+    "bytes": 238,
+    "sha256": "dfa0f9bb85b95ccba9c6811adadf8cb407fb5d52088e89db83ebc308ec448542"
+  },
+  "ios/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist": {
+    "bytes": 238,
+    "sha256": "dfa0f9bb85b95ccba9c6811adadf8cb407fb5d52088e89db83ebc308ec448542"
+  },
+  "ios/Runner/Info.plist": {
+    "bytes": 2234,
+    "sha256": "e996e81d062b8175e7af88dddf2cec488d7dfa16c246e0c4c4528c780cb87156"
+  },
+  "lib/main.dart": {
+    "bytes": 988,
+    "sha256": "60dd7b2c64d7aa0001d8fb23d85ac01257898e6084dd3af95473e04af981cefd"
+  },
+  "pubspec.lock": {
+    "bytes": 1490,
+    "sha256": "863b19a090de9a6b6696b8983da5a13657fe0574097557621af4b429da63864b"
+  },
+  "pubspec.yaml": {
+    "bytes": 233,
+    "sha256": "f991939abc182471f87609906588b28eb414ce74b3a94c01efc180fae4e9b489"
+  }
+}

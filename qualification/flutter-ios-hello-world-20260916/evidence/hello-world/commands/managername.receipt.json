@@ -1,0 +1,30 @@
+{
+  "argv": [
+    "/bin/launchctl",
+    "managername"
+  ],
+  "cwd": "/Users/qualifier/hello-world-01",
+  "exit_code": 0,
+  "finished_at_utc": "2026-09-16T18:47:12.245122+00:00",
+  "logs": {
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout": {
+      "bytes": 5,
+      "sha256": "f331546b2cd54016f45e418995000ecd8a6dbece30b5085337f3cfc897124768"
+    }
+  },
+  "name": "managername",
+  "output_bytes": [
+    5,
+    0
+  ],
+  "pid": 951,
+  "process_group": 951,
+  "process_group_absent": true,
+  "process_reaped": true,
+  "started_at_utc": "2026-09-16T18:47:12.239844+00:00",
+  "timeout_seconds": 10
+}

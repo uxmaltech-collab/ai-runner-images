@@ -1,0 +1,12 @@
+Resolving dependencies...
+Downloading packages...
+  characters 1.4.1 (from direct dependency to transitive dependency)
+  collection 1.19.1 (from direct dependency to transitive dependency)
++ flutter 0.0.0 from sdk flutter
+  material_color_utilities 0.13.0 (from direct dependency to transitive dependency) (0.13.1 available)
+  meta 1.18.3 (from direct dependency to transitive dependency) (1.19.0 available)
++ sky_engine 0.0.0 from sdk flutter
+  vector_math 2.4.0 (from direct dependency to transitive dependency) (2.4.2 available)
+Changed 7 dependencies!
+3 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.

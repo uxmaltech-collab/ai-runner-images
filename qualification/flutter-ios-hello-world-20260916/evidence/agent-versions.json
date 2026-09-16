@@ -1,0 +1,75 @@
+{
+  "agent_authentication_attempted": false,
+  "at_utc": "2026-09-16T18:47:11.998753+00:00",
+  "checks": [
+    {
+      "command": [
+        "/opt/ai-runner-images/agents/bin/codex",
+        "--version"
+      ],
+      "engine": "codex",
+      "expected_version": "0.151.0",
+      "passed": true,
+      "returncode": 0,
+      "stderr": "WARNING: proceeding, even though we could not create PATH aliases: CODEX_HOME points to \"/tmp/agent-version-check-8u8kzkvj/codex\", but that path does not exist",
+      "stdout": "codex-cli 0.151.0",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/opt/ai-runner-images/agents/bin/claude",
+        "--version"
+      ],
+      "engine": "claude",
+      "expected_version": "2.1.266",
+      "passed": true,
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "2.1.266 (Claude Code)",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/opt/ai-runner-images/agents/bin/grok",
+        "--version"
+      ],
+      "engine": "grok",
+      "expected_version": "1.0.24",
+      "passed": true,
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "grok 1.0.24 (68e414c661e3)",
+      "timed_out": false
+    }
+  ],
+  "gid": 20,
+  "installed_payloads": [
+    {
+      "bytes": 231563824,
+      "path": "/opt/ai-runner-images/agents/codex/codex",
+      "sha256": "98491713ffb196061003ee148636e743997cc31d76144ba7c53462269896891d"
+    },
+    {
+      "bytes": 62703072,
+      "path": "/opt/ai-runner-images/agents/codex/codex-code-mode-host",
+      "sha256": "f5c96dc8cca0f760f525076c1f9f4efad31355c0fe18efb56e76df7e40592376"
+    },
+    {
+      "bytes": 199422144,
+      "path": "/opt/ai-runner-images/agents/claude/claude",
+      "sha256": "553d1b9e9e7068b275c0a783c7e139ff6503096f286e674c8c919379fb0eca62"
+    },
+    {
+      "bytes": 137364416,
+      "path": "/opt/ai-runner-images/agents/grok/grok",
+      "sha256": "4291021c1570a7c8610277a3d65490a5e54b50311e222c6b4614264f02a215b3"
+    }
+  ],
+  "operation": "native-agent-layer-auth-free-version-check",
+  "passed": true,
+  "pins_sha256": "0f1ee7fee8928058ce88b33d3ae9546871ffec1f6cf8be398522f5d0c5aff5c3",
+  "schema_version": 1,
+  "scope": "All three native CLIs start and report their pinned versions; model authentication and an agent task are separate job-time operations.",
+  "temporary_home_removed": true,
+  "uid": 502
+}

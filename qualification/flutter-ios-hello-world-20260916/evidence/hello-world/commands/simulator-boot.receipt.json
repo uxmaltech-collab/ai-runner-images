@@ -1,0 +1,32 @@
+{
+  "argv": [
+    "/usr/bin/xcrun",
+    "simctl",
+    "boot",
+    "48530555-8EDF-4131-9A80-454493A22225"
+  ],
+  "cwd": "/Users/qualifier/hello-world-01",
+  "exit_code": 0,
+  "finished_at_utc": "2026-09-16T18:50:08.772498+00:00",
+  "logs": {
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "name": "simulator-boot",
+  "output_bytes": [
+    0,
+    0
+  ],
+  "pid": 1867,
+  "process_group": 1867,
+  "process_group_absent": true,
+  "process_reaped": true,
+  "started_at_utc": "2026-09-16T18:50:07.424937+00:00",
+  "timeout_seconds": 30
+}

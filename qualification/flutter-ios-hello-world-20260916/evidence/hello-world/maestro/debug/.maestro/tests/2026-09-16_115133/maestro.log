@@ -1,0 +1,138 @@
+11:51:34.059 [ INFO] maestro.cli.report.TestDebugReporter.logSystemInfo: Debug output path: /Users/qualifier/hello-world-01/evidence/maestro/debug/.maestro/tests/2026-09-16_115133
+11:51:34.062 [ INFO] MAESTRO.logSystemInfo: ---- System Info ----
+11:51:34.063 [ INFO] MAESTRO.logSystemInfo: Maestro Version: 2.10.0
+11:51:34.064 [ INFO] MAESTRO.logSystemInfo: CI: ci
+11:51:34.064 [ INFO] MAESTRO.logSystemInfo: OS Name: Mac OS X
+11:51:34.064 [ INFO] MAESTRO.logSystemInfo: OS Version: 26.6.2
+11:51:34.064 [ INFO] MAESTRO.logSystemInfo: Architecture: aarch64
+11:51:34.065 [ INFO] MAESTRO.logSystemInfo: Java Version: 17
+11:51:34.498 [ INFO] MAESTRO.logSystemInfo: Xcode Version: 26.5
+11:51:34.971 [DEBUG] io.micrometer.common.util.internal.logging.InternalLoggerFactory.newDefaultFactory: Using SLF4J as the default logging framework
+11:51:35.084 [ INFO] MAESTRO.logSystemInfo: Flutter Version: 3.47.4
+11:51:35.534 [ INFO] MAESTRO.logSystemInfo: Flutter Channel: stable
+11:51:35.535 [ INFO] MAESTRO.logSystemInfo: ---------------------
+11:51:40.136 [ INFO] maestro.cli.command.TestCommand.runShardSuite: [shard 1] Selected device 48530555-8EDF-4131-9A80-454493A22225 using port 49815 with execution plan ExecutionPlan(flowsToRun=[/Users/qualifier/hello-world-01/runner_hello_world/.maestro/flows/hello-world.yaml], sequence=FlowSequence(flows=[], continueOnFailure=true), workspaceConfig=WorkspaceConfig(flows=null, includeTags=null, excludeTags=null, executionOrder=null, baselineBranch=null, notifications=null, disableRetries=false, platform=PlatformConfiguration(android=AndroidConfiguration(disableAnimations=false), ios=IOSConfiguration(disableAnimations=false, snapshotKeyHonorModalViews=null)), testOutputDir=null))
+11:51:40.441 [TRACE] ios.xctest.XCTestIOSDevice.open: Opening a connection
+11:51:40.441 [TRACE] xcuitest.XCTestDriverClient.restartXCTestRunner: Restarting XCTest Runner (uninstalling, installing and starting)
+11:51:40.442 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:40.443 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:49815
+11:51:40.443 [TRACE] xcuitest.XCTestDriverClient.restartXCTestRunner: XCTest Runner uninstalled, will install and start it
+11:51:40.443 [ INFO] xcuitest.installer.LocalXCTestInstaller.start$lambda$3: start()
+11:51:40.444 [ INFO] xcuitest.installer.LocalXCTestInstaller.start$lambda$3: [Start] Install XCUITest runner on 48530555-8EDF-4131-9A80-454493A22225
+11:51:40.444 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:40.444 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:49815
+11:51:40.444 [ INFO] xcuitest.installer.IOSBuildProductsExtractor.extract: [Start] Writing build products
+11:51:40.484 [ INFO] xcuitest.installer.IOSBuildProductsExtractor.extract: [Done] Writing build products
+11:51:40.484 [ INFO] xcuitest.installer.IOSBuildProductsExtractor.extract: [Start] Writing maestro-driver-iosUITests-Runner app
+11:51:40.671 [ INFO] xcuitest.installer.IOSBuildProductsExtractor.extract: [Done] Writing maestro-driver-iosUITests-Runner app
+11:51:40.671 [ INFO] xcuitest.installer.IOSBuildProductsExtractor.extract: [Start] Writing maestro-driver-ios app
+11:51:40.676 [ INFO] xcuitest.installer.IOSBuildProductsExtractor.extract: [Done] Writing maestro-driver-ios app
+11:51:40.677 [ INFO] xcuitest.installer.LocalXCTestInstaller.startXCTestRunner: Installing driver with xcodebuild
+11:51:40.678 [ INFO] xcuitest.installer.LocalXCTestInstaller.startXCTestRunner: [Start] Running XcUITest with `xcodebuild test-without-building` with 49815 and config: IOSDriverConfig(prebuiltRunner=false, sourceDirectory=driver-iPhoneSimulator, context=CLI, snapshotKeyHonorModalViews=null)
+11:51:40.680 [ INFO] util.CommandLineUtils.runCommand: Running command line operation: [xcodebuild, test-without-building, -xctestrun, /var/folders/bh/h4wknnhx6cj96fyryg1zz5xh0000gp/T/48530555-8EDF-4131-9A80-454493A22225953950942214279492/maestro-driver-ios-config.xctestrun, -destination, id=48530555-8EDF-4131-9A80-454493A22225, -derivedDataPath, /var/folders/bh/h4wknnhx6cj96fyryg1zz5xh0000gp/T/maestro_xctestrunner_xcodebuild_output17229494196662068219] with {TEST_RUNNER_PORT=49815}
+11:51:40.683 [ INFO] xcuitest.installer.LocalXCTestInstaller.startXCTestRunner: [Done] Running XcUITest with `xcodebuild test-without-building`
+11:51:40.683 [ INFO] xcuitest.installer.LocalXCTestInstaller.start$lambda$3: [Done] Install XCUITest runner on 48530555-8EDF-4131-9A80-454493A22225
+11:51:40.683 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:40.684 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:49815
+11:51:41.300 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:41.301 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:49815
+11:51:41.942 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:41.942 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:49815
+11:51:42.550 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:42.551 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:49815
+11:51:43.133 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:43.134 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:49815
+11:51:43.785 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:43.786 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:49815
+11:51:44.316 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:44.359 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:49815
+11:51:44.866 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:44.867 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:49815
+11:51:45.513 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:45.514 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:49815
+11:51:46.052 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:46.052 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:49815
+11:51:46.622 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:46.623 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:49815
+11:51:47.148 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:47.149 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:49815
+11:51:47.734 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:47.744 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:49815
+11:51:48.279 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:48.360 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:49815
+11:51:48.887 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:48.896 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:49815
+11:51:49.528 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:49.528 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:49815
+11:51:50.305 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:50.383 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:49815
+11:51:50.924 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:51.030 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:49815
+11:51:51.601 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:51.602 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:49815
+11:51:52.144 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:52.144 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:49815
+11:51:52.744 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:52.745 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:49815
+11:51:53.381 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:53.382 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:49815
+11:51:53.982 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:53.991 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Failed] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225, exception: java.net.ConnectException: Failed to connect to /127.0.0.1:49815
+11:51:54.563 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Start] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:54.608 [ INFO] xcuitest.installer.LocalXCTestInstaller.xcTestDriverStatusCheck: [Done] Perform XCUITest driver status check on 48530555-8EDF-4131-9A80-454493A22225
+11:51:56.030 [ INFO] maestro.cli.runner.TestSuiteInteractor.runFlow:  Running flow hello-world
+11:51:56.044 [ INFO] maestro.Maestro.cachedDeviceInfo_delegate$lambda$0: Getting device info
+11:51:56.229 [ INFO] maestro.Maestro.cachedDeviceInfo_delegate$lambda$0: Got device info: DeviceInfo(platform=IOS, widthPixels=1206, heightPixels=2622, widthGrid=402, heightGrid=874)
+11:51:57.373 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandStart: Define variables RUNNING
+11:51:57.375 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandFinished: Define variables COMPLETED
+11:51:57.376 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandStart: Apply configuration RUNNING
+11:51:57.376 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandFinished: Apply configuration COMPLETED
+11:51:57.376 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandStart: Launch app "tech.uxmal.runnerHelloWorld" with clear state RUNNING
+11:51:57.377 [ INFO] maestro.Maestro.clearAppState$lambda$8: Clearing app state tech.uxmal.runnerHelloWorld
+11:51:57.378 [ INFO] util.LocalSimulatorUtils.clearAppState: Clearing app tech.uxmal.runnerHelloWorld state
+11:51:57.378 [ INFO] util.LocalSimulatorUtils.terminate: [Start] Terminating app tech.uxmal.runnerHelloWorld
+11:51:57.378 [ INFO] util.CommandLineUtils.runCommand: Running command line operation: [xcrun, simctl, terminate, 48530555-8EDF-4131-9A80-454493A22225, tech.uxmal.runnerHelloWorld] with {}
+11:51:58.197 [ INFO] util.LocalSimulatorUtils.terminate: [Done] Terminating app tech.uxmal.runnerHelloWorld
+11:51:59.251 [ INFO] util.LocalSimulatorUtils.reinstallApp: Copying app binary from /Users/qualifier/Library/Developer/CoreSimulator/Devices/48530555-8EDF-4131-9A80-454493A22225/data/Containers/Bundle/Application/5C5F3F72-2AC9-4688-A621-B460E723C5DB/Runner.app to /var/folders/bh/h4wknnhx6cj96fyryg1zz5xh0000gp/T/2154558675924188615/tech.uxmal.runnerHelloWorld-1789584719249.app
+11:51:59.506 [ INFO] util.LocalSimulatorUtils.reinstallApp: Reinstalling and launching tech.uxmal.runnerHelloWorld
+11:51:59.506 [ INFO] util.CommandLineUtils.runCommand: Running command line operation: [xcrun, simctl, uninstall, 48530555-8EDF-4131-9A80-454493A22225, tech.uxmal.runnerHelloWorld] with {}
+11:51:59.976 [ INFO] util.CommandLineUtils.runCommand: Running command line operation: [xcrun, simctl, install, 48530555-8EDF-4131-9A80-454493A22225, /var/folders/bh/h4wknnhx6cj96fyryg1zz5xh0000gp/T/2154558675924188615/tech.uxmal.runnerHelloWorld-1789584719249.app] with {}
+11:52:00.798 [ INFO] util.LocalSimulatorUtils.reinstallApp: App tech.uxmal.runnerHelloWorld reinstalled and launched
+11:52:00.807 [ INFO] device.SimctlIOSDevice.setPermissions: [Start] Setting permissions all=allow through applesimutils
+11:52:00.807 [ INFO] util.LocalSimulatorUtils.setAppleSimutilsPermissions: [Start] Setting permissions via pinned applesimutils
+11:52:00.807 [ INFO] util.CommandLineUtils.runCommand: Running command line operation: [/Users/qualifier/.maestro/deps/applesimutils, --byId, 48530555-8EDF-4131-9A80-454493A22225, --bundle, tech.uxmal.runnerHelloWorld, --setPermissions, calendar=YES,camera=YES,contacts=YES,faceid=YES,homekit=YES,medialibrary=YES,microphone=YES,motion=YES,photos=YES,reminders=YES,siri=YES,speech=YES,userTracking=YES] with {}
+11:52:01.874 [ INFO] util.LocalSimulatorUtils.setAppleSimutilsPermissions: [Done] Setting permissions pinned applesimutils
+11:52:01.874 [ INFO] device.SimctlIOSDevice.setPermissions: [Done] Setting permissions through applesimutils
+11:52:01.877 [ INFO] device.SimctlIOSDevice.setPermissions: [Start] Setting Permissions all=allow through simctl
+11:52:01.878 [ INFO] util.CommandLineUtils.runCommand: Running command line operation: [xcrun, simctl, privacy, 48530555-8EDF-4131-9A80-454493A22225, grant, location-always, tech.uxmal.runnerHelloWorld] with {}
+11:52:02.175 [ INFO] device.SimctlIOSDevice.setPermissions: [Done] Setting Permissions all=allow through simctl
+11:52:02.226 [ INFO] maestro.Maestro.launchApp$lambda$5: Launching app tech.uxmal.runnerHelloWorld
+11:52:02.247 [ INFO] maestro.Maestro.launchApp$lambda$5: Stopping tech.uxmal.runnerHelloWorld app during launch
+11:52:02.257 [ INFO] util.CommandLineUtils.runCommand: Running command line operation: [xcrun, simctl, launch, 48530555-8EDF-4131-9A80-454493A22225, tech.uxmal.runnerHelloWorld] with {}
+11:52:02.603 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandFinished: Launch app "tech.uxmal.runnerHelloWorld" with clear state COMPLETED
+11:52:02.604 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandStart: Assert that "Hello World" is visible RUNNING
+11:52:04.878 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandFinished: Assert that "Hello World" is visible COMPLETED
+11:52:04.878 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandStart: Assert that "Count: 0" is visible RUNNING
+11:52:05.011 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandFinished: Assert that "Count: 0" is visible COMPLETED
+11:52:05.012 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandStart: Take screenshot hello-world-initial RUNNING
+11:52:05.016 [ INFO] maestro.Maestro.takeScreenshot: Taking screenshot
+11:52:05.018 [TRACE] maestro.utils.ScreenshotUtils.takeScreenshot: Taking screenshot to output sink
+11:52:05.146 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandFinished: Take screenshot hello-world-initial COMPLETED
+11:52:05.147 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandStart: Tap on "Increment" RUNNING
+11:52:05.290 [ INFO] maestro.Maestro.tap-HgV9Ck0: Tapping on element:  UiElement(treeNode=TreeNode(attributes={accessibilityText=Increment, title=, value=, text=, hintText=, resource-id=, bounds=[142,492][259,540], enabled=true, focused=false, selected=false, checked=false}, children=[], clickable=null, enabled=true, focused=false, checked=false, selected=false), bounds=Bounds(x=142, y=492, width=117, height=48))
+11:52:05.292 [ INFO] device.IOSDevice.invoke-F9mIFpk: Waiting for animation to end with timeout 3000
+11:52:05.494 [ INFO] maestro.Maestro.tap-HgV9Ck0: Tap aimed via trusted pre-wait hierarchy (null settle, no recent scroll)
+11:52:05.521 [ INFO] maestro.Maestro.screenshotBasedTap-ogj28Uc: Try tapping at (200, 516) using hierarchy based logic for wait
+11:52:05.523 [TRACE] maestro.utils.ScreenshotUtils.takeScreenshot: Taking screenshot to byte array
+11:52:05.523 [TRACE] maestro.utils.ScreenshotUtils.takeScreenshot: Taking screenshot to output sink
+11:52:09.622 [ INFO] device.IOSDevice.invoke-F9mIFpk: Waiting for animation to end with timeout 3000
+11:52:10.215 [ INFO] maestro.Maestro.screenshotBasedTap-ogj28Uc: Something have changed in the UI judging by view hierarchy. Proceed.
+11:52:10.215 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandFinished: Tap on "Increment" COMPLETED
+11:52:10.215 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandStart: Assert that "Count: 1" is visible RUNNING
+11:52:10.364 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandFinished: Assert that "Count: 1" is visible COMPLETED
+11:52:10.364 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandStart: Take screenshot hello-world-incremented RUNNING
+11:52:10.365 [ INFO] maestro.Maestro.takeScreenshot: Taking screenshot
+11:52:10.365 [TRACE] maestro.utils.ScreenshotUtils.takeScreenshot: Taking screenshot to output sink
+11:52:10.473 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandFinished: Take screenshot hello-world-incremented COMPLETED
+11:52:11.790 [ INFO] xcuitest.crash.IOSCrashFileFinder.findCrashFile: Crash detection: crashFile=none, totalForBundle=0, bundleId=tech.uxmal.runnerHelloWorld
+11:52:12.428 [ INFO] maestro.cli.report.TestDebugReporter.deleteOldFiles: Performing purge of logs older than 14 days from /Users/qualifier/hello-world-01/evidence/maestro

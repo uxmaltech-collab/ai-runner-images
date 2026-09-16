@@ -1,0 +1,39 @@
+{
+  "agent_credentials_present": false,
+  "agent_invoked": false,
+  "cleanup": {},
+  "fixture_files": {
+    ".maestro/flows/hello-world.yaml": {
+      "bytes": 261,
+      "sha256": "92ef7de96458e5c4c1a43efb399ca7cc1ef6b9f094ae5c05001c7bc853ecfc64"
+    },
+    "lib/main.dart": {
+      "bytes": 988,
+      "sha256": "60dd7b2c64d7aa0001d8fb23d85ac01257898e6084dd3af95473e04af981cefd"
+    },
+    "pubspec.yaml": {
+      "bytes": 233,
+      "sha256": "f991939abc182471f87609906588b28eb414ce74b3a94c01efc180fae4e9b489"
+    }
+  },
+  "image": "uxmaltech-collab/ai-runner-images/flutter@sha256:33fb89bdccd573057c11388bdf2dc243fbf8a4d5ceea46d2c577c93e2e2dd9be",
+  "input_tool_files": {
+    "flutter": {
+      "bytes": 118,
+      "path": "/opt/ai-runner-images/flutter/bin/flutter",
+      "sha256": "fe249df00d5999cfc8237b31ce02dcacc399c1541c7055c1900589f664c6fe18"
+    },
+    "maestro": {
+      "bytes": 201,
+      "path": "/opt/ai-runner-images/bin/maestro",
+      "sha256": "481ab171332792f35f8af7578cef62b1a9d74abae3d69f1d8bc479d45042c856"
+    }
+  },
+  "operation": "flutter-ios-reference-qualification",
+  "schema_version": 1,
+  "simulator_udid": null,
+  "source_commit": "4e41365a51b5476b3ffe717ff81624559d5d3254",
+  "started_at_utc": "2026-09-16T18:47:12.239275+00:00",
+  "status": "running",
+  "warnings": []
+}

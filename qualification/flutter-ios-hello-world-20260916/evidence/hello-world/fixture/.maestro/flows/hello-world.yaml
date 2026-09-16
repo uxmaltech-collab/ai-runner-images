@@ -1,0 +1,10 @@
+appId: tech.uxmal.runnerHelloWorld
+---
+- launchApp:
+    clearState: true
+- assertVisible: "Hello World"
+- assertVisible: "Count: 0"
+- takeScreenshot: hello-world-initial
+- tapOn: "Increment"
+- assertVisible: "Count: 1"
+- takeScreenshot: hello-world-incremented

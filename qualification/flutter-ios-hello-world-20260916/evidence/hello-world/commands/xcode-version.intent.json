@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "/opt/macos-tart-bootstrap/public-tools/Xcode_26.5-runner.app/Contents/Developer/usr/bin/xcodebuild",
+    "-version"
+  ],
+  "cwd": "/Users/qualifier/hello-world-01",
+  "exit_code": null,
+  "name": "xcode-version",
+  "process_group_absent": false,
+  "process_reaped": false,
+  "started_at_utc": "2026-09-16T18:47:12.502997+00:00",
+  "timeout_seconds": 90
+}

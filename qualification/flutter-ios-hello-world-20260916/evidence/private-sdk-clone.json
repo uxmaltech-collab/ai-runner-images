@@ -1,0 +1,13 @@
+{
+  "at_utc": "2026-09-16T18:46:39.766144+00:00",
+  "flutter_revision": "9584c6713b324636289d067944a46fd6b49df14b",
+  "flutter_version": "3.47.4",
+  "gid": 20,
+  "method": "clonefile(2)-without-copy-fallback",
+  "pub_cache_regular_files_cloned": 10315,
+  "schema_version": 1,
+  "sdk_regular_files_cloned": 18950,
+  "seed_ready_sha256": "0410e81b5c289fc11e551b62f890cef7aef4f49adcf541ba7b56204e828c70c2",
+  "status": "ready",
+  "uid": 502
+}

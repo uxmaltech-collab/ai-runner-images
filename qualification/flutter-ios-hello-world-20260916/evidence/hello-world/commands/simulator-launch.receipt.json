@@ -1,0 +1,33 @@
+{
+  "argv": [
+    "/usr/bin/xcrun",
+    "simctl",
+    "launch",
+    "48530555-8EDF-4131-9A80-454493A22225",
+    "tech.uxmal.runnerHelloWorld"
+  ],
+  "cwd": "/Users/qualifier/hello-world-01",
+  "exit_code": 0,
+  "finished_at_utc": "2026-09-16T18:51:17.345528+00:00",
+  "logs": {
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout": {
+      "bytes": 34,
+      "sha256": "bd68f9e9c930a20bac97eeb6259beb670ed06c7fc489cc4c3f9c3db3403870b9"
+    }
+  },
+  "name": "simulator-launch",
+  "output_bytes": [
+    34,
+    0
+  ],
+  "pid": 2169,
+  "process_group": 2169,
+  "process_group_absent": true,
+  "process_reaped": true,
+  "started_at_utc": "2026-09-16T18:51:10.657407+00:00",
+  "timeout_seconds": 60
+}

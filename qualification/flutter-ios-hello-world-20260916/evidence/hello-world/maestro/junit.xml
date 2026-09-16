@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuites>
+  <testsuite name="Test Suite" device="runner-image-qualification-4aa94d2b62494ba9824315efeb1d82b7 - iOS 26.5 - 48530555-8EDF-4131-9A80-454493A22225" tests="1" failures="0" time="16.368" timestamp="2026-09-16T11:51:55">
+    <testcase id="hello-world" name="hello-world" classname="hello-world" file=".maestro/flows/hello-world.yaml" time="16.309" timestamp="2026-09-16T11:51:56" status="SUCCESS"/>
+  </testsuite>
+</testsuites>

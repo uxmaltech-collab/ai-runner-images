@@ -1,0 +1,31 @@
+11:51:57.373 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandStart: Define variables RUNNING
+11:51:57.375 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandFinished: Define variables COMPLETED
+11:51:57.376 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandStart: Apply configuration RUNNING
+11:51:57.376 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandFinished: Apply configuration COMPLETED
+11:51:57.376 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandStart: Launch app "tech.uxmal.runnerHelloWorld" with clear state RUNNING
+11:51:57.377 [ INFO] maestro.Maestro.clearAppState$lambda$8: Clearing app state tech.uxmal.runnerHelloWorld
+11:52:02.226 [ INFO] maestro.Maestro.launchApp$lambda$5: Launching app tech.uxmal.runnerHelloWorld
+11:52:02.247 [ INFO] maestro.Maestro.launchApp$lambda$5: Stopping tech.uxmal.runnerHelloWorld app during launch
+11:52:02.603 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandFinished: Launch app "tech.uxmal.runnerHelloWorld" with clear state COMPLETED
+11:52:02.604 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandStart: Assert that "Hello World" is visible RUNNING
+11:52:04.878 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandFinished: Assert that "Hello World" is visible COMPLETED
+11:52:04.878 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandStart: Assert that "Count: 0" is visible RUNNING
+11:52:05.011 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandFinished: Assert that "Count: 0" is visible COMPLETED
+11:52:05.012 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandStart: Take screenshot hello-world-initial RUNNING
+11:52:05.016 [ INFO] maestro.Maestro.takeScreenshot: Taking screenshot
+11:52:05.018 [TRACE] maestro.utils.ScreenshotUtils.takeScreenshot: Taking screenshot to output sink
+11:52:05.146 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandFinished: Take screenshot hello-world-initial COMPLETED
+11:52:05.147 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandStart: Tap on "Increment" RUNNING
+11:52:05.290 [ INFO] maestro.Maestro.tap-HgV9Ck0: Tapping on element:  UiElement(treeNode=TreeNode(attributes={accessibilityText=Increment, title=, value=, text=, hintText=, resource-id=, bounds=[142,492][259,540], enabled=true, focused=false, selected=false, checked=false}, children=[], clickable=null, enabled=true, focused=false, checked=false, selected=false), bounds=Bounds(x=142, y=492, width=117, height=48))
+11:52:05.494 [ INFO] maestro.Maestro.tap-HgV9Ck0: Tap aimed via trusted pre-wait hierarchy (null settle, no recent scroll)
+11:52:05.521 [ INFO] maestro.Maestro.screenshotBasedTap-ogj28Uc: Try tapping at (200, 516) using hierarchy based logic for wait
+11:52:05.523 [TRACE] maestro.utils.ScreenshotUtils.takeScreenshot: Taking screenshot to byte array
+11:52:05.523 [TRACE] maestro.utils.ScreenshotUtils.takeScreenshot: Taking screenshot to output sink
+11:52:10.215 [ INFO] maestro.Maestro.screenshotBasedTap-ogj28Uc: Something have changed in the UI judging by view hierarchy. Proceed.
+11:52:10.215 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandFinished: Tap on "Increment" COMPLETED
+11:52:10.215 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandStart: Assert that "Count: 1" is visible RUNNING
+11:52:10.364 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandFinished: Assert that "Count: 1" is visible COMPLETED
+11:52:10.364 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandStart: Take screenshot hello-world-incremented RUNNING
+11:52:10.365 [ INFO] maestro.Maestro.takeScreenshot: Taking screenshot
+11:52:10.365 [TRACE] maestro.utils.ScreenshotUtils.takeScreenshot: Taking screenshot to output sink
+11:52:10.473 [ INFO] maestro.cli.runner.CliConsoleListener.onCommandFinished: Take screenshot hello-world-incremented COMPLETED

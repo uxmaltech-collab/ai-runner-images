@@ -1,0 +1,32 @@
+{
+  "argv": [
+    "/usr/bin/xcrun",
+    "simctl",
+    "list",
+    "--json"
+  ],
+  "cwd": "/Users/qualifier/hello-world-01",
+  "exit_code": 0,
+  "finished_at_utc": "2026-09-16T18:50:07.204418+00:00",
+  "logs": {
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout": {
+      "bytes": 88933,
+      "sha256": "d28d3d55fbe8868b0b68ca244ec4bb172b8671dbd9ac06cc285262a5e13b430d"
+    }
+  },
+  "name": "simulator-inventory",
+  "output_bytes": [
+    88933,
+    0
+  ],
+  "pid": 1850,
+  "process_group": 1850,
+  "process_group_absent": true,
+  "process_reaped": true,
+  "started_at_utc": "2026-09-16T18:50:06.407563+00:00",
+  "timeout_seconds": 30
+}

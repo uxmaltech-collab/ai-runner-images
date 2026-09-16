@@ -1,0 +1,395 @@
+{
+  "created_at_utc": "2026-09-16T18:52:20.654499+00:00",
+  "files": {
+    "commands/cleanup-delete.intent.json": {
+      "bytes": 347,
+      "sha256": "ee42e011ab268432bd6f959a560d002958204d71590852ceffce2855268cd3b6"
+    },
+    "commands/cleanup-delete.receipt.json": {
+      "bytes": 741,
+      "sha256": "53bc02320fdf92a0f50171917e6dbb0259865ff874f21b64ea0a16e40cdf48f6"
+    },
+    "commands/cleanup-delete.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "commands/cleanup-delete.stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "commands/cleanup-shutdown.intent.json": {
+      "bytes": 351,
+      "sha256": "5e27047c48c7483863ec9cba2c574938ad595aac48b3389f030709dbca74d1be"
+    },
+    "commands/cleanup-shutdown.receipt.json": {
+      "bytes": 745,
+      "sha256": "46d508b10155d89e514c245e577ee49b711d7017da5281964219748ecfe8c1b5"
+    },
+    "commands/cleanup-shutdown.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "commands/cleanup-shutdown.stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "commands/cleanup-verify-absence.intent.json": {
+      "bytes": 338,
+      "sha256": "e1c9025370fb25815ab9a78e59fd19458d30644e7f944896173d3f9f8cf4aa27"
+    },
+    "commands/cleanup-verify-absence.receipt.json": {
+      "bytes": 738,
+      "sha256": "5ca6660c0ca198493c66dbdba3546071c6e11f9894ebc0178b1bb3c8a7423a42"
+    },
+    "commands/cleanup-verify-absence.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "commands/cleanup-verify-absence.stdout.log": {
+      "bytes": 5980,
+      "sha256": "73f058e217edffc4663391a13e8e68a793f49a971fd70b9402ce4868ce1bfe04"
+    },
+    "commands/flutter-build.intent.json": {
+      "bytes": 417,
+      "sha256": "1174e76050bfaa3949411876145c1f1d652ad772d59c295d8c8105022095a8b4"
+    },
+    "commands/flutter-build.receipt.json": {
+      "bytes": 815,
+      "sha256": "6baac9dafe2de08f6d1156d98202a15f63989e2179997952879d17b11df5460d"
+    },
+    "commands/flutter-build.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "commands/flutter-build.stdout.log": {
+      "bytes": 239,
+      "sha256": "d01dd80a6bb346791a122b2c4353943764f99fd17d51277266865549d4b122aa"
+    },
+    "commands/flutter-create.intent.json": {
+      "bytes": 508,
+      "sha256": "35d6e3f7430e9ebcb98912475fda570f50c1f12984fb95afb17050f47a899de0"
+    },
+    "commands/flutter-create.receipt.json": {
+      "bytes": 906,
+      "sha256": "19be722989958ec962a40fc1be76716cfe8a3681515e5112982f83178e0629ac"
+    },
+    "commands/flutter-create.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "commands/flutter-create.stdout.log": {
+      "bytes": 454,
+      "sha256": "ece7eff60961eb17feb534f4f009dbc502df755f27bf06f8baaf1c493309051c"
+    },
+    "commands/flutter-pub-get.intent.json": {
+      "bytes": 345,
+      "sha256": "8e7c1bcfd310d3dd2f0e46109db6e2fce1627a9f23bfbf5fcea3592d310f4995"
+    },
+    "commands/flutter-pub-get.receipt.json": {
+      "bytes": 743,
+      "sha256": "d22478e07c43a12926d9b8722cd4b534725fe4b20b9c276ad2e5c2d4501f41cd"
+    },
+    "commands/flutter-pub-get.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "commands/flutter-pub-get.stdout.log": {
+      "bytes": 678,
+      "sha256": "dab1c41dae0b01519e942607d5671ea00f4c2d3d20024e7c8083474e12c3600c"
+    },
+    "commands/flutter-version.intent.json": {
+      "bytes": 337,
+      "sha256": "5ec8b22077089583ce04fd9bc9488354c67f21736437d0b4212e92b3f292f074"
+    },
+    "commands/flutter-version.receipt.json": {
+      "bytes": 733,
+      "sha256": "345431ca5b11a81bb2363d902dac49cc71df7b6cbdc30828ec99a64485f1013b"
+    },
+    "commands/flutter-version.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "commands/flutter-version.stdout.log": {
+      "bytes": 665,
+      "sha256": "4d62dcf64d8a5ff5b732c65a6da2a78ff01b8eaf0831cff05bdd9636625fca11"
+    },
+    "commands/maestro-test.intent.json": {
+      "bytes": 750,
+      "sha256": "906178a5b659783c07341de05d244f0a1fb0e63a00ad2b3fd6665eb6fce3d3b2"
+    },
+    "commands/maestro-test.receipt.json": {
+      "bytes": 1146,
+      "sha256": "51e1722e4276d31a9633ee26a9e27c2800f7e63d90d6fa5df1e8ab980b2a2f25"
+    },
+    "commands/maestro-test.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "commands/maestro-test.stdout.log": {
+      "bytes": 86,
+      "sha256": "24bf1472b957865cb30a63f2cb84c35ab9ff6c6b7fa1734757b95d1709400fb3"
+    },
+    "commands/maestro-version.intent.json": {
+      "bytes": 312,
+      "sha256": "cfc0a1dd811da9f8a98f6b1c2183935ae78a389a6c2ed4560c843ce872dc7556"
+    },
+    "commands/maestro-version.receipt.json": {
+      "bytes": 704,
+      "sha256": "afb41b2dbe6ad2b5c45d8e523cad45c5648bf4bd5fb325c94f32eb262cc0e9dc"
+    },
+    "commands/maestro-version.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "commands/maestro-version.stdout.log": {
+      "bytes": 7,
+      "sha256": "d2dbab0fd36c72f378865aeea0bb1d7b27e3e1637a4f3b0de0a108ecba8b48e1"
+    },
+    "commands/managername.intent.json": {
+      "bytes": 291,
+      "sha256": "047b3ce4b69fda656683b2c7434130ef5291e6cad0632433c7a54bdf6683c7e4"
+    },
+    "commands/managername.receipt.json": {
+      "bytes": 683,
+      "sha256": "3295fc3dc0cc14449c13c0e3a1f841d91a1890c841684909eaa7f8b27b8d0f84"
+    },
+    "commands/managername.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "commands/managername.stdout.log": {
+      "bytes": 5,
+      "sha256": "f331546b2cd54016f45e418995000ecd8a6dbece30b5085337f3cfc897124768"
+    },
+    "commands/manageruid.intent.json": {
+      "bytes": 289,
+      "sha256": "9ac9c3af72228e2ff73edb7b1abe076b2d62d9ea796cbc3d671c355412375eb2"
+    },
+    "commands/manageruid.receipt.json": {
+      "bytes": 681,
+      "sha256": "0d55818880844706c2355964e4b0a969c8f3a216a688c7ea3312097a4206f50a"
+    },
+    "commands/manageruid.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "commands/manageruid.stdout.log": {
+      "bytes": 4,
+      "sha256": "38500003733a95b652379a66ee15b3192b116bfcfcdb1aa830956af22a82c66c"
+    },
+    "commands/simulator-boot.intent.json": {
+      "bytes": 345,
+      "sha256": "be010998ce9c78192c7ef564e2c0f2477e12fee756ce6aeca718c685891a73f5"
+    },
+    "commands/simulator-boot.receipt.json": {
+      "bytes": 739,
+      "sha256": "34f013d18c23cdf8ba5de1e244a0effb7581b21550185bcd5f17d22ff3da3aff"
+    },
+    "commands/simulator-boot.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "commands/simulator-boot.stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "commands/simulator-bootstatus.intent.json": {
+      "bytes": 368,
+      "sha256": "07d9a546947042fa2807a4bb128a184f559f11cd06baf0c53fd5e55ce63d1459"
+    },
+    "commands/simulator-bootstatus.receipt.json": {
+      "bytes": 768,
+      "sha256": "c949ea24d60bfb1fc2b4f5466a6ba332881509c010475e6428a06647e5085717"
+    },
+    "commands/simulator-bootstatus.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "commands/simulator-bootstatus.stdout.log": {
+      "bytes": 6595,
+      "sha256": "ce832bd3a4cde20756d49dcf89b7ac03668f8a2145a8a32767fc57100cd40b1f"
+    },
+    "commands/simulator-create.intent.json": {
+      "bytes": 478,
+      "sha256": "3266be066cc526a9f02ea1b15a11cc61ebe38f0e006f252b73f094aff0f59d86"
+    },
+    "commands/simulator-create.receipt.json": {
+      "bytes": 874,
+      "sha256": "790b7be9c7032605559ca6f9f0d2c650bf22a970cdd56f1dc8577475eff8c2dc"
+    },
+    "commands/simulator-create.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "commands/simulator-create.stdout.log": {
+      "bytes": 37,
+      "sha256": "5b24d8c20683dd7ab95d09cc9dd160632a259e9d41f34b912adade5142c3c3b6"
+    },
+    "commands/simulator-install.intent.json": {
+      "bytes": 447,
+      "sha256": "1e08dcc3a654ff468827211d4290f84e8445cef86979a46f842579c0d6edcfbb"
+    },
+    "commands/simulator-install.receipt.json": {
+      "bytes": 841,
+      "sha256": "510fda6b9135252327abc3fdd26f64b300b633aaf454ec952ece01183a8e3f6f"
+    },
+    "commands/simulator-install.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "commands/simulator-install.stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "commands/simulator-inventory.intent.json": {
+      "bytes": 320,
+      "sha256": "1965a2876c23dffe5a519c850f34a4bce1ea6cf7adbb9b93ba9ca67d4a0997b6"
+    },
+    "commands/simulator-inventory.receipt.json": {
+      "bytes": 722,
+      "sha256": "85a538d76be23bcbbcfa7cc0d9385214517eab238f9d9973c5c1bd7739ca5c1e"
+    },
+    "commands/simulator-inventory.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "commands/simulator-inventory.stdout.log": {
+      "bytes": 88933,
+      "sha256": "d28d3d55fbe8868b0b68ca244ec4bb172b8671dbd9ac06cc285262a5e13b430d"
+    },
+    "commands/simulator-launch.intent.json": {
+      "bytes": 384,
+      "sha256": "1d17407ebe39ba9f5db1df966a895dc2dcde178a631ce1e7ac68077e33513c6d"
+    },
+    "commands/simulator-launch.receipt.json": {
+      "bytes": 780,
+      "sha256": "176a9c54dd08344a3a3b92cd9cc4d2e65dcce9cf7de7e8384eb42269e5467f81"
+    },
+    "commands/simulator-launch.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "commands/simulator-launch.stdout.log": {
+      "bytes": 34,
+      "sha256": "bd68f9e9c930a20bac97eeb6259beb670ed06c7fc489cc4c3f9c3db3403870b9"
+    },
+    "commands/simulator-screenshot.intent.json": {
+      "bytes": 437,
+      "sha256": "87667219ac19675735703e388d54aba38106cb2f1f6ebc4584c5a3e3de1d544a"
+    },
+    "commands/simulator-screenshot.receipt.json": {
+      "bytes": 835,
+      "sha256": "dc4f0668f912e8acab5a6a763dc25b060cbad40e7b4bc3d710d85b524b49c2a3"
+    },
+    "commands/simulator-screenshot.stderr.log": {
+      "bytes": 236,
+      "sha256": "2d743ad411429c0fd6a46150238d3625927feaabfb3d8ecfd8b3876319da71ca"
+    },
+    "commands/simulator-screenshot.stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "commands/xcode-version.intent.json": {
+      "bytes": 374,
+      "sha256": "9aa71438f19f0c1a921e4d008a732be402c2eb9a228daa301d1e456c88a7c583"
+    },
+    "commands/xcode-version.receipt.json": {
+      "bytes": 768,
+      "sha256": "33230552e29280a79e81c935f5b5d542071ebacc9b930718a47e81bebf762d58"
+    },
+    "commands/xcode-version.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "commands/xcode-version.stdout.log": {
+      "bytes": 31,
+      "sha256": "5f6350250c6f298d06e1435819ddd1539d6c84785aaa8d824c2ac74f57914d03"
+    },
+    "execution-identity.json": {
+      "bytes": 321,
+      "sha256": "43a21b966dbf39c9a11c8f0e8c5df09bbfb8d185a3b52bac5ad91067462c1a7c"
+    },
+    "fixture-overlay.json": {
+      "bytes": 395,
+      "sha256": "2ecae1c4bfe77483b17d50166b984617f9e9bb5cd7634fc665337dd46ce5167f"
+    },
+    "fixture/.maestro/flows/hello-world.yaml": {
+      "bytes": 261,
+      "sha256": "92ef7de96458e5c4c1a43efb399ca7cc1ef6b9f094ae5c05001c7bc853ecfc64"
+    },
+    "fixture/lib/main.dart": {
+      "bytes": 988,
+      "sha256": "60dd7b2c64d7aa0001d8fb23d85ac01257898e6084dd3af95473e04af981cefd"
+    },
+    "fixture/pubspec.yaml": {
+      "bytes": 233,
+      "sha256": "f991939abc182471f87609906588b28eb414ce74b3a94c01efc180fae4e9b489"
+    },
+    "generated-source-files.json": {
+      "bytes": 2009,
+      "sha256": "5a527810645770e7e4a5dcd888f11c93582bd568dea2a66ba45a713a803d493d"
+    },
+    "hello-world-final.png": {
+      "bytes": 109652,
+      "sha256": "ca6e96fe14f77a7478c5619768dcd57549050d9eb77762fe836e29d97cad8aab"
+    },
+    "maestro/2026-09-16_115133/hello-world/commands.json": {
+      "bytes": 5595,
+      "sha256": "e9596146aa1c8db078929bd90849fb30bdada0619ed7df6fee9acae0e30b6a8e"
+    },
+    "maestro/2026-09-16_115133/hello-world/logs/device-simulator.log": {
+      "bytes": 11337182,
+      "sha256": "9368ba4914ce7b96e4575e95b2dc05469b9ebf8158d97dc13a78c764e3c65156"
+    },
+    "maestro/2026-09-16_115133/hello-world/logs/device-xctest.log": {
+      "bytes": 18255,
+      "sha256": "8194a15d3cc36e26346bccc4e857ea29fe3dd92417e00ed4dbcfef877375c181"
+    },
+    "maestro/2026-09-16_115133/hello-world/logs/maestro.log": {
+      "bytes": 3791,
+      "sha256": "5e18a57579b57c90d68347e73b5b12c14d1064394112b9377eb3ea6ba74a2ad4"
+    },
+    "maestro/2026-09-16_115133/hello-world/manifest.json": {
+      "bytes": 845,
+      "sha256": "969ce60a2acdffaf9cebcf6bcb29f65160ef590fdee56b9ea6c086f47834386b"
+    },
+    "maestro/2026-09-16_115133/hello-world/takeScreenshot/hello-world-incremented.png": {
+      "bytes": 90031,
+      "sha256": "c890bdb2b1687dc1c5a2a41f67f74716011087a19b1d2c106406ae6007f95446"
+    },
+    "maestro/2026-09-16_115133/hello-world/takeScreenshot/hello-world-initial.png": {
+      "bytes": 90805,
+      "sha256": "410f21f6148739268f408f9ff6ee9b88dacce7c68e51e00f620829f3022cd37f"
+    },
+    "maestro/2026-09-16_115133/xctest_runner_2026-09-16_115140.log": {
+      "bytes": 18377,
+      "sha256": "0e91c3af3b8351840747b5a0677da6488214aa401d7bacde863b3e6304af5e2e"
+    },
+    "maestro/debug/.maestro/tests/2026-09-16_115133/maestro.log": {
+      "bytes": 22803,
+      "sha256": "be8888773b89f4c6c5dc7c336078a0ec80c2ca4613d5c32ba70d4a7fd8bb0a11"
+    },
+    "maestro/junit.xml": {
+      "bytes": 479,
+      "sha256": "39cf9b787d521377aebe66520ab7a280c5d4acf19b9c110a0f90b529833d0109"
+    },
+    "owned-simulator.json": {
+      "bytes": 186,
+      "sha256": "f408477eda72aed655f532d70cbedfdf3d5cb1a33924ea0b512df6595b29497f"
+    },
+    "pubspec.lock": {
+      "bytes": 1490,
+      "sha256": "863b19a090de9a6b6696b8983da5a13657fe0574097557621af4b429da63864b"
+    },
+    "qualification-intent.json": {
+      "bytes": 1308,
+      "sha256": "fa443080bf6a5e334277702077d7aec6f1bee4657f6370800466be378f525c5c"
+    },
+    "result.json": {
+      "bytes": 42945,
+      "sha256": "a6c025dbfd807dad96a3cf2cefb52f626995d1489d1d254ff3e10b20423af447"
+    }
+  },
+  "schema_version": 1,
+  "status": "passed"
+}

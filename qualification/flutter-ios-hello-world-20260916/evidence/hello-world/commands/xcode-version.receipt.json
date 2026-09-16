@@ -1,0 +1,30 @@
+{
+  "argv": [
+    "/opt/macos-tart-bootstrap/public-tools/Xcode_26.5-runner.app/Contents/Developer/usr/bin/xcodebuild",
+    "-version"
+  ],
+  "cwd": "/Users/qualifier/hello-world-01",
+  "exit_code": 0,
+  "finished_at_utc": "2026-09-16T18:47:12.570930+00:00",
+  "logs": {
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout": {
+      "bytes": 31,
+      "sha256": "5f6350250c6f298d06e1435819ddd1539d6c84785aaa8d824c2ac74f57914d03"
+    }
+  },
+  "name": "xcode-version",
+  "output_bytes": [
+    31,
+    0
+  ],
+  "pid": 989,
+  "process_group": 989,
+  "process_group_absent": true,
+  "process_reaped": true,
+  "started_at_utc": "2026-09-16T18:47:12.502997+00:00",
+  "timeout_seconds": 90
+}

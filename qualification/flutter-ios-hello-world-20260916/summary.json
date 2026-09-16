@@ -1,0 +1,221 @@
+{
+  "agent_cli_checks": [
+    {
+      "engine": "codex",
+      "exit_code": 0,
+      "passed": true,
+      "version": "0.151.0"
+    },
+    {
+      "engine": "claude",
+      "exit_code": 0,
+      "passed": true,
+      "version": "2.1.266"
+    },
+    {
+      "engine": "grok",
+      "exit_code": 0,
+      "passed": true,
+      "version": "1.0.24"
+    }
+  ],
+  "all_engines_installed_together": [
+    "codex",
+    "claude",
+    "grok-build"
+  ],
+  "application": {
+    "bundle_id": "tech.uxmal.runnerHelloWorld",
+    "compiled_flutter_files": {
+      "Frameworks/App.framework/App": {
+        "bytes": 83952,
+        "sha256": "5544ffa41f8b5a519a7adf714f52bcc179ebf158a6d7ff1f95b52b75679bc38f"
+      },
+      "Frameworks/App.framework/flutter_assets/kernel_blob.bin": {
+        "bytes": 43272016,
+        "sha256": "2d871d7112d1787699e48201ec4a4173ceb7b3f12edfebb0b8e6dbc2506474b7"
+      }
+    },
+    "executable": {
+      "bytes": 123808,
+      "sha256": "8ea40ef1742df25dc2f5279d63e309976096b0d6e95edd775625e60f46b6d30e"
+    },
+    "info_plist": {
+      "bytes": 2022,
+      "sha256": "ee150af0814fb3d43bed825557c805088acab0f954f16636d42195c4086419ee"
+    },
+    "platforms": [
+      "iPhoneSimulator"
+    ]
+  },
+  "cleanup": {
+    "command_groups_confirmed": true,
+    "confirmed": true,
+    "delete_exit_code": 0,
+    "normal_guest_shutdown_and_tart_exit_zero": true,
+    "owned_simulator_absent": true,
+    "production_executor_config_unchanged": true,
+    "production_image_metadata_unchanged": true,
+    "qualification_vm_absent": true,
+    "sealed_source_metadata_unchanged": true,
+    "shutdown_exit_code": 0
+  },
+  "execution_identity": {
+    "aqua": {
+      "managername": "Aqua",
+      "manageruid": "502"
+    },
+    "console_gid": 20,
+    "console_uid": 502,
+    "directory_groups": [
+      12,
+      20,
+      61,
+      100
+    ],
+    "egid": 20,
+    "euid": 502,
+    "gid": 20,
+    "home": "/Users/qualifier",
+    "nonadministrator": true,
+    "posix_groups": [
+      20
+    ],
+    "uid": 502
+  },
+  "finished_at_utc": "2026-09-16T18:52:20.627534+00:00",
+  "fixture_files": {
+    ".maestro/flows/hello-world.yaml": {
+      "bytes": 261,
+      "sha256": "92ef7de96458e5c4c1a43efb399ca7cc1ef6b9f094ae5c05001c7bc853ecfc64"
+    },
+    "lib/main.dart": {
+      "bytes": 988,
+      "sha256": "60dd7b2c64d7aa0001d8fb23d85ac01257898e6084dd3af95473e04af981cefd"
+    },
+    "pubspec.yaml": {
+      "bytes": 233,
+      "sha256": "f991939abc182471f87609906588b28eb414ce74b3a94c01efc180fae4e9b489"
+    }
+  },
+  "flutter": {
+    "dart_version": "3.13.3",
+    "private_sdk_clone": {
+      "at_utc": "2026-09-16T18:46:39.766144+00:00",
+      "flutter_revision": "9584c6713b324636289d067944a46fd6b49df14b",
+      "flutter_version": "3.47.4",
+      "gid": 20,
+      "method": "clonefile(2)-without-copy-fallback",
+      "pub_cache_regular_files_cloned": 10315,
+      "schema_version": 1,
+      "sdk_regular_files_cloned": 18950,
+      "seed_ready_sha256": "0410e81b5c289fc11e551b62f890cef7aef4f49adcf541ba7b56204e828c70c2",
+      "status": "ready",
+      "uid": 502
+    },
+    "version": "3.47.4"
+  },
+  "image_manifest_sha256": "33fb89bdccd573057c11388bdf2dc243fbf8a4d5ceea46d2c577c93e2e2dd9be",
+  "local_tart_name": "uxmal-flutter-dart-v4-20260916",
+  "maestro": {
+    "assertions": [
+      "Hello World visible",
+      "Count: 0 visible",
+      "Increment tapped",
+      "Count: 1 visible"
+    ],
+    "exit_code": 0,
+    "flow_sha256": "92ef7de96458e5c4c1a43efb399ca7cc1ef6b9f094ae5c05001c7bc853ecfc64",
+    "junit": {
+      "bytes": 479,
+      "sha256": "39cf9b787d521377aebe66520ab7a280c5d4acf19b9c110a0f90b529833d0109"
+    },
+    "test_cases": 1,
+    "version": "2.10.0"
+  },
+  "operation": "real-neutral-flutter-ios-image-qualification",
+  "preserved_failure": {
+    "operation": "initial-v4-session-shutdown",
+    "reason": "native account snapshot returned session-command-failed; no shutdown intent existed",
+    "receipts": [
+      {
+        "bytes": 1797,
+        "original_receipt_basename": "qualification-v4-session-shutdown.json",
+        "sha256": "aa55805490805c2b91f15f05d72568be48ae1606783663ffe490e9f68ebb77ea"
+      },
+      {
+        "bytes": 2649,
+        "original_receipt_basename": "qualification-v4-native-snapshot-diagnostic.json",
+        "sha256": "05af4d93174723e498ab11c5934e5bc694da7e5bedb723a3d0f727c582ca8015"
+      },
+      {
+        "bytes": 1813,
+        "original_receipt_basename": "qualification-v4-session-shutdown-retry01.json",
+        "sha256": "e0cb02ea4e9718c41446e3d9f911f924a29b040d85b36bdd0d2466bff6a20fda"
+      },
+      {
+        "bytes": 400,
+        "original_receipt_basename": "qualification-v4-session-shutdown-reconciliation.json",
+        "sha256": "6e68ea5fd92d1d18bd6fd029c74e4ae96166ff8d9ab72f7ed8e368a0e75859d7"
+      }
+    ],
+    "reconciliation": "A separate read-only native snapshot passed; only the unconsumed shutdown was retried, then normal exit0 and fresh boot were verified"
+  },
+  "receipts": [
+    {
+      "bytes": 1707,
+      "original_receipt_basename": "qualification-v4-session-status.json",
+      "sha256": "ef669aee7a262b69856c06d6b98686ec51b6fefc5c834e26f64dd17d1e0305c9"
+    },
+    {
+      "bytes": 1835,
+      "original_receipt_basename": "qualification-v4-agent-versions.json",
+      "sha256": "a7cee8c01d10d43c1ed5c4d12a52590b6ad91e866da0d7d5be590b504558b043"
+    },
+    {
+      "bytes": 1827,
+      "original_receipt_basename": "qualification-v4-hello-world.json",
+      "sha256": "9aa8a5fa69b484e59ba3168d8cb2ea338f788075fc70434f4d2824e86a2580f5"
+    },
+    {
+      "bytes": 422,
+      "original_receipt_basename": "qualification-v4-export-verified.json",
+      "sha256": "053eaf3fa114d1a932250895e202b1d077a1651b72cd9db5c37052c1f55ba313"
+    },
+    {
+      "bytes": 12130,
+      "original_receipt_basename": "qualification-v4-stop.json",
+      "sha256": "d3369e409d54543faa94dc7abb600e436dcca56a4c9ab71d53fe63105c23951d"
+    },
+    {
+      "bytes": 1185,
+      "original_receipt_basename": "qualification-v4-cleanup.json",
+      "sha256": "cbb765c7a1ae4938708c31c3b58229fcceabc1ee86c648a968e7386ad4888c23"
+    }
+  ],
+  "recorded_at_utc": "2026-09-16T18:56:44.568578+00:00",
+  "schema_version": 1,
+  "scope_limits": {
+    "authenticated_model_requests": false,
+    "credentials_sealed": false,
+    "customer_staging_acceptance": false,
+    "executor_admission": false,
+    "image_storage": "local-mac-ultra",
+    "neutral_fixture_only": true,
+    "oci_publication": false
+  },
+  "session_ready": true,
+  "simulator": {
+    "device": "iPhone 17",
+    "runtime": "iOS 26.5",
+    "runtime_build": "23F77",
+    "udid": "48530555-8EDF-4131-9A80-454493A22225"
+  },
+  "source_commit": "4e41365a51b5476b3ffe717ff81624559d5d3254",
+  "started_at_utc": "2026-09-16T18:47:12.239275+00:00",
+  "status": "passed",
+  "xcode": {
+    "build": "17F42",
+    "version": "26.5"
+  }
+}

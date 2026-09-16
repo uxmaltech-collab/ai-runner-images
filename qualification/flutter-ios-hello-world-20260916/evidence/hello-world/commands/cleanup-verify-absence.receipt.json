@@ -1,0 +1,33 @@
+{
+  "argv": [
+    "/usr/bin/xcrun",
+    "simctl",
+    "list",
+    "devices",
+    "--json"
+  ],
+  "cwd": "/Users/qualifier/hello-world-01",
+  "exit_code": 0,
+  "finished_at_utc": "2026-09-16T18:52:20.608958+00:00",
+  "logs": {
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout": {
+      "bytes": 5980,
+      "sha256": "73f058e217edffc4663391a13e8e68a793f49a971fd70b9402ce4868ce1bfe04"
+    }
+  },
+  "name": "cleanup-verify-absence",
+  "output_bytes": [
+    5980,
+    0
+  ],
+  "pid": 2497,
+  "process_group": 2497,
+  "process_group_absent": true,
+  "process_reaped": true,
+  "started_at_utc": "2026-09-16T18:52:20.470545+00:00",
+  "timeout_seconds": 30
+}

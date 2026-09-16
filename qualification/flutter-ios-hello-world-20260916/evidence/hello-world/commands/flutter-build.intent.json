@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "/opt/ai-runner-images/flutter/bin/flutter",
+    "build",
+    "ios",
+    "--simulator",
+    "--debug",
+    "--target",
+    "lib/main.dart"
+  ],
+  "cwd": "/Users/qualifier/hello-world-01/runner_hello_world",
+  "exit_code": null,
+  "name": "flutter-build",
+  "process_group_absent": false,
+  "process_reaped": false,
+  "started_at_utc": "2026-09-16T18:47:23.780192+00:00",
+  "timeout_seconds": 1200
+}

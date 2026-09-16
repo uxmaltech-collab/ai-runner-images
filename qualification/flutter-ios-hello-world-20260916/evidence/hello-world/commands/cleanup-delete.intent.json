@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "/usr/bin/xcrun",
+    "simctl",
+    "delete",
+    "48530555-8EDF-4131-9A80-454493A22225"
+  ],
+  "cwd": "/Users/qualifier/hello-world-01",
+  "exit_code": null,
+  "name": "cleanup-delete",
+  "process_group_absent": false,
+  "process_reaped": false,
+  "started_at_utc": "2026-09-16T18:52:20.321096+00:00",
+  "timeout_seconds": 60
+}

@@ -1,4 +1,79 @@
 {
+  "artifact_eligibility": [
+    {
+      "eligible": false,
+      "manifest_sha256": "0d7cd86cdff86a7f3422c858c4b0da5e1cfc426d01f05864d7b0c09786f080f8",
+      "original_record_preserved": true,
+      "reason": "v1-public-directory-traversal"
+    },
+    {
+      "eligible": false,
+      "manifest_sha256": "69d8b384545966a9e88473794dbda2719f9e92a10892735f68a391723eea53d5",
+      "original_record_preserved": true,
+      "reason": "v1-public-directory-traversal"
+    },
+    {
+      "eligible": false,
+      "manifest_sha256": "7a261446e45bce12105c2b6ebb74759c05fa2cd54dc45c663cf34c418ce88c05",
+      "original_record_preserved": true,
+      "reason": "v1-public-directory-traversal"
+    },
+    {
+      "catalog_id": "macos-xcode-maestro-base-v2-20260916",
+      "eligible": false,
+      "manifest_sha256": "cc981b5d67cb99b935b26b65b63e1af32879e71be5578107c2b083c2f3033a7b",
+      "reason": "v2-parent-readback"
+    },
+    {
+      "catalog_id": "shared-agent-build-v2-20260916",
+      "eligible": false,
+      "manifest_sha256": "2c6e60ace780e10fcc3d449b3e5b2e3714cb8b60523bf11f7caff5be02507291",
+      "reason": "v2-parent-readback"
+    },
+    {
+      "catalog_id": "macos-xcode-maestro-base-v3-20260916",
+      "eligible": true,
+      "manifest_sha256": "2a77a0c4faed3dcbf9524d6c9238eddaa1cddce0af9b130f8f0577d76d69eceb",
+      "reason": null
+    },
+    {
+      "catalog_id": "shared-agent-build-v3-20260916",
+      "eligible": true,
+      "manifest_sha256": "2e1c0f79e7b14ed43d811824507af63472885a0cbf49df86ee2071de3977227d",
+      "reason": null
+    },
+    {
+      "catalog_id": "flutter-dart-ios-v3-20260916",
+      "eligible": false,
+      "manifest_sha256": "1e7b252367856a95ba5f7d47d00ac9162f6761301783c9fecb4c299c353c0dcf",
+      "reason": "v3-flutter-sdk-symlink-readability"
+    },
+    {
+      "catalog_id": "flutter-dart-ios-v4-20260916",
+      "eligible": true,
+      "manifest_sha256": "33fb89bdccd573057c11388bdf2dc243fbf8a4d5ceea46d2c577c93e2e2dd9be",
+      "qualification_record": "qualification/flutter-ios-hello-world-20260916/summary.json",
+      "reason": "real-flutter-ios-hello-world-passed"
+    }
+  ],
+  "composition_recovery_record": "provenance/layer-composition-recovery-20260916.json",
+  "current_logical_layers": [
+    {
+      "capability": "macos-xcode-maestro-base",
+      "catalog_id": "macos-xcode-maestro-base-v3-20260916",
+      "manifest_sha256": "2a77a0c4faed3dcbf9524d6c9238eddaa1cddce0af9b130f8f0577d76d69eceb"
+    },
+    {
+      "capability": "shared-agent-build",
+      "catalog_id": "shared-agent-build-v3-20260916",
+      "manifest_sha256": "2e1c0f79e7b14ed43d811824507af63472885a0cbf49df86ee2071de3977227d"
+    },
+    {
+      "capability": "flutter-dart-ios",
+      "catalog_id": "flutter-dart-ios-v4-20260916",
+      "manifest_sha256": "33fb89bdccd573057c11388bdf2dc243fbf8a4d5ceea46d2c577c93e2e2dd9be"
+    }
+  ],
   "entries": [
     {
       "acceptance_record": "provenance/accepted-enviaflores-ios.json",
@@ -104,11 +179,14 @@
         "remote_uri": null,
         "status": "local-only"
       },
+      "eligible": false,
+      "historical_status": "sealed-root-builder-checked",
       "id": "macos-xcode-maestro-base",
       "immutable_parent": {
         "catalog_id": "retained-storefront-prepack-20260914",
         "manifest_sha256": "64cdc33e58f67d7cbd8b8a95cc39cb3b7c86e0f56134dbdf8c69b47970c67e0b"
       },
+      "ineligibility_reason": "v1-public-directory-traversal",
       "limits": [
         "Tool commands ran as root in an accountless builder; they are not nonadministrator GUI/session, app-build or journey acceptance.",
         "Combined Codex+Claude+Grok-build and Flutter/Dart layer qualification remains separate.",
@@ -158,7 +236,7 @@
       "qualification_record": null,
       "recipe_commit": "53b5b31b658c4a353199a5688c8123f535846884",
       "runtime_admission": false,
-      "status": "sealed-root-builder-checked"
+      "status": "ineligible-preserved-failed-attempt"
     },
     {
       "architecture": "arm64",
@@ -183,16 +261,19 @@
         "remote_uri": null,
         "status": "local-only"
       },
+      "eligible": false,
       "engines_installed_together": [
         "codex",
         "claude",
         "grok-build"
       ],
+      "historical_status": "sealed-installed-not-launch-qualified",
       "id": "shared-agent-build",
       "immutable_parent": {
         "catalog_id": "macos-xcode-maestro-base",
         "manifest_sha256": "0d7cd86cdff86a7f3422c858c4b0da5e1cfc426d01f05864d7b0c09786f080f8"
       },
+      "ineligibility_reason": "v1-public-directory-traversal",
       "job_authentication_sealed": false,
       "limits": [
         "All three engine files are installed in one shared layer; no separate engine variants were produced.",
@@ -222,7 +303,7 @@
       "qualification_record": null,
       "recipe_commit": "c6e40d034d3038f13b190da7d4eac1a58d67e4a8",
       "runtime_admission": false,
-      "status": "sealed-installed-not-launch-qualified"
+      "status": "ineligible-preserved-failed-attempt"
     },
     {
       "architecture": "arm64",
@@ -252,12 +333,15 @@
         "remote_uri": null,
         "status": "local-only"
       },
+      "eligible": false,
       "first_qualification": "simple-ios-hello-world",
+      "historical_status": "sealed-installed-qualification-pending",
       "id": "flutter-dart-ios",
       "immutable_parent": {
         "catalog_id": "shared-agent-build",
         "manifest_sha256": "69d8b384545966a9e88473794dbda2719f9e92a10892735f68a391723eea53d5"
       },
+      "ineligibility_reason": "v1-public-directory-traversal",
       "job_authentication_sealed": false,
       "limits": [
         "Flutter and Dart version commands and iOS precache passed as root in an accountless builder; nonadministrator SDK cloning, simulator application build and UI qualification remain pending.",
@@ -298,15 +382,514 @@
       "qualification_record": null,
       "recipe_commit": "8c8287804b4bcaf680145ae51ad48a9773e0e6a2",
       "runtime_admission": false,
-      "status": "sealed-installed-qualification-pending"
+      "status": "ineligible-preserved-failed-attempt"
+    },
+    {
+      "architecture": "arm64",
+      "capabilities": [
+        "macos",
+        "xcode",
+        "ios-simulator",
+        "maestro",
+        "java-and-platform-runtime-prerequisites"
+      ],
+      "compatibility_lock": null,
+      "components": {
+        "config.json": {
+          "bytes": 587,
+          "sha256": "24417667911590518d3ddd56c0dd0be342ab20ae8e74e189f380d058d7934ef9"
+        },
+        "disk.img": {
+          "bytes": 140000000000,
+          "sha256": "d13436f0f5ff5faef9628f17901453921320788080a9307ce6e69be657c34ead"
+        },
+        "nvram.bin": {
+          "bytes": 33579164,
+          "sha256": "4c3ac7e5da4785e83dffdcc9139261e2dccc784a0e08ef158c5ba6db6dbbbc40"
+        }
+      },
+      "distribution": {
+        "oci_manifest_digest": null,
+        "remote_restore_verified": false,
+        "remote_uri": null,
+        "status": "local-only"
+      },
+      "eligible": false,
+      "historical_status": "ineligible-preserved-failed-attempt",
+      "id": "macos-xcode-maestro-base-v2-20260916",
+      "immutable_parent": {
+        "catalog_id": "macos-xcode-maestro-base",
+        "manifest_sha256": "0d7cd86cdff86a7f3422c858c4b0da5e1cfc426d01f05864d7b0c09786f080f8"
+      },
+      "ineligibility_reason": "v2-parent-readback",
+      "limits": [
+        "Physical repair ancestry and logical capability layering are recorded separately.",
+        "Earlier failed artifacts remain preserved and are not fallback candidates.",
+        "No authenticated model request, executor admission, production rebinding or remote distribution is claimed."
+      ],
+      "local_tart_name": "uxmal-macos-xcode-maestro-v2-20260916",
+      "logical_layer": "macos-xcode-maestro-base",
+      "manifest_kind": "tart-layer-artifact",
+      "native_manifest_sha256": "cc981b5d67cb99b935b26b65b63e1af32879e71be5578107c2b083c2f3033a7b",
+      "observed_toolchain": {
+        "all_command_exit_codes": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "context": "accountless-root-builder-only",
+        "git": "2.50.1 (Apple Git-155)",
+        "guest_uid": 0,
+        "ios_runtime": {
+          "available": true,
+          "build": "23F77",
+          "identifier": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+          "version": "26.5"
+        },
+        "java": "Temurin 17.0.20.1+1",
+        "macos": {
+          "build": "25G83",
+          "version": "26.6.2"
+        },
+        "maestro": "2.10.0",
+        "node": "22.23.2",
+        "nonadministrator_session_qualified": false,
+        "simulator_application_built": false,
+        "tool_output_bytes": 24499,
+        "tool_output_sha256": "12ef480a18e777e85c96955b6405d39bfbaa798e0b33a0f121d02d24f3d43ab8",
+        "ui_journey_executed": false,
+        "xcode": {
+          "build": "17F42",
+          "version": "26.5"
+        }
+      },
+      "observed_toolchain_evidence_reused_from_manifest": "0d7cd86cdff86a7f3422c858c4b0da5e1cfc426d01f05864d7b0c09786f080f8",
+      "platform": "macos-tart",
+      "provenance_record": "provenance/layer-composition-recovery-20260916.json",
+      "qualification": {
+        "application_build_verified": false,
+        "managed_engine_authentication_verified": false,
+        "nonadministrator_launch_verified": false,
+        "scope": "v2-parent-readback",
+        "simulator_ui_verified": false
+      },
+      "qualification_record": "provenance/layer-composition-recovery-20260916.json",
+      "recipe_commit": "83218f154bbf63f26f49b6cce532fdd85c9dd78e",
+      "runtime_admission": false,
+      "status": "ineligible-preserved-failed-attempt"
+    },
+    {
+      "architecture": "arm64",
+      "compatibility_lock": "recipes/agent-build/pins.json",
+      "components": {
+        "config.json": {
+          "bytes": 587,
+          "sha256": "74e3479fd1a863a23b48fe1f0fce2f92259f3abd8aa954a501abfa0c18ef97ae"
+        },
+        "disk.img": {
+          "bytes": 140000000000,
+          "sha256": "03292b040a856ecd89d476df21c20c2233775b787a450a8e0b72c0407dbad688"
+        },
+        "nvram.bin": {
+          "bytes": 33579164,
+          "sha256": "f221f62650cae03daeb295fb54734a39aab8d9d8a32584eb6d9ff0974609c47f"
+        }
+      },
+      "distribution": {
+        "oci_manifest_digest": null,
+        "remote_restore_verified": false,
+        "remote_uri": null,
+        "status": "local-only"
+      },
+      "eligible": false,
+      "engines_installed_together": [
+        "codex",
+        "claude",
+        "grok-build"
+      ],
+      "historical_status": "ineligible-preserved-failed-attempt",
+      "id": "shared-agent-build-v2-20260916",
+      "immutable_parent": {
+        "catalog_id": "macos-xcode-maestro-base-v2-20260916",
+        "manifest_sha256": "cc981b5d67cb99b935b26b65b63e1af32879e71be5578107c2b083c2f3033a7b"
+      },
+      "ineligibility_reason": "v2-parent-readback",
+      "job_authentication_sealed": false,
+      "limits": [
+        "Physical repair ancestry and logical capability layering are recorded separately.",
+        "Earlier failed artifacts remain preserved and are not fallback candidates.",
+        "No authenticated model request, executor admission, production rebinding or remote distribution is claimed."
+      ],
+      "local_tart_name": "uxmal-all-agents-v2-20260916",
+      "logical_layer": "shared-agent-build",
+      "manifest_kind": "tart-layer-artifact",
+      "native_manifest_sha256": "2c6e60ace780e10fcc3d449b3e5b2e3714cb8b60523bf11f7caff5be02507291",
+      "parent_layer": "macos-xcode-maestro-base",
+      "pinned_engine_versions": {
+        "claude": "2.1.266",
+        "codex": "0.151.0",
+        "grok": "1.0.24"
+      },
+      "pins_sha256": "0f1ee7fee8928058ce88b33d3ae9546871ffec1f6cf8be398522f5d0c5aff5c3",
+      "platform": "macos-tart",
+      "provenance_record": "provenance/layer-composition-recovery-20260916.json",
+      "qualification": {
+        "application_build_verified": false,
+        "managed_engine_authentication_verified": false,
+        "nonadministrator_launch_verified": false,
+        "scope": "v2-parent-readback",
+        "simulator_ui_verified": false
+      },
+      "qualification_record": "provenance/layer-composition-recovery-20260916.json",
+      "recipe_commit": "83218f154bbf63f26f49b6cce532fdd85c9dd78e",
+      "runtime_admission": false,
+      "status": "ineligible-preserved-failed-attempt"
+    },
+    {
+      "architecture": "arm64",
+      "capabilities": [
+        "macos",
+        "xcode",
+        "ios-simulator",
+        "maestro",
+        "java-and-platform-runtime-prerequisites"
+      ],
+      "compatibility_lock": null,
+      "components": {
+        "config.json": {
+          "bytes": 587,
+          "sha256": "0e7710bf9da9b492f33ddecef6e7dec5ef8b33e5ff46fb3027a402a0b79d859b"
+        },
+        "disk.img": {
+          "bytes": 140000000000,
+          "sha256": "42964159cca2d80f44ce0be9e27ad4c548669efd1868564ea2b39325f96596a3"
+        },
+        "nvram.bin": {
+          "bytes": 33579164,
+          "sha256": "01a320e236a7c04dd91fad4e9d8ef9d1f9ad2abe19c5c3d7a969491017c66725"
+        }
+      },
+      "distribution": {
+        "oci_manifest_digest": null,
+        "remote_restore_verified": false,
+        "remote_uri": null,
+        "status": "local-only"
+      },
+      "eligible": true,
+      "id": "macos-xcode-maestro-base-v3-20260916",
+      "immutable_parent": {
+        "catalog_id": "macos-xcode-maestro-base",
+        "manifest_sha256": "0d7cd86cdff86a7f3422c858c4b0da5e1cfc426d01f05864d7b0c09786f080f8"
+      },
+      "limits": [
+        "Physical repair ancestry and logical capability layering are recorded separately.",
+        "Earlier failed artifacts remain preserved and are not fallback candidates.",
+        "No authenticated model request, executor admission, production rebinding or remote distribution is claimed."
+      ],
+      "local_tart_name": "uxmal-macos-xcode-maestro-v3-20260916",
+      "logical_layer": "macos-xcode-maestro-base",
+      "manifest_kind": "tart-layer-artifact",
+      "native_manifest_sha256": "2a77a0c4faed3dcbf9524d6c9238eddaa1cddce0af9b130f8f0577d76d69eceb",
+      "observed_toolchain": {
+        "all_command_exit_codes": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "context": "accountless-root-builder-only",
+        "git": "2.50.1 (Apple Git-155)",
+        "guest_uid": 0,
+        "ios_runtime": {
+          "available": true,
+          "build": "23F77",
+          "identifier": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+          "version": "26.5"
+        },
+        "java": "Temurin 17.0.20.1+1",
+        "macos": {
+          "build": "25G83",
+          "version": "26.6.2"
+        },
+        "maestro": "2.10.0",
+        "node": "22.23.2",
+        "nonadministrator_session_qualified": false,
+        "simulator_application_built": false,
+        "tool_output_bytes": 24499,
+        "tool_output_sha256": "12ef480a18e777e85c96955b6405d39bfbaa798e0b33a0f121d02d24f3d43ab8",
+        "ui_journey_executed": false,
+        "xcode": {
+          "build": "17F42",
+          "version": "26.5"
+        }
+      },
+      "observed_toolchain_evidence_reused_from_manifest": "0d7cd86cdff86a7f3422c858c4b0da5e1cfc426d01f05864d7b0c09786f080f8",
+      "platform": "macos-tart",
+      "provenance_record": "provenance/layer-composition-recovery-20260916.json",
+      "qualification": {
+        "application_build_verified": false,
+        "managed_engine_authentication_verified": false,
+        "nonadministrator_launch_verified": true,
+        "scope": "Version commands only",
+        "simulator_ui_verified": false
+      },
+      "qualification_record": "provenance/layer-composition-recovery-20260916.json",
+      "qualified_in_descendant": {
+        "image_manifest_sha256": "33fb89bdccd573057c11388bdf2dc243fbf8a4d5ceea46d2c577c93e2e2dd9be",
+        "path": "qualification/flutter-ios-hello-world-20260916/summary.json",
+        "sha256": "9dfba899ecdfb52ee7f419b1c241cb6d5114f62494af54c755220a3f6fb70bc5"
+      },
+      "recipe_commit": "24e82727c9509d406ed60d44dc71fde95e71550b",
+      "runtime_admission": false,
+      "status": "sealed-nonadministrator-cli-verified"
+    },
+    {
+      "architecture": "arm64",
+      "compatibility_lock": "recipes/agent-build/pins.json",
+      "components": {
+        "config.json": {
+          "bytes": 587,
+          "sha256": "7079698e8969d61d2283e5f4f6dc659733b459fd3638c8748f62a64157ad6430"
+        },
+        "disk.img": {
+          "bytes": 140000000000,
+          "sha256": "9d03a15a26689e1ac61881c0526fa3d91ac0be725ccb74fd688d75450f4a5d3c"
+        },
+        "nvram.bin": {
+          "bytes": 33579164,
+          "sha256": "e9d48c7c54940a6892e8f13feb9bf7e23ac6c59c88cfbb1d230fd0592a9f409e"
+        }
+      },
+      "distribution": {
+        "oci_manifest_digest": null,
+        "remote_restore_verified": false,
+        "remote_uri": null,
+        "status": "local-only"
+      },
+      "eligible": true,
+      "engines_installed_together": [
+        "codex",
+        "claude",
+        "grok-build"
+      ],
+      "id": "shared-agent-build-v3-20260916",
+      "immutable_parent": {
+        "catalog_id": "macos-xcode-maestro-base-v3-20260916",
+        "manifest_sha256": "2a77a0c4faed3dcbf9524d6c9238eddaa1cddce0af9b130f8f0577d76d69eceb"
+      },
+      "job_authentication_sealed": false,
+      "limits": [
+        "Physical repair ancestry and logical capability layering are recorded separately.",
+        "Earlier failed artifacts remain preserved and are not fallback candidates.",
+        "No authenticated model request, executor admission, production rebinding or remote distribution is claimed."
+      ],
+      "local_tart_name": "uxmal-all-agents-v3-20260916",
+      "logical_layer": "shared-agent-build",
+      "manifest_kind": "tart-layer-artifact",
+      "native_manifest_sha256": "2e1c0f79e7b14ed43d811824507af63472885a0cbf49df86ee2071de3977227d",
+      "parent_layer": "macos-xcode-maestro-base",
+      "pinned_engine_versions": {
+        "claude": "2.1.266",
+        "codex": "0.151.0",
+        "grok": "1.0.24"
+      },
+      "pins_sha256": "0f1ee7fee8928058ce88b33d3ae9546871ffec1f6cf8be398522f5d0c5aff5c3",
+      "platform": "macos-tart",
+      "provenance_record": "provenance/layer-composition-recovery-20260916.json",
+      "qualification": {
+        "application_build_verified": false,
+        "managed_engine_authentication_verified": false,
+        "nonadministrator_launch_verified": true,
+        "scope": "Version commands only",
+        "simulator_ui_verified": false
+      },
+      "qualification_record": "provenance/layer-composition-recovery-20260916.json",
+      "qualified_in_descendant": {
+        "image_manifest_sha256": "33fb89bdccd573057c11388bdf2dc243fbf8a4d5ceea46d2c577c93e2e2dd9be",
+        "path": "qualification/flutter-ios-hello-world-20260916/summary.json",
+        "sha256": "9dfba899ecdfb52ee7f419b1c241cb6d5114f62494af54c755220a3f6fb70bc5"
+      },
+      "recipe_commit": "24e82727c9509d406ed60d44dc71fde95e71550b",
+      "runtime_admission": false,
+      "status": "sealed-nonadministrator-cli-verified"
+    },
+    {
+      "architecture": "arm64",
+      "capabilities": [
+        "flutter",
+        "dart",
+        "ios-engine-artifacts"
+      ],
+      "compatibility_lock": "recipes/flutter-dart/pins.json",
+      "components": {
+        "config.json": {
+          "bytes": 587,
+          "sha256": "d3c4cf0fc974173d48142977a08253407bbedcdd1ccb3eaf1db8845a337abfb6"
+        },
+        "disk.img": {
+          "bytes": 140000000000,
+          "sha256": "d4b442eee4d65568069679ce2486aec01010bc7c6b91c4b0ead1f2fe9811d89b"
+        },
+        "nvram.bin": {
+          "bytes": 33579164,
+          "sha256": "e9c1b2bf0e9c328b52ee311617b81fbc4caa2b9107798d93b6d1f15b08a42579"
+        }
+      },
+      "distribution": {
+        "oci_manifest_digest": null,
+        "remote_restore_verified": false,
+        "remote_uri": null,
+        "status": "local-only"
+      },
+      "eligible": false,
+      "first_qualification": "simple-ios-hello-world",
+      "historical_status": "ineligible-preserved-failed-attempt",
+      "id": "flutter-dart-ios-v3-20260916",
+      "immutable_parent": {
+        "catalog_id": "shared-agent-build-v3-20260916",
+        "manifest_sha256": "2e1c0f79e7b14ed43d811824507af63472885a0cbf49df86ee2071de3977227d"
+      },
+      "ineligibility_reason": "v3-flutter-sdk-symlink-readability",
+      "job_authentication_sealed": false,
+      "limits": [
+        "Physical repair ancestry and logical capability layering are recorded separately.",
+        "Earlier failed artifacts remain preserved and are not fallback candidates.",
+        "No authenticated model request, executor admission, production rebinding or remote distribution is claimed."
+      ],
+      "local_tart_name": "uxmal-flutter-dart-v3-20260916",
+      "logical_layer": "flutter-dart-ios",
+      "manifest_kind": "tart-layer-artifact",
+      "native_manifest_sha256": "1e7b252367856a95ba5f7d47d00ac9162f6761301783c9fecb4c299c353c0dcf",
+      "observed_toolchain": {
+        "context": "accountless-root-builder-only",
+        "dart": "3.13.3",
+        "flutter": "3.47.4",
+        "flutter_revision": "9584c6713b324636289d067944a46fd6b49df14b",
+        "guest_uid": 0,
+        "ios_precache_exit_code": 0,
+        "sdk_manifest_sha256": "2a4caa2bb12026ca664608dbce3a8575d512eea022259d676fe36885e04cd6a5",
+        "version_command_exit_codes": [
+          0,
+          0
+        ]
+      },
+      "parent_layer": "shared-agent-build",
+      "pins_sha256": "309f32a936a7f2ef9507a7bc98184792cd1b6daff5865a9d12836ae42e119b9a",
+      "platform": "macos-tart",
+      "provenance_record": "provenance/layer-composition-recovery-20260916.json",
+      "qualification": {
+        "application_build_verified": false,
+        "managed_engine_authentication_verified": false,
+        "nonadministrator_launch_verified": false,
+        "scope": "v3-flutter-sdk-symlink-readability",
+        "simulator_ui_verified": false
+      },
+      "qualification_record": "provenance/layer-composition-recovery-20260916.json",
+      "recipe_commit": "24e82727c9509d406ed60d44dc71fde95e71550b",
+      "runtime_admission": false,
+      "status": "ineligible-preserved-failed-attempt"
+    },
+    {
+      "architecture": "arm64",
+      "capabilities": [
+        "flutter",
+        "dart",
+        "ios-engine-artifacts"
+      ],
+      "compatibility_lock": "recipes/flutter-dart/pins.json",
+      "components": {
+        "config.json": {
+          "bytes": 587,
+          "sha256": "f65f0906edadea10d761a702da22f28ffabb82ca89cc65cd0e1bcdd7eac5b0e6"
+        },
+        "disk.img": {
+          "bytes": 140000000000,
+          "sha256": "92dea22fe532cbabf94ddea33edbe65e770f820127632c68be3fdbedd7712aed"
+        },
+        "nvram.bin": {
+          "bytes": 33579164,
+          "sha256": "bab5aca226bd5752237e2213269caaf3a03e78afa214edfd78af41e5f66ae51c"
+        }
+      },
+      "distribution": {
+        "oci_manifest_digest": null,
+        "remote_restore_verified": false,
+        "remote_uri": null,
+        "status": "local-only"
+      },
+      "eligible": true,
+      "first_qualification": "simple-ios-hello-world",
+      "id": "flutter-dart-ios-v4-20260916",
+      "immutable_parent": {
+        "catalog_id": "flutter-dart-ios-v3-20260916",
+        "manifest_sha256": "1e7b252367856a95ba5f7d47d00ac9162f6761301783c9fecb4c299c353c0dcf"
+      },
+      "job_authentication_sealed": false,
+      "limits": [
+        "Physical repair ancestry and logical capability layering are recorded separately.",
+        "Earlier failed artifacts remain preserved and are not fallback candidates.",
+        "No authenticated model request, executor admission, production rebinding or remote distribution is claimed.",
+        "The repair verifies existing regular-file bytes and changes symlink modes/metadata; prior Flutter version and precache evidence is reused."
+      ],
+      "local_tart_name": "uxmal-flutter-dart-v4-20260916",
+      "logical_layer": "flutter-dart-ios",
+      "manifest_kind": "tart-layer-artifact",
+      "native_manifest_sha256": "33fb89bdccd573057c11388bdf2dc243fbf8a4d5ceea46d2c577c93e2e2dd9be",
+      "observed_toolchain": {
+        "context": "accountless-root-builder-only",
+        "dart": "3.13.3",
+        "flutter": "3.47.4",
+        "flutter_revision": "9584c6713b324636289d067944a46fd6b49df14b",
+        "guest_uid": 0,
+        "ios_precache_exit_code": 0,
+        "nonadministrator_qualification_record": "qualification/flutter-ios-hello-world-20260916/summary.json",
+        "sdk_manifest_sha256": "33afd658c3253611d019727934ff4e5dc4021f9732f438ed7a2aab79b7165e4a",
+        "sdk_ready_sha256": "0410e81b5c289fc11e551b62f890cef7aef4f49adcf541ba7b56204e828c70c2",
+        "version_command_exit_codes": [
+          0,
+          0
+        ]
+      },
+      "observed_toolchain_evidence_reused_from_manifest": "1e7b252367856a95ba5f7d47d00ac9162f6761301783c9fecb4c299c353c0dcf",
+      "parent_layer": "shared-agent-build",
+      "pins_sha256": "309f32a936a7f2ef9507a7bc98184792cd1b6daff5865a9d12836ae42e119b9a",
+      "platform": "macos-tart",
+      "provenance_record": "provenance/layer-composition-recovery-20260916.json",
+      "qualification": {
+        "all_three_agent_cli_launches_verified": true,
+        "application_build_verified": true,
+        "managed_engine_authentication_verified": false,
+        "nonadministrator_launch_verified": true,
+        "qualification_vm_cleanup_verified": true,
+        "scope": "Neutral Flutter iOS fixture in a nonadministrator Aqua session; authenticated model work and customer applications are separate",
+        "simulator_cleanup_verified": true,
+        "simulator_ui_verified": true,
+        "user_sdk_clone_verified": true
+      },
+      "qualification_record": "qualification/flutter-ios-hello-world-20260916/summary.json",
+      "recipe_commit": "4e41365a51b5476b3ffe717ff81624559d5d3254",
+      "runtime_admission": false,
+      "status": "qualified-flutter-ios-hello-world"
     }
   ],
   "kind": "image-catalog-not-runtime-admission",
+  "latest_qualification": {
+    "image_manifest_sha256": "33fb89bdccd573057c11388bdf2dc243fbf8a4d5ceea46d2c577c93e2e2dd9be",
+    "path": "qualification/flutter-ios-hello-world-20260916/summary.json",
+    "sha256": "9dfba899ecdfb52ee7f419b1c241cb6d5114f62494af54c755220a3f6fb70bc5"
+  },
   "requested_layer_order": [
     "macos-xcode-maestro-base",
     "shared-agent-build",
     "flutter-dart-ios"
   ],
   "schema_version": 1,
-  "updated_at_utc": "2026-09-16T18:11:42.642355+00:00"
+  "updated_at_utc": "2026-09-16T18:57:16.166662+00:00"
 }

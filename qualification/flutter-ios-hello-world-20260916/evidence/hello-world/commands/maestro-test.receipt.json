@@ -1,0 +1,41 @@
+{
+  "argv": [
+    "/opt/ai-runner-images/bin/maestro",
+    "--device",
+    "48530555-8EDF-4131-9A80-454493A22225",
+    "test",
+    "--format",
+    "JUNIT",
+    "--output",
+    "/Users/qualifier/hello-world-01/evidence/maestro/junit.xml",
+    "--test-output-dir",
+    "/Users/qualifier/hello-world-01/evidence/maestro",
+    "--debug-output",
+    "/Users/qualifier/hello-world-01/evidence/maestro/debug",
+    "/Users/qualifier/hello-world-01/runner_hello_world/.maestro/flows/hello-world.yaml"
+  ],
+  "cwd": "/Users/qualifier/hello-world-01/runner_hello_world",
+  "exit_code": 0,
+  "finished_at_utc": "2026-09-16T18:52:15.884825+00:00",
+  "logs": {
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout": {
+      "bytes": 86,
+      "sha256": "24bf1472b957865cb30a63f2cb84c35ab9ff6c6b7fa1734757b95d1709400fb3"
+    }
+  },
+  "name": "maestro-test",
+  "output_bytes": [
+    86,
+    0
+  ],
+  "pid": 2186,
+  "process_group": 2186,
+  "process_group_absent": true,
+  "process_reaped": true,
+  "started_at_utc": "2026-09-16T18:51:17.359196+00:00",
+  "timeout_seconds": 360
+}
