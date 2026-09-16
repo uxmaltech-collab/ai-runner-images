@@ -190,6 +190,8 @@ def main():
         if args.operation == 'boot' and result.get('pid'):
             try:
                 run(prefix + ['stop', args.vm], timeout=60)
+                stopped()
+                p.wait(timeout=10)
                 result['failed_boot_owned_vm_stopped'] = True
             except BaseException as cleanup_error:
                 result['cleanup_uncertainty'] = str(cleanup_error)

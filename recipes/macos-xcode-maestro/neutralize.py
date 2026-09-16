@@ -57,6 +57,20 @@ def main():
     codex = Path(TARGETS[0]) / 'codex-aarch64-apple-darwin'
     with codex.open('rb') as stream:
         assert hashlib.file_digest(stream, 'sha256').hexdigest() == '98491713ffb196061003ee148636e743997cc31d76144ba7c53462269896891d'
+    required = [
+        '/opt/macos-tart-bootstrap/resolver-tools/java-17.0.20.1+1/jdk-17.0.20.1+1/Contents/Home/bin/java',
+        '/opt/macos-tart-bootstrap/resolver-tools/maestro-2.10.0/maestro/bin/maestro',
+        '/opt/macos-tart-bootstrap/resolver-tools/node-22.23.2/node-v22.23.2-darwin-arm64/bin/node',
+        '/opt/macos-tart-bootstrap/python/bin/python3.12',
+        '/opt/macos-tart-bootstrap/public-tools/Xcode_26.5-runner.app/Contents/Developer/usr/bin/xcodebuild',
+        '/opt/macos-tart-guest-agent/bin/tart-guest-agent',
+    ]
+    preserved = {}
+    for name in required:
+        path = Path(name)
+        assert path.is_file() and os.access(path, os.X_OK), name
+        with path.open('rb') as stream:
+            preserved[name] = hashlib.file_digest(stream, 'sha256').hexdigest()
     before = {name: inventory(Path(name)) for name in TARGETS if Path(name).exists()}
     receipt.parent.mkdir(mode=0o755, exist_ok=True)
     (receipt.parent / 'neutralization-intent.json').write_text(json.dumps(before, indent=2) + '\n')
@@ -85,7 +99,8 @@ def main():
     Path('/etc/paths.d/ai-runner-tools').write_text(str(bin_dir) + '\n')
     (receipt.parent / 'toolchain-paths.json').write_text(json.dumps(paths, indent=2) + '\n')
     result = {'schema_version': 1, 'at_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
-              'removed': before, 'agent_and_consumer_material_removed': True,
+              'removed': before, 'inventoried_agent_and_consumer_paths_removed': True,
+              'preserved_executables': preserved,
               'ordinary_accounts_present': False, 'credential_material_delivered': False,
               'toolchain_paths': paths, 'runtime_admission': False}
     receipt.write_text(json.dumps(result, indent=2) + '\n')
