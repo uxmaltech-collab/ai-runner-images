@@ -231,10 +231,26 @@
         "dart",
         "ios-engine-artifacts"
       ],
-      "compatibility_lock": null,
+      "compatibility_lock": "recipes/flutter-dart/pins.json",
+      "components": {
+        "config.json": {
+          "bytes": 587,
+          "sha256": "ce6a43dccd476a6a89719b4177722f2280382a026b8d5beb5030b34306eeb983"
+        },
+        "disk.img": {
+          "bytes": 140000000000,
+          "sha256": "17f2dda17e548df8cba440c8dba5f48fe13b822b1d0432580f7a9d6a4e2d5548"
+        },
+        "nvram.bin": {
+          "bytes": 33579164,
+          "sha256": "9bdff2327ce14f596a972a295c79820ebd5cc337df8788bc28d9ef4771d0a34a"
+        }
+      },
       "distribution": {
+        "oci_manifest_digest": null,
+        "remote_restore_verified": false,
         "remote_uri": null,
-        "status": "not-published"
+        "status": "local-only"
       },
       "first_qualification": "simple-ios-hello-world",
       "id": "flutter-dart-ios",
@@ -244,15 +260,45 @@
       },
       "job_authentication_sealed": false,
       "limits": [
-        "Exact combined-agent parent is recorded; Flutter image/tool/app qualification remains pending.",
-        "Hello World requires a real simulator build/UI/cleanup receipt.",
-        "Hello World alone does not prove Lastmile staging, managed engine authentication or multi-organization acceptance."
+        "Flutter and Dart version commands and iOS precache passed as root in an accountless builder; nonadministrator SDK cloning, simulator application build and UI qualification remain pending.",
+        "The combined parent contains Codex, Claude and Grok-build; this installation does not prove engine launch or managed authentication.",
+        "The first precache failure is retained, followed by a successful bounded resume after applying the declared guest DNS binding; extraction and analytics setup were not repeated.",
+        "No executor admission, registry publication, remote restoration or customer staging acceptance is claimed.",
+        "Original host bindings and full private command receipts remain outside this sanitized record."
       ],
-      "native_manifest_sha256": null,
+      "local_tart_name": "uxmal-flutter-dart-20260916",
+      "manifest_kind": "tart-layer-artifact",
+      "native_manifest_sha256": "7a261446e45bce12105c2b6ebb74759c05fa2cd54dc45c663cf34c418ce88c05",
+      "observed_toolchain": {
+        "context": "accountless-root-builder-only",
+        "dart": "3.13.3",
+        "flutter": "3.47.4",
+        "flutter_revision": "9584c6713b324636289d067944a46fd6b49df14b",
+        "guest_uid": 0,
+        "ios_precache_exit_code": 0,
+        "sdk_manifest_sha256": "d0ecbb82e4c8617c7b835fd34951d9518e527f1dfd2d422ce5465ef2a5a50098",
+        "version_command_exit_codes": [
+          0,
+          0
+        ]
+      },
       "parent_layer": "shared-agent-build",
+      "pins_sha256": "309f32a936a7f2ef9507a7bc98184792cd1b6daff5865a9d12836ae42e119b9a",
       "platform": "macos-tart",
+      "provenance_record": "provenance/flutter-dart-20260916.json",
+      "qualification": {
+        "application_build_verified": false,
+        "managed_engine_authentication_verified": false,
+        "nonadministrator_launch_verified": false,
+        "scope": "sealed SDK, root version checks and iOS precache only",
+        "simulator_ui_verified": false,
+        "status": "pending-in-disposable-qualification-clone",
+        "user_sdk_clone_verified": false
+      },
       "qualification_record": null,
-      "status": "planned"
+      "recipe_commit": "8c8287804b4bcaf680145ae51ad48a9773e0e6a2",
+      "runtime_admission": false,
+      "status": "sealed-installed-qualification-pending"
     }
   ],
   "kind": "image-catalog-not-runtime-admission",
@@ -262,5 +308,5 @@
     "flutter-dart-ios"
   ],
   "schema_version": 1,
-  "updated_at_utc": "2026-09-16T17:55:56.666337+00:00"
+  "updated_at_utc": "2026-09-16T18:11:42.642355+00:00"
 }

@@ -1,0 +1,452 @@
+{
+  "installation": {
+    "accounts_created": 0,
+    "archive": {
+      "archive_bytes": 2261358207,
+      "archive_sha256": "c6af6fa1d64946167b8637ba4c5a7bb3b8574729a1ebe931decd4924dbab7061",
+      "dart_version": "3.13.3",
+      "expanded_bytes": 4357895113,
+      "flutter_revision": "9584c6713b324636289d067944a46fd6b49df14b",
+      "members": 23295,
+      "symlinks": 17
+    },
+    "at_utc": "2026-09-16T18:04:38.225801+00:00",
+    "credential_paths_absent": [
+      "/private/etc/kcpassword",
+      "/var/root/.codex/auth.json",
+      "/var/root/.claude/.credentials.json",
+      "/var/root/.aws/credentials",
+      "/var/root/.ssh/id_ed25519",
+      "/var/root/.ssh/id_rsa"
+    ],
+    "download_receipt": {
+      "bytes": 564,
+      "private_original_basename": "flutter-download-receipt.json",
+      "sha256": "094276b48c613886c3bbf7c41f8efe1e1db30813b44780f9d129ae335144e298"
+    },
+    "free_guest_bytes_after_installation": 87624134656,
+    "input_staging_removed": true,
+    "installation_output": {
+      "bytes": 12519,
+      "private_original_basename": "flutter-finish.1.stdout",
+      "sha256": "f79f0431184af1b770a3c9759a01f1954248b324b6a9ea559fb826e8a130117c"
+    },
+    "metadata_receipt": {
+      "bytes": 244,
+      "private_original_basename": "flutter-metadata-receipt.json",
+      "sha256": "3ec64392d60503da26fe3938eb446e62901b17dfce2f863656b92fca1ab7b756"
+    },
+    "observed_version": {
+      "channel": "stable",
+      "dartSdkVersion": "3.13.3",
+      "devToolsVersion": "2.60.0",
+      "engineBuildDate": "2026-09-03 09:39:13.722",
+      "engineCommitDate": "2026-09-03 16:07:13.000Z",
+      "engineContentHash": "0e228ec8c8d2abc9fcf1d053e8a40665bb859ec7",
+      "engineRevision": "06a2e2a110089dff50fe635cffd2a61e1b24fbcd",
+      "flutterVersion": "3.47.4",
+      "frameworkCommitDate": "2026-09-10 15:25:10 -0700",
+      "frameworkRevision": "9584c6713b324636289d067944a46fd6b49df14b",
+      "frameworkVersion": "3.47.4",
+      "repositoryUrl": "https://github.com/flutter/flutter.git"
+    },
+    "official_archive_url": "https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_arm64_3.47.4-stable.zip",
+    "official_metadata_url": "https://storage.googleapis.com/flutter_infra_release/releases/releases_macos.json",
+    "ordinary_accounts_at_seal": [],
+    "pins_path": "recipes/flutter-dart/pins.json",
+    "pins_sha256": "309f32a936a7f2ef9507a7bc98184792cd1b6daff5865a9d12836ae42e119b9a",
+    "prefix": "/opt/ai-runner-images/flutter",
+    "runtime_python": "/opt/macos-tart-bootstrap/python/bin/python3.12",
+    "sdk_manifest_sha256": "d0ecbb82e4c8617c7b835fd34951d9518e527f1dfd2d422ce5465ef2a5a50098",
+    "sdk_ready": {
+      "agent_engines_in_parent": [
+        "codex",
+        "claude",
+        "grok"
+      ],
+      "archive_sha256": "c6af6fa1d64946167b8637ba4c5a7bb3b8574729a1ebe931decd4924dbab7061",
+      "dart_version": "3.13.3",
+      "flutter_revision": "9584c6713b324636289d067944a46fd6b49df14b",
+      "flutter_version": "3.47.4",
+      "manifest_sha256": "d0ecbb82e4c8617c7b835fd34951d9518e527f1dfd2d422ce5465ef2a5a50098",
+      "precache_platforms": [
+        "ios"
+      ],
+      "schema_version": 1,
+      "status": "precache-complete-and-sealed"
+    },
+    "sdk_ready_sha256": "f51ee44b936e01313e37b7532f29770508f48e923fd4802279ea922cbcf69cd9",
+    "status": "installed-and-precached",
+    "successful_commands": [
+      {
+        "arguments": [
+          "--suppress-analytics",
+          "precache",
+          "--ios"
+        ],
+        "log_bytes": 0,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "returncode": 0,
+        "tool": "flutter"
+      },
+      {
+        "arguments": [
+          "--suppress-analytics",
+          "--version",
+          "--machine"
+        ],
+        "log_bytes": 640,
+        "log_sha256": "09f28a9df9673f459518aeb0be8fbc509dcbc51a752366564f5ec6b9ee593c11",
+        "returncode": 0,
+        "tool": "flutter"
+      },
+      {
+        "arguments": [
+          "--version"
+        ],
+        "log_bytes": 83,
+        "log_sha256": "959b6cdcef8a546d41712e9b306acc79c4fac170a80bbb2b8877160ebb9532cb",
+        "returncode": 0,
+        "tool": "dart"
+      }
+    ],
+    "temporary_home_removed": true
+  },
+  "kind": "sanitized-flutter-dart-layer-record",
+  "limitations": [
+    "Flutter and Dart version commands and iOS precache passed as root in an accountless builder; nonadministrator SDK cloning, simulator application build and UI qualification remain pending.",
+    "The combined parent contains Codex, Claude and Grok-build; this installation does not prove engine launch or managed authentication.",
+    "The first precache failure is retained, followed by a successful bounded resume after applying the declared guest DNS binding; extraction and analytics setup were not repeated.",
+    "No executor admission, registry publication, remote restoration or customer staging acceptance is claimed.",
+    "Original host bindings and full private command receipts remain outside this sanitized record."
+  ],
+  "operation_receipts": [
+    {
+      "bytes": 5792,
+      "command_exit_codes": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "finished_at_utc": "2026-09-16T17:53:00.389355+00:00",
+      "private_original_basename": "flutter-clone.json",
+      "sha256": "ed360b3a4e3ca46581b0c988307199c0ce48fd3d7adeaf936ca4e4d15f1ae7af",
+      "started_at_utc": "2026-09-16T17:53:00.243493+00:00",
+      "status": "complete"
+    },
+    {
+      "bytes": 7061,
+      "command_exit_codes": [
+        0,
+        0
+      ],
+      "finished_at_utc": "2026-09-16T17:53:12.586804+00:00",
+      "private_original_basename": "flutter-boot.json",
+      "sha256": "0e66f2628f7ecc85f3b708d33ff50f08c4d7a24b5198f5c5f19307dfdf8b84c7",
+      "started_at_utc": "2026-09-16T17:53:00.415151+00:00",
+      "status": "complete"
+    },
+    {
+      "bytes": 2172,
+      "command_exit_codes": [
+        0
+      ],
+      "finished_at_utc": "2026-09-16T17:53:20.274428+00:00",
+      "private_original_basename": "flutter-archive-stage.json",
+      "sha256": "2345788a9de498e1428be3522a8ec2fe1ddf7d49ac78a491441db6a3961665a6",
+      "started_at_utc": "2026-09-16T17:53:12.617199+00:00",
+      "status": "complete"
+    },
+    {
+      "bytes": 1913,
+      "command_exit_codes": [
+        0
+      ],
+      "finished_at_utc": "2026-09-16T17:54:48.362060+00:00",
+      "private_original_basename": "flutter-recipe-stage.json",
+      "sha256": "bdfcf0561c89bc595e553dc71d4b175deb926f0601767d7d2e9d15b5ea0d5c33",
+      "started_at_utc": "2026-09-16T17:54:48.268379+00:00",
+      "status": "complete"
+    },
+    {
+      "bytes": 2058,
+      "command_exit_codes": [
+        1
+      ],
+      "finished_at_utc": "2026-09-16T17:59:03.379185+00:00",
+      "private_original_basename": "flutter-install.json",
+      "sha256": "4a0c00417e8e53229c30dc3c03feec842dc0fe84555fc0df4927781ebdac2263",
+      "started_at_utc": "2026-09-16T17:54:48.391605+00:00",
+      "status": "failed"
+    },
+    {
+      "bytes": 1943,
+      "command_exit_codes": [
+        0
+      ],
+      "finished_at_utc": "2026-09-16T18:00:49.082633+00:00",
+      "private_original_basename": "flutter-install-failure-observation.json",
+      "sha256": "30ed617e0fdb46dc93d38b42d14c9faf4812fa1a0c91d985eef39203f4a70b5e",
+      "started_at_utc": "2026-09-16T18:00:49.009123+00:00",
+      "status": "complete"
+    },
+    {
+      "bytes": 1684,
+      "command_exit_codes": [
+        0
+      ],
+      "finished_at_utc": "2026-09-16T17:58:38.274023+00:00",
+      "private_original_basename": "flutter-dns-observation.json",
+      "sha256": "95f6f3d5b6854d03ee426c9da829b9f806cc1d1645cc9f8d56f2a7d6d2f4aa11",
+      "started_at_utc": "2026-09-16T17:58:38.162182+00:00",
+      "status": "complete"
+    },
+    {
+      "bytes": 1679,
+      "command_exit_codes": [
+        0
+      ],
+      "finished_at_utc": "2026-09-16T17:59:37.076205+00:00",
+      "private_original_basename": "flutter-dns-configure.json",
+      "sha256": "8f4faa284e113b15313db9c4dd018932c2028c3a96e513b3f5d4745165b3f7b4",
+      "started_at_utc": "2026-09-16T17:59:36.932427+00:00",
+      "status": "complete"
+    },
+    {
+      "bytes": 1764,
+      "command_exit_codes": [
+        0
+      ],
+      "finished_at_utc": "2026-09-16T18:00:05.599016+00:00",
+      "private_original_basename": "flutter-dns-network-verification.json",
+      "sha256": "711d42cff1bc074e8ead53e4b45eff2e1850b91561db51fd063488dbc785bee1",
+      "started_at_utc": "2026-09-16T18:00:05.451626+00:00",
+      "status": "complete"
+    },
+    {
+      "bytes": 2021,
+      "command_exit_codes": [
+        0
+      ],
+      "finished_at_utc": "2026-09-16T18:04:23.176606+00:00",
+      "private_original_basename": "flutter-resume-recipe-stage.json",
+      "sha256": "8afa578213f36fc8d81e41b8f3c0e12c700b69da1e8aed0ea3ebb8d8ab94f524",
+      "started_at_utc": "2026-09-16T18:04:23.102809+00:00",
+      "status": "complete"
+    },
+    {
+      "bytes": 2174,
+      "command_exit_codes": [
+        0
+      ],
+      "finished_at_utc": "2026-09-16T18:04:38.199445+00:00",
+      "private_original_basename": "flutter-install-resume.json",
+      "sha256": "271267cf2287a7e8d7a41cd77657a57eb15796a50f9f7974c23854d915ca71f1",
+      "started_at_utc": "2026-09-16T18:04:23.210944+00:00",
+      "status": "complete"
+    },
+    {
+      "bytes": 1667,
+      "command_exit_codes": [
+        0
+      ],
+      "finished_at_utc": "2026-09-16T18:05:32.929340+00:00",
+      "private_original_basename": "flutter-finish.json",
+      "sha256": "53003a853bcfd2bcc2aa4e2f02ee1f3a5a7bb2d4741d4d57782915b61af9b567",
+      "started_at_utc": "2026-09-16T18:05:32.731963+00:00",
+      "status": "complete"
+    },
+    {
+      "bytes": 2772,
+      "command_exit_codes": [
+        0,
+        0
+      ],
+      "finished_at_utc": "2026-09-16T18:05:33.230704+00:00",
+      "private_original_basename": "flutter-stop.json",
+      "sha256": "b4710f6ab190d11bbe770f9fa3f7e48dc8c1b9526ca87288c8a9bed7378c41c8",
+      "started_at_utc": "2026-09-16T18:05:32.959555+00:00",
+      "status": "complete"
+    },
+    {
+      "bytes": 3818,
+      "command_exit_codes": [
+        0,
+        0
+      ],
+      "finished_at_utc": "2026-09-16T18:06:38.176627+00:00",
+      "private_original_basename": "flutter-seal.json",
+      "sha256": "8e7385cd56873dbb5c889ad67683d6ea293c670e0b30439bb7846e56cbfc7a33",
+      "started_at_utc": "2026-09-16T18:05:33.262577+00:00",
+      "status": "complete"
+    }
+  ],
+  "parent": {
+    "catalog_id": "shared-agent-build",
+    "engines_installed_together": [
+      "codex",
+      "claude",
+      "grok-build"
+    ],
+    "local_tart_name": "uxmal-all-agents-20260916",
+    "manifest_sha256": "69d8b384545966a9e88473794dbda2719f9e92a10892735f68a391723eea53d5",
+    "provenance_record": "combined-agents-20260916.json"
+  },
+  "qualification": {
+    "application_build_verified": false,
+    "managed_engine_authentication_verified": false,
+    "nonadministrator_launch_verified": false,
+    "scope": "sealed SDK, root version checks and iOS precache only",
+    "simulator_ui_verified": false,
+    "status": "pending-in-disposable-qualification-clone",
+    "user_sdk_clone_verified": false
+  },
+  "recipe_commit": "8c8287804b4bcaf680145ae51ad48a9773e0e6a2",
+  "recipe_files": [
+    {
+      "bytes": 893,
+      "matches_committed_blob": true,
+      "path": "recipes/flutter-dart/pins.json",
+      "sha256": "309f32a936a7f2ef9507a7bc98184792cd1b6daff5865a9d12836ae42e119b9a"
+    },
+    {
+      "bytes": 15976,
+      "matches_committed_blob": true,
+      "path": "recipes/flutter-dart/install.py",
+      "sha256": "4059c3a338ebbb21a04390560fd46c6c7474cd3a3065458af35c72eae4264cde"
+    },
+    {
+      "bytes": 6575,
+      "matches_committed_blob": true,
+      "path": "recipes/flutter-dart/launcher.py",
+      "sha256": "ff7379332a8bf679504f7dc79920ee48f4f4a171aebb32f31476f70836cbfbe0"
+    },
+    {
+      "bytes": 6683,
+      "matches_committed_blob": true,
+      "path": "recipes/flutter-dart/README.md",
+      "sha256": "0b862ba6bb634da80dc1e5bcdc2d183f79895ad7bcdce84fdfc3bfc957b5a60e"
+    }
+  ],
+  "recorded_at_utc": "2026-09-16T18:11:42.642355+00:00",
+  "recovery": {
+    "analytics_setup_repeated": false,
+    "cause": "Guest DNS prevented the Flutter tool dependency download; the declared executor guest DNS binding was applied before resuming.",
+    "dns_binding_recovery_receipt": {
+      "bytes": 459,
+      "private_original_basename": "guest-dns-binding-recovery.json",
+      "sha256": "9d37f9b373da4c62c27fc1736f6949ac61fed35a19da4208524fba32c0dd4386"
+    },
+    "executed_resume_installer_sha256": "4059c3a338ebbb21a04390560fd46c6c7474cd3a3065458af35c72eae4264cde",
+    "extraction_repeated": false,
+    "host_network_changed": false,
+    "original_error": "Got socket error trying to find package test at https://pub.dev. Failed to update packages.",
+    "original_installer_exit_code": 1,
+    "original_installer_receipt": {
+      "bytes": 2058,
+      "private_original_basename": "flutter-install.json",
+      "sha256": "4a0c00417e8e53229c30dc3c03feec842dc0fe84555fc0df4927781ebdac2263"
+    },
+    "original_precache_log": {
+      "bytes": 93,
+      "path": "/opt/ai-runner-images/flutter-installation/precache-ios.log",
+      "sha256": "ca8f925ae5d108c8c6e8b515aa7cf35d829d53c687410fb903cc489b416bc822"
+    },
+    "original_stderr": {
+      "bytes": 692,
+      "private_original_basename": "flutter-install.1.stderr",
+      "sha256": "5c04cec9ab332eff942ad5d82879e5079458fc9935241555f31183ee13175e12"
+    },
+    "precache_exit_code": 69,
+    "preserved_logs": [
+      {
+        "bytes": 0,
+        "path": "/opt/ai-runner-images/flutter-installation/extract.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 30,
+        "path": "/opt/ai-runner-images/flutter-installation/flutter-analytics.log",
+        "sha256": "b067d4d99f95a513d816509bc2e35c9e75336ad4d63fdd41abf73286f65e0020"
+      },
+      {
+        "bytes": 82,
+        "path": "/opt/ai-runner-images/flutter-installation/dart-analytics.log",
+        "sha256": "c7608bbedd11bcd58e420892b4a64da9c22b846d192230fae26b21b5d8c217ce"
+      },
+      {
+        "bytes": 93,
+        "path": "/opt/ai-runner-images/flutter-installation/precache-ios.log",
+        "sha256": "ca8f925ae5d108c8c6e8b515aa7cf35d829d53c687410fb903cc489b416bc822"
+      }
+    ],
+    "prior_archive_verification_sha256": "e961ea9e072130f824f9647fd8ea3fa867b1bc8949db5b4a2d01077d5db6f470",
+    "resume_exit_code": 0,
+    "resume_installer_matches_committed_blob": true,
+    "resume_receipt": {
+      "bytes": 2174,
+      "private_original_basename": "flutter-install-resume.json",
+      "sha256": "271267cf2287a7e8d7a41cd77657a57eb15796a50f9f7974c23854d915ca71f1"
+    },
+    "resume_recipe_stage_receipt": {
+      "bytes": 2021,
+      "private_original_basename": "flutter-resume-recipe-stage.json",
+      "sha256": "8afa578213f36fc8d81e41b8f3c0e12c700b69da1e8aed0ea3ebb8d8ab94f524"
+    },
+    "resumed_steps": [
+      "precache-ios",
+      "flutter-version",
+      "dart-version",
+      "seal"
+    ]
+  },
+  "runtime_admission": false,
+  "schema_version": 1,
+  "scope": "flutter-dart-installed-ios-precached-and-stopped-image-sealed",
+  "sealed_artifact": {
+    "distribution": {
+      "oci_manifest_digest": null,
+      "remote_restore_verified": false,
+      "remote_uri": null,
+      "status": "local-only"
+    },
+    "local_tart_name": "uxmal-flutter-dart-20260916",
+    "manifest": {
+      "files": {
+        "config.json": {
+          "bytes": 587,
+          "sha256": "ce6a43dccd476a6a89719b4177722f2280382a026b8d5beb5030b34306eeb983"
+        },
+        "disk.img": {
+          "bytes": 140000000000,
+          "sha256": "17f2dda17e548df8cba440c8dba5f48fe13b822b1d0432580f7a9d6a4e2d5548"
+        },
+        "nvram.bin": {
+          "bytes": 33579164,
+          "sha256": "9bdff2327ce14f596a972a295c79820ebd5cc337df8788bc28d9ef4771d0a34a"
+        }
+      },
+      "kind": "tart-layer-artifact",
+      "parent_manifest_sha256": "69d8b384545966a9e88473794dbda2719f9e92a10892735f68a391723eea53d5",
+      "recipe_commit": "8c8287804b4bcaf680145ae51ad48a9773e0e6a2",
+      "runtime_admission": false,
+      "schema_version": 1,
+      "source_repository": "uxmaltech-collab/ai-runner-images"
+    },
+    "manifest_bytes": 614,
+    "manifest_sha256": "7a261446e45bce12105c2b6ebb74759c05fa2cd54dc45c663cf34c418ce88c05",
+    "original_manifest_utf8": "{\"files\":{\"config.json\":{\"bytes\":587,\"sha256\":\"ce6a43dccd476a6a89719b4177722f2280382a026b8d5beb5030b34306eeb983\"},\"disk.img\":{\"bytes\":140000000000,\"sha256\":\"17f2dda17e548df8cba440c8dba5f48fe13b822b1d0432580f7a9d6a4e2d5548\"},\"nvram.bin\":{\"bytes\":33579164,\"sha256\":\"9bdff2327ce14f596a972a295c79820ebd5cc337df8788bc28d9ef4771d0a34a\"}},\"kind\":\"tart-layer-artifact\",\"parent_manifest_sha256\":\"69d8b384545966a9e88473794dbda2719f9e92a10892735f68a391723eea53d5\",\"recipe_commit\":\"8c8287804b4bcaf680145ae51ad48a9773e0e6a2\",\"runtime_admission\":false,\"schema_version\":1,\"source_repository\":\"uxmaltech-collab/ai-runner-images\"}\n",
+    "seal_receipt_sha256": "8e7385cd56873dbb5c889ad67683d6ea293c670e0b30439bb7846e56cbfc7a33",
+    "sealed_at_utc": "2026-09-16T18:06:38.176627+00:00",
+    "stopped_readback": {
+      "CPU": 4,
+      "Disk": 140,
+      "Memory": 8192,
+      "Running": false,
+      "State": "stopped"
+    }
+  },
+  "source_repository": "uxmaltech-collab/ai-runner-images"
+}

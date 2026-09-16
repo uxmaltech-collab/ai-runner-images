@@ -14,12 +14,22 @@ This repository owns image composition and its qualification records. The existi
 
 | Entry | Evidence and limits |
 | --- | --- |
-| EnviaFlores native iOS reference | Canary #2343 completed exploration, staging build, Maestro smoke/journey, delivered-flow replay, verified external publication and cleanup. Its image contains the EnviaFlores pack and app-specific driver; it is consumer-specific and its known distribution is local to the Mac. |
-| Shared Codex + Claude + Grok-build layer | Planned until exact installation identities and actual launch results for all three engines are recorded. |
-| Flutter/Dart / iOS Hello World | Planned until its exact shared-agent parent, resulting image identity and actual build/UI/cleanup receipts are recorded. Source documentation or an example manifest is not runtime acceptance. |
+| Native macOS/Xcode/Maestro base | Built and sealed. Root builder checks recorded macOS 26.6.2, Xcode 26.5, iOS Simulator 26.5, Maestro 2.10.0 and Java 17. The source image's inventoried consumer/old-agent components were removed; these checks do not claim an application build. |
+| Shared Codex + Claude + Grok-build layer | Built and sealed with all three engines together: Codex 0.151.0 and its companion, Claude 2.1.266 and Grok-build 1.0.24. Installation receipts verify exact executable bytes. Nonadministrator launch qualification is tracked separately. |
+| Flutter/Dart layer | Built and sealed with Flutter 3.47.4, Dart 3.13.3 and successful iOS precache. The protected SDK seed and writable per-user clone launcher are installed. Hello World build/UI/cleanup qualification remains separate from installation. |
+| EnviaFlores native iOS reference | Canary #2343 completed exploration, staging build, Maestro smoke/journey, delivered-flow replay, verified external publication and cleanup. Its image contains the EnviaFlores pack and app-specific driver; it is a historical consumer-specific reference, not the neutral base's direct parent. |
 | Lastmile application integration | Source discovery completed for the host app, driver package and direct shared dependencies. The app requests absent driver ref `v0.5.1`; no Lastmile Flutter build is claimed. |
 
-The [image catalog](catalog/images.json) records these states independently. The [accepted native reference](provenance/accepted-enviaflores-ios.json) records the exact successful image, app/flow commit, tool versions and publication evidence. Catalog metadata does not replace native image admission.
+The three stopped Tart layers have these artifact-manifest SHA-256 identities:
+
+```text
+retained source 64cdc33e58f67d7cbd8b8a95cc39cb3b7c86e0f56134dbdf8c69b47970c67e0b
+  -> native base 0d7cd86cdff86a7f3422c858c4b0da5e1cfc426d01f05864d7b0c09786f080f8
+  -> all agents 69d8b384545966a9e88473794dbda2719f9e92a10892735f68a391723eea53d5
+  -> Flutter    7a261446e45bce12105c2b6ebb74759c05fa2cd54dc45c663cf34c418ce88c05
+```
+
+The [image catalog](catalog/images.json) and [composition record](docs/image-composition.md) distinguish source provenance, installation and qualification. These artifacts are currently local to the Mac; the manifest hashes are not OCI references. No executor admission or production binding change is implied by sealing a layer. The [accepted native reference](provenance/accepted-enviaflores-ios.json) records the historical canary's separate image, app/flow commit and publication evidence.
 
 ## Where to start
 
@@ -28,7 +38,15 @@ The [image catalog](catalog/images.json) records these states independently. The
 3. Record real qualification results under `qualification/`. Update the catalog only from completed receipts, preserving failed attempts and limitations.
 4. Use [recovery](docs/recovery.md) to reconcile interrupted work and execute only unfinished operations.
 
-Recipe, fixture, lock and qualification implementations live in `recipes/`, `fixtures/`, `locks/` and `qualification/` as they are added. This README does not claim that a directory name is a functioning builder or prescribe commands that have not been implemented.
+Start with the [native base](recipes/macos-xcode-maestro/README.md), [combined agent layer](recipes/agent-build/README.md) and [Flutter/Dart recipe](recipes/flutter-dart/README.md). The thin composition tool preserves the source image and records each derivative's parent, commands and stopped artifact identities. Executor installation, admission and repository routing retain their existing owners.
+
+## Flutter in a job
+
+The image contains a root-owned, read-only Flutter SDK and public dependency-cache seed. A nonadministrator job uses `/opt/ai-runner-images/flutter/bin` and `/opt/ai-runner-images/agents/bin` on its declared PATH. The Flutter launcher creates a private APFS clone under that user's canonical HOME, keyed by the sealed seed digest, and reuses the completed clone on subsequent invocations. SDK/cache writes remain private to that job user. The launcher has no full-copy fallback; an alternate work root must be on the SDK's filesystem.
+
+The [recipe](recipes/flutter-dart/README.md) gives the paths, commands, clone receipt and cleanup ownership. Agent authentication, model settings and private repository environments arrive through the job's existing managed delivery. The image contains no authenticated agent session.
+
+The initial Flutter precache exposed a missing builder DNS step: the public network policy excluded the inherited private DHCP resolver. Applying the installed binding's public DNS servers inside the unfinished builder restored resolution. Recovery reused the verified extraction, preserved the failed log and reran only precache/version/seal; see [the recovery procedure](docs/recovery.md#recover-flutter-precache-after-a-network-failure).
 
 ## Reuse without repeating commissioning
 

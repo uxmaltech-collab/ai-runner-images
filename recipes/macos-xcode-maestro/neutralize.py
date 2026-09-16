@@ -73,6 +73,7 @@ def main():
             preserved[name] = hashlib.file_digest(stream, 'sha256').hexdigest()
     before = {name: inventory(Path(name)) for name in TARGETS if Path(name).exists()}
     receipt.parent.mkdir(mode=0o755, exist_ok=True)
+    receipt.parent.chmod(0o755)
     (receipt.parent / 'neutralization-intent.json').write_text(json.dumps(before, indent=2) + '\n')
     for name in TARGETS:
         path = Path(name)
@@ -91,6 +92,7 @@ def main():
     }
     bin_dir = receipt.parent / 'bin'
     bin_dir.mkdir(mode=0o755, exist_ok=True)
+    bin_dir.chmod(0o755)
     maestro = bin_dir / 'maestro'
     maestro.write_text('#!/bin/sh\nexport JAVA_HOME=' + paths['java_home'] + '\nexec ' + paths['maestro'] + ' "$@"\n')
     maestro.chmod(0o755)
