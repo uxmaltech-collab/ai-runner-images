@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "purpose": "Disposable image qualification using the existing canonical native session owner",
+  "upstream_owner": {
+    "repository": "uxmaltech-collab/ai-templates-resources",
+    "component": "runners/control-plane",
+    "version": "0.9.9",
+    "commit": "5012de06512f8590da3d5de43b4a790f963b0bec",
+    "pin_authority": "https://github.com/enviaflores/ai-repo-resources/blob/3a3e163793d85a2110a7de5098ffe2a2f90b2f3b/compatibility/templates.yaml"
+  },
+  "verified_consumer": {
+    "repository": "enviaflores/ai-repo-resources",
+    "commit": "3a3e163793d85a2110a7de5098ffe2a2f90b2f3b"
+  },
+  "prefix": "runners/control-plane/runner_control_plane/",
+  "modules": {
+    "__init__.py": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "origin": "installer-empty-package-marker"
+    },
+    "tart_contract.py": {
+      "bytes": 18390,
+      "sha256": "c1e5af34d5c5ab12d3036c2db32c804c91f5fe235701b0cc24f3f33534deefd2",
+      "origin": "canonical-git-blob"
+    },
+    "tart_execution.py": {
+      "bytes": 3553,
+      "sha256": "78fe66c6193526d39bcd0a1c571b3058adbbfaab5bf9008d5f23688405d36910",
+      "origin": "canonical-git-blob"
+    },
+    "tart_observation.py": {
+      "bytes": 2292,
+      "sha256": "5f509e253a777b999a221642ecc0a24e745cfdc56bc4690e93a7e8988b41458e",
+      "origin": "canonical-git-blob"
+    },
+    "tart_session.py": {
+      "bytes": 61478,
+      "sha256": "3c3900569338959dd59b15766797d5b436f618a0b77c2c989baa2295ca15d4f5",
+      "origin": "canonical-git-blob"
+    },
+    "tart_session_contract.py": {
+      "bytes": 11440,
+      "sha256": "853bde6fceced110578ee67e0dc41a5430090d75ed66b2867b5a829c65bf35ae",
+      "origin": "canonical-git-blob"
+    },
+    "tart_session_native.py": {
+      "bytes": 20536,
+      "sha256": "8ce4b0c4d3c874ca6d8133f159eadd127ffa3c8529b554ff3fb3fa51c963f38c",
+      "origin": "canonical-git-blob"
+    }
+  },
+  "package_marker": {
+    "name": "__init__.py",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "generation_contract": "https://github.com/enviaflores/ai-repo-resources/blob/3a3e163793d85a2110a7de5098ffe2a2f90b2f3b/runners/control-plane/macos-image/prepare-image.py#L914"
+  },
+  "dependencies": "Python 3.12 standard library only; six canonical modules and one generated empty package marker",
+  "source_rule": "Use the exact templates commit or the verified consumer commit. Every blob must match the locked byte length and SHA-256 before constructing an output payload. Never vendor modified owner modules here."
+}

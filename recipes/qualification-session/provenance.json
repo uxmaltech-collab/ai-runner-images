@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "scope": "qualification-only adapter",
+  "qualified_repository": "uxmaltech-collab/ai-runner-images",
+  "source_identity": "3a3e163793d85a2110a7de5098ffe2a2f90b2f3b",
+  "canonical_module_forks": false,
+  "canonical_modules_committed_here": false,
+  "guest_destination": "/opt/ai-runner-qualification",
+  "guest_state": "/private/var/lib/ai-runner-qualification",
+  "image_export_permitted": false,
+  "github_jobs_created": false,
+  "agent_credentials_required": false,
+  "qualification_helper_sha256": "89d71ab6dacb6682e3c716dbf65a3eff9fb1381a336302c177a290821d807082",
+  "native_execution_performed_by_recipe_preparation": false,
+  "acceptance_requirements": [
+    "actual fresh account transaction",
+    "normal shutdown and distinct next boot",
+    "actual nonadministrator console and Aqua session",
+    "pinned executable hashes and actual version output",
+    "real Flutter iOS build and simulator launch",
+    "Maestro UI assertions and JUnit",
+    "owned qualification clone and process cleanup"
+  ],
+  "validation_scope": "Syntax, dependency import and policy structure only until a separately recorded native qualification is executed."
+}
