@@ -8,6 +8,7 @@ import os
 from pathlib import Path, PurePosixPath
 import platform
 import posixpath
+import re
 import shlex
 import shutil
 import signal
@@ -129,18 +130,79 @@ def inventory_and_seal(root):
     return entries
 
 
+def resume_inputs(stage, prior, archive_path, pins):
+    """Bind one preserved failed stage without extracting or repeating completed setup."""
+    if (stage.parent != PREFIX.parent or not re.fullmatch(r'\.flutter-incoming-[A-Za-z0-9_-]+', stage.name)
+            or not prior.is_absolute() or stage.resolve(strict=True) != stage or prior.resolve(strict=True) != prior):
+        raise ValueError('Resume requires the exact protected Flutter staging and evidence paths.')
+    sdk = stage / pins['flutter_version'] / 'sdk'
+    cache = stage / pins['flutter_version'] / 'pub-cache-seed'
+    home = prior / 'temporary-home'
+    for path in (stage, sdk.parent, sdk, sdk / '.git', cache, prior, home):
+        info = path.lstat()
+        if not stat.S_ISDIR(info.st_mode) or info.st_uid != 0 or info.st_mode & 0o022:
+            raise ValueError(f'Unprotected preserved stage directory: {path}')
+    verification = prior / 'ARCHIVE-VERIFICATION.json'
+    info = verification.lstat()
+    if not stat.S_ISREG(info.st_mode) or info.st_uid != 0 or info.st_mode & 0o022:
+        raise ValueError('The prior archive verification is not protected.')
+    inspection = json.loads(verification.read_bytes())
+    if (inspection['archive_sha256'] != pins['archive']['sha256']
+            or inspection['archive_bytes'] != pins['archive']['bytes']
+            or inspection['flutter_revision'] != pins['flutter_revision']
+            or inspection['dart_version'] != pins['dart_version']):
+        raise ValueError('Prior archive verification differs from the recipe pin.')
+    if (sdk / '.git/HEAD').read_text().strip() != 'ref: refs/heads/stable':
+        raise ValueError('Unexpected preserved Flutter branch binding.')
+    ref = sdk / '.git/refs/heads/stable'
+    if ref.is_file():
+        revision = ref.read_text().strip()
+    else:
+        matches = [line.split()[0] for line in (sdk / '.git/packed-refs').read_text().splitlines()
+            if line.endswith(' refs/heads/stable')]
+        revision = matches[0] if len(matches) == 1 else None
+    if revision != pins['flutter_revision'] or (sdk / 'bin/cache/dart-sdk/version').read_text().strip() != pins['dart_version']:
+        raise ValueError('Preserved Flutter/Dart revision differs from the accepted archive.')
+    # Compare the unchanged executable entry scripts with the retained official archive.
+    with zipfile.ZipFile(archive_path) as archive:
+        for name in ('bin/flutter', 'bin/dart', 'bin/internal/shared.sh'):
+            if (sdk / name).read_bytes() != archive.read('flutter/' + name):
+                raise ValueError(f'Preserved Flutter entry script differs from archive: {name}')
+    logs = []
+    for name in ('extract.log', 'flutter-analytics.log', 'dart-analytics.log', 'precache-ios.log'):
+        path = prior / name
+        info = path.lstat()
+        if not stat.S_ISREG(info.st_mode) or info.st_uid != 0 or info.st_mode & 0o022:
+            raise ValueError('A prior command log is missing or unprotected.')
+        logs.append({'path': str(path), 'bytes': info.st_size, 'sha256': sha_file(path)})
+    return inspection, home, {'operation': 'resume-preserved-precache-failure', 'stage': str(stage),
+        'prior_evidence_dir': str(prior), 'prior_archive_verification_sha256': sha_file(verification),
+        'prior_logs': logs, 'extraction_repeated': False, 'analytics_setup_repeated': False,
+        'resumed_steps': ['precache-ios', 'flutter-version', 'dart-version', 'seal']}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__, allow_abbrev=False)
     parser.add_argument('--archive', type=Path, required=True)
     parser.add_argument('--evidence-dir', type=Path, required=True)
     parser.add_argument('--runtime-python', type=Path, default=Path(sys.executable))
     parser.add_argument('--inspect-only', action='store_true')
+    parser.add_argument('--resume-stage', type=Path)
+    parser.add_argument('--prior-evidence-dir', type=Path)
     args = parser.parse_args()
     pins_raw = (RECIPE / 'pins.json').read_bytes()
     pins = json.loads(pins_raw)
-    inspection = inspect_archive(args.archive, pins)
+    if bool(args.resume_stage) != bool(args.prior_evidence_dir) or args.inspect_only and args.resume_stage:
+        raise ValueError('Resume requires both stage and prior evidence, and is not an inspection.')
+    resumed = None
+    if args.resume_stage:
+        inspection, home, resumed = resume_inputs(args.resume_stage, args.prior_evidence_dir, args.archive, pins)
+    else:
+        inspection = inspect_archive(args.archive, pins)
     args.evidence_dir.mkdir(mode=0o700)
     write_json(args.evidence_dir / 'ARCHIVE-VERIFICATION.json', inspection)
+    if resumed:
+        write_json(args.evidence_dir / 'RESUME-INTENT.json', resumed)
     if args.inspect_only:
         print(json.dumps(inspection, sort_keys=True))
         return
@@ -158,24 +220,27 @@ def main():
         info = ancestor.lstat()
         if not stat.S_ISDIR(info.st_mode) or info.st_uid != 0 or info.st_mode & 0o022:
             raise ValueError(f'Unprotected SDK installation parent: {ancestor}')
-    if shutil.disk_usage(PREFIX.parent).free < inspection['expanded_bytes'] + 2 * 1024 ** 3:
+    required_free = 2 * 1024 ** 3 + (0 if resumed else inspection['expanded_bytes'])
+    if shutil.disk_usage(PREFIX.parent).free < required_free:
         raise ValueError('Insufficient free bytes for the SDK and bounded precache workspace.')
-    stage = Path(tempfile.mkdtemp(prefix='.flutter-incoming-', dir=PREFIX.parent))
-    stage.chmod(0o755)
+    stage = args.resume_stage if resumed else Path(tempfile.mkdtemp(prefix='.flutter-incoming-', dir=PREFIX.parent))
     version_root = stage / pins['flutter_version']
-    version_root.mkdir(mode=0o755)
-    home = args.evidence_dir / 'temporary-home'
-    home.mkdir(mode=0o700)
     cache = version_root / 'pub-cache-seed'
-    cache.mkdir(mode=0o755)
+    if not resumed:
+        stage.chmod(0o755)
+        version_root.mkdir(mode=0o755)
+        home = args.evidence_dir / 'temporary-home'
+        home.mkdir(mode=0o700)
+        cache.mkdir(mode=0o755)
     environment = {'HOME': str(home), 'PATH': '/opt/ai-runner-images/agents/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin',
         'PUB_CACHE': str(cache), 'CI': 'true', 'FLUTTER_SUPPRESS_ANALYTICS': 'true',
         'DART_SUPPRESS_ANALYTICS': 'true', 'LANG': 'en_US.UTF-8'}
     commands = []
-    commands.append(run(['/usr/bin/ditto', '-x', '-k', str(args.archive), str(version_root)],
-        environment, stage, args.evidence_dir / 'extract.log', 600))
     sdk = version_root / 'sdk'
-    os.rename(version_root / 'flutter', sdk)
+    if not resumed:
+        commands.append(run(['/usr/bin/ditto', '-x', '-k', str(args.archive), str(version_root)],
+            environment, stage, args.evidence_dir / 'extract.log', 600))
+        os.rename(version_root / 'flutter', sdk)
     flutter = str(sdk / 'bin/flutter')
     dart = str(sdk / 'bin/dart')
     for label, argv, timeout in [
@@ -185,6 +250,8 @@ def main():
         ('flutter-version', [flutter, '--suppress-analytics', '--version', '--machine'], 120),
         ('dart-version', [dart, '--version'], 120),
     ]:
+        if resumed and label in ('flutter-analytics', 'dart-analytics'):
+            continue
         commands.append(run(argv, environment, sdk, args.evidence_dir / (label + '.log'), timeout,
             separate_stderr=label == 'flutter-version'))
     version = json.loads((args.evidence_dir / 'flutter-version.log').read_text())
@@ -218,6 +285,8 @@ def main():
         'sdk_manifest_sha256': sha_file(PREFIX / pins['flutter_version'] / 'SDK-MANIFEST.json'),
         'accounts_created': 0, 'temporary_home_removed': True,
         'nonadministrator_qualification': 'pending-in-disposable-qualification-clone'}
+    if resumed:
+        receipt['resumed_from'] = resumed
     write_json(args.evidence_dir / 'INSTALLATION-RECEIPT.json', receipt)
     print(json.dumps({'status': receipt['status'], 'receipt': str(args.evidence_dir / 'INSTALLATION-RECEIPT.json')}, sort_keys=True))
 
