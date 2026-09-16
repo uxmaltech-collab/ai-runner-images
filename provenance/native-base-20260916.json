@@ -1,0 +1,316 @@
+{
+  "clone": {
+    "destination_local_name": "uxmal-macos-xcode-maestro-20260916",
+    "host_bindings_and_network_arguments_omitted": true,
+    "method": "APFS-copy-on-write",
+    "original_metadata_preserved": true,
+    "receipt_sha256": "42e70c0844c8e59cf765f28ad52ed6b0e801319a5a9886cfbf17605560c7e62f",
+    "source_local_name": "rehearsal-image-v2-324e1e33062a4a3a8e7c1fa15486d07c"
+  },
+  "kind": "sanitized-native-base-composition-record",
+  "limitations": [
+    "Tool commands ran as root in an accountless builder; they are not nonadministrator GUI/session, app-build or journey acceptance.",
+    "Combined Codex+Claude+Grok-build and Flutter/Dart layer qualification remains separate.",
+    "No runtime admission, executor reconfiguration, registry publication or remote restore is claimed.",
+    "Raw host bindings, network restrictions, full operation command lines and private original archives are excluded from this record.",
+    "The preserved old parent and prior successful93df image retain their distinct identities."
+  ],
+  "neutralization": {
+    "claim_scope": "listed targets and preserved executable bytes; not an independent exhaustive scan",
+    "credential_material_delivered": false,
+    "inventoried_agent_and_consumer_paths_removed": true,
+    "ordinary_accounts_present": false,
+    "output_bytes": 3529,
+    "output_sha256": "12fb0643985efddca4d1443d358ea8021512e71b0dcdb0e1e0028001ae11cfd9",
+    "preserved_executables_before_rpc_replacement": {
+      "/opt/macos-tart-bootstrap/public-tools/Xcode_26.5-runner.app/Contents/Developer/usr/bin/xcodebuild": "7521e30043289fafe6db5d4759e7b9014525887a4aff601c1b740877402fd06c",
+      "/opt/macos-tart-bootstrap/python/bin/python3.12": "2d96eb826dc74db4fcd5da6dde045a6fa145e292e07e69d1bdd1a19fa90ffc22",
+      "/opt/macos-tart-bootstrap/resolver-tools/java-17.0.20.1+1/jdk-17.0.20.1+1/Contents/Home/bin/java": "af8b122943345320b179c75c3404d56a981017739746b75f9caf583632f0bea0",
+      "/opt/macos-tart-bootstrap/resolver-tools/maestro-2.10.0/maestro/bin/maestro": "78c82065869bbabf4659e52284defd346de897d58675c6ba1dc7c70c12aed07f",
+      "/opt/macos-tart-bootstrap/resolver-tools/node-22.23.2/node-v22.23.2-darwin-arm64/bin/node": "18e387c90ab8a8400183e8bdd396376e1e875b91b4c874b894dcade7b35bf572",
+      "/opt/macos-tart-guest-agent/bin/tart-guest-agent": "ba2efffb21cfc60fccffcf7c5335f3be9da9587a47a9f6a50272eb4688d0a558"
+    },
+    "removed_inventories": {
+      "/Library/LaunchDaemons/org.macos-tart.rehearsal.firstboot-probe.plist": {
+        "entries": 1,
+        "file_bytes": 705,
+        "inventory_sha256": "dfa3c6e5391f0f0439fab87fb11a5c20c678ef8a14c04b2f4cd04404290aae59"
+      },
+      "/opt/ai-repo-resources": {
+        "entries": 6305,
+        "file_bytes": 165582397,
+        "inventory_sha256": "34ca4582cd1cf69141a77f8a361f21495b8fcb26559287632d89aeefe8694aa8"
+      },
+      "/opt/macos-tart-bootstrap/native-closure-20260914-01": {
+        "entries": 7404,
+        "file_bytes": 250721846,
+        "inventory_sha256": "9dcba2efa3ce9ddd16a188c35879f58c4063f93696a4d546b973c490a31494c1"
+      },
+      "/opt/macos-tart-bootstrap/native-completion-20260914-01": {
+        "entries": 8296,
+        "file_bytes": 256317846,
+        "inventory_sha256": "9046289c233917907cce3bc796095150f1cd7bf7f742a40b356865a5f50b89c8"
+      },
+      "/opt/macos-tart-bootstrap/native-recovery-20260914-01": {
+        "entries": 27,
+        "file_bytes": 162829,
+        "inventory_sha256": "89b0d1c6063eec68b0580dd2e0b257e23e28459b40d2d252dcc6558f26323485"
+      },
+      "/opt/macos-tart-bootstrap/resolver-tools/codex-0.151.0": {
+        "entries": 2,
+        "file_bytes": 231563824,
+        "inventory_sha256": "38bbcc7e12daeccdebed1712d017b4497b40ffd78d455244cc05cf2b818f9d8b"
+      },
+      "/opt/macos-tart-guest": {
+        "entries": 14,
+        "file_bytes": 192884,
+        "inventory_sha256": "de328fa6871e8fbd4118a894f11667479a2e885c9f8a36a2c9bfe8d26b44091b"
+      },
+      "/opt/macos-tart-journey.json": {
+        "entries": 1,
+        "file_bytes": 368,
+        "inventory_sha256": "c8945593d4ebffbdb8769498f8584011a18c93f6c6a7273c0c9150cc77882b96"
+      },
+      "/private/etc/macos-tart-guest.json": {
+        "entries": 1,
+        "file_bytes": 2718,
+        "inventory_sha256": "d2bf267b13985d3df2fb0c1b03a92a786af9c7b18ccb94e5beb81b51c84ed1f8"
+      },
+      "/private/var/lib/macos-tart-image-build": {
+        "entries": 5,
+        "file_bytes": 4975,
+        "inventory_sha256": "09e096f69ca3b2cbd9554fd2655da321b79a9893fc2c578d8aed02d3bf3dab40"
+      },
+      "/usr/local/libexec/macos-tart-guest": {
+        "entries": 1,
+        "file_bytes": 137,
+        "inventory_sha256": "b90a0a5cc0321f6d3d7cb5e7af6c313fa0e07fc2bfc4853ba251c6ebaa204ca9"
+      }
+    }
+  },
+  "operation_receipts": [
+    {
+      "bytes": 5999,
+      "command_exit_codes": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "finished_at_utc": "2026-09-16T17:34:45.636045+00:00",
+      "private_original_basename": "base-clone.json",
+      "sha256": "42e70c0844c8e59cf765f28ad52ed6b0e801319a5a9886cfbf17605560c7e62f",
+      "started_at_utc": "2026-09-16T17:34:45.557501+00:00",
+      "status": "complete"
+    },
+    {
+      "bytes": 1752,
+      "command_exit_codes": [
+        0
+      ],
+      "finished_at_utc": "2026-09-16T17:45:39.696922+00:00",
+      "private_original_basename": "base-neutralize.json",
+      "sha256": "acc86600f1d301e337e450f6afd063d588fb1b290f13329a96d5b4a8c99aea65",
+      "started_at_utc": "2026-09-16T17:45:30.422969+00:00",
+      "status": "complete"
+    },
+    {
+      "bytes": 2577,
+      "command_exit_codes": [
+        0
+      ],
+      "finished_at_utc": "2026-09-16T17:46:00.753829+00:00",
+      "private_original_basename": "base-rpc-install.json",
+      "sha256": "ee745bed0c4200d20600c5cd0327ba1ecc892f8e9ba14e4dcf1f6ec4f2af0bcd",
+      "started_at_utc": "2026-09-16T17:45:59.640456+00:00",
+      "status": "complete"
+    },
+    {
+      "bytes": 1673,
+      "command_exit_codes": [
+        0
+      ],
+      "finished_at_utc": "2026-09-16T17:47:30.162224+00:00",
+      "private_original_basename": "base-tools.json",
+      "sha256": "480649bcf802910f76b396191f32e13faa07e9cf7eee912520754551f9681aa4",
+      "started_at_utc": "2026-09-16T17:46:28.692516+00:00",
+      "status": "complete"
+    },
+    {
+      "bytes": 2781,
+      "command_exit_codes": [
+        0,
+        0
+      ],
+      "finished_at_utc": "2026-09-16T17:48:18.651271+00:00",
+      "private_original_basename": "base-stop.json",
+      "sha256": "8461bef8012216dda7852653c92308846c5eb20fcc7baec43419c2827ba5d30b",
+      "started_at_utc": "2026-09-16T17:48:18.373962+00:00",
+      "status": "complete"
+    },
+    {
+      "bytes": 3824,
+      "command_exit_codes": [
+        0,
+        0
+      ],
+      "finished_at_utc": "2026-09-16T17:49:50.439245+00:00",
+      "private_original_basename": "base-seal.json",
+      "sha256": "26093ed1709e180a32e6798be547b4c7853a41817b7ff60e6196d783c6c89882",
+      "started_at_utc": "2026-09-16T17:48:45.766178+00:00",
+      "status": "complete"
+    }
+  ],
+  "parent": {
+    "distribution": "local-only",
+    "historical_admitted_reference": "enviaflores/runner-resolver-storefront-ios-native@sha256:232dd153bec26de8f4c97ba599195290b566e1d6fb3ff8567a2d150c17a06b15",
+    "historical_tuple_reference": {
+      "bytes": 8493,
+      "private_original_basename": "canary-mvp-20260914/LINUX-HANDOFF.md",
+      "sha256": "2adc2c6b6fe15bdc83712eeef872e65f9a9e6f79c0b87dc31b0d2e34c4505cd4"
+    },
+    "id": "retained-storefront-prepack-20260914",
+    "manifest": {
+      "files": {
+        "config.json": {
+          "bytes": 588,
+          "sha256": "ffe24955244fd0d974f43ba65569ddc2dc73cf6fc44c28a0703fcade39607563"
+        },
+        "disk.img": {
+          "bytes": 140000000000,
+          "sha256": "1931d1baca1dae9d89d4471c1b849278ca25b99d2c64d9ae34706eda1e407e18"
+        },
+        "nvram.bin": {
+          "bytes": 33579164,
+          "sha256": "bc4586fdc50486237e95116b8177d38d99fc988bcab96d83944e430e481ec54c"
+        }
+      },
+      "historical_name": "rehearsal-image-v2-324e1e33062a4a3a8e7c1fa15486d07c",
+      "kind": "retained-prepack-parent",
+      "schema_version": 1,
+      "source_repository": "enviaflores/ai-repo-resources"
+    },
+    "manifest_bytes": 509,
+    "manifest_kind": "retained-prepack-parent",
+    "manifest_sha256": "64cdc33e58f67d7cbd8b8a95cc39cb3b7c86e0f56134dbdf8c69b47970c67e0b",
+    "original_manifest_utf8": "{\"files\":{\"config.json\":{\"bytes\":588,\"sha256\":\"ffe24955244fd0d974f43ba65569ddc2dc73cf6fc44c28a0703fcade39607563\"},\"disk.img\":{\"bytes\":140000000000,\"sha256\":\"1931d1baca1dae9d89d4471c1b849278ca25b99d2c64d9ae34706eda1e407e18\"},\"nvram.bin\":{\"bytes\":33579164,\"sha256\":\"bc4586fdc50486237e95116b8177d38d99fc988bcab96d83944e430e481ec54c\"}},\"historical_name\":\"rehearsal-image-v2-324e1e33062a4a3a8e7c1fa15486d07c\",\"kind\":\"retained-prepack-parent\",\"schema_version\":1,\"source_repository\":\"enviaflores/ai-repo-resources\"}\n",
+    "relationship": "actual cloned retained source; separate from successful later image93df87"
+  },
+  "recipe_commit": "53b5b31b658c4a353199a5688c8123f535846884",
+  "recipe_files": [
+    {
+      "bytes": 5558,
+      "matches_committed_blob": true,
+      "path": "recipes/macos-xcode-maestro/neutralize.py",
+      "sha256": "3c1393f24cf10c7de115b1d2cb1f2fe30df34cc7f00c098844e093b99c666c5e"
+    },
+    {
+      "bytes": 964,
+      "matches_committed_blob": true,
+      "path": "recipes/macos-xcode-maestro/install-rpc.py",
+      "sha256": "24f99ead3b0808cb4062902a5f08ac0ce8f3c2b0471c5db6b58481003475b92a"
+    },
+    {
+      "bytes": 10784,
+      "matches_committed_blob": true,
+      "path": "scripts/tart-layer.py",
+      "sha256": "3042c97eb22d2cc942af6bd5cea8d1d84c002d4b83ab7a154c102a77458c0a39"
+    }
+  ],
+  "recorded_at_utc": "2026-09-16T17:54:11.815723+00:00",
+  "rpc_replacement": {
+    "binary_version": "0.14.2+host-cid2",
+    "consumer_commit": "200a9c53d34245685d738827da3b450a493a6f54",
+    "installation_output_sha256": "2aae2afa02fa1f2aafc73d1d802ec0d0049150330b1c8ed2e582d91579255617",
+    "installed_at_utc": "2026-09-16T17:46:00.133172+00:00",
+    "installed_sha256": "a1c66855a250108ea05fc4f672f1099dfd1c315a012dee343c282aab83933952",
+    "loaded_on_next_boot": true,
+    "previous_sha256": "ba2efffb21cfc60fccffcf7c5335f3be9da9587a47a9f6a50272eb4688d0a558",
+    "source_attestation_sha256": "c1932ddf974c0084f92b4bf35a86196356d90e35af7bdee1ce461c61c06f638f",
+    "templates_commit": "b4164ec17ce47d0accae55d104770068bdd7f853"
+  },
+  "runtime_admission": false,
+  "schema_version": 1,
+  "scope": "sealed-macos-xcode-maestro-base-with-root-builder-tool-checks",
+  "sealed_artifact": {
+    "distribution": {
+      "oci_manifest_digest": null,
+      "remote_restore_verified": false,
+      "remote_uri": null,
+      "status": "local-only"
+    },
+    "local_tart_name": "uxmal-macos-xcode-maestro-20260916",
+    "manifest": {
+      "files": {
+        "config.json": {
+          "bytes": 587,
+          "sha256": "00cfa4b1d575c69faf3caf304930cf26f4cf37705b408885230f787ab258d74f"
+        },
+        "disk.img": {
+          "bytes": 140000000000,
+          "sha256": "759bf6ca45d30234be08662bab922c72f19e2ec10273ef25cf68d26889efe38f"
+        },
+        "nvram.bin": {
+          "bytes": 33579164,
+          "sha256": "a9b1a53450bde07a00a96629f749e5cae068f6149a185107cc60dc1af5b563c0"
+        }
+      },
+      "kind": "tart-layer-artifact",
+      "parent_manifest_sha256": "64cdc33e58f67d7cbd8b8a95cc39cb3b7c86e0f56134dbdf8c69b47970c67e0b",
+      "recipe_commit": "53b5b31b658c4a353199a5688c8123f535846884",
+      "runtime_admission": false,
+      "schema_version": 1,
+      "source_repository": "uxmaltech-collab/ai-runner-images"
+    },
+    "manifest_bytes": 614,
+    "manifest_sha256": "0d7cd86cdff86a7f3422c858c4b0da5e1cfc426d01f05864d7b0c09786f080f8",
+    "original_manifest_utf8": "{\"files\":{\"config.json\":{\"bytes\":587,\"sha256\":\"00cfa4b1d575c69faf3caf304930cf26f4cf37705b408885230f787ab258d74f\"},\"disk.img\":{\"bytes\":140000000000,\"sha256\":\"759bf6ca45d30234be08662bab922c72f19e2ec10273ef25cf68d26889efe38f\"},\"nvram.bin\":{\"bytes\":33579164,\"sha256\":\"a9b1a53450bde07a00a96629f749e5cae068f6149a185107cc60dc1af5b563c0\"}},\"kind\":\"tart-layer-artifact\",\"parent_manifest_sha256\":\"64cdc33e58f67d7cbd8b8a95cc39cb3b7c86e0f56134dbdf8c69b47970c67e0b\",\"recipe_commit\":\"53b5b31b658c4a353199a5688c8123f535846884\",\"runtime_admission\":false,\"schema_version\":1,\"source_repository\":\"uxmaltech-collab/ai-runner-images\"}\n",
+    "seal_receipt_sha256": "26093ed1709e180a32e6798be547b4c7853a41817b7ff60e6196d783c6c89882",
+    "sealed_at_utc": "2026-09-16T17:49:50.439245+00:00",
+    "stopped_readback": {
+      "CPU": 4,
+      "Disk": 140,
+      "Memory": 8192,
+      "Running": false,
+      "State": "stopped"
+    }
+  },
+  "source_repository": "uxmaltech-collab/ai-runner-images",
+  "toolchain_observations": {
+    "all_command_exit_codes": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "context": "accountless-root-builder-only",
+    "git": "2.50.1 (Apple Git-155)",
+    "guest_uid": 0,
+    "ios_runtime": {
+      "available": true,
+      "build": "23F77",
+      "identifier": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+      "version": "26.5"
+    },
+    "java": "Temurin 17.0.20.1+1",
+    "macos": {
+      "build": "25G83",
+      "version": "26.6.2"
+    },
+    "maestro": "2.10.0",
+    "node": "22.23.2",
+    "nonadministrator_session_qualified": false,
+    "simulator_application_built": false,
+    "tool_output_bytes": 24499,
+    "tool_output_sha256": "12ef480a18e777e85c96955b6405d39bfbaa798e0b33a0f121d02d24f3d43ab8",
+    "ui_journey_executed": false,
+    "xcode": {
+      "build": "17F42",
+      "version": "26.5"
+    }
+  }
+}

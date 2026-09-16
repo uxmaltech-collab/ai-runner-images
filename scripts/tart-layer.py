@@ -150,6 +150,16 @@ def main():
                 time.sleep(2)
             else:
                 raise RuntimeError('RPC readiness deadline exceeded; reconcile owned VM')
+            # Match the installed executor's native.guest_dns application.
+            # Public egress can intentionally exclude the private DHCP resolver.
+            if binding.get('guest_dns'):
+                dns = binding['guest_dns']
+                run(prefix + ['exec', args.vm, '/usr/sbin/networksetup',
+                              '-setdnsservers', dns['service'], *dns['servers']])
+                observed = run(prefix + ['exec', args.vm, '/usr/sbin/networksetup',
+                                         '-getdnsservers', dns['service']]).decode().splitlines()
+                assert observed == dns['servers'], 'Guest DNS readback differs from binding'
+                result['guest_dns_verified'] = dns
         elif args.operation == 'exec':
             assert args.command
             run(prefix + ['exec', '-i', args.vm] + args.command, timeout=args.timeout, input_path=args.input)

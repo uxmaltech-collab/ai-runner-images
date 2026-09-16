@@ -1,0 +1,229 @@
+{
+  "clone": {
+    "method": "APFS-copy-on-write",
+    "original_metadata_preserved": true,
+    "receipt_sha256": "3ef9576c1489e88510399bb3054dce8883ade7bc77eadea7d310e5dee59fea70"
+  },
+  "installation": {
+    "binary_execution": false,
+    "configuration_or_credentials_created": false,
+    "engines_installed_together": [
+      "codex",
+      "claude",
+      "grok"
+    ],
+    "input_staging_removed": true,
+    "installation_output_bytes": 1454,
+    "installation_output_sha256": "77f46feca83b6cd74d2d2a0819190ae2ed3f2646643cc3a99e5f268fa9ab3660",
+    "installed": true,
+    "installed_files": [
+      {
+        "bytes": 231563824,
+        "installed_path": "/opt/ai-runner-images/agents/codex/codex",
+        "sha256": "98491713ffb196061003ee148636e743997cc31d76144ba7c53462269896891d",
+        "source_basename": "codex"
+      },
+      {
+        "bytes": 62703072,
+        "installed_path": "/opt/ai-runner-images/agents/codex/codex-code-mode-host",
+        "sha256": "f5c96dc8cca0f760f525076c1f9f4efad31355c0fe18efb56e76df7e40592376",
+        "source_basename": "codex-code-mode-host"
+      },
+      {
+        "bytes": 199422144,
+        "installed_path": "/opt/ai-runner-images/agents/claude/claude",
+        "sha256": "553d1b9e9e7068b275c0a783c7e139ff6503096f286e674c8c919379fb0eca62",
+        "source_basename": "claude-2.1.266-darwin-arm64"
+      },
+      {
+        "bytes": 137364416,
+        "installed_path": "/opt/ai-runner-images/agents/grok/grok",
+        "sha256": "4291021c1570a7c8610277a3d65490a5e54b50311e222c6b4614264f02a215b3",
+        "source_basename": "grok-1.0.24-macos-aarch64"
+      }
+    ],
+    "network_calls": 0,
+    "pinned_versions": {
+      "claude": "2.1.266",
+      "codex": "0.151.0",
+      "grok": "1.0.24"
+    },
+    "pins_path": "recipes/agent-build/pins.json",
+    "pins_sha256": "0f1ee7fee8928058ce88b33d3ae9546871ffec1f6cf8be398522f5d0c5aff5c3",
+    "provenance_limits": {
+      "claude": "Official HTTPS manifest checksum and a complete downloaded binary hash match; manifest cryptographic signature verification is not claimed.",
+      "grok": "Version and macos-aarch64 URL layout come from the retained official installer. Compressed and expanded SHA-256 were measured from the official HTTPS payload; no separate vendor checksum document was available. The installer was reviewed, not executed."
+    },
+    "user_facing_layer": "Codex + Claude + Grok-build together"
+  },
+  "kind": "sanitized-combined-agent-layer-record",
+  "limitations": [
+    "All three engine files are installed in one shared layer; no separate engine variants were produced.",
+    "Version values are installation pins; this record does not report successful binary execution or nonadministrator qualification.",
+    "No credentials were created by installation; authenticated model requests remain outside this receipt.",
+    "No Flutter app build, executor admission, registry publication or remote restore is claimed.",
+    "Raw host bindings, network arguments and full private command receipts are not included."
+  ],
+  "operation_receipts": [
+    {
+      "bytes": 5804,
+      "command_exit_codes": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "finished_at_utc": "2026-09-16T17:50:08.016949+00:00",
+      "private_original_basename": "agents-clone.json",
+      "sha256": "3ef9576c1489e88510399bb3054dce8883ade7bc77eadea7d310e5dee59fea70",
+      "started_at_utc": "2026-09-16T17:50:07.936547+00:00",
+      "status": "complete"
+    },
+    {
+      "bytes": 7049,
+      "command_exit_codes": [
+        0,
+        0
+      ],
+      "finished_at_utc": "2026-09-16T17:50:20.186986+00:00",
+      "private_original_basename": "agents-boot.json",
+      "sha256": "00020cc6eb0d8d94abf0f551d6b57495c22bcf677af188c3ba22650f03ddeef7",
+      "started_at_utc": "2026-09-16T17:50:08.042690+00:00",
+      "status": "complete"
+    },
+    {
+      "bytes": 1952,
+      "command_exit_codes": [
+        0
+      ],
+      "finished_at_utc": "2026-09-16T17:50:45.417489+00:00",
+      "private_original_basename": "agents-stage.json",
+      "sha256": "c9f6cb77d8ff1e293b7485024142de274a6243b1a855d94c8b449c5f11633310",
+      "started_at_utc": "2026-09-16T17:50:43.294836+00:00",
+      "status": "complete"
+    },
+    {
+      "bytes": 2068,
+      "command_exit_codes": [
+        0
+      ],
+      "finished_at_utc": "2026-09-16T17:50:46.248569+00:00",
+      "private_original_basename": "agents-install.json",
+      "sha256": "be872317fd0629b424be832d88ebccad84070de8ba2bff724668ad6daf5e79a0",
+      "started_at_utc": "2026-09-16T17:50:45.446913+00:00",
+      "status": "complete"
+    },
+    {
+      "bytes": 1660,
+      "command_exit_codes": [
+        0
+      ],
+      "finished_at_utc": "2026-09-16T17:51:25.727674+00:00",
+      "private_original_basename": "agents-finish.json",
+      "sha256": "6625c867f2b391f42baca27c27eaceae5f1a6d2f4e404c27f0e3f87e3ac6f784",
+      "started_at_utc": "2026-09-16T17:51:25.320577+00:00",
+      "status": "complete"
+    },
+    {
+      "bytes": 2762,
+      "command_exit_codes": [
+        0,
+        0
+      ],
+      "finished_at_utc": "2026-09-16T17:51:26.017743+00:00",
+      "private_original_basename": "agents-stop.json",
+      "sha256": "c58159d5c994647c18f1e02e555f29819e667171f02adca6224af3d144521c29",
+      "started_at_utc": "2026-09-16T17:51:25.757388+00:00",
+      "status": "complete"
+    },
+    {
+      "bytes": 3807,
+      "command_exit_codes": [
+        0,
+        0
+      ],
+      "finished_at_utc": "2026-09-16T17:52:30.953438+00:00",
+      "private_original_basename": "agents-seal.json",
+      "sha256": "e8bddf7a9608a58d897319a043c2446d3187bb202b72fc3047663b1eea2ab8e7",
+      "started_at_utc": "2026-09-16T17:51:26.053967+00:00",
+      "status": "complete"
+    }
+  ],
+  "parent": {
+    "catalog_id": "macos-xcode-maestro-base",
+    "local_tart_name": "uxmal-macos-xcode-maestro-20260916",
+    "manifest_sha256": "0d7cd86cdff86a7f3422c858c4b0da5e1cfc426d01f05864d7b0c09786f080f8",
+    "provenance_record": "native-base-20260916.json"
+  },
+  "qualification": {
+    "application_build_verified": false,
+    "engine_launch_verified": false,
+    "managed_engine_authentication_verified": false,
+    "nonadministrator_launch_verified": false,
+    "scope": "installation and stopped bytes only"
+  },
+  "recipe_commit": "c6e40d034d3038f13b190da7d4eac1a58d67e4a8",
+  "recipe_files": [
+    {
+      "bytes": 3034,
+      "matches_committed_blob": true,
+      "path": "recipes/agent-build/pins.json",
+      "sha256": "0f1ee7fee8928058ce88b33d3ae9546871ffec1f6cf8be398522f5d0c5aff5c3"
+    },
+    {
+      "bytes": 4954,
+      "matches_committed_blob": true,
+      "path": "recipes/agent-build/install.py",
+      "sha256": "0d7cd3bda4a424a25168b2eb18d7169e185da2b60a04f66ecd4e9bcc807d2a69"
+    }
+  ],
+  "recorded_at_utc": "2026-09-16T17:55:56.665585+00:00",
+  "runtime_admission": false,
+  "schema_version": 1,
+  "scope": "all-three-engines-installed-together-and-stopped-image-sealed",
+  "sealed_artifact": {
+    "distribution": {
+      "oci_manifest_digest": null,
+      "remote_restore_verified": false,
+      "remote_uri": null,
+      "status": "local-only"
+    },
+    "local_tart_name": "uxmal-all-agents-20260916",
+    "manifest": {
+      "files": {
+        "config.json": {
+          "bytes": 587,
+          "sha256": "59affb6a2c0bbf2185b06e06954419fdb992009af334cf60d8f7084b8288cf5e"
+        },
+        "disk.img": {
+          "bytes": 140000000000,
+          "sha256": "ee3f9ee17ac57fdddac52acfc6dea3caaeae29546e5eecbf392466d93e522c63"
+        },
+        "nvram.bin": {
+          "bytes": 33579164,
+          "sha256": "2394addc03847b2b893d85c0d200dd16ca627b96fd8f6a9677330ce67d4ee781"
+        }
+      },
+      "kind": "tart-layer-artifact",
+      "parent_manifest_sha256": "0d7cd86cdff86a7f3422c858c4b0da5e1cfc426d01f05864d7b0c09786f080f8",
+      "recipe_commit": "c6e40d034d3038f13b190da7d4eac1a58d67e4a8",
+      "runtime_admission": false,
+      "schema_version": 1,
+      "source_repository": "uxmaltech-collab/ai-runner-images"
+    },
+    "manifest_bytes": 614,
+    "manifest_sha256": "69d8b384545966a9e88473794dbda2719f9e92a10892735f68a391723eea53d5",
+    "original_manifest_utf8": "{\"files\":{\"config.json\":{\"bytes\":587,\"sha256\":\"59affb6a2c0bbf2185b06e06954419fdb992009af334cf60d8f7084b8288cf5e\"},\"disk.img\":{\"bytes\":140000000000,\"sha256\":\"ee3f9ee17ac57fdddac52acfc6dea3caaeae29546e5eecbf392466d93e522c63\"},\"nvram.bin\":{\"bytes\":33579164,\"sha256\":\"2394addc03847b2b893d85c0d200dd16ca627b96fd8f6a9677330ce67d4ee781\"}},\"kind\":\"tart-layer-artifact\",\"parent_manifest_sha256\":\"0d7cd86cdff86a7f3422c858c4b0da5e1cfc426d01f05864d7b0c09786f080f8\",\"recipe_commit\":\"c6e40d034d3038f13b190da7d4eac1a58d67e4a8\",\"runtime_admission\":false,\"schema_version\":1,\"source_repository\":\"uxmaltech-collab/ai-runner-images\"}\n",
+    "seal_receipt_sha256": "e8bddf7a9608a58d897319a043c2446d3187bb202b72fc3047663b1eea2ab8e7",
+    "sealed_at_utc": "2026-09-16T17:52:30.953438+00:00",
+    "stopped_readback": {
+      "CPU": 4,
+      "Disk": 140,
+      "Memory": 8192,
+      "Running": false,
+      "State": "stopped"
+    }
+  },
+  "source_repository": "uxmaltech-collab/ai-runner-images"
+}

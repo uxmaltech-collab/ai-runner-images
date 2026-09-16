@@ -40,6 +40,42 @@
     },
     {
       "architecture": "arm64",
+      "artifact_manifest_sha256": "64cdc33e58f67d7cbd8b8a95cc39cb3b7c86e0f56134dbdf8c69b47970c67e0b",
+      "classification": "legacy-prepack-parent",
+      "components": {
+        "config.json": {
+          "bytes": 588,
+          "sha256": "ffe24955244fd0d974f43ba65569ddc2dc73cf6fc44c28a0703fcade39607563"
+        },
+        "disk.img": {
+          "bytes": 140000000000,
+          "sha256": "1931d1baca1dae9d89d4471c1b849278ca25b99d2c64d9ae34706eda1e407e18"
+        },
+        "nvram.bin": {
+          "bytes": 33579164,
+          "sha256": "bc4586fdc50486237e95116b8177d38d99fc988bcab96d83944e430e481ec54c"
+        }
+      },
+      "distribution": {
+        "oci_manifest_digest": null,
+        "remote_restore_verified": false,
+        "remote_uri": null,
+        "status": "local-only"
+      },
+      "historical_admitted_reference": "enviaflores/runner-resolver-storefront-ios-native@sha256:232dd153bec26de8f4c97ba599195290b566e1d6fb3ff8567a2d150c17a06b15",
+      "id": "retained-storefront-prepack-20260914",
+      "limits": [
+        "Actual COW source for the new base; not the later accepted93df87 canary image.",
+        "Retained source tuple is preserved; source-reference metadata is not a new image admission."
+      ],
+      "local_tart_name": "rehearsal-image-v2-324e1e33062a4a3a8e7c1fa15486d07c",
+      "manifest_kind": "retained-prepack-parent",
+      "platform": "macos-tart",
+      "provenance_record": "provenance/native-base-20260916.json",
+      "status": "preserved-source-reference"
+    },
+    {
+      "architecture": "arm64",
       "capabilities": [
         "macos",
         "xcode",
@@ -48,26 +84,104 @@
         "java-and-platform-runtime-prerequisites"
       ],
       "compatibility_lock": null,
+      "components": {
+        "config.json": {
+          "bytes": 587,
+          "sha256": "00cfa4b1d575c69faf3caf304930cf26f4cf37705b408885230f787ab258d74f"
+        },
+        "disk.img": {
+          "bytes": 140000000000,
+          "sha256": "759bf6ca45d30234be08662bab922c72f19e2ec10273ef25cf68d26889efe38f"
+        },
+        "nvram.bin": {
+          "bytes": 33579164,
+          "sha256": "a9b1a53450bde07a00a96629f749e5cae068f6149a185107cc60dc1af5b563c0"
+        }
+      },
       "distribution": {
+        "oci_manifest_digest": null,
+        "remote_restore_verified": false,
         "remote_uri": null,
-        "status": "not-published"
+        "status": "local-only"
       },
       "id": "macos-xcode-maestro-base",
-      "immutable_parent": null,
+      "immutable_parent": {
+        "catalog_id": "retained-storefront-prepack-20260914",
+        "manifest_sha256": "64cdc33e58f67d7cbd8b8a95cc39cb3b7c86e0f56134dbdf8c69b47970c67e0b"
+      },
       "limits": [
-        "Exact base, SDK builds and resulting identity require actual recipe inputs and receipts."
+        "Tool commands ran as root in an accountless builder; they are not nonadministrator GUI/session, app-build or journey acceptance.",
+        "Combined Codex+Claude+Grok-build and Flutter/Dart layer qualification remains separate.",
+        "No runtime admission, executor reconfiguration, registry publication or remote restore is claimed."
       ],
-      "native_manifest_sha256": null,
+      "local_tart_name": "uxmal-macos-xcode-maestro-20260916",
+      "manifest_kind": "tart-layer-artifact",
+      "native_manifest_sha256": "0d7cd86cdff86a7f3422c858c4b0da5e1cfc426d01f05864d7b0c09786f080f8",
+      "observed_toolchain": {
+        "all_command_exit_codes": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "context": "accountless-root-builder-only",
+        "git": "2.50.1 (Apple Git-155)",
+        "guest_uid": 0,
+        "ios_runtime": {
+          "available": true,
+          "build": "23F77",
+          "identifier": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+          "version": "26.5"
+        },
+        "java": "Temurin 17.0.20.1+1",
+        "macos": {
+          "build": "25G83",
+          "version": "26.6.2"
+        },
+        "maestro": "2.10.0",
+        "node": "22.23.2",
+        "nonadministrator_session_qualified": false,
+        "simulator_application_built": false,
+        "tool_output_bytes": 24499,
+        "tool_output_sha256": "12ef480a18e777e85c96955b6405d39bfbaa798e0b33a0f121d02d24f3d43ab8",
+        "ui_journey_executed": false,
+        "xcode": {
+          "build": "17F42",
+          "version": "26.5"
+        }
+      },
       "platform": "macos-tart",
+      "provenance_record": "provenance/native-base-20260916.json",
       "qualification_record": null,
-      "status": "planned"
+      "recipe_commit": "53b5b31b658c4a353199a5688c8123f535846884",
+      "runtime_admission": false,
+      "status": "sealed-root-builder-checked"
     },
     {
       "architecture": "arm64",
-      "compatibility_lock": null,
+      "compatibility_lock": "recipes/agent-build/pins.json",
+      "components": {
+        "config.json": {
+          "bytes": 587,
+          "sha256": "59affb6a2c0bbf2185b06e06954419fdb992009af334cf60d8f7084b8288cf5e"
+        },
+        "disk.img": {
+          "bytes": 140000000000,
+          "sha256": "ee3f9ee17ac57fdddac52acfc6dea3caaeae29546e5eecbf392466d93e522c63"
+        },
+        "nvram.bin": {
+          "bytes": 33579164,
+          "sha256": "2394addc03847b2b893d85c0d200dd16ca627b96fd8f6a9677330ce67d4ee781"
+        }
+      },
       "distribution": {
+        "oci_manifest_digest": null,
+        "remote_restore_verified": false,
         "remote_uri": null,
-        "status": "not-published"
+        "status": "local-only"
       },
       "engines_installed_together": [
         "codex",
@@ -75,18 +189,40 @@
         "grok-build"
       ],
       "id": "shared-agent-build",
-      "immutable_parent": null,
+      "immutable_parent": {
+        "catalog_id": "macos-xcode-maestro-base",
+        "manifest_sha256": "0d7cd86cdff86a7f3422c858c4b0da5e1cfc426d01f05864d7b0c09786f080f8"
+      },
       "job_authentication_sealed": false,
       "limits": [
-        "One combined agent layer, not per-engine variants.",
-        "All three complete installation identities and actual launch results are pending.",
-        "Parent layer name is a design relation; immutable parent digest is required before execution."
+        "All three engine files are installed in one shared layer; no separate engine variants were produced.",
+        "Version values are installation pins; this record does not report successful binary execution or nonadministrator qualification.",
+        "No credentials were created by installation; authenticated model requests remain outside this receipt.",
+        "No Flutter app build, executor admission, registry publication or remote restore is claimed."
       ],
-      "native_manifest_sha256": null,
+      "local_tart_name": "uxmal-all-agents-20260916",
+      "manifest_kind": "tart-layer-artifact",
+      "native_manifest_sha256": "69d8b384545966a9e88473794dbda2719f9e92a10892735f68a391723eea53d5",
       "parent_layer": "macos-xcode-maestro-base",
+      "pinned_engine_versions": {
+        "claude": "2.1.266",
+        "codex": "0.151.0",
+        "grok": "1.0.24"
+      },
+      "pins_sha256": "0f1ee7fee8928058ce88b33d3ae9546871ffec1f6cf8be398522f5d0c5aff5c3",
       "platform": "macos-tart",
+      "provenance_record": "provenance/combined-agents-20260916.json",
+      "qualification": {
+        "application_build_verified": false,
+        "engine_launch_verified": false,
+        "managed_engine_authentication_verified": false,
+        "nonadministrator_launch_verified": false,
+        "scope": "installation and stopped bytes only"
+      },
       "qualification_record": null,
-      "status": "planned"
+      "recipe_commit": "c6e40d034d3038f13b190da7d4eac1a58d67e4a8",
+      "runtime_admission": false,
+      "status": "sealed-installed-not-launch-qualified"
     },
     {
       "architecture": "arm64",
@@ -102,10 +238,13 @@
       },
       "first_qualification": "simple-ios-hello-world",
       "id": "flutter-dart-ios",
-      "immutable_parent": null,
+      "immutable_parent": {
+        "catalog_id": "shared-agent-build",
+        "manifest_sha256": "69d8b384545966a9e88473794dbda2719f9e92a10892735f68a391723eea53d5"
+      },
       "job_authentication_sealed": false,
       "limits": [
-        "Flutter/Dart release and parent digest are not yet selected by this catalog.",
+        "Exact combined-agent parent is recorded; Flutter image/tool/app qualification remains pending.",
         "Hello World requires a real simulator build/UI/cleanup receipt.",
         "Hello World alone does not prove Lastmile staging, managed engine authentication or multi-organization acceptance."
       ],
@@ -123,5 +262,5 @@
     "flutter-dart-ios"
   ],
   "schema_version": 1,
-  "updated_at_utc": "2026-09-16T17:24:27.550640+00:00"
+  "updated_at_utc": "2026-09-16T17:55:56.666337+00:00"
 }
