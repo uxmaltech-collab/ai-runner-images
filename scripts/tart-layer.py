@@ -41,6 +41,7 @@ def main():
     parser.add_argument('--source-commit')
     parser.add_argument('--parent-digest')
     parser.add_argument('--parent-manifest', type=Path)
+    parser.add_argument('--shutdown-receipt', type=Path)
     argv = sys.argv[1:]
     separator = argv.index('--') if '--' in argv else len(argv)
     args = parser.parse_args(argv[:separator])
@@ -164,10 +165,33 @@ def main():
             assert args.command
             run(prefix + ['exec', '-i', args.vm] + args.command, timeout=args.timeout, input_path=args.input)
         elif args.operation == 'stop':
-            run(prefix + ['stop', args.vm], timeout=args.timeout)
-            stopped()
+            run(prefix + ['exec', args.vm, '/bin/sync'], timeout=60)
+            try:
+                run(prefix + ['exec', args.vm, '/sbin/shutdown', '-h', 'now'], timeout=30)
+            except (RuntimeError, TimeoutError) as error:
+                # The RPC transport can close as macOS shuts down. Reconcile
+                # the actual VM state; never replace this with a forced stop.
+                result['shutdown_transport_observation'] = str(error)
+            deadline = time.monotonic() + 90
+            observations = []
+            while time.monotonic() < deadline:
+                row = json.loads(run(prefix + ['get', args.vm, '--format', 'json']))
+                observations.append({'at': now(), 'state': row['State'], 'running': row['Running']})
+                if row['State'] == 'stopped' and row['Running'] is False:
+                    break
+                time.sleep(2)
+            else:
+                raise RuntimeError('Normal guest shutdown not observed; preserve and reconcile owned VM')
+            result.update(normal_guest_shutdown_observed=True, forced_stop_used=False,
+                          shutdown_observations=observations)
         elif args.operation == 'seal':
             stopped()
+            assert args.shutdown_receipt, 'A verified normal guest shutdown is required'
+            shutdown = json.loads(args.shutdown_receipt.read_text())
+            assert shutdown['status'] == 'complete' and shutdown['vm'] == args.vm
+            assert shutdown['operation'] == 'stop' and shutdown.get('normal_guest_shutdown_observed') is True
+            assert shutdown.get('forced_stop_used') is False
+            result['shutdown_receipt_sha256'] = digest(args.shutdown_receipt)
             assert args.source_commit and re.fullmatch('[0-9a-f]{40}', args.source_commit)
             assert args.parent_digest and re.fullmatch('[0-9a-f]{64}', args.parent_digest)
             assert args.parent_manifest and digest(args.parent_manifest) == args.parent_digest
