@@ -1,0 +1,22 @@
+{
+  "accepted_control_plane_template_pin": "5012de06512f8590da3d5de43b4a790f963b0bec",
+  "consumer_head_observed": "3a3e163793d85a2110a7de5098ffe2a2f90b2f3b",
+  "current_canary_reopened": false,
+  "discovery_receipt": "provenance/lastmile-discovery.json",
+  "flutter_app": "enviaflores/ef-lastmile-flutter",
+  "flutter_image_built": false,
+  "flutter_package": "enviaflores/lastmile-drivers-pkg-flutter",
+  "flutter_repository_supplied": true,
+  "github_calls": 4,
+  "github_mutations": 0,
+  "lastmile_followup_github_calls": 3,
+  "observed_at_utc": "2026-09-16T16:17:44.928889+00:00",
+  "proposal_interfaces_implemented": false,
+  "proposed_repository": "uxmaltech-collab/ai-runner-images",
+  "repository_created": false,
+  "runtime_mutations": 0,
+  "schema_version": 1,
+  "templates_head_observed": "a1efb6d0eeb2ac2c37531cd8419d841379fc196c",
+  "tests_run": 0,
+  "updated_at_utc": "2026-09-16T16:58:12.024268+00:00"
+}

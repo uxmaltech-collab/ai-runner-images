@@ -1,0 +1,119 @@
+{
+  "acceptance_scope": "enviaflores-native-ios-mvp",
+  "cli_version": "3.0.2",
+  "flow_commit": "382ab9e32f594996c6ed6fbaa92c1ed9bf41bd28",
+  "flow_pr": {
+    "headRefOid": "382ab9e32f594996c6ed6fbaa92c1ed9bf41bd28",
+    "isDraft": true,
+    "number": 2367,
+    "state": "OPEN",
+    "url": "https://github.com/enviaflores/ef-storefront-ios/pull/2367"
+  },
+  "flow_sha256": "08f7d6a1347f683fce12e6d5c7ef12539f29c7fa4a292beafe6786bb36c5c2e2",
+  "image_components": {
+    "config": {
+      "bytes": 588,
+      "sha256": "976d5edfd78e66e4a3475ac3f40b6c3509102a50f1e47a7360753fd31b23e4cf"
+    },
+    "disk": {
+      "bytes": 140000000000,
+      "sha256": "e7b3b02114314d37ae99438f491f1ab6e25417f4e2e8a0832fb4b514bce94bee"
+    },
+    "nvram": {
+      "bytes": 33579164,
+      "sha256": "39aecc96e8b2e9d9138cbb6c8c6aea04c89781219f3e11af455b16dd54d2e04e"
+    }
+  },
+  "image_digest": "93df87c055a2b5043cc37f068da35499115d397238f7f9e9d81ce71480eeb6e0",
+  "issue": 2343,
+  "limits": [
+    "Generated flow remains in a draft pull request for review",
+    "MVP iOS execution only; no production or all-fleet alignment attestation",
+    "ai-infra-resources excluded",
+    "Flutter, standalone test-e2e and multi-organization execution are not established by this record.",
+    "Exact macOS/Tart lock values require provenance recovery; null does not mean unavailable.",
+    "Publisher video-preservation claim is not an independent post-cleanup restore proof."
+  ],
+  "publication": {
+    "commit": "c6c3553934144b3981236bb5e4c7b1f04cb3a967",
+    "files_verified": 17,
+    "manifest_sha256": "05a50cab7126125f4040429b4c7ab094a8a3b262187c89d8657f3588f4df9feb",
+    "manifest_url": "https://github.com/enviaflores/collab-resources/blob/c6c3553934144b3981236bb5e4c7b1f04cb3a967/journeys/ef-storefront-ios/issue-2343/run-35059345840-1/job-104684064756/manifest.json",
+    "prefix": "journeys/ef-storefront-ios/issue-2343/run-35059345840-1/job-104684064756",
+    "previous_commit": "3d79c2b733b7191b9e7d47e551015c131afce5ed",
+    "repository": "enviaflores/collab-resources",
+    "retried": false,
+    "schema_version": 1,
+    "status": "published-and-verified",
+    "tests_passed": true,
+    "warnings": [
+      "optional-artifact-too-large"
+    ]
+  },
+  "published_screenshots": 13,
+  "record_kind": "analysis-reference-not-runtime-admission",
+  "repository": "enviaflores/ef-storefront-ios",
+  "resource_measurement": {
+    "cpu": 4,
+    "disk_request_gb": 140,
+    "memory_mib": 8192,
+    "scope": "accepted-reference-jobs-not-universal-Flutter-minimum"
+  },
+  "results": {
+    "authenticated_agent_executed": true,
+    "both_cleanups_confirmed": true,
+    "clean_commit_replayed": true,
+    "exploration_build": true,
+    "exploration_journey": true,
+    "exploration_smoke": true,
+    "replay_build": true,
+    "replay_engine_credentials_not_required": true,
+    "replay_journey": true,
+    "replay_smoke": true
+  },
+  "run": {
+    "id": "35059345840",
+    "status": "e2e-success",
+    "terminal_utc": "2026-09-16T06:27:16Z",
+    "url": "https://github.com/enviaflores/ef-storefront-ios/actions/runs/35059345840"
+  },
+  "schema_version": 1,
+  "source_commit": "3a3e163793d85a2110a7de5098ffe2a2f90b2f3b",
+  "source_receipts": [
+    {
+      "bytes": 3935,
+      "relative_private_source": "checkpoints/canary-until-success-20260915/linux57-coordination/E2E-RESULT-REVIEW.json",
+      "sha256": "424a3f65f7d4ed318b3812f8f912a35d0ac358b6640a3720a36cc6514f5e8198"
+    },
+    {
+      "bytes": 7384,
+      "relative_private_source": "checkpoints/canary-until-success-20260915/FINAL-CANARY2343-CLOSURE-20260916T0643Z.json",
+      "sha256": "d582a8387d9237c83e159ec23f83a5ac76462ad64213fd91d38b3c44f70bb269"
+    }
+  ],
+  "tools": {
+    "actions_runner": "2.337.0",
+    "codex": "0.151.0",
+    "dart": null,
+    "flutter": null,
+    "ios_runtime": {
+      "build": "23F77",
+      "version": "26.5"
+    },
+    "java": "Temurin 17.0.20.1+1",
+    "macos_exact_release": null,
+    "maestro": "2.10.0",
+    "node": "22.23.2",
+    "python": "3.12.14",
+    "tart_exact_version": null,
+    "xcode": {
+      "build": "17F42",
+      "version": "26.5"
+    }
+  },
+  "warnings": [
+    "optional exploration narrative absent",
+    "video over25MiB omitted from bounded export; publisher reported original preserved, post-cleanup recovery not independently verified"
+  ],
+  "workflow_commit": "1bc274614aaaef002d7adbc002eba6fd31c6cf58"
+}

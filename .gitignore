@@ -1,0 +1,9 @@
+*.img
+*.zip
+*.dmg
+*.tar.gz
+*.partial
+__pycache__/
+.DS_Store
+.env
+.env.*

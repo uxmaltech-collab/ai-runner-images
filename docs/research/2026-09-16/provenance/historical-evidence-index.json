@@ -1,0 +1,155 @@
+{
+  "archive_status": "local-originals-preserved; external archival transfer remains implementation work",
+  "raw_operational_payloads_included": false,
+  "records": [
+    {
+      "bytes": 7384,
+      "id": "E01",
+      "original_included": false,
+      "relative_private_source": "checkpoints/canary-until-success-20260915/FINAL-CANARY2343-CLOSURE-20260916T0643Z.json",
+      "sha256": "d582a8387d9237c83e159ec23f83a5ac76462ad64213fd91d38b3c44f70bb269"
+    },
+    {
+      "bytes": 2041,
+      "id": "E02",
+      "original_included": false,
+      "relative_private_source": "checkpoints/canary-until-success-20260915/FINAL-CANARY2343-CLOSURE-20260916T0643Z.md",
+      "sha256": "5aafed04ae9e370f04b2597bdcedc82ed33b315f3cb4daf9d9fa31ca1c75d95f"
+    },
+    {
+      "bytes": 5029,
+      "id": "E03",
+      "original_included": false,
+      "relative_private_source": "checkpoints/canary-mvp-20260914/auth-repair-61847/LINUX-HANDOFF.md",
+      "sha256": "dbe823ef498a75072316a7f79ce101b0716cd392e1397c2f0da12295ae0abef8"
+    },
+    {
+      "bytes": 2117,
+      "id": "E04",
+      "original_included": false,
+      "relative_private_source": "checkpoints/native-executor-closure-20260914T015424Z/PR-templates.md",
+      "sha256": "cbcd8e380331fc346afc56617baaf4722e804be158e8919b44ccc0b3b66d33db"
+    },
+    {
+      "bytes": 2601,
+      "id": "E05",
+      "original_included": false,
+      "relative_private_source": "checkpoints/native-executor-closure-20260914T015424Z/keychain-review-corrections/TEMPLATES-PR-BODY.md",
+      "sha256": "31fdc4d8cef3334ce0f5236237b8c53c8e2bf7bb5e6ecab368cbeff504e57ebe"
+    },
+    {
+      "bytes": 2459,
+      "id": "E06",
+      "original_included": false,
+      "relative_private_source": "checkpoints/native-executor-closure-20260914T015424Z/native-launchctl-recovery/TEMPLATES-PR-BODY.md",
+      "sha256": "e9584070606238dcab87899398ef212d6c9d9a81c588057832c9a483b3ef90ea"
+    },
+    {
+      "bytes": 14019,
+      "id": "E07",
+      "original_included": false,
+      "relative_private_source": "checkpoints/native-executor-closure-20260914T015424Z/handoff-finalized92766/LINUX-HANDOFF.md",
+      "sha256": "78116dc87f07e09fa6cf6265b37d705e8ed762f95150f9a8e808a5569cc235a5"
+    },
+    {
+      "bytes": 6435,
+      "id": "E08",
+      "original_included": false,
+      "relative_private_source": "checkpoints/canary-until-success-20260915/ACTIVE-CHECKPOINT-20260915T0508Z.md",
+      "sha256": "27c9a927e92ff082f27016a02bf71f2c58f96a74b42abd01435a14d21fe31996"
+    },
+    {
+      "bytes": 7587,
+      "id": "E09",
+      "original_included": false,
+      "relative_private_source": "checkpoints/canary-until-success-20260915/ACTIVE-CHECKPOINT-20260915T1209Z.md",
+      "sha256": "ff5f6b394f36d8652fb69ac311a3702215401a2a636571a809e00dfaa8d9aa8e"
+    },
+    {
+      "bytes": 15784,
+      "id": "E10",
+      "original_included": false,
+      "relative_private_source": "checkpoints/canary-until-success-20260915/ACTIVE-CHECKPOINT-20260915T1427Z.md",
+      "sha256": "617f43fb506063743f208ba0f1edca57c3a00b00932022890abf1d11ecaebc4c"
+    },
+    {
+      "bytes": 9740,
+      "id": "E11",
+      "original_included": false,
+      "relative_private_source": "checkpoints/canary-until-success-20260915/ACTIVE-CHECKPOINT-20260915T1522Z.md",
+      "sha256": "5f9dedb90d3a7b4d1b9a4f248605a3bbcdab6e75af33a9845811090a1461fc79"
+    },
+    {
+      "bytes": 3552,
+      "id": "E12",
+      "original_included": false,
+      "relative_private_source": "checkpoints/canary-until-success-20260915/ACTIVE-CHECKPOINT-20260915T1613Z.md",
+      "sha256": "f64f732ff05c8b5a81a078d7eea39ecf677533e908fb2e6aab3ff69a20a48cb6"
+    },
+    {
+      "bytes": 6548,
+      "id": "E13",
+      "original_included": false,
+      "relative_private_source": "checkpoints/canary-until-success-20260915/ACTIVE-CHECKPOINT-20260915T1710Z.md",
+      "sha256": "ee81f0a37ad183a8e94d34523843067e01823509e343dc6a02cb5ba9d04ffda6"
+    },
+    {
+      "bytes": 4390,
+      "id": "E14",
+      "original_included": false,
+      "relative_private_source": "checkpoints/canary-until-success-20260915/ACTIVE-CHECKPOINT-20260915T1807Z.md",
+      "sha256": "e5d0b073155bba1cc4b26b9ee19a9168c411965ddba802c98d44de8a64e770d2"
+    },
+    {
+      "bytes": 10406,
+      "id": "E15",
+      "original_included": false,
+      "relative_private_source": "checkpoints/canary-until-success-20260915/ACTIVE-CHECKPOINT-20260915T2012Z.md",
+      "sha256": "b18f29a5bbe7ec80d8974122f5f803f469c9c32b8803e16d31bfbd61fd2e077a"
+    },
+    {
+      "bytes": 15892,
+      "id": "E16",
+      "original_included": false,
+      "relative_private_source": "checkpoints/canary-until-success-20260915/ACTIVE-CHECKPOINT-20260915T2240Z.md",
+      "sha256": "e2887ad2e3e5c378b4956149f71889dd13a7d28f627d16a7c178b241f47582af"
+    },
+    {
+      "bytes": 20105,
+      "id": "E17",
+      "original_included": false,
+      "relative_private_source": "checkpoints/canary-until-success-20260915/ACTIVE-CHECKPOINT-20260916T0240Z.md",
+      "sha256": "ffe8df83bf3cd86668208b1aaf91d6bb8e38bb06c89a7e96054e10e21d82cab4"
+    },
+    {
+      "bytes": 8912,
+      "id": "E18",
+      "original_included": false,
+      "relative_private_source": "checkpoints/canary-until-success-20260915/ACTIVE-CHECKPOINT-20260916T0445Z.md",
+      "sha256": "d95beaef57e0af78d077eb9a088b7113faf4f5cb7fb0eee985514454e915fa75"
+    },
+    {
+      "bytes": 8855,
+      "id": "E19",
+      "original_included": false,
+      "relative_private_source": "checkpoints/canary-until-success-20260915/ACTIVE-CHECKPOINT-20260916T0515Z.md",
+      "sha256": "5fbf7fdc4495aa07ebca9083e1b92557307b038e683aef802d926285c7c2b3c8"
+    },
+    {
+      "bytes": 7715,
+      "id": "E20",
+      "original_included": false,
+      "relative_private_source": "checkpoints/canary-until-success-20260915/ACTIVE-CHECKPOINT-20260916T0543Z.md",
+      "sha256": "4ef824802cdbc922e30fb35b0d43edd989f41da451fcc2e5c59a7d1566ba6a69"
+    },
+    {
+      "bytes": 16063,
+      "id": "E21",
+      "original_included": false,
+      "relative_private_source": "checkpoints/canary-until-success-20260915/ACTIVE-CHECKPOINT-20260916T0615Z.md",
+      "sha256": "b96e066ae3699d528df67727932093c088f281af94fd8b06cd673b39e5e819a8"
+    }
+  ],
+  "schema_version": 1,
+  "verified_at_utc": "2026-09-16T16:17:44.928552+00:00"
+}

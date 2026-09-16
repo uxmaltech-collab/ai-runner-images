@@ -1,0 +1,127 @@
+{
+  "entries": [
+    {
+      "acceptance_record": "provenance/accepted-enviaflores-ios.json",
+      "acceptance_scope": "native-ios-staging-create-journey-and-independent-replay",
+      "architecture": "arm64",
+      "classification": "legacy-consumer-specific",
+      "components": {
+        "config": {
+          "bytes": 588,
+          "sha256": "976d5edfd78e66e4a3475ac3f40b6c3509102a50f1e47a7360753fd31b23e4cf"
+        },
+        "disk": {
+          "bytes": 140000000000,
+          "sha256": "e7b3b02114314d37ae99438f491f1ab6e25417f4e2e8a0832fb4b514bce94bee"
+        },
+        "nvram": {
+          "bytes": 33579164,
+          "sha256": "39aecc96e8b2e9d9138cbb6c8c6aea04c89781219f3e11af455b16dd54d2e04e"
+        }
+      },
+      "consumer_repository": "enviaflores/ef-storefront-ios",
+      "distribution": {
+        "oci_manifest_digest": null,
+        "remote_restore_verified": false,
+        "remote_uri": null,
+        "status": "local-only"
+      },
+      "id": "enviaflores-storefront-ios-20260916",
+      "limits": [
+        "Contains the EnviaFlores resource pack and app-specific driver; not the new neutral base.",
+        "Does not establish Claude, Grok-build, Flutter or multi-organization execution.",
+        "Historical image and source receipts remain preserved; full private operation archive is not shipped here."
+      ],
+      "native_image_reference": "enviaflores/runner-resolver-storefront-ios-native@sha256:93df87c055a2b5043cc37f068da35499115d397238f7f9e9d81ce71480eeb6e0",
+      "native_manifest_sha256": "93df87c055a2b5043cc37f068da35499115d397238f7f9e9d81ce71480eeb6e0",
+      "platform": "macos-tart",
+      "source_commit": "3a3e163793d85a2110a7de5098ffe2a2f90b2f3b",
+      "status": "observed-accepted-reference"
+    },
+    {
+      "architecture": "arm64",
+      "capabilities": [
+        "macos",
+        "xcode",
+        "ios-simulator",
+        "maestro",
+        "java-and-platform-runtime-prerequisites"
+      ],
+      "compatibility_lock": null,
+      "distribution": {
+        "remote_uri": null,
+        "status": "not-published"
+      },
+      "id": "macos-xcode-maestro-base",
+      "immutable_parent": null,
+      "limits": [
+        "Exact base, SDK builds and resulting identity require actual recipe inputs and receipts."
+      ],
+      "native_manifest_sha256": null,
+      "platform": "macos-tart",
+      "qualification_record": null,
+      "status": "planned"
+    },
+    {
+      "architecture": "arm64",
+      "compatibility_lock": null,
+      "distribution": {
+        "remote_uri": null,
+        "status": "not-published"
+      },
+      "engines_installed_together": [
+        "codex",
+        "claude",
+        "grok-build"
+      ],
+      "id": "shared-agent-build",
+      "immutable_parent": null,
+      "job_authentication_sealed": false,
+      "limits": [
+        "One combined agent layer, not per-engine variants.",
+        "All three complete installation identities and actual launch results are pending.",
+        "Parent layer name is a design relation; immutable parent digest is required before execution."
+      ],
+      "native_manifest_sha256": null,
+      "parent_layer": "macos-xcode-maestro-base",
+      "platform": "macos-tart",
+      "qualification_record": null,
+      "status": "planned"
+    },
+    {
+      "architecture": "arm64",
+      "capabilities": [
+        "flutter",
+        "dart",
+        "ios-engine-artifacts"
+      ],
+      "compatibility_lock": null,
+      "distribution": {
+        "remote_uri": null,
+        "status": "not-published"
+      },
+      "first_qualification": "simple-ios-hello-world",
+      "id": "flutter-dart-ios",
+      "immutable_parent": null,
+      "job_authentication_sealed": false,
+      "limits": [
+        "Flutter/Dart release and parent digest are not yet selected by this catalog.",
+        "Hello World requires a real simulator build/UI/cleanup receipt.",
+        "Hello World alone does not prove Lastmile staging, managed engine authentication or multi-organization acceptance."
+      ],
+      "native_manifest_sha256": null,
+      "parent_layer": "shared-agent-build",
+      "platform": "macos-tart",
+      "qualification_record": null,
+      "status": "planned"
+    }
+  ],
+  "kind": "image-catalog-not-runtime-admission",
+  "requested_layer_order": [
+    "macos-xcode-maestro-base",
+    "shared-agent-build",
+    "flutter-dart-ios"
+  ],
+  "schema_version": 1,
+  "updated_at_utc": "2026-09-16T17:24:27.550640+00:00"
+}

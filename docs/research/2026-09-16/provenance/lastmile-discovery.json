@@ -1,0 +1,440 @@
+{
+  "driver_dependency": {
+    "branch_exists": false,
+    "canonical_identity_verified": true,
+    "complete_tags_listing": true,
+    "replacement_selected": false,
+    "requested_ref": "v0.5.1",
+    "requested_url": "git@github.com:enviaflores/lastmile_drivers_pkg_flutter.git",
+    "tag_exists": false,
+    "tags_observed": {
+      "v0.1.0": "59b676b19dc3e638b86b07fdbb9a470aab657692",
+      "v0.1.1": "acf25a68ad5bde44cdcb9bf6d221562d5bd3c396",
+      "v0.2.0": "f2dd7becd7d59d89482a2d02bb18c248f94b6f3b",
+      "v0.3.0": "469515710c6109bbc6008123560ebe41b7281991",
+      "v0.4.0": "af3e6889a9ef444404d9f49fa09adc784e59fae7",
+      "v0.5.0": "25638948fbd69f9696206e808baa8c35397a8c4b"
+    }
+  },
+  "files_observed": [
+    {
+      "bytes": 2697,
+      "git_blob": "2dd25d35e3c9ad61decd04d300785b0fd673979f",
+      "path": "AGENTS.md",
+      "present": true,
+      "repository_role": "app",
+      "sha256_utf8": "02811195053b034dbe84876929cc021fec1040cdbf8b6dfa3a5b526de67ab746"
+    },
+    {
+      "bytes": 8691,
+      "git_blob": "4c473a3c9111f6f0c0cdd32c4c782cc5aa560689",
+      "path": "README.md",
+      "present": true,
+      "repository_role": "app",
+      "sha256_utf8": "95d42d163cb21b98b01819aa921f42f39d90a8b1f5c8dc01dd8e417a4462ab84"
+    },
+    {
+      "bytes": 2989,
+      "git_blob": "e5f2115c202a40a4f9512c1915cd363b89a5d18b",
+      "path": "pubspec.yaml",
+      "present": true,
+      "repository_role": "app",
+      "sha256_utf8": "32889caf60f8dd26bdd4cd27f540193b81d483362dd110056be1f98ce5df0ce1"
+    },
+    {
+      "bytes": null,
+      "git_blob": null,
+      "path": "pubspec.lock",
+      "present": false,
+      "repository_role": "app",
+      "sha256_utf8": null
+    },
+    {
+      "bytes": null,
+      "git_blob": null,
+      "path": ".fvmrc",
+      "present": false,
+      "repository_role": "app",
+      "sha256_utf8": null
+    },
+    {
+      "bytes": null,
+      "git_blob": null,
+      "path": ".fvm/fvm_config.json",
+      "present": false,
+      "repository_role": "app",
+      "sha256_utf8": null
+    },
+    {
+      "bytes": 1389,
+      "git_blob": "6649374d4c19a8d52b893732767affd1c4c5fd5e",
+      "path": "ios/Podfile",
+      "present": true,
+      "repository_role": "app",
+      "sha256_utf8": "ed9a0a4770046f2eefde02db1e3fe9cc07a8df0c1343774fda450d405a33d165"
+    },
+    {
+      "bytes": 16964,
+      "git_blob": "16c374a5a75aa632e50b7ac954270f6489035552",
+      "path": "ios/Podfile.lock",
+      "present": true,
+      "repository_role": "app",
+      "sha256_utf8": "eac02e4aafefb650c7847d59b328397d4ecdc6aec0196a4b76724f698a88c844"
+    },
+    {
+      "bytes": 1114,
+      "git_blob": "64fdf4ef7a5a8910d8da46d0078c77ebe8ff9339",
+      "path": ".metadata",
+      "present": true,
+      "repository_role": "app",
+      "sha256_utf8": "c170da128b4c2d260eeac894ea86856db0e1cf8e1f984ddcdef5502acf519242"
+    },
+    {
+      "bytes": 1995,
+      "git_blob": "6888f288d507d81bf5e5fb2b4d30c74979b51c7d",
+      "path": "AGENTS.md",
+      "present": true,
+      "repository_role": "package",
+      "sha256_utf8": "d64bcd77ea0ccccaa0e7df822253880d2e328792df45f4ebfa90af13e3836bfa"
+    },
+    {
+      "bytes": 3134,
+      "git_blob": "fb1dd78233302822e370350110d645f8f7fd8221",
+      "path": "README.md",
+      "present": true,
+      "repository_role": "package",
+      "sha256_utf8": "d2fb637df1306dfa8788c09df2e6ddd542715111dbf3c96fd999a26e0a60c26d"
+    },
+    {
+      "bytes": 7998,
+      "git_blob": "1f20236e56fe17ed9e7335d7d4b4e855a5bfc49f",
+      "path": "pubspec.yaml",
+      "present": true,
+      "repository_role": "package",
+      "sha256_utf8": "29a59574b1791c83bd1526550f6bf2a6cbaba74bdfbd54224fc8322f45860eb5"
+    },
+    {
+      "bytes": null,
+      "git_blob": null,
+      "path": "pubspec.lock",
+      "present": false,
+      "repository_role": "package",
+      "sha256_utf8": null
+    },
+    {
+      "bytes": null,
+      "git_blob": null,
+      "path": ".fvmrc",
+      "present": false,
+      "repository_role": "package",
+      "sha256_utf8": null
+    },
+    {
+      "bytes": null,
+      "git_blob": null,
+      "path": ".fvm/fvm_config.json",
+      "present": false,
+      "repository_role": "package",
+      "sha256_utf8": null
+    },
+    {
+      "bytes": null,
+      "git_blob": null,
+      "path": "ios/Podfile",
+      "present": false,
+      "repository_role": "package",
+      "sha256_utf8": null
+    },
+    {
+      "bytes": null,
+      "git_blob": null,
+      "path": "ios/Podfile.lock",
+      "present": false,
+      "repository_role": "package",
+      "sha256_utf8": null
+    },
+    {
+      "bytes": 313,
+      "git_blob": "1c061be5cb899c7a2340387f1ca1705efa1ac4fb",
+      "path": ".metadata",
+      "present": true,
+      "repository_role": "package",
+      "sha256_utf8": "6d6936dfc64490e01f3e2aecc149f94747f74f3a12c9baadc7b73f1ffbc13936"
+    },
+    {
+      "bytes": 1580,
+      "git_blob": "727bca9d26b3ac3bcfad37e7ae8d28f6b107aa7a",
+      "path": ".gitignore",
+      "present": true,
+      "repository_role": "app",
+      "sha256_utf8": "146b6a00508cb6203b0dfb78f499c52f2e9a6e2f75f476f3d121468631c66a83"
+    },
+    {
+      "bytes": 5336,
+      "git_blob": "93fae9aa619301f9c5140a0cd44818b6ef141490",
+      "path": "lib/main.dart",
+      "present": true,
+      "repository_role": "app",
+      "sha256_utf8": "2c7897224f6bd8d955b8435dad29712f9f6dffd4e1d73711fe6d4cbc1e900758"
+    },
+    {
+      "bytes": 2602,
+      "git_blob": "10e417cd1cd5580da768fedfca03d996ec256346",
+      "path": "docs/operational/environment.md",
+      "present": true,
+      "repository_role": "app",
+      "sha256_utf8": "af07b019dd6126514ae2d2b1536943fbb391a88f0c732311695a1dbf1c80befe"
+    },
+    {
+      "bytes": 2837,
+      "git_blob": "a702332cc15d4d7847a527aec12684e277823e17",
+      "path": "docs/testing/strategy.md",
+      "present": true,
+      "repository_role": "app",
+      "sha256_utf8": "4111ca47742aec7eaf02b56bb58c3e853c4f07f3df3e23b0d5ddb939e017c238"
+    },
+    {
+      "bytes": 5854,
+      "git_blob": "f6224c7b4fdf7376eea6c9bf132046d1813ce814",
+      "path": "scripts/verify_build_secrets.sh",
+      "present": true,
+      "repository_role": "app",
+      "sha256_utf8": "cab8983f35f58c3ffa921a819c3a22415393146943b09008204cd03b9a828951"
+    },
+    {
+      "bytes": 32489,
+      "git_blob": "bc384bdd04296b1325c33484bb34534879f50dbb",
+      "path": "ios/Runner.xcodeproj/project.pbxproj",
+      "present": true,
+      "repository_role": "app",
+      "sha256_utf8": "7dc98196ba6afd5f91f75ca48ccb3ed431b609a2f0d2da1778413ab1712e8d36"
+    },
+    {
+      "bytes": 3833,
+      "git_blob": "e3773d42e24c8bb3b9070fc9d10d62032787035e",
+      "path": "ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme",
+      "present": true,
+      "repository_role": "app",
+      "sha256_utf8": "2dd28b879e66081e28a3324cf2bee7ab2f70be9a3e50e08926b7366dadff7d6e"
+    },
+    {
+      "bytes": 337,
+      "git_blob": "8109fbc15b5b2c7778afbf866d2ad3ad59fe7ed3",
+      "path": "ios/Flutter/Debug.xcconfig",
+      "present": true,
+      "repository_role": "app",
+      "sha256_utf8": "1e3e86376cafe2e3ed449781d7be340b49bd73f664eed9688b196ff225ad1542"
+    },
+    {
+      "bytes": 737,
+      "git_blob": "cc0ba94c59eb71433e58272bd4cc1e2a4114e023",
+      "path": "ios/Flutter/Secrets.xcconfig.example",
+      "present": true,
+      "repository_role": "app",
+      "sha256_utf8": "e48d7d17bd9dd1b4cfcbf0251f8659efba2b659d5b28fdf5842d7d29fd7cd754"
+    },
+    {
+      "bytes": 15820,
+      "git_blob": "60591f0a46d909d4ccf8bbe8666b6f5963bd3faf",
+      "path": "CLAUDE.md",
+      "present": true,
+      "repository_role": "package",
+      "sha256_utf8": "e600c600de6a4d3ed4c45c6bfe7c72a1e9bfb81e80201d3c41aa2bf008304f71"
+    },
+    {
+      "bytes": 4869,
+      "git_blob": "2893c8eeb1a65c27d4aaf16af263f21ee2ea2ccb",
+      "path": ".ef-flutter.yml",
+      "present": true,
+      "repository_role": "package",
+      "sha256_utf8": "1ed7975e0fccff2b5bf5c2937faa1b1a2b8bb7ebd80f467df2684afaea5e20f3"
+    },
+    {
+      "bytes": 31364,
+      "git_blob": "3be8245e6e8052b2933b02ead6fe428e699325b3",
+      "path": "docs/consuming-the-package.md",
+      "present": true,
+      "repository_role": "package",
+      "sha256_utf8": "eca5f09f99f11a2c4dd2076517011b79487c645a9e59e66d2850273f7c980f6e"
+    },
+    {
+      "bytes": null,
+      "git_blob": null,
+      "path": "lib/src/di/setup_drivers_package_di.dart",
+      "present": false,
+      "repository_role": "package",
+      "sha256_utf8": null
+    },
+    {
+      "bytes": 4999,
+      "git_blob": "b9c19eec0790b5da3b71b96068e6bac80286d131",
+      "path": "ios/Runner/Info.plist",
+      "present": true,
+      "repository_role": "app",
+      "sha256_utf8": "b83f1c8ffb600abcc0a93732b86bd4ceba6210d30865b5c72ea6950f1e54111d"
+    },
+    {
+      "bytes": 1622,
+      "git_blob": "43b87fc8159d425ffff7632310a483e1046bcf83",
+      "path": "ios/Runner/AppDelegate.swift",
+      "present": true,
+      "repository_role": "app",
+      "sha256_utf8": "38007180ac3353a4e8e4c920dbb57c4145a73bcceb95ce14608d493822f4c9d8"
+    },
+    {
+      "bytes": 754,
+      "git_blob": "a909a03c7f93a2d2a7fd05800038e223bf80f4ef",
+      "path": "lib/src/app/dependence_injection/get_it_config.dart",
+      "present": true,
+      "repository_role": "app",
+      "sha256_utf8": "dd0f787a367d39252756f23384accb11933b9840c5011ac041529e0c9a4729e7"
+    },
+    {
+      "bytes": 43630,
+      "git_blob": "522d628ab05f61942277c2c25dc502530585c041",
+      "path": "lib/src/app/di/drivers_package_di.dart",
+      "present": true,
+      "repository_role": "package",
+      "sha256_utf8": "762b5e8b3ebf97754be05888f1250dbe6a39494ebd2b880c8220b205bdda10aa"
+    },
+    {
+      "bytes": 9035,
+      "git_blob": "2c33367e0c58edeaf53123ee3483e44101e9276b",
+      "path": "docs/testing/strategy.md",
+      "present": true,
+      "repository_role": "package",
+      "sha256_utf8": "8db37afc0dd08781b80dca38bfb6f183bec5f03378b43446d45715ca7c7cec64"
+    }
+  ],
+  "flutter_build_executed": false,
+  "flutter_sdk_pinned": false,
+  "github_reads": [
+    {
+      "exit_code": 0,
+      "finished_at": "2026-09-16T16:51:35.009059+00:00",
+      "operation": "read-only grouped GraphQL, two repositories",
+      "request_sha256": "36af7af02f00e44476104f8bacc5b4694960afa671a17086a5e19bdad36d23fc",
+      "response_sha256": "126e9720c4cdc98b0e7e79ddf31c48309e2030bec86c9bb36a72f04ddec48315",
+      "started_at": "2026-09-16T16:51:33.401181+00:00"
+    },
+    {
+      "exit_code": 0,
+      "finished_at": "2026-09-16T16:52:57.733522+00:00",
+      "operation": "read-only pinned source and dependency identity discovery",
+      "request_sha256": "734ac20ee0c07237e7e21cd5ce086acc29d3b7182555e5e79c3baaf0ded9d475",
+      "response_sha256": "02c4180807871d100edcff6983eb67c3e466029f87eac64755bef131d9b44087",
+      "started_at": "2026-09-16T16:52:55.180704+00:00"
+    },
+    {
+      "exit_code": 0,
+      "finished_at": "2026-09-16T16:54:00.097996+00:00",
+      "operation": "read-only pinned build/env seams and exact dependency ref resolution",
+      "request_sha256": "f811c4fc94a58261e078224bbecdf5ae6dba3de2a6953bbc41757c6b39a513a4",
+      "response_sha256": "4ccf6c73d3f0e8b49719a72445fcc9e831666d76f74db2cf9fc86b8003139c90",
+      "started_at": "2026-09-16T16:53:58.825763+00:00"
+    }
+  ],
+  "kind": "source-discovery-not-runtime-acceptance",
+  "maestro_executed": false,
+  "private_config_values_included": false,
+  "remote_writes": 0,
+  "repositories": {
+    "app": {
+      "branch": "main",
+      "commit": "f2a58df8629a89f1c87bb285b62b1f03d45709b3",
+      "repository": "enviaflores/ef-lastmile-flutter",
+      "repository_id": "R_kgDOQiBgyg",
+      "tree": "335311d2ad1bae538a7f899520603caeaba998ad"
+    },
+    "package": {
+      "branch": "main",
+      "commit": "89cdefeaadce51f282aac9c50d9b0ab0cbdb0c58",
+      "repository": "enviaflores/lastmile-drivers-pkg-flutter",
+      "repository_id": "R_kgDOTa9Pgw",
+      "tree": "783f38b093d925321b9dcf0254e60cd297542724"
+    },
+    "shared": {
+      "main_is_not_dependency_lock": true,
+      "observed_main": "cd784b9b49e85046e39f0df0a73e594dee6f139f",
+      "repository": "enviaflores/shared-package-flutter",
+      "repository_id": "R_kgDOTFWcmQ"
+    }
+  },
+  "runtime_mutations": 0,
+  "schema_version": 1,
+  "shared_direct_refs": {
+    "ef_auth-v0.2.0+2": {
+      "commit": "cd784b9b49e85046e39f0df0a73e594dee6f139f",
+      "ref_object": "cd784b9b49e85046e39f0df0a73e594dee6f139f"
+    },
+    "ef_camera-v0.0.2+1": {
+      "commit": "032383a78c323fabae16906e601988b2c3b8e3fa",
+      "ref_object": "af4393eabd6fdae0af2e8351b047dc0c6be18ef7"
+    },
+    "ef_core-v0.1.0": {
+      "commit": "0098484f39f21c5dfe5e6836316791ca96fa4c61",
+      "ref_object": "24e5d5fdee552b4c7d2fae78fb4702e3ff29d437"
+    },
+    "ef_design_system-v0.0.3+1": {
+      "commit": "e6f51131bc9952e9f966e0243487effaba7e7d1b",
+      "ref_object": "f5d828a8b7fe988920b754dd5587ee9816f8e51b"
+    },
+    "ef_device_package_info-v0.0.2+2": {
+      "commit": "c90391a962adaaf9bbe6dfd30d7d42982804069d",
+      "ref_object": "515e872ca12ae06f38606e83466eb761bf16c5f9"
+    },
+    "ef_device_signals-v0.2.0": {
+      "commit": "0d5ef4e59cd19ea0362d70723dd4c7a083322d18",
+      "ref_object": "77b52eee5a746dc89f72d93c71e57f9a0dd5868d"
+    },
+    "ef_lints-v0.1.2": {
+      "commit": "508c2015d5ec1387d8abd91b4d6d1bd0d381e817",
+      "ref_object": "47cbb4c0abb0c194f98bb4f0df6d200d79d87b2a"
+    },
+    "ef_lints-v0.2.0": {
+      "commit": "0d5ef4e59cd19ea0362d70723dd4c7a083322d18",
+      "ref_object": "2da0422969ffab70eb97924ff665c6ac1d46b421"
+    },
+    "ef_location-v0.0.2": {
+      "commit": "c90391a962adaaf9bbe6dfd30d7d42982804069d",
+      "ref_object": "71bab0ecdc8971a44c93098c75e01f97f5cce345"
+    },
+    "ef_maps-v0.1.1+1": {
+      "commit": "78564f0ff96bb62634321a0719da1338dcdf7da6",
+      "ref_object": "d5f4dee2337340a74f2d3065c254f6cd93f3c4f1"
+    },
+    "ef_network-v0.2.0+1": {
+      "commit": "c37dcef76fdf43a1213bd57e7624595ecb9e80f1",
+      "ref_object": "14cdd5613daa31a128735bccfb190a1ed4da4b60"
+    },
+    "ef_observability-v0.3.1": {
+      "commit": "cd784b9b49e85046e39f0df0a73e594dee6f139f",
+      "ref_object": "cd784b9b49e85046e39f0df0a73e594dee6f139f"
+    },
+    "ef_qr_lookup-v0.2.0+1": {
+      "commit": "e3e9b6089823d2586d011efd7d1ccf7aaf042479",
+      "ref_object": "7825e51145290ba90d16a21b08fb5956fb9a695a"
+    },
+    "ef_scanner-v0.1.0+3": {
+      "commit": "78564f0ff96bb62634321a0719da1338dcdf7da6",
+      "ref_object": "c10bed2def8de5d277251f0a607064391b4e08f7"
+    },
+    "ef_session-v0.1.0": {
+      "commit": "0d5ef4e59cd19ea0362d70723dd4c7a083322d18",
+      "ref_object": "8bbb7ec171365d51f19adf6226ca33654f40a8ac"
+    },
+    "ef_telemetry_semantics-v0.2.0": {
+      "commit": "0d5ef4e59cd19ea0362d70723dd4c7a083322d18",
+      "ref_object": "0a3f6cebf7bcd5b92c1a4445b3e122bd2fb11a92"
+    },
+    "ef_uploader-v0.0.4+2": {
+      "commit": "cd784b9b49e85046e39f0df0a73e594dee6f139f",
+      "ref_object": "cd784b9b49e85046e39f0df0a73e594dee6f139f"
+    },
+    "ef_webview-v0.1.0": {
+      "commit": "0d5ef4e59cd19ea0362d70723dd4c7a083322d18",
+      "ref_object": "83ce71735e5bbe6740c55ef59d58f27ebe5e99b7"
+    }
+  },
+  "transitive_dependency_closure_resolved": false
+}

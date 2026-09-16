@@ -1,0 +1,107 @@
+{
+  "files": [
+    {
+      "bytes": 8339,
+      "copy": "byte-identical-reviewed-analysis",
+      "path": "README.md",
+      "sha256": "fb9a35a3076dae605fc9ef44272818f4f96691a14924f941f4f0056486bc4be2"
+    },
+    {
+      "bytes": 8737,
+      "copy": "byte-identical-reviewed-analysis",
+      "path": "ARCHITECTURE.md",
+      "sha256": "cc3c2eb98369ace11e17e2449abb9ab1c08b90b095b5ffb1512667be6316355e"
+    },
+    {
+      "bytes": 6806,
+      "copy": "byte-identical-reviewed-analysis",
+      "path": "FLUTTER-ADAPTER.md",
+      "sha256": "5e76065cc21063c14732a4db79e0a825994ef0e7bc53e0f993dfcd38b8d72d52"
+    },
+    {
+      "bytes": 6646,
+      "copy": "byte-identical-reviewed-analysis",
+      "path": "REPOSITORY-BLUEPRINT.md",
+      "sha256": "1e10c6a560fbc94499a65ba4ab76d6cc8c223293cde82668d5fb1635e07af649"
+    },
+    {
+      "bytes": 8889,
+      "copy": "byte-identical-reviewed-analysis",
+      "path": "IMPLEMENTATION-PLAN.md",
+      "sha256": "21ba3384faa6c4e90bb842de94042f8ee591a69b6f79ebb072857edc94485ce2"
+    },
+    {
+      "bytes": 4537,
+      "copy": "byte-identical-reviewed-analysis",
+      "path": "SOURCES.md",
+      "sha256": "e348aabc55aadd179bd4af08c63e6fce6906dcdb087f7a23efd76871c4863a9f"
+    },
+    {
+      "bytes": 24321,
+      "copy": "byte-identical-reviewed-analysis",
+      "path": "LESSONS-AND-FAILURES.md",
+      "sha256": "a35440155fd2fc720e248d5c2f7e3dcaf408fdc94e958f41ee592723d55149e7"
+    },
+    {
+      "bytes": 25706,
+      "copy": "byte-identical-reviewed-analysis",
+      "path": "OWNERSHIP-AND-BASELINE.md",
+      "sha256": "f014cd83f78c23e7a925a013f13c3b8e7dc9ddfd98c45d9359b42cff6f23a436"
+    },
+    {
+      "bytes": 10873,
+      "copy": "byte-identical-reviewed-analysis",
+      "path": "LASTMILE-FIRST-ACCEPTANCE.md",
+      "sha256": "5b8921e156957b695a658dc85b9085fdb9ff740fb0daca1b125e4b7629451605"
+    },
+    {
+      "bytes": 19702,
+      "copy": "byte-identical-reviewed-analysis",
+      "path": "LASTMILE-CROSS-REPO.md",
+      "sha256": "63531174da3fb0558ed04d4522c7dfa6d3df0b5aed1cd651cf2cef5f3b931566"
+    },
+    {
+      "bytes": 9562,
+      "copy": "byte-identical-reviewed-analysis",
+      "path": "LASTMILE-PACK-AUDIT.md",
+      "sha256": "5973bc4576ffe03a1ac06d4d9c0b711648c959689d3f8b0dbab3f695da723417"
+    },
+    {
+      "bytes": 4402,
+      "copy": "byte-identical-reviewed-analysis",
+      "path": "provenance/accepted-canary.json",
+      "sha256": "c73aa6ade149f6b6ddfaa1c67830c224bc6ae67289624a4fa443b8d46cb44c7e"
+    },
+    {
+      "bytes": 920,
+      "copy": "byte-identical-reviewed-analysis",
+      "path": "provenance/analysis-observations.json",
+      "sha256": "dd1c8a05885ce30a70bdaa9a66a8234e3d620e23dd92b33d600200ee0a6a0040"
+    },
+    {
+      "bytes": 6280,
+      "copy": "byte-identical-reviewed-analysis",
+      "path": "provenance/historical-evidence-index.json",
+      "sha256": "a2aa3d80120fe4f2289d6682de7cfd667ddc738d0520ce817a6b8b155ecf39f9"
+    },
+    {
+      "bytes": 15130,
+      "copy": "byte-identical-reviewed-analysis",
+      "path": "provenance/lastmile-discovery.json",
+      "sha256": "f034d67204553cb904ea61c8d9cbdae763cf2049f4eda1233f48f95b09d1c780"
+    }
+  ],
+  "imported_at_utc": "2026-09-16T17:24:27.550084+00:00",
+  "kind": "reviewed-historical-analysis-import",
+  "notes": [
+    "Historical proposals and unimplemented interfaces remain labeled as such.",
+    "Current repository README and architecture reflect the subsequent user instruction: one combined Codex+Claude+Grok-build layer, followed by Flutter/Dart.",
+    "Historical local checkpoint paths are evidence references, not included archive members.",
+    "No GitHub or native runtime operation was performed by this import."
+  ],
+  "private_operation_archive_included": false,
+  "raw_api_responses_included": false,
+  "raw_source_discovery_included": false,
+  "schema_version": 1,
+  "source_snapshot": "ios-runtime-reuse-20260916"
+}
