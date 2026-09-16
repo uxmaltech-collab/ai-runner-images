@@ -18,6 +18,43 @@ Do not reinstall Xcode for a launcher, Python module or CLI-wheel correction. Re
 
 The current reusable images are three separate stopped derivatives: native macOS/Xcode/Maestro, the combined Codex/Claude/Grok-build layer, then Flutter/Dart. Preserve each sealed parent. Builder execution and sealing do not update the deployed executor; admission and its binding remain explicit owner operations when deployment is intended.
 
+## Recover public tool directory permissions
+
+The first 2026-09-16 qualification reached the real nonadministrator session but failed to execute a public tool with `PermissionError: [Errno 13]`. The builder's restrictive umask had left both `/opt/ai-runner-images` and `/opt/ai-runner-images/bin` at `0700`. Correct file ownership and executable modes inside those directories did not give the job user directory traversal. Root-only version checks had not exercised that requirement.
+
+The canonical `recipes/macos-xcode-maestro/neutralize.py` now explicitly sets those two public directories to `0755`. For an existing affected artifact, preserve the sealed original and run `recipes/macos-xcode-maestro/repair-public-directories.py` as root inside a new accountless derivative. The repair verifies the virtual guest, absence of ordinary accounts, directory type and root ownership; it changes only those two directory modes and creates `public-directory-repair.json`. It does not recursively relax SDK permissions or alter authentication directories. Compose each subsequent layer from its corrected immutable parent.
+
+Read back the exact directory modes, then test execution as the intended nonadministrator. A separate native APFS fixture confirmed that `clonefile` with `CLONE_NOOWNERCOPY` gives UID/GID 504 ownership of its private clone and allows chmod/write while the root-owned `0444` source remains unchanged. That isolated result verifies the file-clone primitive; it does not establish a usable guest session or a successful Flutter application build.
+
+## Shut down normally before sealing a layer
+
+The second composition attempt returned successful in-guest permission repair and agent installation receipts, followed by `tart stop` and stopped-image manifests. On the next derivative boot, `/opt/ai-runner-images` was again `0700`, and the repair and combined-agent installation receipts were absent. Those are observed persistence failures. The mechanism that lost the writes has not been established; do not describe it as proven APFS corruption, a cache bug or a successful repair.
+
+Composer commit `24e82727c9509d406ed60d44dc71fde95e71550b` changes the orderly stop path to guest `/bin/sync` followed by `/sbin/shutdown -h now`. It retains a monitor of the actual Tart process and verifies its exit code is zero, plus the stopped VM state. Sealing also obtains the configuration lock, checks for disk holders and hashes the stable stopped tuple. A shutdown RPC may disconnect as the guest exits; retain that transport result and reconcile it against the process-exit and stopped-state receipts instead of treating either response alone as the result.
+
+Use `scripts/tart-layer.py` from the pinned composition source. Set the following variables to the existing host binding, owned VM, canonical source commit, immutable parent manifest/digest and unique receipt paths from the operation plan. The boot receipt must be the completed boot of this VM with its retained `vm_exit_receipt`; do not substitute an older receipt that lacks the monitor.
+
+```sh
+python3 scripts/tart-layer.py \
+  --binding "$LAYER_BINDING" --vm "$LAYER_VM" \
+  --receipt "$LAYER_STOP_RECEIPT" \
+  stop --boot-receipt "$LAYER_BOOT_RECEIPT"
+
+python3 scripts/tart-layer.py \
+  --binding "$LAYER_BINDING" --vm "$LAYER_VM" \
+  --receipt "$LAYER_SEAL_RECEIPT" \
+  seal --shutdown-receipt "$LAYER_STOP_RECEIPT" \
+  --source-commit "$LAYER_SOURCE_COMMIT" \
+  --parent-manifest "$LAYER_PARENT_MANIFEST" \
+  --parent-digest "$LAYER_PARENT_SHA256"
+```
+
+Both receipt arguments matter: `stop --boot-receipt` records the actual process exit, and `seal --shutdown-receipt` binds the tuple to that verified normal shutdown. Do not replace an uncertain shutdown with a forced stop and label the result normal. Preserve the uncertain derivative, diagnose through its owner and continue from verified inputs.
+
+The third composition's base completed normal shutdown with Tart exit zero; its next derivative boot read back the persisted directory repair (`agents-v3-parent-readback.1.stdout`). This proves that specific persistence check. Nonadministrator engine execution, Flutter application build and simulator UI acceptance still require their own completed qualification receipts.
+
+Keep the first attempt's `base-seal.manifest.json`, `agents-seal.manifest.json` and `flutter-seal.manifest.json`, the second attempt's `base-v2-seal.manifest.json` and `agents-v2-seal.manifest.json`, and their failed execution/readback evidence. The unfinished second Flutter derivative has no completed seal to invent. Later manifests identify new artifacts; they do not replace those historical records or retroactively qualify them.
+
 ## Recover Flutter precache after a network failure
 
 On 2026-09-16 the initial builder could not resolve `pub.dev`. The builder had inherited a private DHCP DNS server, while its existing network policy allowed public egress. The thin builder path had omitted the installed executor's guest-DNS setup. The approved binding already supplied the remedy: service `Ethernet`, servers `8.8.4.4` and `8.8.8.8`. No network-policy expansion was needed.

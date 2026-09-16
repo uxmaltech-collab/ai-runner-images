@@ -181,6 +181,17 @@ sys.exit(0 if code==0 else 1)
             assert args.command
             run(prefix + ['exec', '-i', args.vm] + args.command, timeout=args.timeout, input_path=args.input)
         elif args.operation == 'stop':
+            if args.boot_receipt:
+                boot_sha256 = digest(args.boot_receipt)
+                boot = json.loads(args.boot_receipt.read_text())
+                assert digest(args.boot_receipt) == boot_sha256
+                assert boot['operation'] == 'boot' and boot['vm'] == args.vm and boot['status'] == 'complete'
+                assert boot['binding_sha256'] == result['binding_sha256']
+                current_boot_uuid = run(prefix + ['exec', args.vm, '/usr/sbin/sysctl',
+                                                  '-n', 'kern.bootsessionuuid']).decode().strip()
+                assert current_boot_uuid == boot['guest_boot_uuid'], 'Boot receipt does not describe the current guest'
+                result.update(boot_receipt=str(args.boot_receipt.resolve()),
+                              boot_receipt_sha256=boot_sha256, guest_boot_uuid=current_boot_uuid)
             run(prefix + ['exec', args.vm, '/bin/sync'], timeout=60)
             try:
                 run(prefix + ['exec', args.vm, '/sbin/shutdown', '-h', 'now'], timeout=30)
@@ -201,8 +212,7 @@ sys.exit(0 if code==0 else 1)
             result.update(normal_guest_shutdown_observed=True, forced_stop_used=False,
                           shutdown_observations=observations)
             if args.boot_receipt:
-                boot = json.loads(args.boot_receipt.read_text())
-                assert boot['vm'] == args.vm and boot['status'] == 'complete'
+                assert digest(args.boot_receipt) == boot_sha256, 'Boot receipt changed during shutdown'
                 exit_path = Path(boot['vm_exit_receipt'])
                 deadline = time.monotonic() + 10
                 while time.monotonic() < deadline:
@@ -211,7 +221,12 @@ sys.exit(0 if code==0 else 1)
                         break
                     time.sleep(0.1)
                 assert outcome['exit_code'] == 0, 'Tart did not confirm normal guest exit'
-                result.update(vm_exit_receipt=str(exit_path), vm_exit_sha256=digest(exit_path), vm_exit_code=0)
+                result.update(vm_exit_receipt=str(exit_path.resolve()), vm_exit_sha256=digest(exit_path), vm_exit_code=0)
+            result['stopped_tuple_metadata'] = {
+                name: {key: getattr((target / name).stat(), key)
+                       for key in ('st_dev', 'st_ino', 'st_size', 'st_mtime_ns')}
+                for name in ('config.json', 'nvram.bin', 'disk.img')
+            }
         elif args.operation == 'seal':
             stopped()
             assert args.shutdown_receipt, 'A verified normal guest shutdown is required'
@@ -220,6 +235,17 @@ sys.exit(0 if code==0 else 1)
             assert shutdown['operation'] == 'stop' and shutdown.get('normal_guest_shutdown_observed') is True
             assert shutdown.get('forced_stop_used') is False
             assert shutdown.get('vm_exit_code') == 0, 'The retained Tart process exit must be verified'
+            assert shutdown['binding_sha256'] == result['binding_sha256']
+            boot_path = Path(shutdown['boot_receipt'])
+            assert digest(boot_path) == shutdown['boot_receipt_sha256']
+            boot = json.loads(boot_path.read_text())
+            assert boot['operation'] == 'boot' and boot['status'] == 'complete' and boot['vm'] == args.vm
+            assert boot['binding_sha256'] == result['binding_sha256']
+            assert boot['guest_boot_uuid'] == shutdown['guest_boot_uuid']
+            exit_path = Path(shutdown['vm_exit_receipt'])
+            assert exit_path.resolve() == Path(boot['vm_exit_receipt']).resolve()
+            assert digest(exit_path) == shutdown['vm_exit_sha256']
+            assert json.loads(exit_path.read_text())['exit_code'] == 0
             result['shutdown_receipt_sha256'] = digest(args.shutdown_receipt)
             assert args.source_commit and re.fullmatch('[0-9a-f]{40}', args.source_commit)
             assert args.parent_digest and re.fullmatch('[0-9a-f]{64}', args.parent_digest)
@@ -232,6 +258,8 @@ sys.exit(0 if code==0 else 1)
             for name in ['config.json', 'nvram.bin', 'disk.img']:
                 file = target / name
                 before = file.stat()
+                observed = {key: getattr(before, key) for key in ('st_dev', 'st_ino', 'st_size', 'st_mtime_ns')}
+                assert observed == shutdown['stopped_tuple_metadata'][name], 'Image changed after the verified shutdown'
                 files[name] = {'bytes': before.st_size, 'sha256': digest(file)}
                 after = file.stat()
                 assert (before.st_ino, before.st_size, before.st_mtime_ns) == (after.st_ino, after.st_size, after.st_mtime_ns)
