@@ -153,8 +153,14 @@ def materialize(templates: Path, config: Path, output: Path, lock_path: Path) ->
     write("declaration.json", encoded(d))
     write("source-lock.json", encoded(lock))
     workflow = f'''name: Runner portability canary
+run-name: Runner portability ${{{{ inputs.qualification_id }}}}
 on:
   workflow_dispatch:
+    inputs:
+      qualification_id:
+        description: Unique qualification receipt identity
+        required: true
+        type: string
 permissions:
   contents: read
 jobs:

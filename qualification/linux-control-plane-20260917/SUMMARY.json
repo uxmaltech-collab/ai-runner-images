@@ -113,7 +113,7 @@
     "stacks/linux-control-plane/control-plane.Dockerfile": "f5c11c2e2f4530702e3b85097d8cc5e8f860214498755cc3a8ec9c0365de47d9",
     "stacks/linux-control-plane/entrypoint.py": "0c7c7d98c190b2f02b24059d2baddc86edd1f6ca2ee96c4f8e5da072a8f56e51",
     "stacks/linux-control-plane/lock.json": "012bec13aee6284e7f1524a15a5d923fd700eaac401d377a36ace749d64a84f7",
-    "stacks/linux-control-plane/materialize.py": "5ea9a4e877526da07d67ab66fb93e09906ea5d355882c4e4704a79ed617d78e1",
+    "stacks/linux-control-plane/materialize.py": "8fe60602cf14d7a1cf8bc2bac8cf34d612b8ccab7da66ed478466d442c167894",
     "stacks/linux-control-plane/qualification.json": "f18b5459d0f5096eacfda321228dc20e6e56ca3cb92254c5c0d3c138a8a19671",
     "stacks/linux-control-plane/requirements.lock": "0818c3d807ee7ea4d5a06920ea440c774d102af8ff673313f5bf3fbc5b2194da",
     "stacks/linux-control-plane/restore-rehearsal.py": "68a303a3268c09dff647fe34545af585300ab165f4615a2bcd91d18be0d0ec41",
