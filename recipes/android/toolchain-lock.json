@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "architecture": "linux/amd64",
+  "sdk_package": "system-images;android-36;google_apis;x86_64",
+  "sources": [
+    "https://dl.google.com/android/repository/repository2-3.xml",
+    "https://dl.google.com/android/repository/sys-img/google_apis/sys-img2-3.xml",
+    "https://github.com/adoptium/temurin17-binaries/releases/tag/jdk-17.0.18%2B8",
+    "https://github.com/mobile-dev-inc/Maestro/releases/tag/cli-2.10.0"
+  ],
+  "archives": [
+    {
+      "name": "platforms;android-36",
+      "url": "https://dl.google.com/android/repository/platform-36_r02.zip",
+      "size": 65878410,
+      "sha1": "2c1a80dd4d9f7d0e6dd336ec603d9b5c55a6f576",
+      "version": "2",
+      "sha256": "37607369a28c5b640b3a7998868d45898ebcb777565a0e85f9acf36f29631d2e",
+      "archive_root": "android-36",
+      "destination": "/opt/android-sdk/platforms/android-36"
+    },
+    {
+      "name": "build-tools;36.0.0",
+      "url": "https://dl.google.com/android/repository/build-tools_r36_linux.zip",
+      "size": 63737259,
+      "sha1": "b0b6376977657e8ad9b969bacf4093601da2c6fb",
+      "version": "36.0.0",
+      "sha256": "5d9ac77fb6ff43d9da518a337b4fcf8f9097113df531d99ccefe80ef7ce8250b",
+      "archive_root": "android-16",
+      "destination": "/opt/android-sdk/build-tools/36.0.0"
+    },
+    {
+      "name": "cmdline-tools;19.0",
+      "url": "https://dl.google.com/android/repository/commandlinetools-linux-13114758_latest.zip",
+      "size": 164760899,
+      "sha1": "5fdcc763663eefb86a5b8879697aa6088b041e70",
+      "version": "19.0",
+      "sha256": "7ec965280a073311c339e571cd5de778b9975026cfcbe79f2b1cdcb1e15317ee",
+      "archive_root": "cmdline-tools",
+      "destination": "/opt/android-sdk/cmdline-tools/19.0"
+    },
+    {
+      "name": "platform-tools",
+      "url": "https://dl.google.com/android/repository/platform-tools_r37.0.1-linux.zip",
+      "size": 9054187,
+      "sha1": "477254aa5f903c15cf51001717bdf347fb6b53e0",
+      "version": "37.0.1",
+      "sha256": "d230f13842f60f782a8645f9c813f8f845bf36089ea7289f28c48f17979313f1",
+      "archive_root": "platform-tools",
+      "destination": "/opt/android-sdk/platform-tools"
+    },
+    {
+      "name": "emulator",
+      "url": "https://dl.google.com/android/repository/emulator-linux_x64-15917651.zip",
+      "size": 334378080,
+      "sha1": "1b1f78891abf8ec268264356e1365c25519e8379",
+      "version": "37.1.11",
+      "sha256": "95771e0ae431897b2a4bd2d97fa095f29a8b0624a7b216baf529f9306161c266",
+      "archive_root": "emulator",
+      "destination": "/opt/android-sdk/emulator"
+    },
+    {
+      "name": "system-images;android-36;google_apis;x86_64",
+      "url": "https://dl.google.com/android/repository/sys-img/google_apis/x86_64-36_r07.zip",
+      "size": 1895447397,
+      "sha1": "c6bf44bdcd885bb902b4ba752d111a073ad7a817",
+      "version": "7",
+      "sha256": "b1bb0769d0bed7698e61f203d7dc9bf6e7c37cd01a39d0d8788a11186bc78160",
+      "archive_root": "x86_64",
+      "destination": "/opt/android-sdk/system-images/android-36/google_apis/x86_64"
+    },
+    {
+      "name": "jdk",
+      "version": "17.0.18+8",
+      "url": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.18%2B8/OpenJDK17U-jdk_x64_linux_hotspot_17.0.18_8.tar.gz",
+      "sha256": "0c94cbb54325c40dcf026143eb621562017db5525727f2d9131a11250f72c450",
+      "size": 193062224,
+      "archive_root": "jdk-17.0.18+8",
+      "destination": "/opt/java"
+    },
+    {
+      "name": "maestro",
+      "version": "2.10.0",
+      "url": "https://github.com/mobile-dev-inc/Maestro/releases/download/cli-2.10.0/maestro.zip",
+      "size": 314828521,
+      "sha256": "29b675e10cc12080e445e9bfb2e2b4e4dfb9c0f2e30d5884120d258b5e1cd991",
+      "archive_root": "maestro",
+      "destination": "/opt/maestro"
+    }
+  ]
+}

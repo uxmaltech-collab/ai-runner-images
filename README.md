@@ -25,6 +25,15 @@ Each layer records its exact parent digest. Engines are installed together in th
 
 This repository owns image and toolchain composition and its qualification records. The existing executor, guest/session/RPC protocol, ordinary resolver and external publisher remain in their canonical owners. Platform recipes consume those canonical components and supply the tools needed by the existing jobs.
 
+## Promoted mobile knowledge
+
+The [neutral Android recipe](recipes/android/README.md) retains the exercised
+consumer toolchain with organization bindings removed. Its extracted source has
+regression coverage; a new neutral image build is not claimed. Current accepted
+iOS/Android references are appended in [the catalog](catalog/images.json), keeping
+the original records. Read [operating lessons](docs/operating-lessons.md) for
+qualification, recording and honest distribution/restore status.
+
 ## Current status
 
 | Entry | Evidence and limits |
