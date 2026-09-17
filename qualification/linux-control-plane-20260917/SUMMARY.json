@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "kind": "cross-organization-linux-stack-qualification",
+  "test_organization": "collab-e2e-org",
+  "test_repository": "collab-e2e-org/collab-delivery",
+  "templates_commit": "c7a84f2875a5febea71fb6aee4f51b00fe19c8be",
+  "platform": "linux/amd64",
+  "images": {
+    "runner-base": {
+      "tag": "collab-e2e/runner-base:c7a84f2875a5-6ad86a1837dd4cd1",
+      "reference": "collab-e2e/runner-base@sha256:7433b42fe4d71b3e5d402d466fd79f3ff2216e4774683a55157b74d1751ce80d",
+      "id": "sha256:7433b42fe4d71b3e5d402d466fd79f3ff2216e4774683a55157b74d1751ce80d",
+      "architecture": "amd64",
+      "layers": [
+        "sha256:e8c084c1b320c172e8be941d735d77298e49986014213a8282c9b533ee216a61",
+        "sha256:ab0ae19b58df847c6f0e4beb31f759a4dac2cc42288a6bda6f467eea4584c541",
+        "sha256:7abb468e4352e04b8aa17de0e41c8d6b1e92fa353108bbe7ca843551f8dbfc54",
+        "sha256:ed00049407561c525f385292d17bc28227abe48573d2a5c822c179aa3a85bea8",
+        "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+        "sha256:bb1051ede16a775704bf26a9c0a322a51ffaebb7c8d15203a666e57235893e2f",
+        "sha256:51bc3e3e972ee93603d044ffef11f4c8475b48c6717f37e16fbf692fed0ed8d5",
+        "sha256:03f0a3c970e935b809fbb9691d9e2100a551c838b07f9c34e0b835ea578275ad"
+      ]
+    },
+    "runner-agent-base": {
+      "tag": "collab-e2e/runner-agent-base:c7a84f2875a5-6ad86a1837dd4cd1",
+      "reference": "collab-e2e/runner-agent-base@sha256:1a82fc62361111cacf1047df523f4d9ac9f342d21e5b8d4448b33f1740d69d98",
+      "id": "sha256:1a82fc62361111cacf1047df523f4d9ac9f342d21e5b8d4448b33f1740d69d98",
+      "architecture": "amd64",
+      "layers": [
+        "sha256:e8c084c1b320c172e8be941d735d77298e49986014213a8282c9b533ee216a61",
+        "sha256:ab0ae19b58df847c6f0e4beb31f759a4dac2cc42288a6bda6f467eea4584c541",
+        "sha256:7abb468e4352e04b8aa17de0e41c8d6b1e92fa353108bbe7ca843551f8dbfc54",
+        "sha256:ed00049407561c525f385292d17bc28227abe48573d2a5c822c179aa3a85bea8",
+        "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+        "sha256:bb1051ede16a775704bf26a9c0a322a51ffaebb7c8d15203a666e57235893e2f",
+        "sha256:51bc3e3e972ee93603d044ffef11f4c8475b48c6717f37e16fbf692fed0ed8d5",
+        "sha256:03f0a3c970e935b809fbb9691d9e2100a551c838b07f9c34e0b835ea578275ad",
+        "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+        "sha256:01396e3141601e592ac97e9288a4d92e81506a416c5d6024e0c36e102e40fc0a"
+      ]
+    },
+    "runner-ci-portability": {
+      "tag": "collab-e2e/runner-ci-portability:c7a84f2875a5-6ad86a1837dd4cd1",
+      "reference": "collab-e2e/runner-ci-portability@sha256:a9da5027da67c7b717fb7329d6bf3a1d9aab97c7cadc0ee1ab3bb04e98340202",
+      "id": "sha256:a9da5027da67c7b717fb7329d6bf3a1d9aab97c7cadc0ee1ab3bb04e98340202",
+      "architecture": "amd64",
+      "layers": [
+        "sha256:e8c084c1b320c172e8be941d735d77298e49986014213a8282c9b533ee216a61",
+        "sha256:ab0ae19b58df847c6f0e4beb31f759a4dac2cc42288a6bda6f467eea4584c541",
+        "sha256:7abb468e4352e04b8aa17de0e41c8d6b1e92fa353108bbe7ca843551f8dbfc54",
+        "sha256:ed00049407561c525f385292d17bc28227abe48573d2a5c822c179aa3a85bea8",
+        "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+        "sha256:bb1051ede16a775704bf26a9c0a322a51ffaebb7c8d15203a666e57235893e2f",
+        "sha256:51bc3e3e972ee93603d044ffef11f4c8475b48c6717f37e16fbf692fed0ed8d5",
+        "sha256:03f0a3c970e935b809fbb9691d9e2100a551c838b07f9c34e0b835ea578275ad"
+      ]
+    },
+    "runner-control-plane": {
+      "tag": "collab-e2e/runner-control-plane:c7a84f2875a5-6ad86a1837dd4cd1",
+      "reference": "collab-e2e/runner-control-plane@sha256:acb2fc875bfc7f4c2bc6b6a0ab8b51c941a5f66c769a306b161bbda85f82dd07",
+      "id": "sha256:acb2fc875bfc7f4c2bc6b6a0ab8b51c941a5f66c769a306b161bbda85f82dd07",
+      "architecture": "amd64",
+      "layers": [
+        "sha256:411a86676185cb54d695a805b238194a64e9b77e0c723f3802fbb87d333ea0b3",
+        "sha256:ebad55931d5b35d9cf64ab801f5b6f4e96821c5fcd17f4109e5774b039114014",
+        "sha256:f19f6d6c86377e4b77a2a5b5d8f56e7ecb205193e6f6b68aa74f61e382427936",
+        "sha256:6fdca0968d0fffb99492a80150c0c18077f7452fe77b70e950c3aefaf85dfe54",
+        "sha256:9ef616fc29d4ad1494efcca04bc37b0c5d41b8264749fa50f8448d9c69f1dce3",
+        "sha256:ebccea60a3c918a1cfdcf40903a0544aed9a0e4c10c60e0141afc74d11cd485e",
+        "sha256:6a3505d78069cf1826fa23507fe1f26b097a4b14ebdf02ab647c45d3e95ea918",
+        "sha256:558df68e3bda559462a9f68848e8e308ba6d4de84f1c7838968811a083817e13",
+        "sha256:687427e7b9b33962ed65d7c9adaebed717e85d89c11eecbf095de92f4544e2fb",
+        "sha256:9cf7ab7eea10ee30f40a4be1aa5dd79a309e91d3726e15a923b37ce35ed0480f",
+        "sha256:f17e3337ed781ca0289e65b13edcff636684831276705456c74681a53a4d1052",
+        "sha256:905ee81cd51eedcdecc5c45312c18623ba2696d0d47a6fa9f38dbafffd378b61"
+      ]
+    }
+  },
+  "archive": {
+    "name": "images.tar",
+    "bytes": 1013202944,
+    "sha256": "3218a72c047b261cd7eb2833fb444a12fdd64abc9d619b48c1c31ef3bfd83ca0"
+  },
+  "materialization_sha256": "6ad86a1837dd4cd11348941bf237e346187fa6b6c73957de6798c48d3f4ffe9b",
+  "requirements_sha256": "0818c3d807ee7ea4d5a06920ea440c774d102af8ff673313f5bf3fbc5b2194da",
+  "checks": {
+    "materialization": "two equal independent renders; shared core retained",
+    "source_integration": "10 passed",
+    "agent_base_contract": "15 passed",
+    "agent_versions": "Claude 2.1.266; Codex 0.153.4; Grok 1.0.24, unprivileged/offline",
+    "cold_restore": "all four immutable image references and layers matched in an empty separate store",
+    "control_plane_boot": "passed-offline",
+    "cleanup": "no containers remain; dockerd, containerd and network namespace owner stopped",
+    "github_app": "dedicated tenant App authenticated; scoped JIT/queue tokens and target repository access verified",
+    "github_e2e": "passed",
+    "authenticated_agents": "not-run",
+    "github_e2e_cleanup": "runner container and GitHub registration absent; admission slot released; temporary controller/network removed; production controller and default bridge preserved"
+  },
+  "distribution": "local-only archive; no remote delivery claimed",
+  "rebuild_limitations": [
+    "APT repositories and npm transitive resolution are not snapshot locked. Use the verified image archive for exact restoration; a rebuild is a separately qualified artifact."
+  ],
+  "retained_failures": [
+    "Initial local parent digest required explicit BuildKit context binding.",
+    "Initial integration test omitted the declared never-pull environment.",
+    "Initial restore daemon shared containerd; stopped before archive import.",
+    "A restore attempt removed the host default bridge; restored under explicit operator authorization, without restarting containers. The final recipe isolates network namespaces as well as Docker/containerd stores.",
+    "Initial control-plane image omitted its SQLite state directory; corrected and requalified."
+  ],
+  "recipe_files": {
+    "stacks/linux-control-plane/README.md": "4491ee7e45842c938fecdd8f241cc1286b5f3a95cfc2a8753d141260de7480a8",
+    "stacks/linux-control-plane/build.py": "8a406c04e33843e7edbf27449dcc20a2c0f06c85c592a6ccd9ac882a581c1d75",
+    "stacks/linux-control-plane/control-plane.Dockerfile": "f5c11c2e2f4530702e3b85097d8cc5e8f860214498755cc3a8ec9c0365de47d9",
+    "stacks/linux-control-plane/entrypoint.py": "0c7c7d98c190b2f02b24059d2baddc86edd1f6ca2ee96c4f8e5da072a8f56e51",
+    "stacks/linux-control-plane/lock.json": "012bec13aee6284e7f1524a15a5d923fd700eaac401d377a36ace749d64a84f7",
+    "stacks/linux-control-plane/materialize.py": "8fe60602cf14d7a1cf8bc2bac8cf34d612b8ccab7da66ed478466d442c167894",
+    "stacks/linux-control-plane/qualification.json": "f18b5459d0f5096eacfda321228dc20e6e56ca3cb92254c5c0d3c138a8a19671",
+    "stacks/linux-control-plane/requirements.lock": "0818c3d807ee7ea4d5a06920ea440c774d102af8ff673313f5bf3fbc5b2194da",
+    "stacks/linux-control-plane/restore-rehearsal.py": "68a303a3268c09dff647fe34545af585300ab165f4615a2bcd91d18be0d0ec41",
+    "stacks/linux-control-plane/test_materialize.py": "fd98f9a1266095973eea8388e4237f96dd430f9dcba05bbba7ca1fef48d7a156",
+    "stacks/linux-control-plane/wheels.lock.json": "c1ae3361d1598746b9d506f08995f3e773d3592c0bae94621cadb744eef6e791"
+  },
+  "github_e2e_record": "GITHUB-E2E.json"
+}

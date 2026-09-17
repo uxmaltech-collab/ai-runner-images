@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "organization": "collab-e2e-org",
+  "repository": "collab-e2e-org/collab-delivery",
+  "environment_prefix": "COLLAB_E2E",
+  "workload": "collab-e2e-runner-control-plane",
+  "sentinel": "collab-e2e-runner",
+  "label_namespace": "io.collab-e2e.runner",
+  "image_namespace": "collab-e2e",
+  "egress_network": "collab-e2e-runner-egress",
+  "runner_group_id": 1,
+  "profile_id": "ci-portability"
+}
