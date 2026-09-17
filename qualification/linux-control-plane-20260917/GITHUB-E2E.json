@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "kind": "real-github-runner-portability-canary",
+  "organization": "collab-e2e-org",
+  "repository": "collab-e2e-org/collab-delivery",
+  "qualification_id": "portability-20260917-01",
+  "templates_payload_commit": "c7a84f2875a5febea71fb6aee4f51b00fe19c8be",
+  "templates_merge_commit": "f93c55a58ce6b92b10cb18ba4189745bb6ead278",
+  "workflow_commit": "ab361b92da8fe24e432a1e9818cc7c68e00e4a68",
+  "workflow": ".github/workflows/runner-portability.yml",
+  "dispatches": 1,
+  "run": {
+    "id": 35288050437,
+    "html_url": "https://github.com/collab-e2e-org/collab-delivery/actions/runs/35288050437",
+    "run_attempt": 1,
+    "event": "workflow_dispatch",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-09-17T23:42:48Z",
+    "updated_at": "2026-09-17T23:43:13Z"
+  },
+  "job": {
+    "id": 105424666256,
+    "name": "qualify",
+    "status": "completed",
+    "conclusion": "success",
+    "runner_id": 61,
+    "runner_name": "collab-e2e-runner-ci-portability-105424666256",
+    "runner_group_id": 1,
+    "started_at": "2026-09-17T23:43:08Z",
+    "completed_at": "2026-09-17T23:43:12Z"
+  },
+  "steps": [
+    {
+      "name": "Set up job",
+      "conclusion": "success"
+    },
+    {
+      "name": "Verify execution and image contract",
+      "conclusion": "success"
+    },
+    {
+      "name": "Complete job",
+      "conclusion": "success"
+    }
+  ],
+  "credential_scope": {
+    "app_id": 4983404,
+    "app": "collab-e2e-agent",
+    "organization": "collab-e2e-org",
+    "foreign_credentials": false,
+    "private_key_in_runner": false
+  },
+  "runtime": {
+    "control_plane_image": "collab-e2e/runner-control-plane@sha256:acb2fc875bfc7f4c2bc6b6a0ab8b51c941a5f66c769a306b161bbda85f82dd07",
+    "runner_image": "collab-e2e/runner-ci-portability@sha256:a9da5027da67c7b717fb7329d6bf3a1d9aab97c7cadc0ee1ab3bb04e98340202",
+    "observed_runner_image_id": "sha256:a9da5027da67c7b717fb7329d6bf3a1d9aab97c7cadc0ee1ab3bb04e98340202",
+    "user": "runner",
+    "verified_uid": 1001,
+    "cpus": 1,
+    "memory_bytes": 2147483648,
+    "mounts": [],
+    "docker_socket_in_runner": false,
+    "queue_reconciliation_seconds": 15,
+    "webhook_enabled": false
+  },
+  "cleanup": {
+    "at": "2026-09-17T23:46:47.274723+00:00",
+    "runner_containers_remaining": [],
+    "runner_registration_remaining": false,
+    "controller_removed": true,
+    "network_removed": true,
+    "admission_slots_released": true,
+    "production_container_unchanged_and_healthy": true,
+    "host_default_bridge_preserved": true,
+    "run_id": 35288050437
+  },
+  "observation": {
+    "reads": 4,
+    "dispatches": 1,
+    "deadline_seconds": 900,
+    "terminal": true
+  },
+  "private_evidence_sha256": {
+    "terminal-run.json": "efb4ff64f95f07f1f822f0e1337fbd37c483bf91ecde44e099d60d9945b40ea7",
+    "terminal-jobs.json": "291606e5169599eec06a6087bcf9db300022269aeef82f7afe0c85eaacba390b",
+    "job.log": "9a23b05e55d9e490f913c52c5b1badb371aca1751eef37e9df071a415aa00890",
+    "controller.log": "db5872cfc8d4d40d127713bc8096b28d7e4ca26c24fae9198ef5d64dc8f3539b",
+    "cleanup.json": "f87532411f42fd063823d5d900ddf7fbf71ef64a19c4a878573993bb93789ef2",
+    "registrations-after.json": "0a37990c04105f6d4c2c21388345c6326e3d61bcd8733ff58d79c28bc80f52a3"
+  },
+  "limits": [
+    "Linux amd64 CI path only; authenticated resolver and mobile journey execution are not exercised.",
+    "Cold restore used an independent empty local Docker/containerd store; no remote archive delivery is claimed.",
+    "The queue-only canary has no webhook; the canonical janitor released the finished job after its orphan grace.",
+    "Organization administrative approval gates were removed separately by its owner; this is not a default for other organizations."
+  ]
+}

@@ -18,8 +18,14 @@ rehearsal uses a private Linux network namespace in addition to independent
 Docker/containerd roots, sockets and namespaces. Raw host receipts remain
 private. A new data root or `--bridge none` is not a network isolation boundary.
 
-The dedicated GitHub App and target access passed their preflight. **The real
-GitHub dispatch is not yet recorded**, so no E2E acceptance is claimed here.
+The dedicated GitHub App and target access passed their preflight. The real
+[GitHub canary](https://github.com/collab-e2e-org/collab-delivery/actions/runs/35288050437)
+passed in one dispatch. [Measured evidence](GITHUB-E2E.json) binds the workflow
+commit, runner/group, actual images, UID 1001 and resource limits. The runner
+had no mounts, Docker socket or App private key. Its container and GitHub
+registration disappeared, the canonical janitor released its admission slot,
+and the temporary controller/network were removed. The existing production
+controller and host default bridge were preserved.
 This Linux CI path does not credit Android, native macOS, authenticated agent
 execution or application journeys. Exact archive restoration is proven on a
 new local store; remote artifact distribution and bit-identical APT/npm source

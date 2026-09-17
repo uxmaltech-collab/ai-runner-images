@@ -93,8 +93,9 @@
     "control_plane_boot": "passed-offline",
     "cleanup": "no containers remain; dockerd, containerd and network namespace owner stopped",
     "github_app": "dedicated tenant App authenticated; scoped JIT/queue tokens and target repository access verified",
-    "github_e2e": "not-run",
-    "authenticated_agents": "not-run"
+    "github_e2e": "passed",
+    "authenticated_agents": "not-run",
+    "github_e2e_cleanup": "runner container and GitHub registration absent; admission slot released; temporary controller/network removed; production controller and default bridge preserved"
   },
   "distribution": "local-only archive; no remote delivery claimed",
   "rebuild_limitations": [
@@ -119,5 +120,6 @@
     "stacks/linux-control-plane/restore-rehearsal.py": "68a303a3268c09dff647fe34545af585300ab165f4615a2bcd91d18be0d0ec41",
     "stacks/linux-control-plane/test_materialize.py": "fd98f9a1266095973eea8388e4237f96dd430f9dcba05bbba7ca1fef48d7a156",
     "stacks/linux-control-plane/wheels.lock.json": "c1ae3361d1598746b9d506f08995f3e773d3592c0bae94621cadb744eef6e791"
-  }
+  },
+  "github_e2e_record": "GITHUB-E2E.json"
 }

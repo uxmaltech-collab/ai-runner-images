@@ -8,7 +8,7 @@ The shared home for **all runner images and tools** across **iOS/macOS, Android,
 | --- | --- | --- |
 | iOS/macOS | Tart, macOS, Xcode, Simulator, Java, Maestro, the combined agent layer and optional Flutter/Dart support | Flutter iOS Hello World image qualified; exact local artifacts and receipts recorded |
 | Android | Linux base, Android SDK/emulator, Java, Maestro, the combined agent layer and optional Flutter/Dart support | In scope; image implementation and qualification pending |
-| Linux | Linux runner bases, the combined agent layer, build toolchains and job utilities | Portable CI stack built and cold-restored; real GitHub E2E pending |
+| Linux | Linux runner bases, the combined agent layer, build toolchains and job utilities | Portable CI stack built, cold-restored and qualified by a real GitHub canary in collab-e2e-org |
 | Web | Linux runner capabilities for browsers and Playwright, using the combined agent layer | In scope; image implementation and qualification pending |
 
 The [platform catalog](catalog/platforms.json) records scope and demonstrated status separately. The [platform guide](docs/platforms.md) describes how images and tools are organized. iOS is the first qualified implementation; the repository is not limited to Apple or Flutter workloads.
