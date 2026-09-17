@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "source_repository": "enviaflores/ai-repo-resources",
+  "source_commit": "33a85b9ccf9bb241a00eb9e184f2bc8968a1a4c3",
+  "status": "neutral-recipe-extracted; consumer-artifact-evidence-retained; neutral-image-not-built",
+  "normalizations": [
+    [
+      "AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE",
+      "RUNNER_AGENT_BASE_IMAGE"
+    ],
+    [
+      "AI_REPO_RESOURCES_BUNDLE_COMMIT",
+      "RUNNER_SOURCE_COMMIT"
+    ],
+    [
+      "runners/images/runner-resolver-storefront-android",
+      "recipes/android"
+    ],
+    [
+      "/opt/ef-storefront-android",
+      "/opt/runner-android"
+    ],
+    [
+      "ef-storefront-android-emulator",
+      "runner-android-emulator"
+    ],
+    [
+      "ef-storefront-android-stack-probe",
+      "runner-android-stack-probe"
+    ],
+    [
+      "ef-android-journey-",
+      "android-journey-"
+    ],
+    [
+      "EF_ANDROID_EMULATOR_OWNED",
+      "RUNNER_ANDROID_EMULATOR_OWNED"
+    ]
+  ],
+  "files": [
+    {
+      "consumer_path": "runners/images/runner-resolver-storefront-android/toolchain-lock.json",
+      "consumer_sha256": "4e137cd48c7fd5d3cee73a2fbfb0408c3a54f8bfdc142780f65b151aaff444ef",
+      "recipe_path": "recipes/android/toolchain-lock.json",
+      "recipe_sha256": "4e137cd48c7fd5d3cee73a2fbfb0408c3a54f8bfdc142780f65b151aaff444ef"
+    },
+    {
+      "consumer_path": "runners/images/runner-resolver-storefront-android/emulator-package.xml",
+      "consumer_sha256": "a248c95eb4bdfeb4a2a498723e327619306462f229549a33ba6e4af43d9e6385",
+      "recipe_path": "recipes/android/emulator-package.xml",
+      "recipe_sha256": "a248c95eb4bdfeb4a2a498723e327619306462f229549a33ba6e4af43d9e6385"
+    },
+    {
+      "consumer_path": "runners/images/runner-resolver-storefront-android/scripts/install-toolchain.py",
+      "consumer_sha256": "608c14a5a0b1c96c43359d1d7a1e4b3df530331497b5340d9e5724ead4a64db8",
+      "recipe_path": "recipes/android/scripts/install-toolchain.py",
+      "recipe_sha256": "ec3105b05e89e7601a68fe77a7adbc07583d8c41a981aafa04282a05cf6ffd0a"
+    },
+    {
+      "consumer_path": "runners/images/runner-resolver-storefront-android/scripts/entrypoint-android.py",
+      "consumer_sha256": "2cebc4bd57cf26fd2e650274c0f29332d56e314936a58481c6495b63b1bd0920",
+      "recipe_path": "recipes/android/scripts/entrypoint-android.py",
+      "recipe_sha256": "2cebc4bd57cf26fd2e650274c0f29332d56e314936a58481c6495b63b1bd0920"
+    },
+    {
+      "consumer_path": "runners/images/runner-resolver-storefront-android/scripts/ef-storefront-android-emulator.py",
+      "consumer_sha256": "5e0b792cd0aeb7523cdb386ae6a3a0d6278f32e20a5e29c6e52d1cae45ca3ddd",
+      "recipe_path": "recipes/android/scripts/runner-android-emulator.py",
+      "recipe_sha256": "3811da92a59202e1c95aaef795d51b5b938c5f73c7a079ef1f57a25e5171b8bd"
+    },
+    {
+      "consumer_path": "runners/images/runner-resolver-storefront-android/scripts/ef-storefront-android-stack-probe.sh",
+      "consumer_sha256": "1b4b3def394b7b395a7b92a6df405e4b16d515b5da1112f0f4baeca0a1c65c6e",
+      "recipe_path": "recipes/android/scripts/runner-android-stack-probe.sh",
+      "recipe_sha256": "1b4b3def394b7b395a7b92a6df405e4b16d515b5da1112f0f4baeca0a1c65c6e"
+    }
+  ],
+  "downstream_only": [
+    "journey-driver.json",
+    "application/environment/flow",
+    "profile labels and organization bundle identity"
+  ]
+}

@@ -3,36 +3,73 @@
   "kind": "runner-platform-scope-not-runtime-admission",
   "repository": "uxmaltech-collab/ai-runner-images",
   "scope": "All runner images and toolchains across organizations and repositories",
-  "combined_agent_engines": ["codex", "claude", "grok-build"],
-  "consumer_capabilities": ["resolver", "create-journey", "test-e2e"],
+  "combined_agent_engines": [
+    "codex",
+    "claude",
+    "grok-build"
+  ],
+  "consumer_capabilities": [
+    "resolver",
+    "create-journey",
+    "test-e2e"
+  ],
   "consumer_capability_status": "Listed capabilities describe intended consumers; wiring and acceptance remain per profile and artifact",
   "image_artifact_catalog": "catalog/images.json",
   "platforms": [
     {
       "id": "ios-macos",
       "runtime_family": "macos-tart",
-      "tool_scope": ["macos", "xcode", "ios-simulator", "java", "maestro", "combined-agent-build", "optional-flutter-dart"],
+      "tool_scope": [
+        "macos",
+        "xcode",
+        "ios-simulator",
+        "java",
+        "maestro",
+        "combined-agent-build",
+        "optional-flutter-dart"
+      ],
       "status": "neutral-flutter-ios-image-qualified",
-      "recipe_paths": ["recipes/macos-xcode-maestro", "recipes/agent-build", "recipes/flutter-dart"],
+      "recipe_paths": [
+        "recipes/macos-xcode-maestro",
+        "recipes/agent-build",
+        "recipes/flutter-dart"
+      ],
       "qualified_catalog_entry": "flutter-dart-ios-v4-20260916",
       "qualification_record": "qualification/flutter-ios-hello-world-20260916/summary.json",
       "distribution_status": "local-only",
-      "scope_limit": "Demonstrated Flutter iOS simulator fixture and native CLI launches; not general macOS desktop or customer acceptance"
+      "scope_limit": "Demonstrated Flutter iOS simulator fixture and native CLI launches; not general macOS desktop or customer acceptance",
+      "consumer_reference": "enviaflores-storefront-ios-20260917"
     },
     {
       "id": "android",
       "runtime_family": "linux",
-      "tool_scope": ["android-sdk", "android-emulator", "java", "maestro", "combined-agent-build", "optional-flutter-dart"],
-      "status": "in-scope-implementation-and-qualification-pending",
-      "recipe_paths": [],
+      "tool_scope": [
+        "android-sdk",
+        "android-emulator",
+        "java",
+        "maestro",
+        "combined-agent-build",
+        "optional-flutter-dart"
+      ],
+      "status": "neutral-recipe-extracted-consumer-reference-accepted",
+      "recipe_paths": [
+        "recipes/android"
+      ],
       "qualified_catalog_entry": null,
       "qualification_record": null,
-      "distribution_status": "not-established"
+      "distribution_status": "not-established",
+      "consumer_reference": "enviaflores-storefront-android-20260917",
+      "scope_limit": "Neutral recipe has source regressions; the retained consumer image has real app evidence. No new neutral image build or distribution is claimed."
     },
     {
       "id": "linux",
       "runtime_family": "linux",
-      "tool_scope": ["linux-base", "combined-agent-build", "build-toolchains", "job-utilities"],
+      "tool_scope": [
+        "linux-base",
+        "combined-agent-build",
+        "build-toolchains",
+        "job-utilities"
+      ],
       "status": "in-scope-implementation-and-qualification-pending",
       "recipe_paths": [],
       "qualified_catalog_entry": null,
@@ -42,7 +79,12 @@
     {
       "id": "web",
       "runtime_family": "linux",
-      "tool_scope": ["linux-base", "combined-agent-build", "browsers", "playwright"],
+      "tool_scope": [
+        "linux-base",
+        "combined-agent-build",
+        "browsers",
+        "playwright"
+      ],
       "status": "in-scope-implementation-and-qualification-pending",
       "recipe_paths": [],
       "qualified_catalog_entry": null,

@@ -877,6 +877,48 @@
       "recipe_commit": "4e41365a51b5476b3ffe717ff81624559d5d3254",
       "runtime_admission": false,
       "status": "qualified-flutter-ios-hello-world"
+    },
+    {
+      "id": "enviaflores-storefront-ios-20260917",
+      "platform": "macos-tart",
+      "architecture": "arm64",
+      "classification": "consumer-specific-reference",
+      "consumer_repository": "enviaflores/ef-storefront-ios",
+      "acceptance_record": "provenance/mobile-journeys-20260917.json",
+      "status": "observed-accepted-reference",
+      "distribution": {
+        "status": "local-only",
+        "remote_uri": null,
+        "remote_restore_verified": false
+      },
+      "app_commit": "e7aa9fc04bd27ea3c08d46f480ef4ffa77a62630",
+      "limits": [
+        "Not qualification of a rebuilt neutral recipe.",
+        "Historical failures, publication recovery and codec limits remain in the acceptance record."
+      ],
+      "native_manifest_sha256": "3d28126b14a0c71da0d84daf0d6d81ee0883b1bfbf49a9cc6a21a110c57c502a",
+      "native_image_reference": "enviaflores/runner-resolver-storefront-ios-native@sha256:3d28126b14a0c71da0d84daf0d6d81ee0883b1bfbf49a9cc6a21a110c57c502a"
+    },
+    {
+      "id": "enviaflores-storefront-android-20260917",
+      "platform": "linux-docker",
+      "architecture": "amd64",
+      "classification": "consumer-specific-reference",
+      "consumer_repository": "enviaflores/ef-storefront-android",
+      "acceptance_record": "provenance/mobile-journeys-20260917.json",
+      "status": "observed-accepted-reference",
+      "distribution": {
+        "status": "local-only",
+        "remote_uri": null,
+        "remote_restore_verified": false
+      },
+      "app_commit": "64c6269c54bb10aebaedbc3d295210ce0bc88d54",
+      "limits": [
+        "Not qualification of a rebuilt neutral recipe.",
+        "Historical failures, publication recovery and codec limits remain in the acceptance record."
+      ],
+      "local_image_digest": "sha256:4304f75946eb19088205000247daa921b860ea59508a098c1f460b5821c3205d",
+      "source_commit": "42bb5f08c283ce2ab08d12371b9e3e3527c034d0"
     }
   ],
   "kind": "image-catalog-not-runtime-admission",
@@ -891,5 +933,9 @@
     "flutter-dart-ios"
   ],
   "schema_version": 1,
-  "updated_at_utc": "2026-09-16T18:57:16.166662+00:00"
+  "updated_at_utc": "2026-09-16T18:57:16.166662+00:00",
+  "current_consumer_references": {
+    "ios": "enviaflores-storefront-ios-20260917",
+    "android": "enviaflores-storefront-android-20260917"
+  }
 }
