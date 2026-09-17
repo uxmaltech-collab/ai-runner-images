@@ -70,11 +70,14 @@
         "build-toolchains",
         "job-utilities"
       ],
-      "status": "in-scope-implementation-and-qualification-pending",
-      "recipe_paths": [],
+      "status": "portable-stack-build-and-cold-restore-qualified-github-e2e-pending",
+      "recipe_paths": [
+        "stacks/linux-control-plane"
+      ],
       "qualified_catalog_entry": null,
-      "qualification_record": null,
-      "distribution_status": "not-established"
+      "qualification_record": "qualification/linux-control-plane-20260917/SUMMARY.json",
+      "distribution_status": "local-only-verified-archive",
+      "scope_limit": "Linux amd64 minimal CI stack; tools and offline control-plane boot passed. Actual GitHub job and authenticated agent work remain separate acceptance."
     },
     {
       "id": "web",

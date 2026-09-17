@@ -1,0 +1,74 @@
+{
+  "build_args": {
+    "ACTIONLINT_SHA256_AMD64": "023070a287cd8cccd71515fedc843f1985bf96c436b7effaecce67290e7e0757",
+    "ACTIONLINT_SHA256_ARM64": "401942f9c24ed71e4fe71b76c7d638f66d8633575c4016efd2977ce7c28317d0",
+    "ACTIONS_RUNNER_SHA256_AMD64": "4ef2f25285f0ae4477f1fe1e346db76d2f3ebf03824e2ddd1973a2819bf6c8cf",
+    "ACTIONS_RUNNER_SHA256_ARM64": "6d1e85bfd1a506a8b17c1f1b9b57dba458ffed90898799aaa9f599520b0d9207",
+    "DOCKER_CLI_SHA256_AMD64": "4f798b3ee1e0140eab5bf30b0edc4e84f4cdb53255a429dc3bbae9524845d640",
+    "DOCKER_CLI_SHA256_ARM64": "e6b53725a73763ab3f988c73f8772eaed429754c1a579db5ff11f21990fd1817",
+    "GROK_INSTALLER_SHA256": "7fd6fdc75d9418b2e58356726fcbf1ae849416f773925da07d0ccc7a60d3e791"
+  },
+  "harness_versions": {
+    "claude": "2.1.266",
+    "codex": "0.153.4",
+    "grok": "1.0.24"
+  },
+  "limitations": [
+    "APT repositories and npm transitive resolution are not snapshot locked. Use the verified image archive for exact restoration; a rebuild is a separately qualified artifact."
+  ],
+  "platform": "linux/amd64",
+  "roots": {
+    "os": "docker.io/library/ubuntu:26.04@sha256:53958ec7b67c2c9355df922dd08dbf0360611f8c3cdb656875e81873db9ffdba",
+    "python": "docker.io/library/python:3.12-slim@sha256:7a8b475003c4fe15a2cd4e55e5cfc2f3560bdc9333d624f24cdd6d4340fd7a17"
+  },
+  "schema_version": 1,
+  "templates": {
+    "commit": "c7a84f2875a5febea71fb6aee4f51b00fe19c8be",
+    "files": {
+      "containers/runner-agent-base/Dockerfile": "ac98fc445eeb7a19300ef84b136822e2448d951cdfae2336c37c0c1a9181d838",
+      "containers/runner-base/Dockerfile": "3e42ad428b2e00eae78692b4b87a9a30cb9b1ed5cf96a72cd07004354c053fd3",
+      "containers/runner-base/entrypoint-jit.sh": "cca0e4d5515ffa2691a2464ed7297bcf5089404776a55c45195c890b358eacce",
+      "runners/control-plane/app.py": "5e87ce949d49649c559e48597470bb60b6cf769a6fe29cb4ce12d27db3c6b019",
+      "runners/control-plane/requirements.txt": "25c0c01e4f578ae3be6830a70e70151a097355858d3d364b1cb81153ccedefd5",
+      "runners/control-plane/runner_control_plane/__init__.py": "c6a508e1ea423296a785e84f0a9b606612849306d5aeca8dc182fb16f5460c5c",
+      "runners/control-plane/runner_control_plane/auth_alert.py": "8e3386835fa517bd28c8cea14114a62092bc6ccd1dd961b8bb0f4735fdec25d1",
+      "runners/control-plane/runner_control_plane/catalog.py": "9039f17f28cd7c1c511151d98d7bccf8c833e2fa5b916bca41bf57a1c8c2d8da",
+      "runners/control-plane/runner_control_plane/credentials.py": "b775c9f815b19910354e7360859932b65be5d8e7a2ad0dac7f187bd27cdb6656",
+      "runners/control-plane/runner_control_plane/dispatch.py": "d2e8d6829447d28f9af0ad1c73d851c71dccd0a334b4cf4c89ad76ab5705776a",
+      "runners/control-plane/runner_control_plane/errors.py": "1ea4098fda251db9a6b258c7d2b490da973a57ab2b3e63ee58681b8bf30a0d59",
+      "runners/control-plane/runner_control_plane/github_app_auth.py": "6b3d625fae290c0384069ad216115e5421a25409a25a3a4ed231950d851180e5",
+      "runners/control-plane/runner_control_plane/github_queue.py": "ec011d18cf8b55d247ea116571686809d599dca8024c73adffa9289debff8c12",
+      "runners/control-plane/runner_control_plane/host_capacity.py": "66608d7ecc8a3f56d531476d18ad39c02d252eeab83656b2b9a8b2457dd22e6b",
+      "runners/control-plane/runner_control_plane/http_transport.py": "a3c65c58021059a2f5e0e67fe7164aac0505b1824f5d631b598df24af8f06d8a",
+      "runners/control-plane/runner_control_plane/ios_validation.py": "36cc0af3aab7379e53e5e681d6efd6f1794c566296474ad6c605e01c53e3496f",
+      "runners/control-plane/runner_control_plane/janitor.py": "50a1e1a5e8bf9080faa4b580f14852e2278d6a3bfa8fa2d32472c41faef1cb9e",
+      "runners/control-plane/runner_control_plane/jit.py": "b116819df7c2127ab35cf05b354139ab5fcd287c9e9c65f22cc5044f82034cb0",
+      "runners/control-plane/runner_control_plane/models.py": "537d20a9335ae261603f4727541457b2bb16819ca9ba2dde47a488a40931d568",
+      "runners/control-plane/runner_control_plane/native_auth.py": "64de5ada340b6e55e1f57a64a6161da61339ef6647c01348fcb50008f20a361a",
+      "runners/control-plane/runner_control_plane/policy.py": "75c22744373fb2ca9262eb0440ce893aba410dc908454d3ba7854d8cb8cdda05",
+      "runners/control-plane/runner_control_plane/profile.py": "0d2393216fc383a2f5b2aa431223d9f4ec35a79d3b6761cd1290790a71f7cdae",
+      "runners/control-plane/runner_control_plane/references.py": "4e37cb3d053ac0d8d6449859523316faef7be5ed74afc249d94ccad4a04a6c91",
+      "runners/control-plane/runner_control_plane/router.py": "bfa428032b330f19f6429abd02188d7a2985fe0d3bfe69564f87bb619384e982",
+      "runners/control-plane/runner_control_plane/secret_loader.py": "38e7785378f2e82d60c2758d073a3de97934c26d633483da29e0e43677d606e7",
+      "runners/control-plane/runner_control_plane/spawner.py": "ae01fed93b0096322c136579ce8326547be00bcb7be250395f0ce8e7b554bc14",
+      "runners/control-plane/runner_control_plane/store.py": "885429a9d04e37dbae91200f5d58ec84b65af51b9fbe0e927dfce2b8e5ede2b7",
+      "runners/control-plane/runner_control_plane/tart_backend.py": "889e6767b05387d4d584d2628f298d0cfc2ad60dddb512ef90c085abc8dc1dfa",
+      "runners/control-plane/runner_control_plane/tart_contract.py": "c1e5af34d5c5ab12d3036c2db32c804c91f5fe235701b0cc24f3f33534deefd2",
+      "runners/control-plane/runner_control_plane/tart_driver.py": "d2e551132b1a93894a347d73d6138c15c409733b2094b322124f69c884fed63b",
+      "runners/control-plane/runner_control_plane/tart_execution.py": "78fe66c6193526d39bcd0a1c571b3058adbbfaab5bf9008d5f23688405d36910",
+      "runners/control-plane/runner_control_plane/tart_executor.py": "926e1a02885fa0d8dca8ff7682933301a7cec66779e6a957f3b2434b42ba86fd",
+      "runners/control-plane/runner_control_plane/tart_files.py": "41004c0105afd1c4e22ba94df8104e937abfa112560c406615b45a18fcd44dc8",
+      "runners/control-plane/runner_control_plane/tart_guest.py": "f0fed340935ee5022576af28114ab9ff49df10bb372d33c90819a11112adef6d",
+      "runners/control-plane/runner_control_plane/tart_journey_supervisor.py": "d0b758faf94268bdc5e1778af4fd6ffe83a458ac31fbc8a042231959d00b5261",
+      "runners/control-plane/runner_control_plane/tart_keychain.py": "1a301f6b282abaeebab74a9a452c5320e3c1b74a833662be8ae40a5595c28e9d",
+      "runners/control-plane/runner_control_plane/tart_observation.py": "5f509e253a777b999a221642ecc0a24e745cfdc56bc4690e93a7e8988b41458e",
+      "runners/control-plane/runner_control_plane/tart_plan.py": "bb081976dc1737abec6d14201a82989abf67ebcb30e3de395995111f7b01a2df",
+      "runners/control-plane/runner_control_plane/tart_session.py": "3c3900569338959dd59b15766797d5b436f618a0b77c2c989baa2295ca15d4f5",
+      "runners/control-plane/runner_control_plane/tart_session_contract.py": "853bde6fceced110578ee67e0dc41a5430090d75ed66b2867b5a829c65bf35ae",
+      "runners/control-plane/runner_control_plane/tart_session_native.py": "8ce4b0c4d3c874ca6d8133f159eadd127ffa3c8529b554ff3fb3fa51c963f38c",
+      "runners/control-plane/runner_control_plane/tart_transport.py": "a519f5a28eff6f2f10a8f9534e51a31a1a3dccd0616d965f2ff275113333e73a",
+      "runners/control-plane/runner_control_plane/webhook.py": "b0ff08841095fb91b01c9d58cfa18e1821c872a2ec9550d4fd6298970224c334"
+    },
+    "repository": "uxmaltech-collab/ai-templates-resources"
+  }
+}

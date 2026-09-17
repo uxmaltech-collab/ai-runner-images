@@ -8,7 +8,7 @@ The shared home for **all runner images and tools** across **iOS/macOS, Android,
 | --- | --- | --- |
 | iOS/macOS | Tart, macOS, Xcode, Simulator, Java, Maestro, the combined agent layer and optional Flutter/Dart support | Flutter iOS Hello World image qualified; exact local artifacts and receipts recorded |
 | Android | Linux base, Android SDK/emulator, Java, Maestro, the combined agent layer and optional Flutter/Dart support | In scope; image implementation and qualification pending |
-| Linux | Linux runner bases, the combined agent layer, build toolchains and job utilities | In scope; image implementation and qualification pending |
+| Linux | Linux runner bases, the combined agent layer, build toolchains and job utilities | Portable CI stack built and cold-restored; real GitHub E2E pending |
 | Web | Linux runner capabilities for browsers and Playwright, using the combined agent layer | In scope; image implementation and qualification pending |
 
 The [platform catalog](catalog/platforms.json) records scope and demonstrated status separately. The [platform guide](docs/platforms.md) describes how images and tools are organized. iOS is the first qualified implementation; the repository is not limited to Apple or Flutter workloads.
@@ -59,6 +59,13 @@ The [Hello World qualification](qualification/flutter-ios-hello-world-20260916/R
 The catalog preserves physical repair ancestry separately from those three logical capabilities. Earlier images with public-directory, shutdown-persistence or SDK-symlink failures remain historical ineligible records. The successful qualification uses the exact v4 image above; it does not retroactively validate those failed attempts.
 
 ## Where to start
+
+For Linux control-plane portability, use the
+[materialized stack and image archive rehearsal](stacks/linux-control-plane/README.md).
+**`collab-e2e-org` is the designated organization for real cross-organization
+E2E qualification**, with `collab-e2e-org/collab-delivery` as the runner canary
+repository. Its App, runner group and runtime state are separate from consumer
+organizations. The declaration is an example binding, not an engine default.
 
 1. Read [architecture](docs/architecture.md) and [ownership](docs/ownership.md) before changing an image or shared component.
 2. Select a recipe and its exact compatibility lock. Use its documented owner operations; preserve the accepted parent and create a distinct derivative.
