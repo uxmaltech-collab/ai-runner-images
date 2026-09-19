@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "profile": "android",
+  "inputs": {
+    "templates_checkout": "/absolute/path/to/ai-templates-resources"
+  }
+}

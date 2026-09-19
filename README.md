@@ -63,6 +63,13 @@ The [Hello World qualification](qualification/flutter-ios-hello-world-20260916/R
 
 The catalog preserves physical repair ancestry separately from those three logical capabilities. Earlier images with public-directory, shutdown-persistence or SDK-symlink failures remain historical ineligible records. The successful qualification uses the exact v4 image above; it does not retroactively validate those failed attempts.
 
+## Build entrypoint
+
+Use [`python3 scripts/build-images.py`](docs/build-images.md) to compose and
+qualify local images from this source. Linux and Android share the entrypoint;
+the native backend contract is defined with its pending implementation stated
+explicitly. No remote image storage is required.
+
 ## Where to start
 
 For Linux control-plane portability, use the
