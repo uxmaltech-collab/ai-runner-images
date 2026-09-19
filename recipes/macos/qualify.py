@@ -38,7 +38,8 @@ print(json.dumps({'configuration_sha256':hashlib.sha256((root/'qualification.jso
 
 def qualify(build_result, work, root, binding_path, source_checkout, git='git', source_kind='templates'):
     result = json.loads(Path(build_result).read_text())
-    if result['status'] != 'stopped-and-verified':
+    if not (result['status'] == 'stopped-and-verified' or
+            result['status'] == 'passed' and result.get('artifact_state') == 'stopped-and-verified'):
         raise ValueError('A finalized accountless artifact is required')
     root, work = Path(root).resolve(), Path(work).resolve()
     qualification_commit = subprocess.check_output([git, '-C', str(root), 'rev-parse', 'HEAD'], text=True).strip()

@@ -1,0 +1,252 @@
+{
+  "schema_version": 1,
+  "status": "native-backends-composed-and-swiftlint-qualified",
+  "scope": "Native recipe composition and real SwiftLint qualification; no customer canary or executor adoption",
+  "implementation_commit": "36f604bdd3a7cf91b735adb081d7cf1786c4b705",
+  "qualification_commit": "cf15bf971a615664d5b35438966508a818c97ac8",
+  "ios": {
+    "physical_parent_manifest_sha256": "2a77a0c4faed3dcbf9524d6c9238eddaa1cddce0af9b130f8f0577d76d69eceb",
+    "recipe_commit": "36f604bdd3a7cf91b735adb081d7cf1786c4b705",
+    "image_manifest_sha256": "fc9957642cb5257f72be057597620257ab786a9e1eb4c8bd0e86dcaffe7f6d12",
+    "tuple": {
+      "config.json": {
+        "bytes": 587,
+        "sha256": "ff9dd8f1c996ffc3f9ec0129afc705a850efaa8fb19076fdb2eba0024d8e45b3"
+      },
+      "disk.img": {
+        "bytes": 140000000000,
+        "sha256": "d2eefa4fdb48e46ef4c2bd99e68aa1275112161997e38a6885631e77943f6d4d"
+      },
+      "nvram.bin": {
+        "bytes": 33579164,
+        "sha256": "d37fd8030da893ed8ebb36ae9c828a8172e6341d2c4b2c042c52f88fc20d5caa"
+      }
+    },
+    "components": {
+      "agents": {
+        "action": "installed",
+        "engines": [
+          "codex",
+          "claude",
+          "grok"
+        ],
+        "files": [
+          {
+            "bytes": 231563824,
+            "path": "/opt/ai-runner-images/agents/codex/codex",
+            "sha256": "98491713ffb196061003ee148636e743997cc31d76144ba7c53462269896891d"
+          },
+          {
+            "bytes": 62703072,
+            "path": "/opt/ai-runner-images/agents/codex/codex-code-mode-host",
+            "sha256": "f5c96dc8cca0f760f525076c1f9f4efad31355c0fe18efb56e76df7e40592376"
+          },
+          {
+            "bytes": 199422144,
+            "path": "/opt/ai-runner-images/agents/claude/claude",
+            "sha256": "553d1b9e9e7068b275c0a783c7e139ff6503096f286e674c8c919379fb0eca62"
+          },
+          {
+            "bytes": 137364416,
+            "path": "/opt/ai-runner-images/agents/grok/grok",
+            "sha256": "4291021c1570a7c8610277a3d65490a5e54b50311e222c6b4614264f02a215b3"
+          }
+        ]
+      },
+      "swiftlint": {
+        "action": "installed",
+        "files": [
+          {
+            "bytes": 37396744,
+            "path": "/opt/ai-runner-images/tools/swiftlint/0.65.1/swiftlint",
+            "sha256": "52112ece2dfa99c2442a1367f9a365d43784714cf224c3675bf8bc2f18ebd7c8"
+          },
+          {
+            "bytes": 1094,
+            "path": "/opt/ai-runner-images/tools/swiftlint/0.65.1/LICENSE",
+            "sha256": "6a4395f3b744b8cd94b6c810bc705440a75f1929689b65d2f557ee3e9895632f"
+          }
+        ],
+        "launcher_sha256": "4c293984c800ed7cd288e43616a8dd8e33bf7de1e96b0a305f3dd7fbbcef2483",
+        "runtime_path": "/opt/ai-runner-images/bin",
+        "version": "0.65.1"
+      }
+    },
+    "normal_shutdown_and_tart_exit_verified": true
+  },
+  "swiftlint_qualification": {
+    "status": "passed",
+    "uid": 502,
+    "gid": 20,
+    "admin": false,
+    "version": "0.65.1",
+    "launcher": {
+      "path": "/opt/ai-runner-images/bin/swiftlint",
+      "sha256": "4c293984c800ed7cd288e43616a8dd8e33bf7de1e96b0a305f3dd7fbbcef2483"
+    },
+    "results": [
+      {
+        "argv": [
+          "/opt/ai-runner-images/bin/swiftlint",
+          "lint",
+          "--strict",
+          "--no-cache",
+          "--config",
+          "swiftlint.yml",
+          "--reporter",
+          "junit",
+          "Valid.swift"
+        ],
+        "exit_code": 0,
+        "expected_valid": true,
+        "failures": 0,
+        "fixture": "Valid.swift",
+        "junit_sha256": "9a4a251a9aba908b488a99982bd4be87001369b58727d07de1015775ee1e1cf0"
+      },
+      {
+        "argv": [
+          "/opt/ai-runner-images/bin/swiftlint",
+          "lint",
+          "--strict",
+          "--no-cache",
+          "--config",
+          "swiftlint.yml",
+          "--reporter",
+          "junit",
+          "Invalid.swift"
+        ],
+        "exit_code": 2,
+        "expected_valid": false,
+        "failures": 1,
+        "fixture": "Invalid.swift",
+        "junit_sha256": "4895b22e1f9659a422d343a89184c3c7f91edcd299b3f958523ecae66c15a176"
+      }
+    ],
+    "qualification_child_removed": true,
+    "sealed_parent_preserved": true
+  },
+  "distribution": {
+    "status": "local-only",
+    "remote_uri": null,
+    "remote_restore_verified": false,
+    "restoration_status": "not-exercised"
+  },
+  "runtime_admission": false,
+  "original_failures": [
+    {
+      "scope": "historical accountless numeric UID SwiftLint probes",
+      "result": "version passed; standalone lint timed out; original private receipts retained"
+    },
+    {
+      "scope": "current qualification attempt 01",
+      "result": "locked Templates blob missing in partial checkout; no VM created; resolved using the already locked consumer source"
+    },
+    {
+      "scope": "current qualification attempt 02",
+      "result": "real lint exited 0/2 correctly; fixture JUnit assertion used a rule identifier absent from reporter output; fixed against observed message; regression and actual attempt03 passed; failed original retained"
+    }
+  ],
+  "evidence_reused": [
+    "Original canonical SwiftLint download and codesign observations",
+    "Xcode26.5/iOS26.5/Java17/Maestro2.10.0 immutable parent evidence",
+    "Exact same three engine payloads as the prior nonadministrator qualification",
+    "No repeat commissioning or complete customer canary"
+  ],
+  "flutter": {
+    "physical_parent_manifest_sha256": "33fb89bdccd573057c11388bdf2dc243fbf8a4d5ceea46d2c577c93e2e2dd9be",
+    "recipe_commit": "cf15bf971a615664d5b35438966508a818c97ac8",
+    "image_manifest_sha256": "b362723760269a549caa3324a11c7e3dceb0625bc3543a7aa40d98ec7ed5ae9f",
+    "tuple": {
+      "config.json": {
+        "bytes": 587,
+        "sha256": "672a81b2bb6bf70d857f7585a32d7ab83b6d6d953e586c4ad1496577a1846678"
+      },
+      "disk.img": {
+        "bytes": 140000000000,
+        "sha256": "799bd9718c3f35f4f2232163e6ee03ec65dbef10058d1c215423cc1525e1beb7"
+      },
+      "nvram.bin": {
+        "bytes": 33579164,
+        "sha256": "f1e73c15dbe0ea9a21275a9db1eb01f571448d6757bc7918608df9832d16826f"
+      }
+    },
+    "components": {
+      "agents": {
+        "action": "reused-verified",
+        "engines": [
+          "codex",
+          "claude",
+          "grok"
+        ],
+        "files": [
+          {
+            "bytes": 231563824,
+            "path": "/opt/ai-runner-images/agents/codex/codex",
+            "sha256": "98491713ffb196061003ee148636e743997cc31d76144ba7c53462269896891d"
+          },
+          {
+            "bytes": 62703072,
+            "path": "/opt/ai-runner-images/agents/codex/codex-code-mode-host",
+            "sha256": "f5c96dc8cca0f760f525076c1f9f4efad31355c0fe18efb56e76df7e40592376"
+          },
+          {
+            "bytes": 199422144,
+            "path": "/opt/ai-runner-images/agents/claude/claude",
+            "sha256": "553d1b9e9e7068b275c0a783c7e139ff6503096f286e674c8c919379fb0eca62"
+          },
+          {
+            "bytes": 137364416,
+            "path": "/opt/ai-runner-images/agents/grok/grok",
+            "sha256": "4291021c1570a7c8610277a3d65490a5e54b50311e222c6b4614264f02a215b3"
+          }
+        ]
+      },
+      "flutter": {
+        "action": "reused-verified",
+        "ready": {
+          "agent_engines_in_parent": [
+            "codex",
+            "claude",
+            "grok"
+          ],
+          "archive_sha256": "c6af6fa1d64946167b8637ba4c5a7bb3b8574729a1ebe931decd4924dbab7061",
+          "dart_version": "3.13.3",
+          "flutter_revision": "9584c6713b324636289d067944a46fd6b49df14b",
+          "flutter_version": "3.47.4",
+          "manifest_sha256": "33afd658c3253611d019727934ff4e5dc4021f9732f438ed7a2aab79b7165e4a",
+          "precache_platforms": [
+            "ios"
+          ],
+          "schema_version": 1,
+          "status": "precache-complete-and-sealed"
+        },
+        "reused_evidence_scope": "unchanged SDK and precache bound by the physical parent tuple"
+      },
+      "swiftlint": {
+        "action": "installed",
+        "files": [
+          {
+            "bytes": 37396744,
+            "path": "/opt/ai-runner-images/tools/swiftlint/0.65.1/swiftlint",
+            "sha256": "52112ece2dfa99c2442a1367f9a365d43784714cf224c3675bf8bc2f18ebd7c8"
+          },
+          {
+            "bytes": 1094,
+            "path": "/opt/ai-runner-images/tools/swiftlint/0.65.1/LICENSE",
+            "sha256": "6a4395f3b744b8cd94b6c810bc705440a75f1929689b65d2f557ee3e9895632f"
+          }
+        ],
+        "launcher_sha256": "4c293984c800ed7cd288e43616a8dd8e33bf7de1e96b0a305f3dd7fbbcef2483",
+        "runtime_path": "/opt/ai-runner-images/bin",
+        "version": "0.65.1"
+      }
+    },
+    "normal_shutdown_and_tart_exit_verified": true,
+    "qualification_reused": "Identical SwiftLint binary, LICENSE and launcher qualified in the iOS derivative; unchanged Flutter/Dart/engine parent retains the prior Hello World acceptance. No new Flutter app build."
+  },
+  "focused_tests": {
+    "passed": 17,
+    "failed": 0,
+    "junit_sha256": "90b3775d5ca6e1aee250ed1fb49a7a2339c57920e98f2833834f5458f7694047"
+  }
+}

@@ -76,10 +76,10 @@ class Owner:
              (self.work / (name + '.owner.stderr')).open('xb') as err:
             process = subprocess.run(argv, stdout=out, stderr=err)
         if process.returncode:
-            raise RuntimeError(f'Native owner failed; reconcile {receipt}')
+            raise ValueError(f'Native owner failed; reconcile {receipt}')
         value = json.loads(receipt.read_text())
         if value['status'] != 'complete':
-            raise RuntimeError(f'Incomplete native owner operation: {receipt}')
+            raise ValueError(f'Incomplete native owner operation: {receipt}')
         return value
 
     def execute(self, name, command, *, timeout=120, input_path=None):
@@ -155,7 +155,18 @@ def build(inputs, work, root, commit, *, profile):
                                        'recipes/agent-build', 'recipes/flutter-dart', 'scripts/tart-layer.py'])
     if head != commit or changed.strip():
         raise ValueError('Native recipe inputs must match the committed checkout')
-    work.mkdir(mode=0o700)  # A rerun is an explicit new attempt; old receipts survive.
+    if work.exists():
+        # The canonical front end exclusively creates work and writes PLAN.json
+        # before delegation. Accept only that fresh, matching handoff.
+        if sorted(path.name for path in work.iterdir()) != ['PLAN.json']:
+            raise FileExistsError('Existing native evidence must be reconciled')
+        plan = json.loads((work / 'PLAN.json').read_text())
+        if (plan.get('profile') != profile or plan.get('source_commit') != commit
+                or plan.get('backend') != 'recipes/macos/build.py'
+                or plan.get('work_dir') != str(work) or plan.get('source_clean') is not True):
+            raise ValueError('Front-end plan does not match this native build')
+    else:
+        work.mkdir(mode=0o700)
     write(work / 'INPUTS.json', inputs)
     binding = json.loads(Path(inputs['binding']).read_text())
     write(work / 'binding.json', binding)
@@ -206,7 +217,7 @@ def build(inputs, work, root, commit, *, profile):
         boot = None
         sealed = owner.op('seal', 'seal', '--shutdown-receipt', work / 'stop.json',
                           '--source-commit', commit, '--parent-manifest', manifest, '--parent-digest', parent['sha256'])
-        result.update(status='stopped-and-verified', image_manifest=file_ref(sealed['manifest_path']),
+        result.update(status='passed', artifact_state='stopped-and-verified', image_manifest=file_ref(sealed['manifest_path']),
                       image_manifest_sha256=sealed['manifest_sha256'], tuple=sealed['manifest']['files'],
                       local_image=str(Path(binding['tart_home']) / 'vms' / inputs['name']),
                       original_parent_preserved=True)

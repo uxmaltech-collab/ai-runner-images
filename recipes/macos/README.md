@@ -1,6 +1,6 @@
 # Native build backend
 
-`build(inputs, work, root, commit, *, profile)` is the macOS backend for the shared image-build front end. `profile` is `macos-ios` or `macos-flutter`; `inputs` is the object below, `work` is a **new** private evidence directory, `root` is the Images checkout and `commit` is its exact clean recipe commit. The return value and `work/BUILD-RESULT.json` are the same JSON-serializable artifact result. Linux owns `scripts/build-images.py` and calls this function; this backend does not edit the front end.
+`build(inputs, work, root, commit, *, profile)` is the macOS backend for the shared image-build front end. `profile` is `macos-ios` or `macos-flutter`; `inputs` is the object below, `work` is a **new** private evidence directory (or the front end's fresh directory containing only its matching `PLAN.json`), `root` is the Images checkout and `commit` is its exact clean recipe commit. The return value and `work/BUILD-RESULT.json` are the same JSON-serializable artifact result. Successful composition returns `status=passed`, `artifact_state=stopped-and-verified`; qualification and runtime admission remain separate. Linux owns `scripts/build-images.py` and calls this function; this backend does not edit the front end.
 
 The backend uses `scripts/tart-layer.py` for APFS clone, boot, bounded root RPC, normal shutdown and stopped tuple sealing. It invokes the existing agent and Flutter recipes and the native SwiftLint component. It contains no executor, RPC binary, installer fork, checkpoint Python dependency or registry provisioning. The installed host owner and its approved account/storage/network binding remain external prerequisites.
 
@@ -46,7 +46,16 @@ There is no configured remote artifact store. Final images remain on the host, `
 
 ## Run and qualify
 
-The front end imports the function. The same backend can be exercised directly:
+For the shared front end, wrap the inputs object above as `{"schema_version":1,"profile":"macos-ios","inputs":{...}}` and run:
+
+```sh
+python3 scripts/build-images.py plan --profile macos-ios \
+  --inputs /absolute/native-build.json --work-dir /absolute/new-build-evidence
+python3 scripts/build-images.py build --profile macos-ios \
+  --inputs /absolute/native-build.json --work-dir /absolute/new-build-evidence
+```
+
+The same backend can be exercised directly with the inner inputs object:
 
 ```sh
 python3 recipes/macos/build.py --inputs /absolute/inputs.json \

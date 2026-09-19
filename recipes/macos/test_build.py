@@ -65,6 +65,7 @@ def test_stopped_tuple_is_sealed_only_after_export_and_normal_shutdown(tmp_path,
     assert result['runtime_admission'] is False
     assert result['distribution'] == 'local-only'
     assert result['recipe_commit'] == COMMIT and result['physical_parent'] == declaration['parent']
+    assert result['status'] == 'passed' and result['artifact_state'] == 'stopped-and-verified'
 
 
 def test_install_failure_preserves_error_and_stops_owned_builder_without_sealing(tmp_path, monkeypatch):
@@ -96,6 +97,30 @@ def test_existing_work_is_not_overwritten(tmp_path, monkeypatch):
     with pytest.raises(FileExistsError):
         backend.build(declaration, work, tmp_path, COMMIT, profile='macos-ios')
     assert not calls and (work / 'original').read_text() == 'retained'
+
+
+def test_canonical_front_end_plan_handoff(tmp_path, monkeypatch):
+    declaration = inputs(tmp_path)
+    calls = fake_host(monkeypatch, tmp_path)
+    work = tmp_path / 'work'
+    work.mkdir()
+    plan = {'profile': 'macos-ios', 'source_commit': COMMIT, 'source_clean': True,
+            'backend': 'recipes/macos/build.py', 'work_dir': str(work.resolve())}
+    (work / 'PLAN.json').write_text(json.dumps(plan))
+    result = backend.build(declaration, work, tmp_path, COMMIT, profile='macos-ios')
+    assert result['status'] == 'passed' and calls[-1] == ('seal', 'seal')
+    assert json.loads((work / 'PLAN.json').read_text()) == plan
+
+
+def test_foreign_front_end_plan_never_creates_a_vm(tmp_path, monkeypatch):
+    declaration = inputs(tmp_path)
+    calls = fake_host(monkeypatch, tmp_path)
+    work = tmp_path / 'work'
+    work.mkdir()
+    (work / 'PLAN.json').write_text(json.dumps({'profile': 'android'}))
+    with pytest.raises(ValueError, match='Front-end plan'):
+        backend.build(declaration, work, tmp_path, COMMIT, profile='macos-ios')
+    assert not calls
 
 
 def test_flutter_from_base_requires_all_engines_and_flutter_archive(tmp_path):
