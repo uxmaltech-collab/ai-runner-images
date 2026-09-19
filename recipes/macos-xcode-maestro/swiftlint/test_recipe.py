@@ -79,3 +79,33 @@ def test_symlinked_parent_is_rejected(tmp_path):
     link.symlink_to(tmp_path, target_is_directory=True)
     with pytest.raises(ValueError):
         recipe.protected_directory(link)
+
+
+def report_checker():
+    spec = importlib.util.spec_from_file_location('swiftlint_qualification', Path(__file__).with_name('qualify.py'))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module.validate_report
+
+
+def test_actual_pinned_junit_reports_rule_message_not_identifier():
+    report = b'''<testsuites name="SwiftLint" failures="0" errors="1" tests="1">
+    <testsuite name="SwiftLint"><testcase classname="Formatting Test" name="Invalid.swift">
+    <failure message="Force casts should be avoided">Error:Line:2</failure>
+    </testcase></testsuite></testsuites>'''
+    check = report_checker()
+    assert check(report, 2, False) == 1
+    with pytest.raises(AssertionError):
+        check(report, 0, False)
+    with pytest.raises(AssertionError):
+        check(report.replace(b'Force casts should be avoided', b'Unrelated error'), 2, False)
+
+
+def test_empty_clean_report_requires_successful_lint_exit():
+    check = report_checker()
+    report = b'<testsuites name="SwiftLint" failures="0" errors="0" tests="0"><testsuite/></testsuites>'
+    assert check(report, 0, True) == 0
+    with pytest.raises(AssertionError):
+        check(report, 2, True)
+    with pytest.raises(AssertionError):
+        check(report, 0, False)

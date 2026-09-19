@@ -14,6 +14,20 @@ import xml.etree.ElementTree as ET
 RECIPE = Path(__file__).resolve().parent
 
 
+def validate_report(raw, exit_code, valid):
+    root = ET.fromstring(raw)
+    if root.tag != 'testsuites' or root.get('name') != 'SwiftLint':
+        raise ValueError('Expected a SwiftLint JUnit report')
+    failures = root.findall('.//failure') + root.findall('.//error')
+    if valid:
+        assert exit_code == 0 and not failures, 'Clean fixture did not pass'
+    else:
+        assert exit_code != 0 and len(failures) == 1, 'Negative fixture must report one violation'
+        # The pinned reporter emits the rule's message, not its force_cast ID.
+        assert failures[0].get('message') == 'Force casts should be avoided', 'Unexpected lint violation'
+    return len(failures)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__, allow_abbrev=False)
     parser.add_argument('--output', type=Path, required=True)
@@ -63,15 +77,9 @@ def main():
             junit = args.output / (fixture + '.junit.xml')
             junit.write_bytes(process.stdout)
             (args.output / (fixture + '.stderr')).write_bytes(process.stderr)
-            root = ET.fromstring(process.stdout)
-            failures = root.findall('.//failure') + root.findall('.//error')
-            record.update(exit_code=process.returncode, failures=len(failures),
+            record.update(exit_code=process.returncode,
                           junit_sha256=hashlib.sha256(process.stdout).hexdigest())
-            if valid:
-                assert process.returncode == 0 and not failures, record
-            else:
-                assert process.returncode != 0 and failures, record
-                assert b'force_cast' in process.stdout or b'Force Cast' in process.stdout, record
+            record['failures'] = validate_report(process.stdout, process.returncode, valid)
         receipt['status'] = 'passed'
     except BaseException as error:
         receipt.update(status='failed', error_type=type(error).__name__, error=str(error))
