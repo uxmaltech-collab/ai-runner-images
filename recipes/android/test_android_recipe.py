@@ -232,3 +232,20 @@ def test_emulator_registration_matches_verified_archive_pin():
     assert package.get('path') == 'emulator'
     assert '.'.join(node.text for node in package.find('revision')) == archive['version']
     assert package.find('type-details').get('{http://www.w3.org/2001/XMLSchema-instance}type') == 'ns3:genericDetailsType'
+
+
+def test_compile_and_sdk36_test_java_are_distinct_locked_runtimes():
+    lock = json.loads((IMAGE / 'toolchain-lock.json').read_text())
+    archives = {item['name']: item for item in lock['archives']}
+    compile_java = next(item for item in archives.values() if item['destination'] == '/opt/java')
+    test_java = archives['jdk-test']
+    assert compile_java['version'].startswith('17.')
+    assert test_java['version'] == '21.0.10+7'
+    assert test_java['destination'] == '/usr/lib/jvm/temurin-21'
+    assert test_java['sha256'] == 'ea3b9bd464d6dd253e9a7accf59f7ccd2a36e4aa69640b7251e3370caef896a4'
+    dockerfile = (IMAGE / 'Dockerfile').read_text()
+    assert 'JAVA_HOME=/opt/java' in dockerfile
+    assert 'JAVA21_HOME=/usr/lib/jvm/temurin-21' in dockerfile
+    assert '/opt/java /usr/lib/jvm/temurin-21 /opt/maestro' in dockerfile
+    probe = (IMAGE / 'scripts/runner-android-stack-probe.sh').read_text()
+    assert '"$JAVA21_HOME/bin/java" -version' in probe

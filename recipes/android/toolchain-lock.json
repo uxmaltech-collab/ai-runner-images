@@ -6,7 +6,8 @@
     "https://dl.google.com/android/repository/repository2-3.xml",
     "https://dl.google.com/android/repository/sys-img/google_apis/sys-img2-3.xml",
     "https://github.com/adoptium/temurin17-binaries/releases/tag/jdk-17.0.18%2B8",
-    "https://github.com/mobile-dev-inc/Maestro/releases/tag/cli-2.10.0"
+    "https://github.com/mobile-dev-inc/Maestro/releases/tag/cli-2.10.0",
+    "https://github.com/adoptium/temurin21-binaries/releases/tag/jdk-21.0.10%2B7"
   ],
   "archives": [
     {
@@ -86,6 +87,15 @@
       "sha256": "29b675e10cc12080e445e9bfb2e2b4e4dfb9c0f2e30d5884120d258b5e1cd991",
       "archive_root": "maestro",
       "destination": "/opt/maestro"
+    },
+    {
+      "name": "jdk-test",
+      "version": "21.0.10+7",
+      "url": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.10%2B7/OpenJDK21U-jdk_x64_linux_hotspot_21.0.10_7.tar.gz",
+      "sha256": "ea3b9bd464d6dd253e9a7accf59f7ccd2a36e4aa69640b7251e3370caef896a4",
+      "size": 207216881,
+      "archive_root": "jdk-21.0.10+7",
+      "destination": "/usr/lib/jvm/temurin-21"
     }
   ]
 }

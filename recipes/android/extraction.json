@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "source_repository": "enviaflores/ai-repo-resources",
-  "source_commit": "33a85b9ccf9bb241a00eb9e184f2bc8968a1a4c3",
+  "source_commit": "3dc11a923ea56a4bee74ed9a24ae6440e06a69f9",
   "status": "neutral-recipe-extracted; consumer-artifact-evidence-retained; neutral-image-not-built",
   "normalizations": [
     [
@@ -40,9 +40,9 @@
   "files": [
     {
       "consumer_path": "runners/images/runner-resolver-storefront-android/toolchain-lock.json",
-      "consumer_sha256": "4e137cd48c7fd5d3cee73a2fbfb0408c3a54f8bfdc142780f65b151aaff444ef",
+      "consumer_sha256": "ac8ac93c1a1032ccd8f45732645ae1ce3db6a7132d15c9028e78e46afd17a60b",
       "recipe_path": "recipes/android/toolchain-lock.json",
-      "recipe_sha256": "4e137cd48c7fd5d3cee73a2fbfb0408c3a54f8bfdc142780f65b151aaff444ef"
+      "recipe_sha256": "ac8ac93c1a1032ccd8f45732645ae1ce3db6a7132d15c9028e78e46afd17a60b"
     },
     {
       "consumer_path": "runners/images/runner-resolver-storefront-android/emulator-package.xml",
@@ -70,9 +70,9 @@
     },
     {
       "consumer_path": "runners/images/runner-resolver-storefront-android/scripts/ef-storefront-android-stack-probe.sh",
-      "consumer_sha256": "1b4b3def394b7b395a7b92a6df405e4b16d515b5da1112f0f4baeca0a1c65c6e",
+      "consumer_sha256": "87f6d5ab7fbdf7ad6e22198e3cab41106689adaa70507598a4551a1ce8a82cb2",
       "recipe_path": "recipes/android/scripts/runner-android-stack-probe.sh",
-      "recipe_sha256": "1b4b3def394b7b395a7b92a6df405e4b16d515b5da1112f0f4baeca0a1c65c6e"
+      "recipe_sha256": "87f6d5ab7fbdf7ad6e22198e3cab41106689adaa70507598a4551a1ce8a82cb2"
     }
   ],
   "downstream_only": [
