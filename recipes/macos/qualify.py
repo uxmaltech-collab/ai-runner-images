@@ -41,6 +41,10 @@ def qualify(build_result, work, root, binding_path, source_checkout, git='git'):
     if result['status'] != 'stopped-and-verified':
         raise ValueError('A finalized accountless artifact is required')
     root, work = Path(root).resolve(), Path(work).resolve()
+    qualification_commit = subprocess.check_output([git, '-C', str(root), 'rev-parse', 'HEAD'], text=True).strip()
+    if subprocess.check_output([git, '-C', str(root), 'status', '--porcelain', '--',
+        'recipes/macos', 'recipes/macos-xcode-maestro/swiftlint', 'recipes/qualification-session', 'scripts/tart-layer.py']).strip():
+        raise ValueError('Qualification must use committed recipe sources')
     work.mkdir(mode=0o700)
     binding = json.loads(Path(binding_path).read_text())
     payload = work / 'session-payload'
@@ -62,8 +66,11 @@ def qualify(build_result, work, root, binding_path, source_checkout, git='git'):
     vm = Path(result['local_image']).name + '-qualification'
     owner = backend.Owner(root, work, binding_path, vm)
     report = {'schema_version': 1, 'image_manifest_sha256': result['image_manifest_sha256'],
-              'recipe_commit': result['recipe_commit'], 'github_job_created': False,
+              'image_recipe_commit': result['recipe_commit'], 'qualification_recipe_commit': qualification_commit,
+              'github_job_created': False,
               'image_export_permitted': False, 'status': 'started'}
+    parent_files = [Path(result['local_image']) / name for name in ('config.json', 'nvram.bin', 'disk.img')]
+    parent_metadata = {str(p): (p.stat().st_ino, p.stat().st_size, p.stat().st_mtime_ns) for p in parent_files}
     active_boot, cloned = None, False
     try:
         owner.op('clone', 'clone', '--source', result['local_image'])
@@ -74,7 +81,7 @@ def qualify(build_result, work, root, binding_path, source_checkout, git='git'):
                                '/opt/ai-runner-qualification'], input_path=archive)
         resources = {'cpus': binding['cpu'], 'memory_mib': binding['memory_mib'],
                      'disk_gb': result['tuple']['disk.img']['bytes'] // 1000000000}
-        owner.execute('configure', [backend.PYTHON, '-I', '-B', '-c', CONFIGURE, result['recipe_commit'],
+        owner.execute('configure', [backend.PYTHON, '-I', '-B', '-c', CONFIGURE, qualification_commit,
             'uxmaltech-collab/ai-runner-images/native@sha256:' + result['image_manifest_sha256'], json.dumps(resources)])
         helper = '/opt/ai-runner-qualification/qualification-session.py'
         answer = owner.execute('prepare', [helper, 'prepare'], timeout=180)
@@ -127,10 +134,17 @@ def qualify(build_result, work, root, binding_path, source_checkout, git='git'):
                     'TART_NO_AUTO_PRUNE=1', 'PATH=' + binding['path'], binding['tart_binary'], 'delete', vm]
             process = subprocess.run(argv, capture_output=True, timeout=90)
             absent = not (Path(binding['tart_home']) / 'vms' / vm).exists()
+            preserved = all(parent_metadata[str(p)] == (p.stat().st_ino, p.stat().st_size, p.stat().st_mtime_ns)
+                            for p in parent_files)
             report['cleanup'] = {'argv': argv, 'exit_code': process.returncode,
-                                 'owned_child_absent': absent, 'sealed_parent_preserved': True}
-            if process.returncode or not absent:
+                                 'owned_child_absent': absent, 'sealed_parent_preserved': preserved,
+                                 'parent_metadata_before': parent_metadata,
+                                 'stdout': process.stdout.decode('utf-8', 'replace'),
+                                 'stderr': process.stderr.decode('utf-8', 'replace')}
+            if process.returncode or not absent or not preserved:
                 report['cleanup_uncertainty'] = 'Owned qualification VM deletion unconfirmed'
+        if report.get('cleanup_uncertainty'):
+            report['status'] = 'cleanup-unconfirmed'
         backend.write(work / 'QUALIFICATION-RESULT.json', report)
     if report.get('cleanup_uncertainty'):
         raise RuntimeError(report['cleanup_uncertainty'])

@@ -70,7 +70,8 @@ def main():
             if valid:
                 assert process.returncode == 0 and not failures, record
             else:
-                assert process.returncode != 0 and failures and b'force_cast' in process.stdout, record
+                assert process.returncode != 0 and failures, record
+                assert b'force_cast' in process.stdout or b'Force Cast' in process.stdout, record
         receipt['status'] = 'passed'
     except BaseException as error:
         receipt.update(status='failed', error_type=type(error).__name__, error=str(error))
