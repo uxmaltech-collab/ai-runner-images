@@ -249,6 +249,10 @@ def build(inputs, work, root, commit, *, profile):
                 result['failed_builder_stopped'] = True
             except BaseException as cleanup:
                 result['cleanup_uncertainty'] = str(cleanup)
+        if isinstance(error, Exception) and not isinstance(error, (OSError, ValueError, KeyError, subprocess.SubprocessError)):
+            # Preserve the detailed native result while using the front end's
+            # documented failure types so it also writes RESULT.json.
+            raise ValueError(f'Native build failed: {error}; evidence: {work}') from error
         raise
     finally:
         result['finished_at'] = datetime.datetime.now(datetime.timezone.utc).isoformat()

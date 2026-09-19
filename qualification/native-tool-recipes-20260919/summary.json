@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "native-backends-composed-and-swiftlint-qualified",
+  "status": "native-profile-composition-and-real-swiftlint-qualified",
   "scope": "Native recipe composition and real SwiftLint qualification; no customer canary or executor adoption",
   "implementation_commit": "36f604bdd3a7cf91b735adb081d7cf1786c4b705",
   "qualification_commit": "cf15bf971a615664d5b35438966508a818c97ac8",
@@ -245,8 +245,43 @@
     "qualification_reused": "Identical SwiftLint binary, LICENSE and launcher qualified in the iOS derivative; unchanged Flutter/Dart/engine parent retains the prior Hello World acceptance. No new Flutter app build."
   },
   "focused_tests": {
-    "passed": 17,
+    "passed": 26,
     "failed": 0,
-    "junit_sha256": "90b3775d5ca6e1aee250ed1fb49a7a2339c57920e98f2833834f5458f7694047"
-  }
+    "junit_sha256": "378627cbc3f9bd10d43771a24abd39aeacac9cc8f98f9e61c2bf1548f3e35113"
+  },
+  "canonical_frontend": {
+    "source_commit": "a5018b5aa523a2098c405d45c534a37c2349cc46",
+    "base_main": "880f77a412bfaa4bf1343477b6120d99b3df77e4",
+    "profile": "macos-flutter",
+    "status": "passed",
+    "artifact_state": "stopped-and-verified",
+    "physical_parent_manifest_sha256": "b362723760269a549caa3324a11c7e3dceb0625bc3543a7aa40d98ec7ed5ae9f",
+    "image_manifest_sha256": "5a53a7ee2708fdcafba5eb5e8ef45efdb45e5782c98bc4abd8676d38f6f6be0a",
+    "tuple": {
+      "config.json": {
+        "bytes": 587,
+        "sha256": "9fe6330ae05eff16f9353d09272aef037043b30500b450ecee73390453b9ef74"
+      },
+      "nvram.bin": {
+        "bytes": 33579164,
+        "sha256": "b2f118863b55fb8fa2b596c5b83c645c9419688f64f8e1a330588010aa6d4003"
+      },
+      "disk.img": {
+        "bytes": 140000000000,
+        "sha256": "c10b089d5ae2a1f1a1bf31e0d6887c165b1661f51d1f9ce76abc77b0fc1bdfe4"
+      }
+    },
+    "component_actions": {
+      "agents": "reused-verified",
+      "flutter": "reused-verified",
+      "swiftlint": "reused-verified"
+    },
+    "qualification_status": "passed",
+    "qualification_uid": 502,
+    "qualification_admin": false,
+    "qualification_child_removed": true,
+    "sealed_parent_preserved": true,
+    "result_sha256": "bdd11ceb893931c07542d2eaa4492e66f4f16a29d6865d0a87ac28f0d2b6db96"
+  },
+  "validation_reuse": "The final error-normalization change has targeted regression coverage. The successful native recipe path and installed tool bytes are unchanged from the actual full frontend execution."
 }

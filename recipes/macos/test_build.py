@@ -74,7 +74,7 @@ def test_stopped_tuple_is_sealed_only_after_export_and_normal_shutdown(tmp_path,
 def test_install_failure_preserves_error_and_stops_owned_builder_without_sealing(tmp_path, monkeypatch):
     declaration = inputs(tmp_path)
     calls = fake_host(monkeypatch, tmp_path, fail=True)
-    with pytest.raises(RuntimeError, match='retained recipe failure'):
+    with pytest.raises(ValueError, match='retained recipe failure'):
         backend.build(declaration, tmp_path / 'work', tmp_path, COMMIT, profile='macos-ios')
     result = json.loads((tmp_path / 'work/BUILD-RESULT.json').read_text())
     assert result['failed_builder_stopped'] and result['error'] == 'retained recipe failure'
@@ -135,6 +135,19 @@ def test_qualification_failure_cannot_be_reported_as_successful_build(tmp_path, 
     failed = json.loads((tmp_path / 'work/BUILD-RESULT.json').read_text())
     assert failed['status'] == 'failed' and not failed['runtime_admission']
     assert (tmp_path / 'work/ARTIFACT.json').exists()
+
+
+def test_owner_exception_preserves_native_receipt_and_front_end_failure_contract(tmp_path, monkeypatch):
+    declaration = inputs(tmp_path)
+    fake_host(monkeypatch, tmp_path)
+    def failed_qualification(*args):
+        raise RuntimeError('retained session failure')
+    monkeypatch.setattr(backend, 'qualify_artifact', failed_qualification)
+    with pytest.raises(ValueError, match='retained session failure'):
+        backend.build(declaration, tmp_path / 'work', tmp_path, COMMIT, profile='macos-ios')
+    failed = json.loads((tmp_path / 'work/BUILD-RESULT.json').read_text())
+    assert failed['error_type'] == 'RuntimeError' and failed['error'] == 'retained session failure'
+    assert failed['status'] == 'failed'
 
 
 def test_flutter_from_base_requires_all_engines_and_flutter_archive(tmp_path):

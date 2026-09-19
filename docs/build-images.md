@@ -34,7 +34,7 @@ agent authentication is needed for these offline qualification fixtures.
 | --- | --- |
 | `linux-control-plane` | Materialize the pinned shared source, build the base, combined agents, CI runner and control plane, save an archive, restore into empty independent stores and run offline qualification. |
 | `android` | Build and qualify that parent stack, build the neutral Android layer, save its archive, cold-restore it and run tools as UID 1001. |
-| `macos-ios`, `macos-flutter` | Reserved entrypoint contract for the native backend; unavailable until `recipes/macos/build.py` and its native qualification are promoted. Planning reports backend availability explicitly. |
+| `macos-ios`, `macos-flutter` | Compose from a declared local Tart parent, install or verify SwiftLint and the combined engines, optionally add or reuse Flutter/Dart, seal the stopped tuple, qualify real lint in a disposable nonadministrator session, and clean that child. See the [native backend inputs and parent prerequisites](../recipes/macos/README.md). |
 
 An existing Linux stack `BUILD.json` can be supplied as `inputs.parent_receipt`
 for Android. The recipe checks its Templates lock, image ID, digest reference
@@ -69,7 +69,7 @@ returns a JSON-serializable result with `status`, artifacts, qualification and
 cleanup references. `root` is the committed image SoT; `work` is a new private
 directory. The frontend calls only the profile's fixed backend.
 
-The native backend must use `scripts/tart-layer.py` and the existing image/session
+The native backend uses `scripts/tart-layer.py` and the existing image/session
 owners to compose macOS/Xcode/Maestro, the combined Codex/Claude/Grok layer, then
 optional Flutter/Dart. Inputs declare the parent tuple, tool payloads and host
 binding; no host identity or private endpoint is baked into a recipe. Document
