@@ -3,6 +3,7 @@
 import argparse
 import datetime
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -37,7 +38,7 @@ def file_ref(path):
 def validate(inputs, profile):
     if profile not in PROFILES or inputs.get('schema_version') != 1:
         raise ValueError('Unsupported native profile or input schema')
-    if set(inputs) - {'schema_version', 'name', 'binding', 'parent', 'artifacts', 'git'}:
+    if set(inputs) - {'schema_version', 'name', 'binding', 'parent', 'artifacts', 'git', 'qualification'}:
         raise ValueError('Unknown native build inputs')
     if not re.fullmatch(r'[a-z][a-z0-9-]{2,60}', inputs['name']):
         raise ValueError('Use a unique lowercase native build name')
@@ -55,10 +56,24 @@ def validate(inputs, profile):
         required.add('flutter')
     if set(inputs['artifacts']) != required:
         raise ValueError(f'Provide exactly the required offline artifacts: {sorted(required)}')
-    for value in [inputs['binding'], parent['directory'], parent['manifest'], *inputs['artifacts'].values()]:
+    qualification = inputs['qualification']
+    if (set(qualification) != {'source_checkout', 'source_kind'}
+            or qualification['source_kind'] not in ('templates', 'consumer')):
+        raise ValueError('Declare the existing locked canonical session source')
+    for value in [inputs['binding'], parent['directory'], parent['manifest'],
+                  qualification['source_checkout'], *inputs['artifacts'].values()]:
         if not Path(value).is_absolute():
             raise ValueError('Native input locations must be absolute')
     return required
+
+
+def qualify_artifact(root, work, inputs):
+    spec = importlib.util.spec_from_file_location('native_qualification', root / 'recipes/macos/qualify.py')
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    source = inputs['qualification']
+    return module.qualify(work / 'ARTIFACT.json', work / 'qualification', root, work / 'binding.json',
+                          source['source_checkout'], inputs.get('git', 'git'), source['source_kind'])
 
 
 class Owner:
@@ -221,6 +236,11 @@ def build(inputs, work, root, commit, *, profile):
                       image_manifest_sha256=sealed['manifest_sha256'], tuple=sealed['manifest']['files'],
                       local_image=str(Path(binding['tart_home']) / 'vms' / inputs['name']),
                       original_parent_preserved=True)
+        write(work / 'ARTIFACT.json', result)
+        result['qualification'] = qualify_artifact(root, work, inputs)
+        if result['qualification'].get('status') != 'passed':
+            raise ValueError('Native qualification did not pass; preserved artifact remains unadmitted')
+        result['cleanup'] = result['qualification']['cleanup']
     except BaseException as error:
         result.update(status='failed', error_type=type(error).__name__, error=str(error))
         if boot:

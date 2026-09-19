@@ -27,7 +27,8 @@ def inputs(tmp_path):
     return {'schema_version': 1, 'name': 'fixture-ios', 'binding': str(binding),
             'parent': {'directory': str(parent), 'manifest': str(manifest),
                        'sha256': backend.sha(manifest), 'layer': 'shared-agent-build'},
-            'artifacts': {'swiftlint': str(artifact)}}
+            'artifacts': {'swiftlint': str(artifact)},
+            'qualification': {'source_checkout': str(tmp_path), 'source_kind': 'consumer'}}
 
 
 def fake_host(monkeypatch, tmp_path, fail=False):
@@ -37,6 +38,8 @@ def fake_host(monkeypatch, tmp_path, fail=False):
     monkeypatch.setattr(backend.subprocess, 'check_output',
         lambda command, **kw: COMMIT + '\n' if 'rev-parse' in command else b'')
     monkeypatch.setattr(backend, 'payload', lambda *args: tmp_path / 'unused-payload.tar')
+    monkeypatch.setattr(backend, 'qualify_artifact',
+        lambda *args: {'status': 'passed', 'cleanup': {'owned_child_absent': True}})
     class FakeOwner:
         def __init__(self, *args): pass
         def op(self, name, operation, *args):
@@ -121,6 +124,17 @@ def test_foreign_front_end_plan_never_creates_a_vm(tmp_path, monkeypatch):
     with pytest.raises(ValueError, match='Front-end plan'):
         backend.build(declaration, work, tmp_path, COMMIT, profile='macos-ios')
     assert not calls
+
+
+def test_qualification_failure_cannot_be_reported_as_successful_build(tmp_path, monkeypatch):
+    declaration = inputs(tmp_path)
+    fake_host(monkeypatch, tmp_path)
+    monkeypatch.setattr(backend, 'qualify_artifact', lambda *args: {'status': 'failed'})
+    with pytest.raises(ValueError, match='qualification did not pass'):
+        backend.build(declaration, tmp_path / 'work', tmp_path, COMMIT, profile='macos-ios')
+    failed = json.loads((tmp_path / 'work/BUILD-RESULT.json').read_text())
+    assert failed['status'] == 'failed' and not failed['runtime_admission']
+    assert (tmp_path / 'work/ARTIFACT.json').exists()
 
 
 def test_flutter_from_base_requires_all_engines_and_flutter_archive(tmp_path):

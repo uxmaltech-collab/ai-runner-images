@@ -1,6 +1,6 @@
 # Native build backend
 
-`build(inputs, work, root, commit, *, profile)` is the macOS backend for the shared image-build front end. `profile` is `macos-ios` or `macos-flutter`; `inputs` is the object below, `work` is a **new** private evidence directory (or the front end's fresh directory containing only its matching `PLAN.json`), `root` is the Images checkout and `commit` is its exact clean recipe commit. The return value and `work/BUILD-RESULT.json` are the same JSON-serializable artifact result. Successful composition returns `status=passed`, `artifact_state=stopped-and-verified`; qualification and runtime admission remain separate. Linux owns `scripts/build-images.py` and calls this function; this backend does not edit the front end.
+`build(inputs, work, root, commit, *, profile)` is the macOS backend for the shared image-build front end. `profile` is `macos-ios` or `macos-flutter`; `inputs` is the object below, `work` is a **new** private evidence directory (or the front end's fresh directory containing only its matching `PLAN.json`), `root` is the Images checkout and `commit` is its exact clean recipe commit. The return value and `work/BUILD-RESULT.json` are the same JSON-serializable result. `status=passed` requires stopped tuple sealing, nonadministrator SwiftLint qualification and disposable-child cleanup. The result retains separate artifact, qualification and cleanup evidence; runtime admission remains external. Linux owns `scripts/build-images.py` and calls this function; this backend does not edit the front end.
 
 The backend uses `scripts/tart-layer.py` for APFS clone, boot, bounded root RPC, normal shutdown and stopped tuple sealing. It invokes the existing agent and Flutter recipes and the native SwiftLint component. It contains no executor, RPC binary, installer fork, checkpoint Python dependency or registry provisioning. The installed host owner and its approved account/storage/network binding remain external prerequisites.
 
@@ -24,7 +24,11 @@ The backend uses `scripts/tart-layer.py` for APFS clone, boot, bounded root RPC,
     "claude": "/absolute/offline/claude-2.1.266-darwin-arm64",
     "grok": "/absolute/offline/grok-1.0.24-macos-aarch64"
   },
-  "git": "/absolute/usable/git"
+  "git": "/absolute/usable/git",
+  "qualification": {
+    "source_checkout": "/absolute/canonical/templates-checkout",
+    "source_kind": "templates"
+  }
 }
 ```
 
@@ -62,11 +66,11 @@ python3 recipes/macos/build.py --inputs /absolute/inputs.json \
   --work /absolute/new-build-evidence --commit <Images-commit> --profile macos-ios
 ```
 
-The result records the physical parent manifest, recipe commit, installed component identities and separate final `config.json`, `nvram.bin`, `disk.img` hashes. It reuses unchanged Xcode, Simulator and Maestro evidence and does not run a customer canary. A stopped builder is not yet nonadministrator lint qualification.
+The result records the physical parent manifest, recipe commit, installed component identities and separate final `config.json`, `nvram.bin`, `disk.img` hashes. It reuses unchanged Xcode, Simulator and Maestro evidence and does not run a customer canary. `ARTIFACT.json` records sealing before qualification; the full build then runs `qualify.py` below automatically and returns success only after its cleanup. The standalone qualification command is also available to reconcile a preserved sealed artifact after a failed qualification, without rebuilding its unchanged tools:
 
 ```sh
 python3 recipes/macos/qualify.py \
-  --build-result /absolute/new-build-evidence/BUILD-RESULT.json \
+  --build-result /absolute/new-build-evidence/ARTIFACT.json \
   --work /absolute/new-qualification-evidence \
   --binding /absolute/approved/host-binding.json \
   --source-checkout /absolute/canonical/templates-checkout --git /absolute/usable/git
