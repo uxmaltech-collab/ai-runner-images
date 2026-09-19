@@ -19,8 +19,10 @@ The offline probe proves tool launch only, never staging or customer acceptance.
 `extraction.json` maps the previously exercised consumer implementation to this
 neutral namespace. Algorithm bodies and lock bytes are preserved. App driver,
 credentials, flows and profile declarations stay downstream. The retained consumer
-image was built and exercised; this newly named neutral recipe has not been rebuilt
-or published. Its source promotion must not relabel that old image as a neutral build.
+image was built and exercised. The neutral recipe has now been built and
+cold-restored through the [canonical Python entrypoint](../../docs/build-images.md);
+its [separate receipts](../../qualification/image-builder-20260919/README.md) do not
+relabel the consumer image or credit a new application journey.
 
 ## Compile and test Java runtimes
 
@@ -32,4 +34,5 @@ not establish that its JVM tests had the required runtime.
 
 The September 19 resolve canary exercised these consumer recipe bytes. See
 [the accepted reference](../../provenance/mobile-resolve-20260919.json).
-This is consumer E2E evidence; the neutral namespace still requires its own build.
+This is consumer E2E evidence. Neutral tool-layer build/restoration is recorded
+separately and uses local artifact storage.

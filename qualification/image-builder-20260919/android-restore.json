@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "initial_store": "empty",
+  "archive_sha256": "d0b3988016eb48be9b6392b63ba7c594304ffa0181af879405964e2a74e730ef",
+  "build_receipt_sha256": "5971f75dd4e40fa3d0f77e549ac1d247faf8a11a29ecefd4f23340d7eac13c3a",
+  "credentials": "none",
+  "github_e2e": "not-run",
+  "distribution": "local-only",
+  "network_namespace": "net:[4026534739]",
+  "image_identity": "matched",
+  "runner_uid": 1001,
+  "tool_launch": "passed",
+  "harness_versions": "passed-offline",
+  "emulator_boot": "not-run",
+  "application_build": "not-run",
+  "containers_remaining": [],
+  "process_cleanup": {
+    "dockerd": {
+      "pid": 3242001,
+      "stopped": true
+    },
+    "containerd": {
+      "pid": 3241999,
+      "stopped": true
+    },
+    "namespace": {
+      "pid": 3241925,
+      "stopped": true
+    }
+  },
+  "host_bridge_preserved": true
+}
