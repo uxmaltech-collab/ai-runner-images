@@ -966,14 +966,22 @@
       "id": "android-neutral-cold-restore-20260919",
       "platform": "linux-amd64-android",
       "kind": "neutral-toolchain-image",
-      "reference": "ai-runner-images/runner-android@sha256:ed4ac120e65f95ac832b2f0eec49ef97c6452eab91b331e11cf13fb042ebf2d6",
       "parent_reference": "collab-e2e/runner-agent-base@sha256:1a82fc62361111cacf1047df523f4d9ac9f342d21e5b8d4448b33f1740d69d98",
       "source_commit": "7c58ba113ec873aef65811af43bc1da44036beea",
       "recipe_commit": "d4fcb6c4bcfc26dca1e46640088856f9a77a51e5",
       "qualification": "qualification/image-builder-20260919/SUMMARY.json",
-      "distribution": "local-only-verified-archive",
+      "distribution": {
+        "status": "local-only-verified-archive",
+        "remote_uri": null,
+        "remote_restore_verified": false,
+        "remote_storage_requested": false
+      },
       "runtime_admission": false,
-      "application_e2e": "not-run"
+      "application_e2e": "not-run",
+      "image_reference": "ai-runner-images/runner-android@sha256:ed4ac120e65f95ac832b2f0eec49ef97c6452eab91b331e11cf13fb042ebf2d6",
+      "classification": "neutral-toolchain-image",
+      "architecture": "amd64",
+      "status": "built-and-cold-restored-tools-qualified"
     }
   ],
   "kind": "image-catalog-not-runtime-admission",

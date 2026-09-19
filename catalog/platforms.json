@@ -55,7 +55,7 @@
       "recipe_paths": [
         "recipes/android"
       ],
-      "qualified_catalog_entry": null,
+      "qualified_catalog_entry": "android-neutral-cold-restore-20260919",
       "qualification_record": "qualification/image-builder-20260919/SUMMARY.json",
       "distribution_status": "local-only-verified-archive",
       "consumer_reference": "enviaflores-storefront-android-20260917",
