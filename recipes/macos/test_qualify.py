@@ -13,7 +13,7 @@ SPEC.loader.exec_module(qualification)
 ROOT = Path(__file__).resolve().parents[2]
 
 
-def setup(tmp_path, monkeypatch, failure=None, artifact_status='started'):
+def prepare_fixture(tmp_path, monkeypatch, failure=None, artifact_status='started'):
     parent = tmp_path / 'parent'
     parent.mkdir()
     for name in ('config.json', 'nvram.bin', 'disk.img'):
@@ -71,7 +71,7 @@ def setup(tmp_path, monkeypatch, failure=None, artifact_status='started'):
 
 @pytest.mark.parametrize('artifact_status', ['started', 'passed'])
 def test_sealed_artifact_runs_session_lint_and_owned_cleanup(tmp_path, monkeypatch, artifact_status):
-    run, calls, work, child, _ = setup(tmp_path, monkeypatch, artifact_status=artifact_status)
+    run, calls, work, child, _ = prepare_fixture(tmp_path, monkeypatch, artifact_status=artifact_status)
     result = run()
     assert calls == ['clone', 'boot-01', 'stage', 'configure', 'prepare', 'session-stop', 'boot-02',
                      'status-1', 'status-2', 'lint', 'result', 'export-lint', 'cleanup-stop', 'cleanup-delete']
@@ -81,7 +81,7 @@ def test_sealed_artifact_runs_session_lint_and_owned_cleanup(tmp_path, monkeypat
 
 
 def test_lint_failure_retains_error_and_still_stops_and_deletes_child(tmp_path, monkeypatch):
-    run, calls, work, child, _ = setup(tmp_path, monkeypatch, failure='lint')
+    run, calls, work, child, _ = prepare_fixture(tmp_path, monkeypatch, failure='lint')
     with pytest.raises(RuntimeError, match='original lint failure'):
         run()
     result = json.loads((work / 'QUALIFICATION-RESULT.json').read_text())
@@ -92,7 +92,7 @@ def test_lint_failure_retains_error_and_still_stops_and_deletes_child(tmp_path, 
 
 @pytest.mark.parametrize('failure', ['cleanup-stop', 'cleanup-delete'])
 def test_cleanup_failure_is_durable_and_cannot_pass(tmp_path, monkeypatch, failure):
-    run, calls, work, child, _ = setup(tmp_path, monkeypatch, failure=failure)
+    run, calls, work, child, _ = prepare_fixture(tmp_path, monkeypatch, failure=failure)
     with pytest.raises(RuntimeError, match='original ' + failure + ' failure'):
         run()
     result = json.loads((work / 'QUALIFICATION-RESULT.json').read_text())
@@ -102,7 +102,7 @@ def test_cleanup_failure_is_durable_and_cannot_pass(tmp_path, monkeypatch, failu
 
 
 def test_parent_mutation_cannot_pass_qualification(tmp_path, monkeypatch):
-    run, _, work, child, _ = setup(tmp_path, monkeypatch, failure='parent-drift')
+    run, _, work, child, _ = prepare_fixture(tmp_path, monkeypatch, failure='parent-drift')
     with pytest.raises(RuntimeError, match='preservation unconfirmed'):
         run()
     result = json.loads((work / 'QUALIFICATION-RESULT.json').read_text())
@@ -111,7 +111,7 @@ def test_parent_mutation_cannot_pass_qualification(tmp_path, monkeypatch):
 
 
 def test_status_alone_does_not_establish_a_sealed_artifact(tmp_path, monkeypatch):
-    run, calls, work, _, artifact = setup(tmp_path, monkeypatch)
+    run, calls, work, _, artifact = prepare_fixture(tmp_path, monkeypatch)
     value = json.loads(artifact.read_text())
     value.pop('artifact_state')
     value['status'] = 'stopped-and-verified'
