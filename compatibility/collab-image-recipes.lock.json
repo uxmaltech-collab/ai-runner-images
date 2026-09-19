@@ -48,13 +48,13 @@
   },
   "image_build": "not-run",
   "qualification": "source-pinned-not-built",
-  "release_manifest_sha256": "940c20c1175862926ef327f95eeb9fee2e3c4b2d2c531e1e365560df0b82c7f5",
+  "release_manifest_sha256": "5631c6daa9d73fd9fb0df6daa3c58af41dacf2df9b68275da5e0ecfa45b9487c",
   "runtime": {
     "artifact": {
       "name": "uxmaltech_collab-1.0.0-py3-none-any.whl",
-      "sha256": "b24fdd6daeaead8928eb835648e07bf80ea01c4ce2abb0b16e670568ffe04c65"
+      "sha256": "27a86f9329e1ff8301f509d252755f038700ac03d3dca539a8ea541e56a12159"
     },
-    "commit": "f27a2e06fe221cff930c022d170ff28b019b7d5e",
+    "commit": "a6ccb7edf25d646b6d70bf16fcefbd7e0a672efe",
     "repository": "uxmaltech-collab/cli",
     "version": "1.0.0"
   },
