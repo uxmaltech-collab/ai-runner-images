@@ -36,7 +36,7 @@ print(json.dumps({'configuration_sha256':hashlib.sha256((root/'qualification.jso
 '''
 
 
-def qualify(build_result, work, root, binding_path, source_checkout, git='git'):
+def qualify(build_result, work, root, binding_path, source_checkout, git='git', source_kind='templates'):
     result = json.loads(Path(build_result).read_text())
     if result['status'] != 'stopped-and-verified':
         raise ValueError('A finalized accountless artifact is required')
@@ -48,9 +48,16 @@ def qualify(build_result, work, root, binding_path, source_checkout, git='git'):
     work.mkdir(mode=0o700)
     binding = json.loads(Path(binding_path).read_text())
     payload = work / 'session-payload'
-    subprocess.run([sys.executable, '-B', str(root / 'recipes/qualification-session/prepare-payload.py'),
-                    '--source-checkout', str(source_checkout), '--source-kind', 'templates',
-                    '--output', str(payload), '--git', git], check=True)
+    command = [sys.executable, '-B', str(root / 'recipes/qualification-session/prepare-payload.py'),
+               '--source-checkout', str(source_checkout), '--source-kind', source_kind,
+               '--output', str(payload), '--git', git]
+    with (work / 'payload-preparation.stdout').open('xb') as out, (work / 'payload-preparation.stderr').open('xb') as err:
+        preparation = subprocess.run(command, stdout=out, stderr=err, timeout=90)
+    backend.write(work / 'PAYLOAD-PREPARATION.json', {'argv': command, 'exit_code': preparation.returncode,
+        'stdout': backend.file_ref(work / 'payload-preparation.stdout'),
+        'stderr': backend.file_ref(work / 'payload-preparation.stderr'), 'vm_created': False})
+    if preparation.returncode:
+        raise RuntimeError('Canonical session payload preparation failed; original output retained')
     files = {p.relative_to(payload).as_posix(): p for p in payload.rglob('*') if p.is_file()}
     recipe = root / 'recipes/macos-xcode-maestro/swiftlint'
     for path in recipe.rglob('*'):
@@ -158,6 +165,7 @@ if __name__ == '__main__':
     parser.add_argument('--root', type=Path, default=Path(__file__).resolve().parents[2])
     parser.add_argument('--binding', type=Path, required=True)
     parser.add_argument('--source-checkout', type=Path, required=True)
+    parser.add_argument('--source-kind', choices=['templates', 'consumer'], default='templates')
     parser.add_argument('--git', default='git')
     args = parser.parse_args()
-    print(json.dumps(qualify(args.build_result, args.work, args.root, args.binding, args.source_checkout, args.git)))
+    print(json.dumps(qualify(args.build_result, args.work, args.root, args.binding, args.source_checkout, args.git, args.source_kind)))

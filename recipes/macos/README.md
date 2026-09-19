@@ -65,6 +65,8 @@ python3 recipes/macos/qualify.py \
 
 Qualification clones the sealed result, resolves the locked canonical `qualification-session` dependency, prepares a real nonadministrator account, normally shuts down and boots that child, and requires Aqua readiness. It runs the neutral Swift fixture through the declared PATH: the valid file must lint successfully and the deliberate force-cast violation must produce a nonzero exit and JUnit failure. It exports logs/JUnit, normally stops the child and deletes only that credential-bearing qualification VM through Tart. The sealed reusable image remains accountless. No JIT, authenticated agent session, staging secret, app build, simulator commissioning or complete canary is implied.
 
+An existing complete consumer checkout can supply the identical locked owner blobs with `--source-kind consumer`. This uses the canonical payload resolver's existing alternative; it does not accept different modules or silently download missing blobs from a partial checkout.
+
 ## Failure and recovery
 
 Do not rerun over a work directory or existing VM name. Every owner operation keeps its original command, timestamps, stdout/stderr and receipt. Recipe failures preserve transferred input and guest evidence; the backend attempts normal shutdown and never seals a failed build. Read `BUILD-RESULT.json`, the failed owner receipt and any `cleanup_uncertainty` before a new attempt. Reuse verified inputs and the unchanged parent; retain failed originals. Qualification cleanup has its own result and must not be inferred from lint success.
