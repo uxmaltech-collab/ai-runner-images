@@ -2,12 +2,24 @@
 """Invoke existing tool recipes inside the owned accountless composition guest."""
 import argparse
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
 import stat
 import subprocess
 import sys
+
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from recipes.macos.budgets import install_budget
+
+
+def installer(recipe):
+    spec = importlib.util.spec_from_file_location('native_tool_installer', recipe / 'install.py')
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 def sha(path):
@@ -49,9 +61,10 @@ def main():
     evidence.mkdir(mode=0o700)
     result = {'recipe_commit': args.commit, 'profile': args.profile, 'commands': [], 'components': {},
               'accounts_created': 0, 'credentials_received': False, 'runtime_admission': False}
-    def run(label, command, timeout=300):
+    budgets = install_budget(args.profile, args.parent_layer)['component_seconds']
+    def run(label, command):
         with (evidence / (label + '.stdout')).open('xb') as out, (evidence / (label + '.stderr')).open('xb') as err:
-            process = subprocess.run(command, stdin=subprocess.DEVNULL, stdout=out, stderr=err, timeout=timeout)
+            process = subprocess.run(command, stdin=subprocess.DEVNULL, stdout=out, stderr=err, timeout=budgets[label])
         result['commands'].append({'name': label, 'argv': command, 'exit_code': process.returncode})
         if process.returncode:
             raise RuntimeError(f'Recipe {label} failed; original guest evidence is preserved')
@@ -75,7 +88,8 @@ def main():
     # SwiftLint belongs to the native tool layer; all engines remain together above it.
     swiftlint = recipes / 'macos-xcode-maestro/swiftlint'
     pins = json.loads((swiftlint / 'pins.json').read_text())
-    swiftroot = Path('/opt/ai-runner-images/tools/swiftlint/0.65.1')
+    swift_recipe = installer(swiftlint)
+    swiftroot, swiftbin = swift_recipe.layout('neutral', pins)
     if not swiftroot.exists():
         run('swiftlint', [sys.executable, '-I', '-B', str(swiftlint / 'install.py'),
             '--archive', str(artifacts / 'portable_swiftlint.zip'), '--receipt', str(evidence / 'swiftlint.json')])
@@ -83,17 +97,18 @@ def main():
     else:
         action = 'reused-verified'
     files = [checked(swiftroot / name, pin, int(pin['mode'], 8)) for name, pin in pins['members'].items()]
-    launcher = Path('/opt/ai-runner-images/bin/swiftlint')
-    expected = f'#!/bin/sh\nexec {swiftroot}/swiftlint "$@"\n'.encode()
+    launcher = swiftbin / 'swiftlint'
+    expected = swift_recipe.launcher_bytes(swiftroot)
     checked(launcher, {'bytes': len(expected), 'sha256': hashlib.sha256(expected).hexdigest()}, 0o755)
     result['components']['swiftlint'] = {'action': action, 'version': pins['version'], 'files': files,
                                        'launcher_sha256': sha(launcher), 'runtime_path': str(launcher.parent)}
     agents = recipes / 'agent-build'
     pins = json.loads((agents / 'pins.json').read_text())
-    agentroot = Path('/opt/ai-runner-images/agents')
+    agent_recipe = installer(agents)
+    agentroot = agent_recipe.PREFIX
     if args.parent_layer == 'macos-xcode-maestro':
         run('agents', [sys.executable, '-I', '-B', str(agents / 'install.py'), '--artifacts', str(artifacts),
-            '--codex-binary', str(artifacts / 'codex'), '--codex-companion', str(artifacts / 'codex-code-mode-host'),
+            '--codex-binary', str(artifacts / pins['codex']['binary']['installed_name']), '--codex-companion', str(artifacts / pins['codex']['companion']['installed_name']),
             '--receipt', str(evidence / 'agents.json')])
         action = 'installed'
     else:
@@ -104,17 +119,16 @@ def main():
         ('codex/codex', pins['codex']['binary']), ('codex/codex-code-mode-host', pins['codex']['companion']),
         ('claude/claude', pins['claude']), ('grok/grok', pins['grok'])]]
     for engine in pins['engines']:
-        wrapper = '#!/bin/sh\n' + ('export DISABLE_AUTOUPDATER=1\n' if engine == 'claude' else '')
-        wrapper += f'exec {agentroot}/{engine}/{engine} "$@"\n'
-        checked(agentroot / 'bin' / engine, {'bytes': len(wrapper.encode()),
-                'sha256': hashlib.sha256(wrapper.encode()).hexdigest()}, 0o755)
+        wrapper = agent_recipe.launcher_bytes(engine)
+        checked(agentroot / 'bin' / engine, {'bytes': len(wrapper),
+                'sha256': hashlib.sha256(wrapper).hexdigest()}, 0o755)
     result['components']['agents'] = {'action': action, 'engines': pins['engines'], 'files': files}
     if args.profile == 'macos-flutter':
         flutter = recipes / 'flutter-dart'
         if args.parent_layer != 'flutter-dart-ios':
             run('flutter', [sys.executable, '-I', '-B', str(flutter / 'install.py'), '--archive',
                 str(artifacts / 'flutter.zip'), '--evidence-dir', str(evidence / 'flutter'),
-                '--runtime-python', sys.executable], timeout=1500)
+                '--runtime-python', sys.executable])
             action = 'installed'
         else:
             action = 'reused-verified'

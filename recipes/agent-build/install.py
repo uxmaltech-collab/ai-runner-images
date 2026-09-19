@@ -31,6 +31,14 @@ def verify(path, pin):
         raise ValueError(f'Payload digest mismatch: {path}')
 
 
+def launcher_bytes(engine, prefix=PREFIX):
+    wrapper = '#!/bin/sh\n'
+    if engine == 'claude':
+        wrapper += 'export DISABLE_AUTOUPDATER=1\n'
+    wrapper += f'exec {prefix}/{engine}/{engine} "$@"\n'
+    return wrapper.encode()
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__, allow_abbrev=False)
     parser.add_argument('--artifacts', type=Path, required=True)
@@ -82,11 +90,7 @@ def main():
         (stage / 'bin').mkdir(mode=0o755)
         (stage / 'bin').chmod(0o755)
         for engine in pins['engines']:
-            wrapper = '#!/bin/sh\n'
-            if engine == 'claude':
-                wrapper += 'export DISABLE_AUTOUPDATER=1\n'
-            wrapper += f'exec {PREFIX}/{engine}/{engine} "$@"\n'
-            (stage / 'bin' / engine).write_text(wrapper)
+            (stage / 'bin' / engine).write_bytes(launcher_bytes(engine))
             (stage / 'bin' / engine).chmod(0o755)
         (stage / 'pins.json').write_bytes(pins_raw)
         (stage / 'pins.json').chmod(0o644)

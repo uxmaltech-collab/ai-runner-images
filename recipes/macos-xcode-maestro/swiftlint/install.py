@@ -15,10 +15,18 @@ import zipfile
 
 RECIPE = Path(__file__).resolve().parent
 LAYOUTS = {
-    'neutral': ('/opt/ai-runner-images/tools/swiftlint/0.65.1', '/opt/ai-runner-images/bin'),
-    'consumer': ('/opt/macos-tart-bootstrap/resolver-tools/swiftlint-0.65.1',
+    'neutral': ('/opt/ai-runner-images/tools/swiftlint/{version}', '/opt/ai-runner-images/bin'),
+    'consumer': ('/opt/macos-tart-bootstrap/resolver-tools/swiftlint-{version}',
                  '/opt/ai-repo-resources/python/bin'),
 }
+
+
+def layout(name, pins):
+    return tuple(Path(path.format(version=pins['version'])) for path in LAYOUTS[name])
+
+
+def launcher_bytes(prefix):
+    return f'#!/bin/sh\nexec {prefix}/swiftlint "$@"\n'.encode()
 
 
 def digest(raw):
@@ -82,7 +90,7 @@ def install(archive, pins, prefix, bin_dir):
             stream.write(raw)
         target.chmod(int(pins['members'][name]['mode'], 8))
     os.rename(stage, prefix)
-    wrapper = f'#!/bin/sh\nexec {prefix}/swiftlint "$@"\n'.encode()
+    wrapper = launcher_bytes(prefix)
     with launcher.open('xb') as stream:
         stream.write(wrapper)
     launcher.chmod(0o755)
@@ -117,7 +125,7 @@ def main():
         model = subprocess.check_output(['/usr/sbin/sysctl', '-n', 'hw.model'], text=True).strip()
         if not model.startswith('VirtualMac'):
             raise ValueError('Installation is restricted to the declared virtual builder')
-        prefix, bin_dir = map(Path, LAYOUTS[args.layout])
+        prefix, bin_dir = layout(args.layout, pins)
         receipt.update(install(args.archive, pins, prefix, bin_dir), installed=True)
     with args.receipt.open('x') as stream:
         json.dump(receipt, stream, sort_keys=True, indent=2)

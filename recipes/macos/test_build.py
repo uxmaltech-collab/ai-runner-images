@@ -37,7 +37,10 @@ def fake_host(monkeypatch, tmp_path, fail=False):
     monkeypatch.setattr(backend.platform, 'machine', lambda: 'arm64')
     monkeypatch.setattr(backend.subprocess, 'check_output',
         lambda command, **kw: COMMIT + '\n' if 'rev-parse' in command else b'')
-    monkeypatch.setattr(backend, 'payload', lambda *args: tmp_path / 'unused-payload.tar')
+    archive = tmp_path / 'unused-payload.tar'
+    archive.write_bytes(b'fixture')
+    monkeypatch.setattr(backend, 'payload', lambda *args: archive)
+    monkeypatch.setattr(backend, 'stage_command', lambda *args: ['staging-fixture'])
     monkeypatch.setattr(backend, 'qualify_artifact',
         lambda *args: {'status': 'passed', 'cleanup': {'owned_child_absent': True}})
     class FakeOwner:
@@ -54,7 +57,8 @@ def fake_host(monkeypatch, tmp_path, fail=False):
             if fail and name == 'install':
                 raise RuntimeError('retained recipe failure')
             path = tmp_path / (name + '.output')
-            path.write_text('{}')
+            path.write_text(json.dumps({'components': {'swiftlint': {'version': 'fixture'}},
+                                        'inherited_base': {'receipt_sha256': 'fixture'}, 'runtime_path': '/fixture/bin'}))
             return path
     monkeypatch.setattr(backend, 'Owner', FakeOwner)
     return calls
@@ -65,6 +69,11 @@ def test_stopped_tuple_is_sealed_only_after_export_and_normal_shutdown(tmp_path,
     calls = fake_host(monkeypatch, tmp_path)
     result = backend.build(declaration, tmp_path / 'work', tmp_path, COMMIT, profile='macos-ios')
     assert [x[0] for x in calls] == ['clone', 'boot', 'stage', 'install', 'export', 'remove-stage', 'stop', 'seal']
+    artifact = json.loads((tmp_path / 'work/ARTIFACT.json').read_text())
+    assert artifact['artifact_state'] == 'stopped-and-verified' and artifact['status'] == 'started'
+    assert result['components']['swiftlint']['version'] == 'fixture'
+    assert 'components' not in result['components'] and result['runtime_path'] == '/fixture/bin'
+    assert result['guest_receipt']['sha256'] == backend.sha(tmp_path / 'install.output')
     assert result['runtime_admission'] is False
     assert result['distribution'] == 'local-only'
     assert result['recipe_commit'] == COMMIT and result['physical_parent'] == declaration['parent']

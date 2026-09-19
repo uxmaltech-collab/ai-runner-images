@@ -2,37 +2,21 @@
 """Compose local Tart images through the existing layer owner; never admit them."""
 import argparse
 import datetime
-import hashlib
 import importlib.util
 import json
-import os
 from pathlib import Path
 import platform
 import re
 import stat
 import subprocess
 import sys
-import tarfile
 
-PYTHON = '/opt/macos-tart-bootstrap/python/bin/python3.12'
+# Also supports the shared front end loading this backend by file location.
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from recipes.macos.host import Owner, PYTHON, file_ref, pack, sha, stage_command, write
+from recipes.macos.budgets import install_budget, stage_budget
 LAYERS = ('macos-xcode-maestro', 'shared-agent-build', 'flutter-dart-ios')
 PROFILES = ('macos-ios', 'macos-flutter')
-
-
-def sha(path):
-    with Path(path).open('rb') as stream:
-        return hashlib.file_digest(stream, 'sha256').hexdigest()
-
-
-def write(path, value):
-    with Path(path).open('x') as stream:
-        json.dump(value, stream, indent=2, sort_keys=True)
-        stream.write('\n')
-
-
-def file_ref(path):
-    path = Path(path)
-    return {'path': str(path), 'bytes': path.stat().st_size, 'sha256': sha(path)}
 
 
 def validate(inputs, profile):
@@ -76,35 +60,6 @@ def qualify_artifact(root, work, inputs):
                           source['source_checkout'], inputs.get('git', 'git'), source['source_kind'])
 
 
-class Owner:
-    """Receipts and bounded RPC remain owned by scripts/tart-layer.py."""
-    def __init__(self, root, work, binding, vm):
-        self.root, self.work, self.binding, self.vm = map(Path, (root, work, binding, vm))
-
-    def op(self, name, operation, *args):
-        receipt = self.work / (name + '.json')
-        argv = [sys.executable, '-B', str(self.root / 'scripts/tart-layer.py'),
-                '--binding', str(self.binding), '--receipt', str(receipt), '--vm', str(self.vm),
-                operation, *map(str, args)]
-        # The owner provides operation deadlines and preserves partial command output.
-        with (self.work / (name + '.owner.stdout')).open('xb') as out, \
-             (self.work / (name + '.owner.stderr')).open('xb') as err:
-            process = subprocess.run(argv, stdout=out, stderr=err)
-        if process.returncode:
-            raise ValueError(f'Native owner failed; reconcile {receipt}')
-        value = json.loads(receipt.read_text())
-        if value['status'] != 'complete':
-            raise ValueError(f'Incomplete native owner operation: {receipt}')
-        return value
-
-    def execute(self, name, command, *, timeout=120, input_path=None):
-        args = ['--timeout', str(timeout)]
-        if input_path:
-            args += ['--input', str(input_path)]
-        result = self.op(name, 'exec', *args, '--', *command)
-        return Path(result['commands'][-1]['stdout']['path'])
-
-
 def payload(root, work, artifacts):
     """Stage only versioned recipe bytes and explicitly supplied locked artifacts."""
     entries = {}
@@ -113,41 +68,17 @@ def payload(root, work, artifacts):
             if path.is_file() and not path.is_symlink() and '__pycache__' not in path.parts:
                 if path.suffix in ('.py', '.json', '.swift', '.yml') and not path.name.startswith('test_'):
                     entries[path.relative_to(root).as_posix()] = path
-    names = {'codex': 'codex', 'codex_companion': 'codex-code-mode-host',
-             'claude': 'claude-2.1.266-darwin-arm64', 'grok': 'grok-1.0.24-macos-aarch64',
+    pins = json.loads((root / 'recipes/agent-build/pins.json').read_text())
+    names = {'codex': pins['codex']['binary']['installed_name'],
+             'codex_companion': pins['codex']['companion']['installed_name'],
+             'claude': pins['claude']['file'], 'grok': pins['grok']['file'],
              'swiftlint': 'portable_swiftlint.zip', 'flutter': 'flutter.zip'}
     for name, source in artifacts.items():
         path = Path(source)
         if not stat.S_ISREG(path.lstat().st_mode):
             raise ValueError('Artifact must be a regular file')
         entries['artifacts/' + names[name]] = path
-    manifest = {name: {'bytes': path.stat().st_size, 'sha256': sha(path)} for name, path in entries.items()}
-    write(work / 'PAYLOAD.json', manifest)
-    with tarfile.open(work / 'payload.tar', 'x') as package:
-        for name, path in sorted(entries.items()):
-            package.add(path, arcname=name, recursive=False)
-        package.add(work / 'PAYLOAD.json', arcname='PAYLOAD.json')
-    return work / 'payload.tar'
-
-
-STAGE = '''import sys,tarfile,json,hashlib,os
-from pathlib import Path
-root=Path(sys.argv[1]); root.mkdir(mode=0o755); root.chmod(0o755)
-with tarfile.open(fileobj=sys.stdin.buffer,mode='r|') as package:
- for item in package:
-  if not (item.isfile() or item.isdir()) or Path(item.name).is_absolute() or '..' in Path(item.name).parts: raise ValueError('Invalid payload member')
-  package.extract(item,root,filter='data')
-for directory,dirs,files in os.walk(root):
- Path(directory).chmod(0o755)
- for name in files:
-  path=Path(directory)/name; path.chmod(0o644); os.chown(path,0,0)
-manifest=json.loads((root/'PAYLOAD.json').read_text())
-for name,pin in manifest.items():
- path=root/name
- with path.open('rb') as stream: actual=hashlib.file_digest(stream,'sha256').hexdigest()
- assert path.stat().st_size==pin['bytes'] and actual==pin['sha256'],name
-print(json.dumps({'verified_files':len(manifest),'credentials_transferred':False}))
-'''
+    return pack(entries, work)
 
 
 def build(inputs, work, root, commit, *, profile):
@@ -167,7 +98,7 @@ def build(inputs, work, root, commit, *, profile):
     head = subprocess.check_output([git, '-C', str(root), 'rev-parse', 'HEAD'], text=True).strip()
     changed = subprocess.check_output([git, '-C', str(root), 'status', '--porcelain', '--',
                                        'recipes/macos', 'recipes/macos-xcode-maestro/swiftlint',
-                                       'recipes/agent-build', 'recipes/flutter-dart', 'scripts/tart-layer.py'])
+                                       'recipes/agent-build', 'recipes/flutter-dart', 'recipes/qualification-session', 'scripts/tart-layer.py'])
     if head != commit or changed.strip():
         raise ValueError('Native recipe inputs must match the committed checkout')
     if work.exists():
@@ -203,6 +134,9 @@ def build(inputs, work, root, commit, *, profile):
         before[name] = (info.st_ino, info.st_size, info.st_mtime_ns)
     write(work / 'PARENT-VERIFIED.json', {'physical_parent': parent, 'files': files, 'metadata': before})
     archive = payload(root, work, inputs['artifacts'])
+    deadlines = {'stage_seconds': stage_budget(archive.stat().st_size),
+                 **install_budget(profile, parent['layer'])}
+    write(work / 'DEADLINES.json', {'payload_bytes': archive.stat().st_size, **deadlines})
     owner = Owner(root, work, work / 'binding.json', inputs['name'])
     stage = '/opt/ai-runner-build-' + inputs['name']
     result = {'schema_version': 1, 'profile': profile, 'recipe_commit': commit,
@@ -218,11 +152,13 @@ def build(inputs, work, root, commit, *, profile):
             if metadata != (info.st_ino, info.st_size, info.st_mtime_ns):
                 raise ValueError('Physical parent changed around cloning')
         boot = owner.op('boot', 'boot', '--timeout', '180')
-        owner.execute('stage', [PYTHON, '-I', '-B', '-c', STAGE, stage], input_path=archive, timeout=300)
+        owner.execute('stage', stage_command(root, stage), input_path=archive, timeout=deadlines['stage_seconds'])
         output = owner.execute('install', [PYTHON, '-I', '-B', stage + '/recipes/macos/guest.py',
                                           '--root', stage, '--profile', profile, '--parent-layer', parent['layer'],
-                                          '--commit', commit], timeout=1800)
-        result['components'] = json.loads(output.read_text())
+                                          '--commit', commit], timeout=deadlines['install_seconds'])
+        guest = json.loads(output.read_text())
+        result.update(components=guest['components'], inherited_base=guest['inherited_base'],
+                      runtime_path=guest['runtime_path'], guest_receipt=file_ref(output))
         exported = owner.execute('export', ['/usr/bin/tar', '-czf', '-', '-C', stage, 'evidence'], timeout=120)
         result['component_evidence'] = file_ref(exported)
         owner.execute('remove-stage', [PYTHON, '-I', '-B', '-c',
@@ -232,7 +168,7 @@ def build(inputs, work, root, commit, *, profile):
         boot = None
         sealed = owner.op('seal', 'seal', '--shutdown-receipt', work / 'stop.json',
                           '--source-commit', commit, '--parent-manifest', manifest, '--parent-digest', parent['sha256'])
-        result.update(status='passed', artifact_state='stopped-and-verified', image_manifest=file_ref(sealed['manifest_path']),
+        result.update(artifact_state='stopped-and-verified', image_manifest=file_ref(sealed['manifest_path']),
                       image_manifest_sha256=sealed['manifest_sha256'], tuple=sealed['manifest']['files'],
                       local_image=str(Path(binding['tart_home']) / 'vms' / inputs['name']),
                       original_parent_preserved=True)
@@ -241,6 +177,7 @@ def build(inputs, work, root, commit, *, profile):
         if result['qualification'].get('status') != 'passed':
             raise ValueError('Native qualification did not pass; preserved artifact remains unadmitted')
         result['cleanup'] = result['qualification']['cleanup']
+        result['status'] = 'passed'
     except BaseException as error:
         result.update(status='failed', error_type=type(error).__name__, error=str(error))
         if boot:

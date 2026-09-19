@@ -58,7 +58,7 @@ def main():
         for name in ('Valid.swift', 'Invalid.swift', 'swiftlint.yml'):
             shutil.copyfile(RECIPE / 'fixtures' / name, args.output / name)
         version = subprocess.check_output([launcher, 'version'], text=True, timeout=20).strip()
-        if version != '0.65.1':
+        if version != json.loads((RECIPE / 'pins.json').read_text())['version']:
             raise ValueError(f'Unexpected SwiftLint version: {version}')
         receipt['version'] = version
         for fixture, valid in [('Valid.swift', True), ('Invalid.swift', False)]:

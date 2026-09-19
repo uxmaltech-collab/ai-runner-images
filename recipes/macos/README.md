@@ -2,7 +2,7 @@
 
 `build(inputs, work, root, commit, *, profile)` is the macOS backend for the shared image-build front end. `profile` is `macos-ios` or `macos-flutter`; `inputs` is the object below, `work` is a **new** private evidence directory (or the front end's fresh directory containing only its matching `PLAN.json`), `root` is the Images checkout and `commit` is its exact clean recipe commit. The return value and `work/BUILD-RESULT.json` are the same JSON-serializable result. `status=passed` requires stopped tuple sealing, nonadministrator SwiftLint qualification and disposable-child cleanup. The result retains separate artifact, qualification and cleanup evidence; runtime admission remains external. Linux owns `scripts/build-images.py` and calls this function; this backend does not edit the front end.
 
-The backend uses `scripts/tart-layer.py` for APFS clone, boot, bounded root RPC, normal shutdown and stopped tuple sealing. It invokes the existing agent and Flutter recipes and the native SwiftLint component. It contains no executor, RPC binary, installer fork, checkpoint Python dependency or registry provisioning. The installed host owner and its approved account/storage/network binding remain external prerequisites.
+The backend uses `scripts/tart-layer.py` for APFS clone, boot, bounded root RPC, normal shutdown, stopped tuple sealing and scoped deletion of the disposable qualification child. It invokes the existing agent and Flutter recipes and the native SwiftLint component. It contains no executor, RPC binary, installer fork, checkpoint Python dependency or registry provisioning. The installed host owner and its approved account/storage/network binding remain external prerequisites.
 
 ## Inputs and layer order
 
@@ -68,7 +68,7 @@ python3 recipes/macos/build.py --inputs /absolute/inputs.json \
   --work /absolute/new-build-evidence --commit <Images-commit> --profile macos-ios
 ```
 
-The result records the physical parent manifest, recipe commit, installed component identities and separate final `config.json`, `nvram.bin`, `disk.img` hashes. It reuses unchanged Xcode, Simulator and Maestro evidence and does not run a customer canary. `ARTIFACT.json` records sealing before qualification; the full build then runs `qualify.py` below automatically and returns success only after its cleanup. The standalone qualification command is also available to reconcile a preserved sealed artifact after a failed qualification, without rebuilding its unchanged tools:
+The result records the physical parent manifest, recipe commit, installed component identities and separate final `config.json`, `nvram.bin`, `disk.img` hashes. It reuses unchanged Xcode, Simulator and Maestro evidence and does not run a customer canary. `components` directly maps tool names to their receipts; `inherited_base`, `runtime_path` and `guest_receipt` are separate fields. `ARTIFACT.json` records `artifact_state=stopped-and-verified` while the overall status remains `started` before qualification; the full build then runs `qualify.py` below automatically and returns success only after its cleanup. The standalone qualification command is also available to reconcile a preserved sealed artifact after a failed qualification, without rebuilding its unchanged tools:
 
 ```sh
 python3 recipes/macos/qualify.py \
@@ -87,3 +87,17 @@ An existing complete consumer checkout can supply the identical locked owner blo
 Do not rerun over a work directory or existing VM name. Every owner operation keeps its original command, timestamps, stdout/stderr and receipt. Recipe failures preserve transferred input and guest evidence; the backend attempts normal shutdown and never seals a failed build. Read `BUILD-RESULT.json`, the failed owner receipt and any `cleanup_uncertainty` before a new attempt. Reuse verified inputs and the unchanged parent; retain failed originals. Qualification cleanup has its own result and must not be inferred from lint success.
 
 CLI console relocation belongs to the consumer's existing image preparation owner and PR322, now maintained by Linux. This backend installs no consumer CLI and cannot qualify that change.
+
+## Deadlines and shared contracts
+
+`DEADLINES.json` records the actual tar size and the selected outer and component deadlines. Staging allows 120 seconds plus one second per 2 MiB of payload for transfer, extraction and verification; this is a conservative allowance, not a claimed measured rate. Installation allows the sum of selected component budgets plus 300 seconds for inherited-tool checks and receipt work. SwiftLint and the combined agent recipe each receive 300 seconds. Flutter's owning installer exposes its six step deadlines (2,280 seconds total) plus 600 seconds for archive inspection and SDK inventory; both the guest and host use that same budget. A full Flutter build therefore allows 3,780 seconds for installation. An unchanged Flutter overlay allows 600 seconds and transfers no SDK or agent binaries.
+
+`host.py` owns shared packing, hashes and the owner client. `stage_payload.py` contains the guest staging program. The disposable session policy and its configuration program live beside the existing `qualification-session` adapter; the policy declares fixture identities, Python compatibility and PATH. Session source identity comes from the verified payload and SwiftLint's version comes from its pin. Installer functions define launchers and layouts, so inherited-tool verification checks the same bytes as fresh installation.
+
+Focused regressions (use importlib mode because independent recipes share test filenames):
+
+```sh
+python3 -m pytest --import-mode=importlib scripts/test_build_images.py scripts/test_tart_layer.py \
+  recipes/macos/test_*.py recipes/macos-xcode-maestro/swiftlint/test_recipe.py \
+  recipes/flutter-dart/test_recipe.py
+```
