@@ -1,0 +1,384 @@
+diff --git a/internal/vsock/listener.go b/internal/vsock/listener.go
+index 21cfd43..991ced6 100644
+--- a/internal/vsock/listener.go
++++ b/internal/vsock/listener.go
+@@ -1,10 +1,11 @@
+ package vsock
+ 
+ import (
+-	"fmt"
+-	"golang.org/x/sys/unix"
+ 	"net"
+ 	"os"
++	"syscall"
++
++	"golang.org/x/sys/unix"
+ )
+ 
+ type listener struct {
+@@ -13,61 +14,135 @@ type listener struct {
+ }
+ 
+ func Listen(port uint32) (net.Listener, error) {
+-	fd, err := unix.Socket(unix.AF_VSOCK, unix.SOCK_STREAM, 0)
++	fd, err := socketCloseOnExec(unix.AF_VSOCK, unix.SOCK_STREAM, 0)
+ 	if err != nil {
+ 		return nil, err
+ 	}
+ 
+ 	if err := unix.SetNonblock(fd, true); err != nil {
++		_ = unix.Close(fd)
+ 		return nil, err
+ 	}
+ 
+-	file := os.NewFile(uintptr(fd), "vsock")
+-
+-	if err := unix.Bind(int(file.Fd()), &unix.SockaddrVM{
++	if err := unix.Bind(fd, &unix.SockaddrVM{
+ 		CID:  unix.VMADDR_CID_ANY,
+ 		Port: port,
+ 	}); err != nil {
++		_ = unix.Close(fd)
+ 		return nil, err
+ 	}
+ 
+-	if err := unix.Listen(int(file.Fd()), unix.SOMAXCONN); err != nil {
++	if err := unix.Listen(fd, unix.SOMAXCONN); err != nil {
++		_ = unix.Close(fd)
+ 		return nil, err
+ 	}
+ 
+ 	return &listener{
+-		file: file,
++		file: os.NewFile(uintptr(fd), "vsock"),
+ 		port: port,
+ 	}, nil
+ }
+ 
+-func (listener *listener) Accept() (net.Conn, error) {
+-	fd, _, err := unix.Accept(int(listener.file.Fd()))
++// Darwin has no atomic SOCK_CLOEXEC/accept4 path. Share the fork lock with
++// os/exec so a child cannot start between descriptor creation and FD_CLOEXEC.
++func socketCloseOnExec(domain, kind, protocol int) (int, error) {
++	syscall.ForkLock.RLock()
++	defer syscall.ForkLock.RUnlock()
++	fd, err := unix.Socket(domain, kind, protocol)
+ 	if err != nil {
+-		return nil, err
++		return -1, err
+ 	}
+-
+-	if err := unix.SetNonblock(fd, true); err != nil {
+-		return nil, err
++	if _, err := unix.FcntlInt(uintptr(fd), unix.F_SETFD, unix.FD_CLOEXEC); err != nil {
++		_ = unix.Close(fd)
++		return -1, err
+ 	}
++	return fd, nil
++}
+ 
+-	file := os.NewFile(uintptr(fd), "vsock")
+-
+-	peerName, err := unix.Getpeername(int(file.Fd()))
++func acceptCloseOnExec(file *os.File) (int, error) {
++	raw, err := file.SyscallConn()
++	if err != nil {
++		return -1, err
++	}
++	fd := -1
++	var acceptErr error
++	// File.Fd would switch the listener to blocking mode. Use the poller and
++	// release ForkLock before waiting, so an idle listener cannot stall exec.
++	err = raw.Read(func(listenerFD uintptr) bool {
++		for {
++			syscall.ForkLock.RLock()
++			fd, _, acceptErr = unix.Accept(int(listenerFD))
++			if acceptErr == nil {
++				_, acceptErr = unix.FcntlInt(uintptr(fd), unix.F_SETFD, unix.FD_CLOEXEC)
++				if acceptErr != nil {
++					_ = unix.Close(fd)
++					fd = -1
++				}
++			}
++			syscall.ForkLock.RUnlock()
++			if acceptErr == unix.EINTR {
++				continue
++			}
++			return acceptErr != unix.EAGAIN && acceptErr != unix.EWOULDBLOCK
++		}
++	})
+ 	if err != nil {
+-		return nil, fmt.Errorf("failed to get a peer name for an AF_VSOCK connection %w", err)
++		if fd >= 0 {
++			_ = unix.Close(fd)
++		}
++		return -1, err
+ 	}
++	return fd, acceptErr
++}
++
++func (listener *listener) Accept() (net.Conn, error) {
++	return acceptHostOnly(listener.acceptPeer)
++}
+ 
+-	peerNameVM, ok := peerName.(*unix.SockaddrVM)
+-	if !ok {
+-		return nil, fmt.Errorf("accepted a non-AF_VSOCK connection on an AF_VSOCK socket")
++// Guest-local AF_VSOCK loopback is available to unprivileged users. A root
++// RPC server must reject it before gRPC receives any command or credentials.
++// Only the kernel-reported host CID is trusted; a guest cannot bind that CID.
++func acceptHostOnly(next func() (net.Conn, uint32, error)) (net.Conn, error) {
++	for {
++		connection, cid, err := next()
++		if err != nil {
++			return nil, err
++		}
++		if cid != unix.VMADDR_CID_HOST {
++			_ = connection.Close()
++			continue
++		}
++		return connection, nil
+ 	}
++}
+ 
+-	return &conn{
+-		file:       file,
+-		localPort:  listener.port,
+-		remotePort: peerNameVM.Port,
+-	}, nil
++func (listener *listener) acceptPeer() (net.Conn, uint32, error) {
++	for {
++		fd, err := acceptCloseOnExec(listener.file)
++		if err != nil {
++			return nil, 0, err
++		}
++		if err := unix.SetNonblock(fd, true); err != nil {
++			_ = unix.Close(fd)
++			continue
++		}
++		peerName, err := unix.Getpeername(fd)
++		if err != nil {
++			_ = unix.Close(fd)
++			continue
++		}
++		peerNameVM, ok := peerName.(*unix.SockaddrVM)
++		if !ok {
++			_ = unix.Close(fd)
++			continue
++		}
++
++		return &conn{
++			file:       os.NewFile(uintptr(fd), "vsock"),
++			localPort:  listener.port,
++			remotePort: peerNameVM.Port,
++		}, peerNameVM.CID, nil
++	}
+ }
+ 
+ func (listener *listener) Addr() net.Addr {
+diff --git a/internal/vsock/listener_exec_test.go b/internal/vsock/listener_exec_test.go
+new file mode 100644
+index 0000000..dc84cbb
+--- /dev/null
++++ b/internal/vsock/listener_exec_test.go
+@@ -0,0 +1,131 @@
++package vsock
++
++import (
++	"context"
++	"fmt"
++	"net"
++	"os"
++	"os/exec"
++	"path/filepath"
++	"strconv"
++	"strings"
++	"testing"
++	"time"
++
++	"golang.org/x/sys/unix"
++)
++
++// Exercise the same descriptor helpers with real sockets, without a VM or
++// credentials. The short path also fits Darwin's sockaddr_un limit.
++func unixTestListener(t *testing.T) (*os.File, int, string) {
++	t.Helper()
++	directory, err := os.MkdirTemp("/tmp", "vsock-exec-")
++	if err != nil {
++		t.Fatal(err)
++	}
++	t.Cleanup(func() { _ = os.RemoveAll(directory) })
++	path := filepath.Join(directory, "socket")
++	fd, err := socketCloseOnExec(unix.AF_UNIX, unix.SOCK_STREAM, 0)
++	if err != nil {
++		t.Fatal(err)
++	}
++	for _, configure := range []func() error{
++		func() error { return unix.SetNonblock(fd, true) },
++		func() error { return unix.Bind(fd, &unix.SockaddrUnix{Name: path}) },
++		func() error { return unix.Listen(fd, 8) },
++	} {
++		if err := configure(); err != nil {
++			_ = unix.Close(fd)
++			t.Fatal(err)
++		}
++	}
++	file := os.NewFile(uintptr(fd), "test-listener")
++	t.Cleanup(func() { _ = file.Close() })
++	return file, fd, path
++}
++
++func TestSocketDescriptorsDoNotSurviveExec(t *testing.T) {
++	if path := os.Getenv("VSOCK_EXEC_TEST_PATH"); path != "" {
++		for _, value := range strings.Split(os.Getenv("VSOCK_EXEC_TEST_FDS"), ",") {
++			fd, err := strconv.Atoi(value)
++			if err != nil {
++				os.Exit(2)
++			}
++			peer, err := unix.Getsockname(fd)
++			// A descriptor number may have been reused by the child runtime;
++			// compare the unique socket address, not only its existence.
++			if address, ok := peer.(*unix.SockaddrUnix); err == nil && ok && address.Name == path {
++				_, _ = fmt.Fprintln(os.Stderr, "transport socket survived exec")
++				os.Exit(3)
++			}
++		}
++		os.Exit(0)
++	}
++	file, listeningFD, path := unixTestListener(t)
++	client, err := net.DialTimeout("unix", path, time.Second)
++	if err != nil {
++		t.Fatal(err)
++	}
++	defer client.Close()
++	acceptedFD, err := acceptCloseOnExec(file)
++	if err != nil {
++		t.Fatal(err)
++	}
++	defer unix.Close(acceptedFD)
++	for _, fd := range []int{listeningFD, acceptedFD} {
++		flags, err := unix.FcntlInt(uintptr(fd), unix.F_GETFD, 0)
++		if err != nil || flags&unix.FD_CLOEXEC == 0 {
++			t.Errorf("descriptor %d is inheritable: flags=%d err=%v", fd, flags, err)
++		}
++	}
++	executable, err := os.Executable()
++	if err != nil {
++		t.Fatal(err)
++	}
++	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
++	defer cancel()
++	command := exec.CommandContext(ctx, executable, "-test.run=^TestSocketDescriptorsDoNotSurviveExec$")
++	command.Env = append(os.Environ(), "VSOCK_EXEC_TEST_PATH="+path,
++		fmt.Sprintf("VSOCK_EXEC_TEST_FDS=%d,%d", listeningFD, acceptedFD))
++	if output, err := command.CombinedOutput(); err != nil {
++		t.Fatalf("exec inherited a transport socket or failed: %v %s", err, output)
++	}
++}
++
++func TestIdleAcceptDoesNotBlockExecAndCloseReleasesIt(t *testing.T) {
++	file, _, _ := unixTestListener(t)
++	accepted := make(chan error, 1)
++	go func() {
++		fd, err := acceptCloseOnExec(file)
++		if fd >= 0 {
++			_ = unix.Close(fd)
++		}
++		accepted <- err
++	}()
++	// Confirm accept is waiting before starting a child; the timeout below
++	// must also unblock a faulty blocking Accept that holds the fork lock.
++	select {
++	case err := <-accepted:
++		t.Fatalf("empty listener did not wait: %v", err)
++	case <-time.After(50 * time.Millisecond):
++	}
++	executed := make(chan error, 1)
++	go func() { executed <- exec.Command("/usr/bin/true").Run() }()
++	select {
++	case err := <-executed:
++		if err != nil {
++			t.Error(err)
++		}
++	case <-time.After(5 * time.Second):
++		t.Error("idle accept blocked exec")
++	}
++	_ = file.Close()
++	select {
++	case err := <-accepted:
++		if err == nil {
++			t.Error("closed listener did not preserve accept failure")
++		}
++	case <-time.After(5 * time.Second):
++		t.Error("closing the listener did not release accept")
++	}
++}
+diff --git a/internal/vsock/listener_host_only_test.go b/internal/vsock/listener_host_only_test.go
+new file mode 100644
+index 0000000..9d05c95
+--- /dev/null
++++ b/internal/vsock/listener_host_only_test.go
+@@ -0,0 +1,63 @@
++package vsock
++
++import (
++	"errors"
++	"io"
++	"net"
++	"strconv"
++	"testing"
++	"time"
++
++	"golang.org/x/sys/unix"
++)
++
++func TestAcceptHostOnlyClosesRejectedPeersAndContinues(t *testing.T) {
++	for _, cid := range []uint32{0, 1, 3, 42, ^uint32(0)} {
++		t.Run(strconv.FormatUint(uint64(cid), 10), func(t *testing.T) {
++			rejected, localPeer := net.Pipe()
++			defer localPeer.Close()
++			host, hostPeer := net.Pipe()
++			defer host.Close()
++			defer hostPeer.Close()
++			calls := 0
++			accepted, err := acceptHostOnly(func() (net.Conn, uint32, error) {
++				calls++
++				if calls == 1 {
++					return rejected, cid, nil
++				}
++				return host, unix.VMADDR_CID_HOST, nil
++			})
++			if err != nil || accepted != host || calls != 2 {
++				t.Fatalf("host acceptance after rejected CID %d: calls=%d err=%v", cid, calls, err)
++			}
++			_ = localPeer.SetReadDeadline(time.Now().Add(time.Second))
++			if _, err := localPeer.Read(make([]byte, 1)); !errors.Is(err, io.EOF) {
++				t.Fatalf("rejected CID %d connection remained open: %v", cid, err)
++			}
++			// A rejected peer must neither stop admission nor close the next host.
++			_ = hostPeer.SetWriteDeadline(time.Now().Add(time.Second))
++			written := make(chan error, 1)
++			go func() { _, err := hostPeer.Write([]byte("h")); written <- err }()
++			_ = accepted.SetReadDeadline(time.Now().Add(time.Second))
++			buffer := make([]byte, 1)
++			if _, err := accepted.Read(buffer); err != nil || string(buffer) != "h" {
++				t.Fatalf("accepted host channel was not usable: %v", err)
++			}
++			if err := <-written; err != nil {
++				t.Fatal(err)
++			}
++		})
++	}
++}
++
++func TestAcceptHostOnlyPreservesListenerFailure(t *testing.T) {
++	expected := errors.New("listener-closed")
++	calls := 0
++	connection, err := acceptHostOnly(func() (net.Conn, uint32, error) {
++		calls++
++		return nil, 0, expected
++	})
++	if connection != nil || !errors.Is(err, expected) || calls != 1 {
++		t.Fatalf("listener failure was not preserved: calls=%d err=%v", calls, err)
++	}
++}

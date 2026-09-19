@@ -1,0 +1,12 @@
+{
+  "runtime": {
+    "artifact": {
+      "name": "uxmaltech_collab-1.0.0-py3-none-any.whl",
+      "sha256": "21a0f19adaac10fc673af4a6ba6769193319bdf8b5915fbf4197dccbe1b0fba5"
+    },
+    "commit": "17fc61bcf20324d3bbdbfb4a16e0c34dfc69fef6",
+    "repository": "uxmaltech-collab/cli",
+    "version": "1.0.0"
+  },
+  "schema": "collab.runtime-lock/v1"
+}
