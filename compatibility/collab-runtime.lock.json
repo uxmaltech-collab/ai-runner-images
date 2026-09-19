@@ -2,9 +2,9 @@
   "runtime": {
     "artifact": {
       "name": "uxmaltech_collab-1.0.0-py3-none-any.whl",
-      "sha256": "21a0f19adaac10fc673af4a6ba6769193319bdf8b5915fbf4197dccbe1b0fba5"
+      "sha256": "b24fdd6daeaead8928eb835648e07bf80ea01c4ce2abb0b16e670568ffe04c65"
     },
-    "commit": "17fc61bcf20324d3bbdbfb4a16e0c34dfc69fef6",
+    "commit": "f27a2e06fe221cff930c022d170ff28b019b7d5e",
     "repository": "uxmaltech-collab/cli",
     "version": "1.0.0"
   },

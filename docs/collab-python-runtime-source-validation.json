@@ -1,0 +1,495 @@
+{
+  "base_commit": "5bc4706678c9d336d6cb7e53cb4fdd1c667a33b0",
+  "branch": "codex/collab-python-runtime",
+  "checks": {
+    "docker_copy_sources": "passed",
+    "extracted_source_hashes": "passed",
+    "json": "passed",
+    "native_execution_schema": "passed",
+    "python_compile": "passed",
+    "shell_syntax": "passed"
+  },
+  "host_installation": "not-run",
+  "image_build": "not-run",
+  "image_publication": "not-run",
+  "locks": {
+    "compatibility/collab-image-recipes.lock.json": "0fe4ca30237840b6b099a481cb26daabf07c6be26e49cca7d1b2b6841ef9a873",
+    "compatibility/collab-runtime.lock.json": "ee310f26190764aeb4c66e6090002ee34bd405e80a7ce17092fd44ab4b0f2b6a"
+  },
+  "previous_locks": {
+    "compatibility/collab-image-recipes.lock.json": "fcf3791300dff1b192c007fcbd8b45ffeff161195f72e01ed548b62b8f38af53",
+    "compatibility/collab-runtime.lock.json": "bc9b0001607839fe86be0a1367e05b1516a70056f3a3efa29a77a303896897f5"
+  },
+  "qualification": "Static source and exact offline release checks only. Images have not been built, pushed, admitted, installed, or promoted. Initial source recipes and frozen upstream deltas are retained in source_mappings.",
+  "recipe_files": {
+    "recipes/collab-runners/README.md": "9d6a322aed594c8ab4154136d99978d442356cb41d29aad5764238c458e25db3",
+    "recipes/collab-runners/extraction.json": "0b9210953aefb6443f2d1fdacd0aae513744a7b758f38fa4666d04de85403ada",
+    "recipes/collab-runners/runner-agent-base/Dockerfile": "5c5dee44692a318abf3d5f22561ec82a310088352f9e60b66c28654790e43592",
+    "recipes/collab-runners/runner-base/Dockerfile": "3e42ad428b2e00eae78692b4b87a9a30cb9b1ed5cf96a72cd07004354c053fd3",
+    "recipes/collab-runners/runner-base/entrypoint-jit.sh": "cca0e4d5515ffa2691a2464ed7297bcf5089404776a55c45195c890b358eacce",
+    "recipes/collab-runners/runner-ci-ai-resources/Dockerfile": "0ceab659e487665a56b9494642cdaa8ef6eab591733ac0b135cbf4bc646d7c3f",
+    "recipes/collab-runners/runner-ci-airflow-dag/Dockerfile": "9d7f0f214faeceeff0b02ce82b2b301c3fe64954cdd7ca8fdfe89b2cd29eaca6",
+    "recipes/collab-runners/runner-ci-php-laravel/Dockerfile": "6b6dd0385a1ba65ff20b055f026e8a735b06dda20280d0cc4a5780bd3d131313",
+    "recipes/collab-runners/runner-ci-web-e2e/Dockerfile": "1ce29aa4ffbb96a2532e16323973ecc0cee1e3f54b0b87441adccafa462fe529",
+    "recipes/collab-runners/runner-resolver-airflow-dag/Dockerfile": "3b196df6a95d029a6e29a7dc3e9ea8eec709a99ea278df7610075dc7031c2f85",
+    "recipes/collab-runners/runner-resolver-cx-chatbot-app/Dockerfile": "f1273bf49a6d77848590868985c914d96c2603a3fbdf219b596e4a2771181153",
+    "recipes/collab-runners/runner-resolver-storefront-android/Dockerfile": "abe228c3fb414d770566aee6620698fae519ae6fe11d43fbdf99b0374473bb8f",
+    "recipes/collab-runners/runner-resolver-storefront-android/README.md": "cde31edada6f5e90f15d6dd32d94df42a779114767923cbd5c472fbbefbd9d6e",
+    "recipes/collab-runners/runner-resolver-storefront-android/emulator-package.xml": "a248c95eb4bdfeb4a2a498723e327619306462f229549a33ba6e4af43d9e6385",
+    "recipes/collab-runners/runner-resolver-storefront-android/journey-driver.json": "8460cf9f5a1bd59713a3a97d23da8b028eb9bd31fd71ff943baae649d81c2756",
+    "recipes/collab-runners/runner-resolver-storefront-android/scripts/ef-storefront-android-emulator.py": "5e0b792cd0aeb7523cdb386ae6a3a0d6278f32e20a5e29c6e52d1cae45ca3ddd",
+    "recipes/collab-runners/runner-resolver-storefront-android/scripts/ef-storefront-android-stack-probe.sh": "87f6d5ab7fbdf7ad6e22198e3cab41106689adaa70507598a4551a1ce8a82cb2",
+    "recipes/collab-runners/runner-resolver-storefront-android/scripts/entrypoint-android.py": "2cebc4bd57cf26fd2e650274c0f29332d56e314936a58481c6495b63b1bd0920",
+    "recipes/collab-runners/runner-resolver-storefront-android/scripts/install-toolchain.py": "608c14a5a0b1c96c43359d1d7a1e4b3df530331497b5340d9e5724ead4a64db8",
+    "recipes/collab-runners/runner-resolver-storefront-android/toolchain-lock.json": "ac8ac93c1a1032ccd8f45732645ae1ce3db6a7132d15c9028e78e46afd17a60b",
+    "recipes/collab-runners/runner-resolver-storefront-backend/Dockerfile": "478ef06091bfc3e5bb42f2c5e2c7387ade6b662339405fcff93b6da0e8523cfe",
+    "recipes/collab-runners/runner-resolver-storefront-core-pkg/Dockerfile": "c0acd51cff43e0f4b41986accfae6deef529d35d6eddf55a91e8f6ff1cb1a252",
+    "recipes/collab-runners/runner-resolver-storefront-core-pkg/platform-probe.php": "5eff5a49ad0c185bcf94eb64dcb25cd3710e24121ccce5424601980bf5d27eae",
+    "recipes/collab-runners/runner-resolver-storefront-ios/Dockerfile": "2f4761c4e2d6cb3bdc24c2f3cb8fcc003894bcbbc9e34ad638737707a7fc0cc3",
+    "recipes/collab-runners/runner-resolver-storefront-ios/image-build.json": "daf7f28dea08d66c38588c939f5fbae61c912aa7427873856bdc507557a7736d",
+    "recipes/collab-runners/runner-resolver-storefront-ios/journey-driver.json": "401a7c6f93983ee9aecede44772230f70f496d71b6339bfa913ae5a0bb90595b",
+    "recipes/collab-runners/runner-resolver-storefront-ios/journey-execution.json": "70fdc240ad9aaa5672d5eae846dcec54e30a2e84741312e08507dce79513b1d4",
+    "recipes/collab-runners/runner-resolver-storefront-web/Dockerfile": "89b11ab3e1fffbfe7d96d216b8e50711fad5aac68c2748c2266e5ad92b4368a3",
+    "recipes/collab-runners/runner-resolver-storefront-web/scripts/ef-storefront-web-playwright-mcp.sh": "671ffdb42798bd3e14fca9b62bc9de4549118528de9b0120b8e752a1d742eb2b",
+    "recipes/collab-runners/runner-resolver-storefront-web/scripts/ef-storefront-web-screenshot.sh": "4e82f368b077b0893e56625a91ff3cafe622726cad505c671e1e72dd0fdea8d2",
+    "recipes/collab-runners/runner-resolver-storefront-web/scripts/ef-storefront-web-stack-install.sh": "126f17b7bf8a23b16184571a08398937a2822a028a0034678b86129e7d660806",
+    "recipes/collab-runners/runner-resolver-storefront-web/scripts/ef-storefront-web-stack-probe.sh": "f8b75884ff51b1682d2faa563c0bc5b57b6de6c634be720a5843aabc39bbdbf7",
+    "recipes/collab-runners/runner-resolver-storefront-web/stack-probe/package.json": "92ee4c2efdceb9be94c5412f3c378d8e03d1f5774cec376c647254f430defeae",
+    "recipes/collab-runners/runner-resolver-storefront-web/stack-probe/pnpm-lock.yaml": "d8fe6eacc251d1a4878a6e2e93be4d76e17734aa8999b311ac3de0fdccc417fa",
+    "recipes/native-runtime/guest-agent-host-only.patch": "979994e0df2f9d08d4efc27dba4105863691cb4451fd95010345bce273b081b9",
+    "recipes/native-runtime/vsock-host-only-probe.c": "5be09429c7a64a8883801dce8892d9d49d698a4074c2d14c984945de410dde33",
+    "recipes/templates/agent-base/Dockerfile": "1498164a02dc170a15b4526a214c60b2f0c7347c72c37889e008cc1f6e1442a5",
+    "recipes/templates/agent-base/flavors/EXAMPLE.Dockerfile": "0f3b3dc5802330655a034bfe59f4846c06e534b579b616a6ea411304779a1e0c",
+    "recipes/templates/runner-agent-base/Dockerfile": "5c5dee44692a318abf3d5f22561ec82a310088352f9e60b66c28654790e43592",
+    "recipes/templates/runner-base/Dockerfile": "3e42ad428b2e00eae78692b4b87a9a30cb9b1ed5cf96a72cd07004354c053fd3",
+    "recipes/templates/runner-base/entrypoint-jit.sh": "cca0e4d5515ffa2691a2464ed7297bcf5089404776a55c45195c890b358eacce",
+    "recipes/templates/uxmaltech-base-image/Dockerfile": "5d77cef5453d232d172238d58d5a66622ac254113dd042fb4ec13b72c031f9c8",
+    "stacks/collab-control-plane/Dockerfile": "5777db5cf5e23f23d0f5d6e540100fe9a309721bec7b1b99e5c73dd6b9a486d8",
+    "stacks/collab-control-plane/README.md": "c6644094fa9a6a49a1a28b357030a16a627e06d041a278719368d68fe17fb79c",
+    "stacks/collab-control-plane/prepare.py": "cdbea022d57c50eed80b0a96ad062626f9c23eb5f91e6fe444df0cbabc31ebae"
+  },
+  "recipe_lock_destination": "compatibility/collab-image-recipes.lock.json",
+  "release_manifest_sha256": "940c20c1175862926ef327f95eeb9fee2e3c4b2d2c531e1e365560df0b82c7f5",
+  "repository": "uxmaltech-collab/ai-runner-images",
+  "runtime": {
+    "artifact": {
+      "name": "uxmaltech_collab-1.0.0-py3-none-any.whl",
+      "sha256": "b24fdd6daeaead8928eb835648e07bf80ea01c4ce2abb0b16e670568ffe04c65"
+    },
+    "commit": "f27a2e06fe221cff930c022d170ff28b019b7d5e",
+    "repository": "uxmaltech-collab/cli",
+    "version": "1.0.0"
+  },
+  "runtime_consumers": [
+    "recipes/collab-runners/runner-agent-base/Dockerfile",
+    "recipes/templates/agent-base/Dockerfile",
+    "recipes/templates/runner-agent-base/Dockerfile",
+    "stacks/collab-control-plane/Dockerfile",
+    "recipes/collab-runners/runner-resolver-storefront-ios/image-build.json"
+  ],
+  "runtime_lock_destination": "compatibility/collab-runtime.lock.json",
+  "schema": "collab.image-recipe-review/v1",
+  "source_mappings": [
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/README.md",
+      "destination_sha256": "9d6a322aed594c8ab4154136d99978d442356cb41d29aad5764238c458e25db3",
+      "path": "runners/images/README.md",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "7fdefa061c5f2b4231ac705b82a945602388d2c17b1cc95658ef534ce5c2e1cb"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-agent-base/Dockerfile",
+      "destination_sha256": "5c5dee44692a318abf3d5f22561ec82a310088352f9e60b66c28654790e43592",
+      "path": "runners/images/runner-agent-base/Dockerfile",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "8e14dccdf89e89de266cc857c715844c14461a1e71365dfd68621b4accbf6090"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-base/Dockerfile",
+      "destination_sha256": "3e42ad428b2e00eae78692b4b87a9a30cb9b1ed5cf96a72cd07004354c053fd3",
+      "path": "runners/images/runner-base/Dockerfile",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "3e42ad428b2e00eae78692b4b87a9a30cb9b1ed5cf96a72cd07004354c053fd3"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-base/entrypoint-jit.sh",
+      "destination_sha256": "cca0e4d5515ffa2691a2464ed7297bcf5089404776a55c45195c890b358eacce",
+      "path": "runners/images/runner-base/entrypoint-jit.sh",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "cca0e4d5515ffa2691a2464ed7297bcf5089404776a55c45195c890b358eacce"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-ci-ai-resources/Dockerfile",
+      "destination_sha256": "0ceab659e487665a56b9494642cdaa8ef6eab591733ac0b135cbf4bc646d7c3f",
+      "path": "runners/images/runner-ci-ai-resources/Dockerfile",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "0ceab659e487665a56b9494642cdaa8ef6eab591733ac0b135cbf4bc646d7c3f"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-ci-airflow-dag/Dockerfile",
+      "destination_sha256": "9d7f0f214faeceeff0b02ce82b2b301c3fe64954cdd7ca8fdfe89b2cd29eaca6",
+      "path": "runners/images/runner-ci-airflow-dag/Dockerfile",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "9d7f0f214faeceeff0b02ce82b2b301c3fe64954cdd7ca8fdfe89b2cd29eaca6"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-ci-php-laravel/Dockerfile",
+      "destination_sha256": "6b6dd0385a1ba65ff20b055f026e8a735b06dda20280d0cc4a5780bd3d131313",
+      "path": "runners/images/runner-ci-php-laravel/Dockerfile",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "6b6dd0385a1ba65ff20b055f026e8a735b06dda20280d0cc4a5780bd3d131313"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-ci-web-e2e/Dockerfile",
+      "destination_sha256": "1ce29aa4ffbb96a2532e16323973ecc0cee1e3f54b0b87441adccafa462fe529",
+      "path": "runners/images/runner-ci-web-e2e/Dockerfile",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "1ce29aa4ffbb96a2532e16323973ecc0cee1e3f54b0b87441adccafa462fe529"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-resolver-airflow-dag/Dockerfile",
+      "destination_sha256": "3b196df6a95d029a6e29a7dc3e9ea8eec709a99ea278df7610075dc7031c2f85",
+      "path": "runners/images/runner-resolver-airflow-dag/Dockerfile",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "3b196df6a95d029a6e29a7dc3e9ea8eec709a99ea278df7610075dc7031c2f85"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-resolver-cx-chatbot-app/Dockerfile",
+      "destination_sha256": "f1273bf49a6d77848590868985c914d96c2603a3fbdf219b596e4a2771181153",
+      "path": "runners/images/runner-resolver-cx-chatbot-app/Dockerfile",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "f1273bf49a6d77848590868985c914d96c2603a3fbdf219b596e4a2771181153"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-android/Dockerfile",
+      "destination_sha256": "abe228c3fb414d770566aee6620698fae519ae6fe11d43fbdf99b0374473bb8f",
+      "path": "runners/images/runner-resolver-storefront-android/Dockerfile",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "e0126bd7796a6ffe85366600ab3a1b0eb09bffc1ab5f199914d31103635a705a"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-android/README.md",
+      "destination_sha256": "cde31edada6f5e90f15d6dd32d94df42a779114767923cbd5c472fbbefbd9d6e",
+      "path": "runners/images/runner-resolver-storefront-android/README.md",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "cde31edada6f5e90f15d6dd32d94df42a779114767923cbd5c472fbbefbd9d6e"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-android/emulator-package.xml",
+      "destination_sha256": "a248c95eb4bdfeb4a2a498723e327619306462f229549a33ba6e4af43d9e6385",
+      "path": "runners/images/runner-resolver-storefront-android/emulator-package.xml",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "a248c95eb4bdfeb4a2a498723e327619306462f229549a33ba6e4af43d9e6385"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-android/journey-driver.json",
+      "destination_sha256": "8460cf9f5a1bd59713a3a97d23da8b028eb9bd31fd71ff943baae649d81c2756",
+      "path": "runners/images/runner-resolver-storefront-android/journey-driver.json",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "8460cf9f5a1bd59713a3a97d23da8b028eb9bd31fd71ff943baae649d81c2756"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-android/scripts/ef-storefront-android-emulator.py",
+      "destination_sha256": "5e0b792cd0aeb7523cdb386ae6a3a0d6278f32e20a5e29c6e52d1cae45ca3ddd",
+      "path": "runners/images/runner-resolver-storefront-android/scripts/ef-storefront-android-emulator.py",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "5e0b792cd0aeb7523cdb386ae6a3a0d6278f32e20a5e29c6e52d1cae45ca3ddd"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-android/scripts/ef-storefront-android-stack-probe.sh",
+      "destination_sha256": "87f6d5ab7fbdf7ad6e22198e3cab41106689adaa70507598a4551a1ce8a82cb2",
+      "path": "runners/images/runner-resolver-storefront-android/scripts/ef-storefront-android-stack-probe.sh",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "1b4b3def394b7b395a7b92a6df405e4b16d515b5da1112f0f4baeca0a1c65c6e"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-android/scripts/entrypoint-android.py",
+      "destination_sha256": "2cebc4bd57cf26fd2e650274c0f29332d56e314936a58481c6495b63b1bd0920",
+      "path": "runners/images/runner-resolver-storefront-android/scripts/entrypoint-android.py",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "2cebc4bd57cf26fd2e650274c0f29332d56e314936a58481c6495b63b1bd0920"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-android/scripts/install-toolchain.py",
+      "destination_sha256": "608c14a5a0b1c96c43359d1d7a1e4b3df530331497b5340d9e5724ead4a64db8",
+      "path": "runners/images/runner-resolver-storefront-android/scripts/install-toolchain.py",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "608c14a5a0b1c96c43359d1d7a1e4b3df530331497b5340d9e5724ead4a64db8"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-android/toolchain-lock.json",
+      "destination_sha256": "ac8ac93c1a1032ccd8f45732645ae1ce3db6a7132d15c9028e78e46afd17a60b",
+      "path": "runners/images/runner-resolver-storefront-android/toolchain-lock.json",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "4e137cd48c7fd5d3cee73a2fbfb0408c3a54f8bfdc142780f65b151aaff444ef"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-backend/Dockerfile",
+      "destination_sha256": "478ef06091bfc3e5bb42f2c5e2c7387ade6b662339405fcff93b6da0e8523cfe",
+      "path": "runners/images/runner-resolver-storefront-backend/Dockerfile",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "478ef06091bfc3e5bb42f2c5e2c7387ade6b662339405fcff93b6da0e8523cfe"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-core-pkg/Dockerfile",
+      "destination_sha256": "c0acd51cff43e0f4b41986accfae6deef529d35d6eddf55a91e8f6ff1cb1a252",
+      "path": "runners/images/runner-resolver-storefront-core-pkg/Dockerfile",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "6450a6bc25390ad3bf6ca67f322d8cfc44be0e37124bf1b807d9ac8e1356f419"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-core-pkg/platform-probe.php",
+      "destination_sha256": "5eff5a49ad0c185bcf94eb64dcb25cd3710e24121ccce5424601980bf5d27eae",
+      "path": "runners/images/runner-resolver-storefront-core-pkg/platform-probe.php",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "5eff5a49ad0c185bcf94eb64dcb25cd3710e24121ccce5424601980bf5d27eae"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-ios/Dockerfile",
+      "destination_sha256": "2f4761c4e2d6cb3bdc24c2f3cb8fcc003894bcbbc9e34ad638737707a7fc0cc3",
+      "path": "runners/images/runner-resolver-storefront-ios/Dockerfile",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "2f4761c4e2d6cb3bdc24c2f3cb8fcc003894bcbbc9e34ad638737707a7fc0cc3"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-ios/image-build.json",
+      "destination_sha256": "daf7f28dea08d66c38588c939f5fbae61c912aa7427873856bdc507557a7736d",
+      "path": "runners/images/runner-resolver-storefront-ios/image-build.json",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "bb611bf87d766818c160c3c4ee3fd99ede24c575bb076f6ad5b6628ddceaafcc"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-ios/journey-driver.json",
+      "destination_sha256": "401a7c6f93983ee9aecede44772230f70f496d71b6339bfa913ae5a0bb90595b",
+      "path": "runners/images/runner-resolver-storefront-ios/journey-driver.json",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "401a7c6f93983ee9aecede44772230f70f496d71b6339bfa913ae5a0bb90595b"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-ios/journey-execution.json",
+      "destination_sha256": "70fdc240ad9aaa5672d5eae846dcec54e30a2e84741312e08507dce79513b1d4",
+      "path": "runners/images/runner-resolver-storefront-ios/journey-execution.json",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "c5ae7fe5802430651a5c3a651a604b95464715659c3331ce31fd6cd150935203"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-web/Dockerfile",
+      "destination_sha256": "89b11ab3e1fffbfe7d96d216b8e50711fad5aac68c2748c2266e5ad92b4368a3",
+      "path": "runners/images/runner-resolver-storefront-web/Dockerfile",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "ea4f9005fd6de2634baeea67132b4588b1952f584bf8c4ba447c6c83d0391249"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-web/scripts/ef-storefront-web-playwright-mcp.sh",
+      "destination_sha256": "671ffdb42798bd3e14fca9b62bc9de4549118528de9b0120b8e752a1d742eb2b",
+      "path": "runners/images/runner-resolver-storefront-web/scripts/ef-storefront-web-playwright-mcp.sh",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "671ffdb42798bd3e14fca9b62bc9de4549118528de9b0120b8e752a1d742eb2b"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-web/scripts/ef-storefront-web-screenshot.sh",
+      "destination_sha256": "4e82f368b077b0893e56625a91ff3cafe622726cad505c671e1e72dd0fdea8d2",
+      "path": "runners/images/runner-resolver-storefront-web/scripts/ef-storefront-web-screenshot.sh",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "89a2b3654ba608b46d97aeae8cb2d79658312d22cbd655a9fd8a6cc690d7ac19"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-web/scripts/ef-storefront-web-stack-install.sh",
+      "destination_sha256": "126f17b7bf8a23b16184571a08398937a2822a028a0034678b86129e7d660806",
+      "path": "runners/images/runner-resolver-storefront-web/scripts/ef-storefront-web-stack-install.sh",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "126f17b7bf8a23b16184571a08398937a2822a028a0034678b86129e7d660806"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-web/scripts/ef-storefront-web-stack-probe.sh",
+      "destination_sha256": "f8b75884ff51b1682d2faa563c0bc5b57b6de6c634be720a5843aabc39bbdbf7",
+      "path": "runners/images/runner-resolver-storefront-web/scripts/ef-storefront-web-stack-probe.sh",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "f8b75884ff51b1682d2faa563c0bc5b57b6de6c634be720a5843aabc39bbdbf7"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-web/stack-probe/package.json",
+      "destination_sha256": "92ee4c2efdceb9be94c5412f3c378d8e03d1f5774cec376c647254f430defeae",
+      "path": "runners/images/runner-resolver-storefront-web/stack-probe/package.json",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "92ee4c2efdceb9be94c5412f3c378d8e03d1f5774cec376c647254f430defeae"
+    },
+    {
+      "commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-web/stack-probe/pnpm-lock.yaml",
+      "destination_sha256": "d8fe6eacc251d1a4878a6e2e93be4d76e17734aa8999b311ac3de0fdccc417fa",
+      "path": "runners/images/runner-resolver-storefront-web/stack-probe/pnpm-lock.yaml",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "d8fe6eacc251d1a4878a6e2e93be4d76e17734aa8999b311ac3de0fdccc417fa"
+    },
+    {
+      "commit": "1f0d12f759ac53652b523c5c6d739db0a4b555e0",
+      "destination": "stacks/collab-control-plane/Dockerfile",
+      "destination_sha256": "5777db5cf5e23f23d0f5d6e540100fe9a309721bec7b1b99e5c73dd6b9a486d8",
+      "path": "repo-structure/repo-resources/payload/runners/control-plane/Dockerfile",
+      "repository": "uxmaltech-collab/ai-templates-resources",
+      "sha256": "2e9265bc8111e378a6fde5195192d7f4ff7006d8e715bd43ad2937592beabfeb"
+    },
+    {
+      "commit": "1f0d12f759ac53652b523c5c6d739db0a4b555e0",
+      "destination": "recipes/native-runtime/guest-agent-host-only.patch",
+      "destination_sha256": "979994e0df2f9d08d4efc27dba4105863691cb4451fd95010345bce273b081b9",
+      "path": "runners/control-plane/macos-image/guest-agent-host-only.patch",
+      "repository": "uxmaltech-collab/ai-templates-resources",
+      "sha256": "979994e0df2f9d08d4efc27dba4105863691cb4451fd95010345bce273b081b9"
+    },
+    {
+      "commit": "1f0d12f759ac53652b523c5c6d739db0a4b555e0",
+      "destination": "recipes/native-runtime/vsock-host-only-probe.c",
+      "destination_sha256": "5be09429c7a64a8883801dce8892d9d49d698a4074c2d14c984945de410dde33",
+      "path": "runners/control-plane/macos-image/vsock-host-only-probe.c",
+      "repository": "uxmaltech-collab/ai-templates-resources",
+      "sha256": "5be09429c7a64a8883801dce8892d9d49d698a4074c2d14c984945de410dde33"
+    },
+    {
+      "commit": "1f0d12f759ac53652b523c5c6d739db0a4b555e0",
+      "destination": "recipes/templates/agent-base/Dockerfile",
+      "destination_sha256": "1498164a02dc170a15b4526a214c60b2f0c7347c72c37889e008cc1f6e1442a5",
+      "path": "containers/agent-base/Dockerfile",
+      "repository": "uxmaltech-collab/ai-templates-resources",
+      "sha256": "686d454053227353fe7e0005348dc1cbb487c50500b6c54e82f23f615e3cb215"
+    },
+    {
+      "commit": "1f0d12f759ac53652b523c5c6d739db0a4b555e0",
+      "destination": "recipes/templates/agent-base/flavors/EXAMPLE.Dockerfile",
+      "destination_sha256": "0f3b3dc5802330655a034bfe59f4846c06e534b579b616a6ea411304779a1e0c",
+      "path": "containers/agent-base/flavors/EXAMPLE.Dockerfile",
+      "repository": "uxmaltech-collab/ai-templates-resources",
+      "sha256": "49074e26a977c1257953d0bac48137c3ba3f156232a5ef57a00c814b18dd81d1"
+    },
+    {
+      "commit": "1f0d12f759ac53652b523c5c6d739db0a4b555e0",
+      "destination": "recipes/templates/runner-agent-base/Dockerfile",
+      "destination_sha256": "5c5dee44692a318abf3d5f22561ec82a310088352f9e60b66c28654790e43592",
+      "path": "containers/runner-agent-base/Dockerfile",
+      "repository": "uxmaltech-collab/ai-templates-resources",
+      "sha256": "8e14dccdf89e89de266cc857c715844c14461a1e71365dfd68621b4accbf6090"
+    },
+    {
+      "commit": "1f0d12f759ac53652b523c5c6d739db0a4b555e0",
+      "destination": "recipes/templates/runner-base/Dockerfile",
+      "destination_sha256": "3e42ad428b2e00eae78692b4b87a9a30cb9b1ed5cf96a72cd07004354c053fd3",
+      "path": "containers/runner-base/Dockerfile",
+      "repository": "uxmaltech-collab/ai-templates-resources",
+      "sha256": "3e42ad428b2e00eae78692b4b87a9a30cb9b1ed5cf96a72cd07004354c053fd3"
+    },
+    {
+      "commit": "1f0d12f759ac53652b523c5c6d739db0a4b555e0",
+      "destination": "recipes/templates/runner-base/entrypoint-jit.sh",
+      "destination_sha256": "cca0e4d5515ffa2691a2464ed7297bcf5089404776a55c45195c890b358eacce",
+      "path": "containers/runner-base/entrypoint-jit.sh",
+      "repository": "uxmaltech-collab/ai-templates-resources",
+      "sha256": "cca0e4d5515ffa2691a2464ed7297bcf5089404776a55c45195c890b358eacce"
+    },
+    {
+      "commit": "1f0d12f759ac53652b523c5c6d739db0a4b555e0",
+      "destination": "recipes/templates/uxmaltech-base-image/Dockerfile",
+      "destination_sha256": "5d77cef5453d232d172238d58d5a66622ac254113dd042fb4ec13b72c031f9c8",
+      "path": "containers/uxmaltech-base-image/Dockerfile",
+      "repository": "uxmaltech-collab/ai-templates-resources",
+      "sha256": "5d77cef5453d232d172238d58d5a66622ac254113dd042fb4ec13b72c031f9c8"
+    },
+    {
+      "commit": "24c39f78c13330a650b213ede3db0326df91634a",
+      "destination": "recipes/collab-runners/runner-agent-base/Dockerfile",
+      "destination_sha256": "5c5dee44692a318abf3d5f22561ec82a310088352f9e60b66c28654790e43592",
+      "path": "runners/images/runner-agent-base/Dockerfile",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "533cca621586f6c3e8acefb7548daa63c32a7a08013235cc07c53e83de1f4092"
+    },
+    {
+      "commit": "24c39f78c13330a650b213ede3db0326df91634a",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-android/Dockerfile",
+      "destination_sha256": "abe228c3fb414d770566aee6620698fae519ae6fe11d43fbdf99b0374473bb8f",
+      "path": "runners/images/runner-resolver-storefront-android/Dockerfile",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "39428ea27ec63fa73e0b4bb12d3f300a4ec55cdbc61ecf953f131e7056bdc246"
+    },
+    {
+      "commit": "24c39f78c13330a650b213ede3db0326df91634a",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-android/scripts/ef-storefront-android-stack-probe.sh",
+      "destination_sha256": "87f6d5ab7fbdf7ad6e22198e3cab41106689adaa70507598a4551a1ce8a82cb2",
+      "path": "runners/images/runner-resolver-storefront-android/scripts/ef-storefront-android-stack-probe.sh",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "87f6d5ab7fbdf7ad6e22198e3cab41106689adaa70507598a4551a1ce8a82cb2"
+    },
+    {
+      "commit": "24c39f78c13330a650b213ede3db0326df91634a",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-android/toolchain-lock.json",
+      "destination_sha256": "ac8ac93c1a1032ccd8f45732645ae1ce3db6a7132d15c9028e78e46afd17a60b",
+      "path": "runners/images/runner-resolver-storefront-android/toolchain-lock.json",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "ac8ac93c1a1032ccd8f45732645ae1ce3db6a7132d15c9028e78e46afd17a60b"
+    },
+    {
+      "commit": "24c39f78c13330a650b213ede3db0326df91634a",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-web/Dockerfile",
+      "destination_sha256": "89b11ab3e1fffbfe7d96d216b8e50711fad5aac68c2748c2266e5ad92b4368a3",
+      "path": "runners/images/runner-resolver-storefront-web/Dockerfile",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "42b2381d33191457f423e2c9575340f93a620ad2ad9091be96a661cdf8558070"
+    },
+    {
+      "commit": "24c39f78c13330a650b213ede3db0326df91634a",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-web/scripts/ef-storefront-web-screenshot.sh",
+      "destination_sha256": "4e82f368b077b0893e56625a91ff3cafe622726cad505c671e1e72dd0fdea8d2",
+      "path": "runners/images/runner-resolver-storefront-web/scripts/ef-storefront-web-screenshot.sh",
+      "repository": "enviaflores/ai-repo-resources",
+      "sha256": "4e82f368b077b0893e56625a91ff3cafe622726cad505c671e1e72dd0fdea8d2"
+    },
+    {
+      "commit": "3069962140464f86963b91bc21642f8dc9f3b303",
+      "destination": "recipes/templates/agent-base/Dockerfile",
+      "destination_sha256": "1498164a02dc170a15b4526a214c60b2f0c7347c72c37889e008cc1f6e1442a5",
+      "path": "containers/agent-base/Dockerfile",
+      "repository": "uxmaltech-collab/ai-templates-resources",
+      "sha256": "5ab4ed83a2fc75dd165c01db4358d340e187b2d23434e9add15bbc2a58abc5c6"
+    },
+    {
+      "commit": "3069962140464f86963b91bc21642f8dc9f3b303",
+      "destination": "recipes/templates/runner-agent-base/Dockerfile",
+      "destination_sha256": "5c5dee44692a318abf3d5f22561ec82a310088352f9e60b66c28654790e43592",
+      "path": "containers/runner-agent-base/Dockerfile",
+      "repository": "uxmaltech-collab/ai-templates-resources",
+      "sha256": "533cca621586f6c3e8acefb7548daa63c32a7a08013235cc07c53e83de1f4092"
+    }
+  ],
+  "status": "source-and-release-pinned-not-built"
+}

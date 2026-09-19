@@ -22,7 +22,11 @@ LABEL org.opencontainers.image.title="runner-resolver-storefront-web" \
 # stack image is built from the target repository and nothing is read from the
 # predecessor pack. COREPACK_HOME is shared and world-writable so the
 # unprivileged runner can activate the pinned package manager offline.
-ENV PLAYWRIGHT_BROWSERS_PATH=/opt/ms-playwright \
+# Keep the stack's Playwright pin separate from the agent base's shared
+# @playwright/test runtime and binary. Both package trees remain available.
+ENV AI_REPO_RESOURCES_WEB_TOOLS_PREFIX=/opt/ef-storefront-web-tools \
+    PATH=/opt/ef-storefront-web-tools/bin:${PATH} \
+    PLAYWRIGHT_BROWSERS_PATH=/opt/ms-playwright \
     COREPACK_HOME=/opt/corepack \
     COREPACK_ENABLE_DOWNLOAD_PROMPT=0 \
     COREPACK_ENABLE_AUTO_PIN=0 \
@@ -47,19 +51,20 @@ RUN test -n "${AI_REPO_RESOURCES_BUNDLE_COMMIT}" \
     && rm -rf /var/lib/apt/lists/* \
     && npm install --global \
       "corepack@${AI_REPO_RESOURCES_COREPACK_VERSION}" \
-      "playwright@${AI_REPO_RESOURCES_PLAYWRIGHT_VERSION}" \
       "@playwright/mcp@${AI_REPO_RESOURCES_PLAYWRIGHT_MCP_VERSION}" \
+    && npm install --global --prefix "${AI_REPO_RESOURCES_WEB_TOOLS_PREFIX}" \
+      "playwright@${AI_REPO_RESOURCES_PLAYWRIGHT_VERSION}" \
     && corepack enable --install-directory /usr/local/bin \
     && corepack prepare "pnpm@${AI_REPO_RESOURCES_PNPM_VERSION}" --activate \
     && playwright install --with-deps chromium firefox webkit \
-    && node "$(node -p "require.resolve('playwright/cli.js', { paths: ['$(npm root -g)/@playwright/mcp'] })")" \
-      install chromium \
+    && mcp_playwright="$(node -p "require('node:path').dirname(require.resolve('playwright/package.json', { paths: ['$(npm root -g)/@playwright/mcp'] }))")" \
+    && node "${mcp_playwright}/cli.js" install chromium \
     && chmod -R a+rwX "${PLAYWRIGHT_BROWSERS_PATH}" "${COREPACK_HOME}" \
     && npm cache clean --force \
     && codex --version \
     && corepack --version | grep -Fx "${AI_REPO_RESOURCES_COREPACK_VERSION}" \
     && pnpm --version | grep -Fx "${AI_REPO_RESOURCES_PNPM_VERSION}" \
-    && playwright --version \
+    && playwright --version | grep -Fx "Version ${AI_REPO_RESOURCES_PLAYWRIGHT_VERSION}" \
     && playwright-mcp --version \
     && redis-server --version
 USER runner
