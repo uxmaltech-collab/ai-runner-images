@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "build_receipt_sha256": "c43020f4ed8a49ae9f269c60712f0483db19e84084d8a7879aa9001718ac2341",
+  "archive_sha256": "fd02413f668e5102b49082ac11b83fc7d207e1f49bfc0a09f181da29d56f37b8",
+  "initial_store": "new-empty-directory",
+  "network_namespace": "net:[4026534739]",
+  "host_network_namespace": "net:[4026531840]",
+  "github_e2e": "not-run",
+  "credentials": "none",
+  "images": {
+    "runner-base": {
+      "reference": "collab-e2e/runner-base@sha256:7433b42fe4d71b3e5d402d466fd79f3ff2216e4774683a55157b74d1751ce80d",
+      "identity": "matched"
+    },
+    "runner-agent-base": {
+      "reference": "collab-e2e/runner-agent-base@sha256:1a82fc62361111cacf1047df523f4d9ac9f342d21e5b8d4448b33f1740d69d98",
+      "identity": "matched"
+    },
+    "runner-ci-portability": {
+      "reference": "collab-e2e/runner-ci-portability@sha256:a9da5027da67c7b717fb7329d6bf3a1d9aab97c7cadc0ee1ab3bb04e98340202",
+      "identity": "matched"
+    },
+    "runner-control-plane": {
+      "reference": "collab-e2e/runner-control-plane@sha256:acb2fc875bfc7f4c2bc6b6a0ab8b51c941a5f66c769a306b161bbda85f82dd07",
+      "identity": "matched"
+    }
+  },
+  "status": "passed",
+  "runner_uid": 1001,
+  "control_plane_boot": "passed-offline",
+  "harness_versions": "passed-offline-unprivileged",
+  "containers_remaining": [],
+  "daemon_stopped": true,
+  "containerd_stopped": true,
+  "network_namespace_owner_stopped": true,
+  "runtime_directory": "/tmp/runner-restore-ah1g5sph"
+}

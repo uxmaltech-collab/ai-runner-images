@@ -51,15 +51,15 @@
         "combined-agent-build",
         "optional-flutter-dart"
       ],
-      "status": "neutral-recipe-extracted-consumer-reference-accepted",
+      "status": "neutral-image-built-and-cold-restored-tools-qualified",
       "recipe_paths": [
         "recipes/android"
       ],
-      "qualified_catalog_entry": null,
-      "qualification_record": null,
-      "distribution_status": "not-established",
+      "qualified_catalog_entry": "android-neutral-cold-restore-20260919",
+      "qualification_record": "qualification/image-builder-20260919/SUMMARY.json",
+      "distribution_status": "local-only-verified-archive",
       "consumer_reference": "enviaflores-storefront-android-20260917",
-      "scope_limit": "Neutral recipe has source regressions; the retained consumer image has real app evidence. No new neutral image build or distribution is claimed."
+      "scope_limit": "Neutral image build, empty-store restore and unprivileged tool launches passed. Application E2E references remain consumer-specific; no new neutral emulator journey is claimed."
     },
     {
       "id": "linux",
