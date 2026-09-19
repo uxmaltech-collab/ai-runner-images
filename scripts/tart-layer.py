@@ -229,8 +229,8 @@ sys.exit(0 if code==0 else 1)
             }
         elif args.operation == 'delete':
             stopped()
-            tuple_lock = os.open(target / 'config.json', os.O_RDWR | os.O_NOFOLLOW)
-            fcntl.lockf(tuple_lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            # Tart acquires the config lock while deleting. Holding a competing
+            # host lock makes its local lookup fail even though the VM exists.
             holders = subprocess.run(['/usr/sbin/lsof', '-t', str(target / 'disk.img')], capture_output=True)
             assert holders.returncode == 1 and not holders.stdout and not holders.stderr, 'Target has active holders or lsof failed'
             result['target'] = str(target)

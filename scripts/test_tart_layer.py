@@ -34,6 +34,7 @@ def test_delete_uses_binding_and_only_stopped_unheld_target(tmp_path, monkeypatc
     monkeypatch.setattr(sys, 'argv', ['tart-layer.py', '--binding', str(binding), '--receipt', str(receipt),
                                     '--vm', 'owned-child', 'delete'])
     calls = []
+    real_run = subprocess.run
     def run(argv, **kwargs):
         calls.append(argv)
         code, out = 0, b''
@@ -44,6 +45,11 @@ def test_delete_uses_binding_and_only_stopped_unheld_target(tmp_path, monkeypatc
                               'State': 'running' if condition == 'running' else 'stopped'}).encode()
         elif 'delete' in argv:
             assert argv[-2:] == ['delete', 'owned-child']
+            # The real Tart child must be able to take the config lock itself.
+            probe = real_run([sys.executable, '-c',
+                'import fcntl,sys; f=open(sys.argv[1], "r+"); fcntl.lockf(f, fcntl.LOCK_EX | fcntl.LOCK_NB)',
+                str(target / 'config.json')], capture_output=True)
+            assert probe.returncode == 0, probe.stderr
             assert 'LANG=en_US.UTF-8' in argv and 'HOME=/declared/home' in argv
             assert 'PATH=/declared/bin' in argv and 'TART_NO_AUTO_PRUNE=1' in argv
             if condition == 'delete-failed':
