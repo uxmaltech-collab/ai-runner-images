@@ -1,0 +1,60 @@
+{
+  "cleanup_owner_commit": "7e15a52072affc7375ce0735502aa1f8eb94526f",
+  "cleanup_receipt_sha256": "095c5439ae95a08dc8f598e6714e661346b161bcccd6da72598ea4633edf877e",
+  "cleanup_reconciled": true,
+  "deadlines": {
+    "component_seconds": {
+      "agents": 300,
+      "flutter": 2880,
+      "swiftlint": 300
+    },
+    "install_seconds": 3780,
+    "payload_bytes": 2904514560,
+    "stage_seconds": 1505
+  },
+  "distribution": "local-only",
+  "freshly_installed_components": {
+    "agents": "installed",
+    "flutter": "installed",
+    "swiftlint": "installed"
+  },
+  "image_manifest_sha256": "ce5f90f45ad06c133dd2a321e3a98d173f4494a49b86f3352b3d859351a53e69",
+  "image_recipe_commit": "13f30a632bda9ee6c450070c21a8b7128a46af59",
+  "lint": {
+    "admin": false,
+    "gid": 20,
+    "status": "passed",
+    "uid": 502,
+    "version": "0.65.1"
+  },
+  "original_cleanup_status": "cleanup-unconfirmed",
+  "original_failure_retained": true,
+  "original_frontend_exit_code": 1,
+  "owned_child_absent": true,
+  "physical_parent_manifest_sha256": "2a77a0c4faed3dcbf9524d6c9238eddaa1cddce0af9b130f8f0577d76d69eceb",
+  "reconciliation_sha256": "22c7f95532f51b14fdbccdafb0f9e0a30774f24174295fa2f34dd2bced5a1803",
+  "remote_restore_verified": false,
+  "reviewed_commit": "4a85dd994fcaf00c6ea5de96f1fdf0b889f31c85",
+  "runtime_admission": false,
+  "schema_version": 1,
+  "sealed_parent_preservation_receipt_sha256": "cb3ee80a9cc70bbda4d190d2d250093923ff42cbbcade5e75d61d86b4b15887c",
+  "sealed_parent_preserved": true,
+  "tests": {
+    "initial_passed": 49,
+    "post_cleanup_correction_passed": 11
+  },
+  "tuple": {
+    "config.json": {
+      "bytes": 587,
+      "sha256": "b9bf4f1a970541832130d1c4b40e998558fa16232689b79a085b69874fd0e9f4"
+    },
+    "disk.img": {
+      "bytes": 140000000000,
+      "sha256": "8e4f9e47aa021406f1757736ff91ecfdccba569f7ff5780889a73844c31e1bc8"
+    },
+    "nvram.bin": {
+      "bytes": 33579164,
+      "sha256": "5f8fc127e652d033b2b4f22e3ded49ca31cde6459db85aeea73cd237a7477b7b"
+    }
+  }
+}
