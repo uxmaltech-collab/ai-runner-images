@@ -7,7 +7,7 @@ The shared home for **all runner images and tools** across **iOS/macOS, Android,
 | Platform | Image and tool scope | Current evidence in this repository |
 | --- | --- | --- |
 | iOS/macOS | Tart, macOS, Xcode, Simulator, Java, Maestro, the combined agent layer and optional Flutter/Dart support | Flutter iOS Hello World image qualified; exact local artifacts and receipts recorded |
-| Android | Linux base, Android SDK/emulator, Java, Maestro, the combined agent layer and optional Flutter/Dart support | In scope; image implementation and qualification pending |
+| Android | Linux base, Android SDK/emulator, Java, Maestro, the combined agent layer and optional Flutter/Dart support | Neutral recipe extracted; consumer journey/resolve accepted, neutral build pending |
 | Linux | Linux runner bases, the combined agent layer, build toolchains and job utilities | Portable CI stack built, cold-restored and qualified by a real GitHub canary in collab-e2e-org |
 | Web | Linux runner capabilities for browsers and Playwright, using the combined agent layer | In scope; image implementation and qualification pending |
 
@@ -33,6 +33,11 @@ regression coverage; a new neutral image build is not claimed. Current accepted
 iOS/Android references are appended in [the catalog](catalog/images.json), keeping
 the original records. Read [operating lessons](docs/operating-lessons.md) for
 qualification, recording and honest distribution/restore status.
+
+The [September 19 resolve references](provenance/mobile-resolve-20260919.json) add
+real issue-to-ready-PR acceptance for both mobile platforms. The
+[promotion audit](docs/mobile-knowledge-promotion-20260919.md) separates canonical
+code, newly promoted recipes and the remaining native work.
 
 ## Current status
 
