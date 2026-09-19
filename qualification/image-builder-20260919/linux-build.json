@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "templates_commit": "c7a84f2875a5febea71fb6aee4f51b00fe19c8be",
+  "platform": "linux/amd64",
+  "declaration_sha256": "29f6f831b30766e2fa6a340add881a2cdd7471608abc82bf39ec433fbfde1db1",
+  "materialization_sha256": "13efb08575f572be03343972b18c0b897950e0d1aff07dff90db25531cccf0ac",
+  "requirements_sha256": "0818c3d807ee7ea4d5a06920ea440c774d102af8ff673313f5bf3fbc5b2194da",
+  "images": {
+    "runner-base": {
+      "tag": "collab-e2e/runner-base:c7a84f2875a5-13efb08575f572be",
+      "reference": "collab-e2e/runner-base@sha256:7433b42fe4d71b3e5d402d466fd79f3ff2216e4774683a55157b74d1751ce80d",
+      "id": "sha256:7433b42fe4d71b3e5d402d466fd79f3ff2216e4774683a55157b74d1751ce80d",
+      "architecture": "amd64",
+      "layers": [
+        "sha256:e8c084c1b320c172e8be941d735d77298e49986014213a8282c9b533ee216a61",
+        "sha256:ab0ae19b58df847c6f0e4beb31f759a4dac2cc42288a6bda6f467eea4584c541",
+        "sha256:7abb468e4352e04b8aa17de0e41c8d6b1e92fa353108bbe7ca843551f8dbfc54",
+        "sha256:ed00049407561c525f385292d17bc28227abe48573d2a5c822c179aa3a85bea8",
+        "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+        "sha256:bb1051ede16a775704bf26a9c0a322a51ffaebb7c8d15203a666e57235893e2f",
+        "sha256:51bc3e3e972ee93603d044ffef11f4c8475b48c6717f37e16fbf692fed0ed8d5",
+        "sha256:03f0a3c970e935b809fbb9691d9e2100a551c838b07f9c34e0b835ea578275ad"
+      ]
+    },
+    "runner-agent-base": {
+      "tag": "collab-e2e/runner-agent-base:c7a84f2875a5-13efb08575f572be",
+      "reference": "collab-e2e/runner-agent-base@sha256:1a82fc62361111cacf1047df523f4d9ac9f342d21e5b8d4448b33f1740d69d98",
+      "id": "sha256:1a82fc62361111cacf1047df523f4d9ac9f342d21e5b8d4448b33f1740d69d98",
+      "architecture": "amd64",
+      "layers": [
+        "sha256:e8c084c1b320c172e8be941d735d77298e49986014213a8282c9b533ee216a61",
+        "sha256:ab0ae19b58df847c6f0e4beb31f759a4dac2cc42288a6bda6f467eea4584c541",
+        "sha256:7abb468e4352e04b8aa17de0e41c8d6b1e92fa353108bbe7ca843551f8dbfc54",
+        "sha256:ed00049407561c525f385292d17bc28227abe48573d2a5c822c179aa3a85bea8",
+        "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+        "sha256:bb1051ede16a775704bf26a9c0a322a51ffaebb7c8d15203a666e57235893e2f",
+        "sha256:51bc3e3e972ee93603d044ffef11f4c8475b48c6717f37e16fbf692fed0ed8d5",
+        "sha256:03f0a3c970e935b809fbb9691d9e2100a551c838b07f9c34e0b835ea578275ad",
+        "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+        "sha256:01396e3141601e592ac97e9288a4d92e81506a416c5d6024e0c36e102e40fc0a"
+      ]
+    },
+    "runner-ci-portability": {
+      "tag": "collab-e2e/runner-ci-portability:c7a84f2875a5-13efb08575f572be",
+      "reference": "collab-e2e/runner-ci-portability@sha256:a9da5027da67c7b717fb7329d6bf3a1d9aab97c7cadc0ee1ab3bb04e98340202",
+      "id": "sha256:a9da5027da67c7b717fb7329d6bf3a1d9aab97c7cadc0ee1ab3bb04e98340202",
+      "architecture": "amd64",
+      "layers": [
+        "sha256:e8c084c1b320c172e8be941d735d77298e49986014213a8282c9b533ee216a61",
+        "sha256:ab0ae19b58df847c6f0e4beb31f759a4dac2cc42288a6bda6f467eea4584c541",
+        "sha256:7abb468e4352e04b8aa17de0e41c8d6b1e92fa353108bbe7ca843551f8dbfc54",
+        "sha256:ed00049407561c525f385292d17bc28227abe48573d2a5c822c179aa3a85bea8",
+        "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+        "sha256:bb1051ede16a775704bf26a9c0a322a51ffaebb7c8d15203a666e57235893e2f",
+        "sha256:51bc3e3e972ee93603d044ffef11f4c8475b48c6717f37e16fbf692fed0ed8d5",
+        "sha256:03f0a3c970e935b809fbb9691d9e2100a551c838b07f9c34e0b835ea578275ad"
+      ]
+    },
+    "runner-control-plane": {
+      "tag": "collab-e2e/runner-control-plane:c7a84f2875a5-13efb08575f572be",
+      "reference": "collab-e2e/runner-control-plane@sha256:acb2fc875bfc7f4c2bc6b6a0ab8b51c941a5f66c769a306b161bbda85f82dd07",
+      "id": "sha256:acb2fc875bfc7f4c2bc6b6a0ab8b51c941a5f66c769a306b161bbda85f82dd07",
+      "architecture": "amd64",
+      "layers": [
+        "sha256:411a86676185cb54d695a805b238194a64e9b77e0c723f3802fbb87d333ea0b3",
+        "sha256:ebad55931d5b35d9cf64ab801f5b6f4e96821c5fcd17f4109e5774b039114014",
+        "sha256:f19f6d6c86377e4b77a2a5b5d8f56e7ecb205193e6f6b68aa74f61e382427936",
+        "sha256:6fdca0968d0fffb99492a80150c0c18077f7452fe77b70e950c3aefaf85dfe54",
+        "sha256:9ef616fc29d4ad1494efcca04bc37b0c5d41b8264749fa50f8448d9c69f1dce3",
+        "sha256:ebccea60a3c918a1cfdcf40903a0544aed9a0e4c10c60e0141afc74d11cd485e",
+        "sha256:6a3505d78069cf1826fa23507fe1f26b097a4b14ebdf02ab647c45d3e95ea918",
+        "sha256:558df68e3bda559462a9f68848e8e308ba6d4de84f1c7838968811a083817e13",
+        "sha256:687427e7b9b33962ed65d7c9adaebed717e85d89c11eecbf095de92f4544e2fb",
+        "sha256:9cf7ab7eea10ee30f40a4be1aa5dd79a309e91d3726e15a923b37ce35ed0480f",
+        "sha256:f17e3337ed781ca0289e65b13edcff636684831276705456c74681a53a4d1052",
+        "sha256:905ee81cd51eedcdecc5c45312c18623ba2696d0d47a6fa9f38dbafffd378b61"
+      ]
+    }
+  },
+  "archive": {
+    "name": "images.tar",
+    "bytes": 1013202944,
+    "sha256": "fd02413f668e5102b49082ac11b83fc7d207e1f49bfc0a09f181da29d56f37b8"
+  },
+  "qualification": {
+    "harness_versions": "passed-offline-unprivileged",
+    "github_e2e": "not-run",
+    "restore": "not-run",
+    "authenticated_agents": "not-run"
+  },
+  "rebuild_limitations": [
+    "APT repositories and npm transitive resolution are not snapshot locked. Use the verified image archive for exact restoration; a rebuild is a separately qualified artifact."
+  ]
+}

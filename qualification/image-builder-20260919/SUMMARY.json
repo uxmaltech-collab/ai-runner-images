@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "kind": "canonical-image-build-and-local-cold-restore",
+  "source_commit": "7c58ba113ec873aef65811af43bc1da44036beea",
+  "recipe_commit": "d4fcb6c4bcfc26dca1e46640088856f9a77a51e5",
+  "invocation": "python3 scripts/build-images.py build --profile android --inputs inputs.json --work-dir new-private-directory",
+  "profile": "android",
+  "status": "passed",
+  "image": "ai-runner-images/runner-android@sha256:ed4ac120e65f95ac832b2f0eec49ef97c6452eab91b331e11cf13fb042ebf2d6",
+  "parent": "collab-e2e/runner-agent-base@sha256:1a82fc62361111cacf1047df523f4d9ac9f342d21e5b8d4448b33f1740d69d98",
+  "parent_reused_after_identity_verification": true,
+  "restore": "android-restore.json",
+  "archive": {
+    "file": "android-image.tar",
+    "bytes": 4239081984,
+    "sha256": "d0b3988016eb48be9b6392b63ba7c594304ffa0181af879405964e2a74e730ef"
+  },
+  "new_application_e2e": "not-run",
+  "remote_distribution": "not-requested-local-storage",
+  "native_backend": "pending-mac-promotion",
+  "source_tests": {
+    "passed": 35
+  },
+  "consumer_integration_tests": {
+    "passed": 36
+  },
+  "preserved_original_evidence": {
+    "source-tests-01.junit.xml": "a1e8593145bfea88e1edc35d58cb01337c5e69e4295198d0f7153dcb309ceff5",
+    "consumer-tests-02.junit.xml": "63f68817ae75f0b447821a4af449192f8b7d358358e2d0f9609ee559ade45980",
+    "canonical-android-01/PLAN.json": "017fa7411a5bfce145b7db39f45ba5ac7d4dfb1710fbef9dfa7ca57e1e140734",
+    "canonical-android-01/RESULT.json": "2b9e2f63b69575ab487acfa1c53434b05e5c3849a289b57530afa1a5bcea33f5",
+    "canonical-linux-01/PLAN.json": "d3333cb742e00f84ff3fc1f6a0b8a8962390c2969af772b1322d63c106c02beb",
+    "canonical-linux-01/RESULT.json": "88a7e60646672d331b0c327abdf6ea046e89a454daea96121132c094fb6a7cef"
+  },
+  "linux_control_plane": {
+    "status": "passed",
+    "build": "linux-build.json",
+    "restore": "linux-restore.json",
+    "health": "linux-health.json",
+    "images": 4,
+    "scope": "Built all four images, cold-restored exact identities/layers, unprivileged harness probes and offline real control-plane boot, cleanup complete."
+  }
+}

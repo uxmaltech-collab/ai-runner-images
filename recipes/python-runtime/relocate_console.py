@@ -113,4 +113,3 @@ def prepare_runtime(runtime, destination, installer, *, canonical_path, python_d
                       'source': str(runtime), 'source_sha256': original_hash,
                       'prepared': str(prepared), 'prepared_sha256': installer.tree_hash(prepared),
                       'interpreter': interpreter, 'changes': changes, 'originals_preserved': True}
-
