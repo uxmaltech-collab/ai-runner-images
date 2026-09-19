@@ -20,6 +20,13 @@ import zipfile
 
 RECIPE = Path(__file__).resolve().parent
 PREFIX = Path('/opt/ai-runner-images/flutter')
+STEP_TIMEOUT_SECONDS = {
+    'extract': 600, 'flutter-analytics': 120, 'dart-analytics': 120,
+    'precache-ios': 1200, 'flutter-version': 120, 'dart-version': 120,
+}
+# Archive inspection and immutable SDK inventory/hash work occur outside the subprocesses.
+INSTALL_TIMEOUT_SECONDS = sum(STEP_TIMEOUT_SECONDS.values()) + 600
+
 
 
 def sha_file(path):
@@ -243,20 +250,20 @@ def main():
     sdk = version_root / 'sdk'
     if not resumed:
         commands.append(run(['/usr/bin/ditto', '-x', '-k', str(args.archive), str(version_root)],
-            environment, stage, args.evidence_dir / 'extract.log', 600))
+            environment, stage, args.evidence_dir / 'extract.log', STEP_TIMEOUT_SECONDS['extract']))
         os.rename(version_root / 'flutter', sdk)
     flutter = str(sdk / 'bin/flutter')
     dart = str(sdk / 'bin/dart')
-    for label, argv, timeout in [
-        ('flutter-analytics', [flutter, '--suppress-analytics', '--disable-analytics'], 120),
-        ('dart-analytics', [dart, '--disable-analytics'], 120),
-        ('precache-ios', [flutter, '--suppress-analytics', 'precache', '--ios'], 1200),
-        ('flutter-version', [flutter, '--suppress-analytics', '--version', '--machine'], 120),
-        ('dart-version', [dart, '--version'], 120),
+    for label, argv in [
+        ('flutter-analytics', [flutter, '--suppress-analytics', '--disable-analytics']),
+        ('dart-analytics', [dart, '--disable-analytics']),
+        ('precache-ios', [flutter, '--suppress-analytics', 'precache', '--ios']),
+        ('flutter-version', [flutter, '--suppress-analytics', '--version', '--machine']),
+        ('dart-version', [dart, '--version']),
     ]:
         if resumed and label in ('flutter-analytics', 'dart-analytics'):
             continue
-        commands.append(run(argv, environment, sdk, args.evidence_dir / (label + '.log'), timeout,
+        commands.append(run(argv, environment, sdk, args.evidence_dir / (label + '.log'), STEP_TIMEOUT_SECONDS[label],
             separate_stderr=label == 'flutter-version'))
     version = json.loads((args.evidence_dir / 'flutter-version.log').read_text())
     if version['frameworkRevision'] != pins['flutter_revision'] or version['dartSdkVersion'] != pins['dart_version']:

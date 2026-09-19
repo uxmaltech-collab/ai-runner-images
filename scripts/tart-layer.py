@@ -34,7 +34,7 @@ def main():
     parser.add_argument('--binding', type=Path, required=True)
     parser.add_argument('--receipt', type=Path, required=True)
     parser.add_argument('--vm', required=True)
-    parser.add_argument('operation', choices=['clone', 'boot', 'exec', 'stop', 'seal', 'inspect'])
+    parser.add_argument('operation', choices=['clone', 'boot', 'exec', 'stop', 'seal', 'inspect', 'delete'])
     parser.add_argument('--source', type=Path)
     parser.add_argument('--input', type=Path)
     parser.add_argument('--timeout', type=int, default=120)
@@ -227,6 +227,16 @@ sys.exit(0 if code==0 else 1)
                        for key in ('st_dev', 'st_ino', 'st_size', 'st_mtime_ns')}
                 for name in ('config.json', 'nvram.bin', 'disk.img')
             }
+        elif args.operation == 'delete':
+            stopped()
+            # Tart acquires the config lock while deleting. Holding a competing
+            # host lock makes its local lookup fail even though the VM exists.
+            holders = subprocess.run(['/usr/sbin/lsof', '-t', str(target / 'disk.img')], capture_output=True)
+            assert holders.returncode == 1 and not holders.stdout and not holders.stderr, 'Target has active holders or lsof failed'
+            result['target'] = str(target)
+            run(prefix + ['delete', args.vm], timeout=90)
+            assert not target.exists() and not target.is_symlink(), 'Owned VM deletion unconfirmed'
+            result['owned_child_absent'] = True
         elif args.operation == 'seal':
             stopped()
             assert args.shutdown_receipt, 'A verified normal guest shutdown is required'
