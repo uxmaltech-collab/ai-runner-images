@@ -5,6 +5,23 @@ with consumer `3dc11a923ea56a4bee74ed9a24ae6440e06a69f9` and the September 19
 [accepted mobile resolve references](../provenance/mobile-resolve-20260919.json).
 It extends the September 17 journey harvest; it does not replace its history.
 
+## Completed native follow-up
+
+The table and handoff below describe the earlier audit. Images
+[PR6](https://github.com/uxmaltech-collab/ai-runner-images/pull/6) subsequently
+merged as `db39042197f68f4bc585a144b152b31648799091`. It includes SwiftLint's
+recipe/license/lock, both native build profiles, complete shared frontend
+execution, bounded installation deadlines and qualification-child cleanup.
+The [native qualification](../qualification/native-tool-recipes-20260919/README.md)
+and its summary retain the actual attempts and source identities.
+
+The receiver verified the review handoff and recorded consumer PR331 adoption at
+`916b3f4a4311b7d105298d23bc5852186763f260`. That is source-pin adoption;
+`runtime_admission=false` remains unchanged. Native reconstruction from the
+retained parent is implemented; pristine Apple installation and restoration on
+another host are not demonstrated by that evidence. Use the current
+[build guide](build-images.md) and [preservation procedure](host-hygiene.md).
+
 ## Ownership and remaining work
 
 | Knowledge | Canonical destination | Observed state / next action |

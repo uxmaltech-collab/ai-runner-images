@@ -67,8 +67,10 @@ The catalog preserves physical repair ancestry separately from those three logic
 
 Use [`python3 scripts/build-images.py`](docs/build-images.md) to compose and
 qualify local images from this source. Linux and Android share the entrypoint;
-the native backend contract is defined with its pending implementation stated
-explicitly. No remote image storage is required.
+the native backend composes both macOS profiles and has
+[real native qualification](qualification/native-tool-recipes-20260919/README.md).
+It starts from a measured local Apple toolchain parent; a fresh-machine restore
+remains a separate prerequisite. No remote image storage is required.
 
 ## Where to start
 
@@ -83,6 +85,8 @@ organizations. The declaration is an example binding, not an engine default.
 2. Select a recipe and its exact compatibility lock. Use its documented owner operations; preserve the accepted parent and create a distinct derivative.
 3. Record real qualification results under `qualification/`. Update the catalog only from completed receipts, preserving failed attempts and limitations.
 4. Use [recovery](docs/recovery.md) to reconcile interrupted work and execute only unfinished operations.
+5. Before retiring commissioning files, follow [host hygiene](docs/host-hygiene.md)
+   to verify source promotion, preserve local parents and reconcile generated test data.
 
 Start with the [native base](recipes/macos-xcode-maestro/README.md), [combined agent layer](recipes/agent-build/README.md) and [Flutter/Dart recipe](recipes/flutter-dart/README.md). The thin composition tool preserves the source image and records each derivative's parent, commands and stopped artifact identities. Executor installation, admission and repository routing retain their existing owners.
 
