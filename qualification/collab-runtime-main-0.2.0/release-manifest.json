@@ -1,0 +1,172 @@
+{
+  "schema": "collab.release/v2",
+  "runtime": {
+    "repository": "uxmaltech-collab/cli",
+    "version": "0.2.0",
+    "commit": "cf3cb8d35e96e4f89dd1f68b3014136447dc5562",
+    "artifact": {
+      "name": "uxmaltech_collab-0.2.0-py3-none-any.whl",
+      "sha256": "ef991f1a3c92d85ce74adb247f017b1436e685ba5152096c4400c32587f0349c"
+    }
+  },
+  "source_tree": "5e3baeddbd661978bd2c9915553f8c65ec9c18e9",
+  "profile": "infra",
+  "providers": [
+    {
+      "id": "runners",
+      "package": "collab_runners",
+      "repository": "uxmaltech-collab/cli",
+      "version": "0.2.0",
+      "commit": "cf3cb8d35e96e4f89dd1f68b3014136447dc5562",
+      "artifact": {
+        "name": "uxmaltech_collab_runners-0.2.0-py3-none-any.whl",
+        "sha256": "ed24f4017ee25ead9f43045499ead62dac0dd559b2211c53ed72c5dd3ec3718e"
+      }
+    },
+    {
+      "id": "infra",
+      "package": "collab_infra",
+      "repository": "uxmaltech-collab/cli",
+      "version": "0.2.0",
+      "commit": "cf3cb8d35e96e4f89dd1f68b3014136447dc5562",
+      "artifact": {
+        "name": "uxmaltech_collab_infra-0.2.0-py3-none-any.whl",
+        "sha256": "fda452c0f295315a9f6de610032af251ffb48fe9a8fc66d6308fc3521345436c"
+      }
+    }
+  ],
+  "files": [
+    {
+      "name": "PyJWT-2.10.1-py3-none-any.whl",
+      "sha256": "dcdd193e30abefd5debf142f9adfcdd2b58004e644f25406ffaebd50bd98dacb"
+    },
+    {
+      "name": "attrs-26.1.0-py3-none-any.whl",
+      "sha256": "c647aa4a12dfbad9333ca4e71fe62ddc36f4e63b2d260a37a8b83d2f043ac309"
+    },
+    {
+      "name": "boto3-1.43.97-py3-none-any.whl",
+      "sha256": "420b45f566d3b49c6c1f021c50f47f66ea99ef05b1872d80b472c536542b321e"
+    },
+    {
+      "name": "botocore-1.43.97-py3-none-any.whl",
+      "sha256": "6b2beefd4f515aa7bfc614c945493a19315577ff31b464abbc9e33b7aff5112c"
+    },
+    {
+      "name": "cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+      "sha256": "c1453022f490d2459a11819d83ad1d586e9ff65a12ac3e705ffebd46d3685dcf"
+    },
+    {
+      "name": "collab-runtime.lock.json",
+      "sha256": "c582c940c96f2d962d9edfd9c65cfc157485e8fced97ea9b4ea47af1b9ee4be7"
+    },
+    {
+      "name": "cryptography-50.0.1-cp311-abi3-manylinux_2_28_x86_64.whl",
+      "sha256": "51593d180cf6d179bde5c5d065bed81386b1f381656ae7d042b7ffc87a9895ad"
+    },
+    {
+      "name": "install.py",
+      "sha256": "4ef00c61e7cde2c5d4be0fa44e6ab0a20da872bf93dd3f2dd6a5da676d04b457"
+    },
+    {
+      "name": "jmespath-1.1.0-py3-none-any.whl",
+      "sha256": "a5663118de4908c91729bea0acadca56526eb2698e83de10cd116ae0f4e97c64"
+    },
+    {
+      "name": "jsonschema-4.26.0-py3-none-any.whl",
+      "sha256": "d489f15263b8d200f8387e64b4c3a75f06629559fb73deb8fdfb525f2dab50ce"
+    },
+    {
+      "name": "jsonschema_specifications-2025.9.1-py3-none-any.whl",
+      "sha256": "98802fee3a11ee76ecaca44429fda8a41bff98b00a0f2838151b113f210cc6fe"
+    },
+    {
+      "name": "linkify_it_py-2.1.1-py3-none-any.whl",
+      "sha256": "8539a6b470efce90ba9b69e39b848e5b15b7ad89f7f98ca17d3532c243f987dc"
+    },
+    {
+      "name": "markdown_it_py-4.2.0-py3-none-any.whl",
+      "sha256": "9f7ebbcd14fe59494226453aed97c1070d83f8d24b6fc3a3bcf9a38092641c4a"
+    },
+    {
+      "name": "mdit_py_plugins-0.6.1-py3-none-any.whl",
+      "sha256": "214c82fb2ac524472ab6a5bcab1de80f73b50443e187f401bfd77efbc7c6481d"
+    },
+    {
+      "name": "mdurl-0.1.2-py3-none-any.whl",
+      "sha256": "84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8"
+    },
+    {
+      "name": "platformdirs-4.11.5-py3-none-any.whl",
+      "sha256": "89f8d42695853b89c7170bd49bc3dc593f98a71e695ede88e06a3b247bc4563b"
+    },
+    {
+      "name": "pycparser-3.0-py3-none-any.whl",
+      "sha256": "b727414169a36b7d524c1c3e31839a521725078d7b2ff038656844266160a992"
+    },
+    {
+      "name": "pygments-2.21.0-py3-none-any.whl",
+      "sha256": "2363c69b61c4a97c838da3b130dcd6468f4848992b21a82f2a63ec34377137d9"
+    },
+    {
+      "name": "python_dateutil-2.9.0.post0-py2.py3-none-any.whl",
+      "sha256": "a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427"
+    },
+    {
+      "name": "pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "sha256": "ba1cc08a7ccde2d2ec775841541641e4548226580ab850948cbfda66a1befcdc"
+    },
+    {
+      "name": "referencing-0.37.0-py3-none-any.whl",
+      "sha256": "381329a9f99628c9069361716891d34ad94af76e461dcb0335825aecc7692231"
+    },
+    {
+      "name": "requirements.lock",
+      "sha256": "ce927596b657eb1c27a3723c48b6db2d0ad863e9f87bdce1ca72bab7aa5d3e9d"
+    },
+    {
+      "name": "rich-15.0.0-py3-none-any.whl",
+      "sha256": "33bd4ef74232fb73fe9279a257718407f169c09b78a87ad3d296f548e27de0bb"
+    },
+    {
+      "name": "rpds_py-2026.6.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "sha256": "ecabd69db66de867690f9797f2f8fa27ba501bbc24540cbdbdc649cd15888ba6"
+    },
+    {
+      "name": "s3transfer-0.19.2-py3-none-any.whl",
+      "sha256": "d8168eccca828cbb2cd573675333f3bddd254313a9c42494b84c76b539e8ba25"
+    },
+    {
+      "name": "six-1.17.0-py2.py3-none-any.whl",
+      "sha256": "4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274"
+    },
+    {
+      "name": "textual-8.2.8-py3-none-any.whl",
+      "sha256": "267375fd402dc8d981457212efa71f0e3365fd17bba144ba9bb3ed7563cb374a"
+    },
+    {
+      "name": "typing_extensions-4.16.0-py3-none-any.whl",
+      "sha256": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8"
+    },
+    {
+      "name": "uc_micro_py-2.0.0-py3-none-any.whl",
+      "sha256": "3603a3859af53e5a39bc7677713c78ea6589ff188d70f4fee165db88e22b242c"
+    },
+    {
+      "name": "urllib3-2.8.0-py3-none-any.whl",
+      "sha256": "0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3"
+    },
+    {
+      "name": "uxmaltech_collab-0.2.0-py3-none-any.whl",
+      "sha256": "ef991f1a3c92d85ce74adb247f017b1436e685ba5152096c4400c32587f0349c"
+    },
+    {
+      "name": "uxmaltech_collab_infra-0.2.0-py3-none-any.whl",
+      "sha256": "fda452c0f295315a9f6de610032af251ffb48fe9a8fc66d6308fc3521345436c"
+    },
+    {
+      "name": "uxmaltech_collab_runners-0.2.0-py3-none-any.whl",
+      "sha256": "ed24f4017ee25ead9f43045499ead62dac0dd559b2211c53ed72c5dd3ec3718e"
+    }
+  ]
+}

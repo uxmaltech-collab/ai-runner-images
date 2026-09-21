@@ -1,0 +1,14 @@
+{
+  "schema_version": 2,
+  "profile": "resolver-storefront-ios-native",
+  "backend": "macos-tart",
+  "engine": "codex",
+  "driver": "recipes/collab-runners/runner-resolver-storefront-ios/journey-driver.json",
+  "pack_destination": "/opt/collab/repo-pack",
+  "driver_destination": "/opt/ai-repo-resources/journey-driver.json",
+  "admission_enabled": false,
+  "preparation_module": "collab_infra.runners.prepare_native_image",
+  "installer_module": "collab_infra.runners.native_image",
+  "runtime_destination": "/opt/collab/runtime",
+  "runtime_lock": "compatibility/collab-runtime.lock.json"
+}

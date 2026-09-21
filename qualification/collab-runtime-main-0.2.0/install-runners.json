@@ -1,0 +1,27 @@
+{
+  "schema": "collab.runtime-install/v1",
+  "runtime": {
+    "repository": "uxmaltech-collab/cli",
+    "version": "0.2.0",
+    "commit": "cf3cb8d35e96e4f89dd1f68b3014136447dc5562",
+    "artifact": {
+      "name": "uxmaltech_collab-0.2.0-py3-none-any.whl",
+      "sha256": "ef991f1a3c92d85ce74adb247f017b1436e685ba5152096c4400c32587f0349c"
+    }
+  },
+  "release_manifest_sha256": "3053dd19f1d66f4db11ddaf2da235d31676ed2d5cca9a44038393c76eece3900",
+  "profile": "runners",
+  "providers": [
+    {
+      "id": "runners",
+      "package": "collab_runners",
+      "repository": "uxmaltech-collab/cli",
+      "version": "0.2.0",
+      "commit": "cf3cb8d35e96e4f89dd1f68b3014136447dc5562",
+      "artifact": {
+        "name": "uxmaltech_collab_runners-0.2.0-py3-none-any.whl",
+        "sha256": "ed24f4017ee25ead9f43045499ead62dac0dd559b2211c53ed72c5dd3ec3718e"
+      }
+    }
+  ]
+}
