@@ -3,6 +3,9 @@ set -euo pipefail
 
 # No emulator, authentication, downloads or application build in this probe.
 java -version 2>&1 | grep -F '17.0.18'
+# Gradle discovers /usr/lib/jvm automatically. SDK 36 Robolectric tests use
+# Java 21; application compilation and the default JAVA_HOME remain Java 17.
+"$JAVA21_HOME/bin/java" -version 2>&1 | grep -F '21.0.10'
 test -f "$ANDROID_HOME/platforms/android-36/android.jar"
 test -x "$ANDROID_HOME/build-tools/36.0.0/aapt2"
 test -f "$ANDROID_HOME/system-images/android-36/google_apis/x86_64/system.img"

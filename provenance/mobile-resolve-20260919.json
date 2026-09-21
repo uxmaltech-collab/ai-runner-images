@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "record_kind": "consumer-reference-not-neutral-image-qualification",
+  "observed_at": "2026-09-19",
+  "references": [
+    {
+      "platform": "ios",
+      "repository": "enviaflores/ef-storefront-ios",
+      "command": "resolve",
+      "run_url": "https://github.com/enviaflores/ef-storefront-ios/actions/runs/35422956908",
+      "attempt": 1,
+      "pull_request": "https://github.com/enviaflores/ef-storefront-ios/pull/2380",
+      "app_commit": "117aea15e19b30e966e3a3c75875ac1266efeb54",
+      "consumer_commit": "3dc11a923ea56a4bee74ed9a24ae6440e06a69f9",
+      "image_reference": "enviaflores/runner-resolver-storefront-ios-native@sha256:c46cecc9f66c2051a4ee1aa2cc6375f0761c9675bdfeaf7c2b3be281f6455da5",
+      "checks": {
+        "build_passed": true,
+        "tests_passed": true,
+        "clean_commit_replayed": true,
+        "commit_verified": true,
+        "device_cleanup_confirmed": true,
+        "process_cleanup": "confirmed"
+      },
+      "public_media_count": 7,
+      "operator_summary_sha256": "1b3c6ed4eef8796d544d5bb87b0e9a8c50371ec97bba6f3f9c0bd4b0d832ae9f",
+      "media": {
+        "full_decode_verified": true,
+        "original_chromium_playback": false,
+        "codec_limitation": "Original HEVC was not playable in the tested Linux Chromium; separately identified private H.264 review copy played successfully."
+      }
+    },
+    {
+      "platform": "android",
+      "repository": "enviaflores/ef-storefront-android",
+      "command": "resolve",
+      "run_url": "https://github.com/enviaflores/ef-storefront-android/actions/runs/35421102578",
+      "attempt": 1,
+      "pull_request": "https://github.com/enviaflores/ef-storefront-android/pull/3043",
+      "app_commit": "0d7d0f2a89d90aeac16065982b8ee5a783a6cfd8",
+      "consumer_commit": "3dc11a923ea56a4bee74ed9a24ae6440e06a69f9",
+      "image_reference": "enviaflores/runner-resolver-storefront-android@sha256:ec62d02a50343663c5015da7bd87d3b045252d2b971a4958e4746cef1f3f2a31",
+      "checks": {
+        "build_passed": true,
+        "tests_passed": true,
+        "clean_commit_replayed": true,
+        "commit_verified": true,
+        "device_cleanup_confirmed": true,
+        "process_cleanup": "confirmed"
+      },
+      "public_media_count": 6,
+      "operator_summary_sha256": "aa3848b39391f6f8ea108be4bba77b7730eb1c548bed723d1dfcda15677e2264",
+      "media": {
+        "full_decode_verified": true,
+        "original_chromium_playback": true,
+        "codec_limitation": null
+      }
+    }
+  ],
+  "limitations": [
+    "Does not qualify a clean build of the neutral recipes or remote restoration.",
+    "The shared resolve/create-journey routing is declared; this record credits only resolve.",
+    "Source promotion does not change installed images, host bindings or application pull requests.",
+    "Failed attempts and original technical evidence remain in the private operator archive."
+  ]
+}

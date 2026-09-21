@@ -141,6 +141,18 @@ def test_docker_command_is_a_module_in_the_verified_provider(releases):
     assert 'git --version' in text and 'ssh -V' in text
 
 
+def test_native_recipe_modules_belong_to_the_verified_infra_provider(releases):
+    manifest = recipe.verify_release(releases / 'infra')
+    declaration = json.loads((HERE.parents[1] / 'recipes/collab-runners/'
+        'runner-resolver-storefront-ios/image-build.json').read_text())
+    provider = next(row for row in manifest['providers'] if row['id'] == 'infra')
+    with zipfile.ZipFile(releases / 'infra' / provider['artifact']['name']) as wheel:
+        for field in ('preparation_module', 'installer_module'):
+            module = declaration[field]
+            assert module.startswith(provider['package'] + '.')
+            assert module.replace('.', '/') + '.py' in wheel.namelist()
+
+
 def test_cli_malformed_lock_has_a_bounded_contract_error(releases, tmp_path):
     lock = tmp_path / 'invalid.json'; lock.write_text('[]')
     output = tmp_path / 'context'

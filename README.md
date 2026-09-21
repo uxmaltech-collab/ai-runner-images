@@ -7,7 +7,7 @@ The shared home for **all runner images and tools** across **iOS/macOS, Android,
 | Platform | Image and tool scope | Current evidence in this repository |
 | --- | --- | --- |
 | iOS/macOS | Tart, macOS, Xcode, Simulator, Java, Maestro, the combined agent layer and optional Flutter/Dart support | Flutter iOS Hello World image qualified; exact local artifacts and receipts recorded |
-| Android | Linux base, Android SDK/emulator, Java, Maestro, the combined agent layer and optional Flutter/Dart support | In scope; image implementation and qualification pending |
+| Android | Linux base, Android SDK/emulator, Java, Maestro, the combined agent layer and optional Flutter/Dart support | Neutral image built and cold-restored; unprivileged tools passed, consumer journey/resolve accepted |
 | Linux | Linux runner bases, the combined agent layer, build toolchains and job utilities | Portable CI stack built, cold-restored and qualified by a real GitHub canary in collab-e2e-org |
 | Web | Linux runner capabilities for browsers and Playwright, using the combined agent layer | In scope; image implementation and qualification pending |
 
@@ -29,10 +29,15 @@ This repository owns image and toolchain composition and its qualification recor
 
 The [neutral Android recipe](recipes/android/README.md) retains the exercised
 consumer toolchain with organization bindings removed. Its extracted source has
-regression coverage; a new neutral image build is not claimed. Current accepted
+regression coverage and a [real neutral build/cold restore](qualification/image-builder-20260919/README.md). Current accepted
 iOS/Android references are appended in [the catalog](catalog/images.json), keeping
 the original records. Read [operating lessons](docs/operating-lessons.md) for
 qualification, recording and honest distribution/restore status.
+
+The [September 19 resolve references](provenance/mobile-resolve-20260919.json) add
+real issue-to-ready-PR acceptance for both mobile platforms. The
+[promotion audit](docs/mobile-knowledge-promotion-20260919.md) separates canonical
+code, newly promoted recipes and the remaining native work.
 
 ## Current status
 
@@ -58,6 +63,15 @@ The [Hello World qualification](qualification/flutter-ios-hello-world-20260916/R
 
 The catalog preserves physical repair ancestry separately from those three logical capabilities. Earlier images with public-directory, shutdown-persistence or SDK-symlink failures remain historical ineligible records. The successful qualification uses the exact v4 image above; it does not retroactively validate those failed attempts.
 
+## Build entrypoint
+
+Use [`python3 scripts/build-images.py`](docs/build-images.md) to compose and
+qualify local images from this source. Linux and Android share the entrypoint;
+the native backend composes both macOS profiles and has
+[real native qualification](qualification/native-tool-recipes-20260919/README.md).
+It starts from a measured local Apple toolchain parent; a fresh-machine restore
+remains a separate prerequisite. No remote image storage is required.
+
 ## Where to start
 
 For Linux control-plane portability, use the
@@ -71,6 +85,8 @@ organizations. The declaration is an example binding, not an engine default.
 2. Select a recipe and its exact compatibility lock. Use its documented owner operations; preserve the accepted parent and create a distinct derivative.
 3. Record real qualification results under `qualification/`. Update the catalog only from completed receipts, preserving failed attempts and limitations.
 4. Use [recovery](docs/recovery.md) to reconcile interrupted work and execute only unfinished operations.
+5. Before retiring commissioning files, follow [host hygiene](docs/host-hygiene.md)
+   to verify source promotion, preserve local parents and reconcile generated test data.
 
 Start with the [native base](recipes/macos-xcode-maestro/README.md), [combined agent layer](recipes/agent-build/README.md) and [Flutter/Dart recipe](recipes/flutter-dart/README.md). The thin composition tool preserves the source image and records each derivative's parent, commands and stopped artifact identities. Executor installation, admission and repository routing retain their existing owners.
 

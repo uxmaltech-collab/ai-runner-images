@@ -32,3 +32,11 @@ For Flutter iOS, the required image order is Tart macOS/Xcode/Maestro base, then
 ## Coordination
 
 Use the declared owner for each source/runtime surface and avoid concurrent edits to shared branches. Keep GitHub calls grouped and sequential; do not poll CI or dispatch duplicate jobs to discover state that receipts already establish. Do not create `CODEOWNERS` entries without assigned maintainers.
+
+## Image construction entrypoint
+
+Promote reusable image-building Python into `scripts/build-images.py` and its
+fixed platform backends, documented in `docs/build-images.md`. Checkpoint scripts
+are historical evidence, not build dependencies. Keep the source commit, pinned
+parent, local artifact and qualification results distinct. Local Mac images are
+permitted; remote publication is not a prerequisite for source reconstruction.

@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "scope": "Source preservation before retiring generated Tart commissioning test data; no runtime adoption or image deletion",
+  "images_main": "db39042197f68f4bc585a144b152b31648799091",
+  "templates_main": "f97c737d51ceb53bfa0ae9d4e8573359421e63be",
+  "native_recipe_promotion": {
+    "pr": "https://github.com/uxmaltech-collab/ai-runner-images/pull/6",
+    "merge": "db39042197f68f4bc585a144b152b31648799091",
+    "receiver_verified_files": 241,
+    "receiver_manifest_sha256": "88f43487ac521a154cd261f5c3c6040c72fd6438f7e0649ea45e74373e70b65a",
+    "consumer_source_pin_merge": "916b3f4a4311b7d105298d23bc5852186763f260",
+    "runtime_admission": false
+  },
+  "historical_nonancestor_commits": [
+    {
+      "local_commit": "13deabe2b9b288f2084a539da8ef7602d95ca703",
+      "subject": "Allow protected opt directories for macOS image Xcode selection",
+      "canonical_matches": [
+        {
+          "commit": "0b8a6c0c7e987a43faaf6bf6d95134ad6ae2555b",
+          "patch_identical": true
+        }
+      ]
+    },
+    {
+      "local_commit": "632a57869d4f1f3c2b8244db4f9c16bbf9eba6b1",
+      "subject": "fix(runners): require full disk sync for macOS leases",
+      "canonical_matches": [
+        {
+          "commit": "ac3355725cbc6f139bedd5e5bf95e70c2e40189b",
+          "patch_identical": true
+        }
+      ]
+    },
+    {
+      "local_commit": "8d287b3145e4ed4e78001db97ed4dbe00f45aeeb",
+      "subject": "Keep macOS fixture boundaries portable to unprivileged Linux CI",
+      "canonical_matches": [
+        {
+          "commit": "30b164df7d08630394c755aab8fdfd7729a83e01",
+          "patch_identical": true
+        }
+      ]
+    },
+    {
+      "local_commit": "05fea220664329dda82a0199d1792e4d6537ff24",
+      "subject": "Fix Tart start rejection recovery and resolver review gaps",
+      "canonical_matches": [
+        {
+          "commit": "d9a916a59b4963a762705be03a47db9011a1fc75",
+          "patch_identical": true
+        }
+      ]
+    },
+    {
+      "local_commit": "59b6cb78ecb96190111278b672ce9b41f3ffb00a",
+      "subject": "Prepare fresh macOS clone accounts before verified runner sessions",
+      "canonical_matches": [
+        {
+          "commit": "e3847ab16a0f69fa2e42632923c9fb2ae1b1740e",
+          "patch_identical": true
+        }
+      ]
+    },
+    {
+      "local_commit": "3047010fc0437d3f6f7b832a125a19509bed0202",
+      "subject": "Fence VM deletion on durable quiesced evidence recovery",
+      "canonical_matches": [
+        {
+          "commit": "d97176cd29b9bbbbcb27cfb33df191ecba001862",
+          "patch_identical": true
+        }
+      ]
+    },
+    {
+      "local_commit": "054bf193048f3967ede9f1f0350f1bc9a4622204",
+      "subject": "Verify image file bytes with a bounded second descriptor pass",
+      "canonical_matches": [
+        {
+          "commit": "300c6f7fc9c99fbe52b57f69aa6db1e446fa54c2",
+          "patch_identical": true
+        }
+      ]
+    },
+    {
+      "local_commit": "e93f3736455abc4ba2fc4bba185ed96a065e43f0",
+      "subject": "Persist control-plane VM and JIT cleanup witnesses atomically",
+      "canonical_matches": [
+        {
+          "commit": "99221d1a2c06fae46b8770ff3c8acf553b3c5762",
+          "patch_identical": true
+        }
+      ]
+    },
+    {
+      "local_commit": "6a2ef33139f368c2a0d0566e98c6dbfbc25b5fe9",
+      "subject": "Prepare fresh macOS clone accounts before verified runner sessions",
+      "canonical_matches": [
+        {
+          "commit": "e3847ab16a0f69fa2e42632923c9fb2ae1b1740e",
+          "patch_identical": true
+        }
+      ]
+    },
+    {
+      "local_commit": "95814d4d7a1390d7afcf4c0e15ca585fee794de0",
+      "subject": "Preserve bounded native session failure reasons without replay",
+      "canonical_matches": []
+    },
+    {
+      "local_commit": "050e40185f2d0331da26abcbebeb04a4630a7dac",
+      "subject": "Prepare offline Tart image installation and bound blocking probes",
+      "canonical_matches": [
+        {
+          "commit": "c585a929474f54949c0737a5e81314b609408ab8",
+          "patch_identical": true
+        }
+      ]
+    },
+    {
+      "local_commit": "34f091103573d61859b64448ea54af4005304222",
+      "subject": "Bind guest daemon removal and bound dedicated keychain operations",
+      "canonical_matches": [
+        {
+          "commit": "e875ee030553cb4cd1ac932c6d343d61e188c423",
+          "patch_identical": true
+        }
+      ]
+    },
+    {
+      "local_commit": "ae6ca28f134c8968ff7330465a37ea7ff7daa0a9",
+      "subject": "Harden Tart guest sessions and immutable image admission",
+      "canonical_matches": [
+        {
+          "commit": "34c594d781671ab63dab1add3ab8a126be21eab8",
+          "patch_identical": true
+        }
+      ]
+    }
+  ],
+  "recovered_diagnostic_candidate": {
+    "original": "95814d4d7a1390d7afcf4c0e15ca585fee794de0",
+    "current_head": "2409801a6ba8f3e030ab4209b1e020b9a0cd2230",
+    "branch": "fix/preserve-native-session-diagnostics",
+    "state": "draft-source-proposal-not-merged",
+    "focused_tests_passed": 259,
+    "full_suite": {
+      "passed": 2050,
+      "failed": 18,
+      "skipped": 1,
+      "same_failed_cases_on_unchanged_main": 18
+    },
+    "release_integrity": "passed",
+    "runtime_changed": false,
+    "pr": "https://github.com/uxmaltech-collab/ai-templates-resources/pull/270"
+  },
+  "research_import": {
+    "manifest": "docs/research/2026-09-16/IMPORT-MANIFEST.json",
+    "files_verified_byte_identical": 15
+  },
+  "preservation_limits": [
+    "Local-only image tuples and retained Apple/tool inputs are preserved; no remote restore claimed.",
+    "Dirty worktrees and private originals remain retained. Generated test repositories are excluded from source-authoring repository counts.",
+    "The native quota fixture demonstrates only its recorded macOS build, not a portable production API.",
+    "SSH service ACL membership remains an explicit host prerequisite in its canonical owner.",
+    "Source availability and reviewed runtime release/adoption remain distinct."
+  ]
+}

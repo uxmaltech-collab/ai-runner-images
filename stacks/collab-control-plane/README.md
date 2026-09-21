@@ -58,7 +58,8 @@ do not qualify a new runtime or justify reuse of an earlier image digest.
 Before publication, create a new recipe identity from the final reviewed commit,
 update the candidate recipe inventory and runtime lock using that commit and the
 newly verified release, build with the declared parent digests, and qualify the
-resulting image on its actual routes. The retained
-`compatibility/collab-image-recipes.lock.json` and prior qualification records
-still describe their original content; this preparation change does not rewrite
-them or inherit their qualification.
+resulting image on its actual routes. The current
+`compatibility/collab-image-recipes.lock.json` selects the locally qualified
+0.2.0 artifacts from CLI main commit `cf3cb8d35e96e4f89dd1f68b3014136447dc5562`.
+It records current recipe bytes without claiming an image build. Historical
+qualification records retain their original source and artifact identities.

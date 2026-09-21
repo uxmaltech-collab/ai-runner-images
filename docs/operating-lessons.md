@@ -18,7 +18,7 @@ owns reproducible tool recipes and qualification, not a second runtime.
 - Shutdown normally and verify persisted disk/config/NVRAM before sealing. Keep
   their hashes distinct from native manifest and OCI identities.
 - Android needs exact archive locks, SDK package registration, declared KVM and
-  real privilege reduction. Resolve shares the image without booting an emulator.
+  real privilege reduction. Resolve shares the image; only visual evidence starts the emulator explicitly.
 - Verify recorder console responses as well as process exit. The observed Android
   recording limit was 1800 seconds. Preserve complete media before resource cleanup.
 - Verify decoded video and target-player playback separately. The accepted iOS
@@ -42,3 +42,25 @@ checksum list or HTTP200 alone never establishes restoration.
 The [current mobile references](../provenance/mobile-journeys-20260917.json)
 retain accepted consumer runs and publication recovery. They do not imply neutral
 recipe rebuilds, all-platform qualification or production/fleet acceptance.
+
+## Resolve evidence and recipe closure
+
+A journey-qualified image may still lack a resolver prerequisite. The September
+19 canaries exposed two distinct gaps: SwiftLint in the native audit PATH and
+Java 21 for Android SDK 36 JVM tests. Qualify the union of tools needed by both
+commands in the same image; a successful version probe or app build alone does
+not prove lint, unit tests or replay.
+
+Keep the base build identity, derived recipe/source identity, installed runtime
+identity and job-selected source separately. A stale parent label cannot describe
+a newer installed component. A CLI console must resolve its interpreter after
+relocation; compare installed package modules and launch the console as the job
+user. Recipes and tests must encode such repairs before calling them reproducible.
+
+Named Maestro screenshots may live in replay artifact directories. Their resolver
+belongs to the shared driver, not an image-local recovery script. Reused flows
+also carry state: assert the actual initial UI before toggling a selected card.
+Selectors and business assertions stay in the application repository.
+
+See the [promotion audit](mobile-knowledge-promotion-20260919.md) for ownership,
+source status and the remaining native qualification/distribution work.

@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "profile": "android",
+  "source_commit": "7c58ba113ec873aef65811af43bc1da44036beea",
+  "recipe_commit": "d4fcb6c4bcfc26dca1e46640088856f9a77a51e5",
+  "recipe_archive_sha256": "59311e8c3533012c2a14182484a5b7869aa5816ccc23ce8f73116efe04ea1230",
+  "parent_receipt_sha256": "49b9ae3f90cb8cddc66063e3906b46ce37937b32ede510130abe713c47dd8880",
+  "parent": {
+    "tag": "collab-e2e/runner-agent-base:c7a84f2875a5-6ad86a1837dd4cd1",
+    "reference": "collab-e2e/runner-agent-base@sha256:1a82fc62361111cacf1047df523f4d9ac9f342d21e5b8d4448b33f1740d69d98",
+    "id": "sha256:1a82fc62361111cacf1047df523f4d9ac9f342d21e5b8d4448b33f1740d69d98",
+    "architecture": "amd64",
+    "layers": [
+      "sha256:e8c084c1b320c172e8be941d735d77298e49986014213a8282c9b533ee216a61",
+      "sha256:ab0ae19b58df847c6f0e4beb31f759a4dac2cc42288a6bda6f467eea4584c541",
+      "sha256:7abb468e4352e04b8aa17de0e41c8d6b1e92fa353108bbe7ca843551f8dbfc54",
+      "sha256:ed00049407561c525f385292d17bc28227abe48573d2a5c822c179aa3a85bea8",
+      "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+      "sha256:bb1051ede16a775704bf26a9c0a322a51ffaebb7c8d15203a666e57235893e2f",
+      "sha256:51bc3e3e972ee93603d044ffef11f4c8475b48c6717f37e16fbf692fed0ed8d5",
+      "sha256:03f0a3c970e935b809fbb9691d9e2100a551c838b07f9c34e0b835ea578275ad",
+      "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+      "sha256:01396e3141601e592ac97e9288a4d92e81506a416c5d6024e0c36e102e40fc0a"
+    ]
+  },
+  "image": {
+    "reference": "ai-runner-images/runner-android@sha256:ed4ac120e65f95ac832b2f0eec49ef97c6452eab91b331e11cf13fb042ebf2d6",
+    "tag": "ai-runner-images/runner-android:621f39da516de83c",
+    "id": "sha256:ed4ac120e65f95ac832b2f0eec49ef97c6452eab91b331e11cf13fb042ebf2d6",
+    "layers": [
+      "sha256:e8c084c1b320c172e8be941d735d77298e49986014213a8282c9b533ee216a61",
+      "sha256:ab0ae19b58df847c6f0e4beb31f759a4dac2cc42288a6bda6f467eea4584c541",
+      "sha256:7abb468e4352e04b8aa17de0e41c8d6b1e92fa353108bbe7ca843551f8dbfc54",
+      "sha256:ed00049407561c525f385292d17bc28227abe48573d2a5c822c179aa3a85bea8",
+      "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+      "sha256:bb1051ede16a775704bf26a9c0a322a51ffaebb7c8d15203a666e57235893e2f",
+      "sha256:51bc3e3e972ee93603d044ffef11f4c8475b48c6717f37e16fbf692fed0ed8d5",
+      "sha256:03f0a3c970e935b809fbb9691d9e2100a551c838b07f9c34e0b835ea578275ad",
+      "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+      "sha256:01396e3141601e592ac97e9288a4d92e81506a416c5d6024e0c36e102e40fc0a",
+      "sha256:c9ba44992474a2dc871087a4216c09f37b067da768c7b5aed36b155fb9145dbd",
+      "sha256:ddec382df2b871330c4cfbddd5588311f50ce2872c47eb0582af6c3f8c793482",
+      "sha256:51bf7af32996f4c32016a2a56d1ec59eb7507a27e85017239d0a52386562a78e",
+      "sha256:12622d1ce00955df55e19c542afc0a810d59e71cb326b5b8dcf0c1883b6a7e77",
+      "sha256:e9a70e853220779f174e821b6dc16520f6c3bc8d914fe00fef7cc5305e95f3a3",
+      "sha256:b63d05bad06ab161c195787771b9fbc74d4b5a0dff32e07c4e6bc8bf35c00e8b",
+      "sha256:58b8aab4c23e3b17499c91d934b39ac79b7f0aa345c3631f28392b0af28ad069",
+      "sha256:bbcec682cef485f6527afe7365083e8d2a23a87e4f9829f9b1fb4dc92158bbb4",
+      "sha256:cae9808dded08d060f1553844b856577bc462039c84e1ff1e554346078614ae0"
+    ],
+    "architecture": "amd64"
+  },
+  "archive": {
+    "file": "android-image.tar",
+    "bytes": 4239081984,
+    "sha256": "d0b3988016eb48be9b6392b63ba7c594304ffa0181af879405964e2a74e730ef"
+  },
+  "status": "built",
+  "distribution": "local-only",
+  "runtime_admission": false
+}

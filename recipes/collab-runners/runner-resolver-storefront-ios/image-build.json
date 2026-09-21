@@ -7,8 +7,8 @@
   "pack_destination": "/opt/collab/repo-pack",
   "driver_destination": "/opt/ai-repo-resources/journey-driver.json",
   "admission_enabled": false,
-  "preparation_module": "collab.infra.runners.prepare_native_image",
-  "installer_module": "collab.infra.runners.native_image",
+  "preparation_module": "collab_infra.runners.prepare_native_image",
+  "installer_module": "collab_infra.runners.native_image",
   "runtime_destination": "/opt/collab/runtime",
   "runtime_lock": "compatibility/collab-runtime.lock.json"
 }

@@ -11,6 +11,7 @@ LABEL org.opencontainers.image.title="runner-android" \
 # One image serves resolve and create-journey. Neither the entrypoint nor a
 # resolve job boots an emulator. The journey explicitly invokes the wrapper.
 ENV JAVA_HOME=/opt/java \
+    JAVA21_HOME=/usr/lib/jvm/temurin-21 \
     ANDROID_HOME=/opt/android-sdk \
     ANDROID_SDK_ROOT=/opt/android-sdk \
     MAESTRO_CLI_NO_ANALYTICS=1 \
@@ -36,7 +37,7 @@ RUN test -n "${RUNNER_SOURCE_COMMIT}" \
     && python3 /opt/runner-android/install-toolchain.py \
     && yes | sdkmanager --sdk_root=/opt/android-sdk --licenses >/dev/null
 RUN chmod 0755 /usr/local/bin/entrypoint-android /usr/local/bin/runner-android-emulator /usr/local/bin/runner-android-stack-probe \
-    && chmod -R a+rX /opt/android-sdk /opt/java /opt/maestro /opt/runner-android
+    && chmod -R a+rX /opt/android-sdk /opt/java /usr/lib/jvm/temurin-21 /opt/maestro /opt/runner-android
 # avdmanager requires this local package registration for a directly installed
 # emulator archive; source.properties alone does not register this package.
 COPY recipes/android/emulator-package.xml /opt/android-sdk/emulator/package.xml

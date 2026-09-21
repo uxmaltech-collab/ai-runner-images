@@ -919,6 +919,69 @@
       ],
       "local_image_digest": "sha256:4304f75946eb19088205000247daa921b860ea59508a098c1f460b5821c3205d",
       "source_commit": "42bb5f08c283ce2ab08d12371b9e3e3527c034d0"
+    },
+    {
+      "id": "enviaflores-storefront-ios-resolve-20260919",
+      "platform": "macos-tart",
+      "architecture": "arm64",
+      "classification": "consumer-specific-reference",
+      "consumer_repository": "enviaflores/ef-storefront-ios",
+      "status": "observed-resolve-e2e-accepted",
+      "image_reference": "enviaflores/runner-resolver-storefront-ios-native@sha256:c46cecc9f66c2051a4ee1aa2cc6375f0761c9675bdfeaf7c2b3be281f6455da5",
+      "consumer_source_commit": "3dc11a923ea56a4bee74ed9a24ae6440e06a69f9",
+      "acceptance_record": "provenance/mobile-resolve-20260919.json",
+      "app_commit": "117aea15e19b30e966e3a3c75875ac1266efeb54",
+      "limits": [
+        "Historical consumer-specific image, not a neutral recipe build or new runtime admission.",
+        "Private originals, failed attempts and codec limits remain retained."
+      ],
+      "distribution": {
+        "status": "local-only",
+        "remote_uri": null,
+        "remote_restore_verified": false
+      }
+    },
+    {
+      "id": "enviaflores-storefront-android-resolve-20260919",
+      "platform": "linux-docker",
+      "architecture": "amd64",
+      "classification": "consumer-specific-reference",
+      "consumer_repository": "enviaflores/ef-storefront-android",
+      "status": "observed-resolve-e2e-accepted",
+      "image_reference": "enviaflores/runner-resolver-storefront-android@sha256:ec62d02a50343663c5015da7bd87d3b045252d2b971a4958e4746cef1f3f2a31",
+      "consumer_source_commit": "3dc11a923ea56a4bee74ed9a24ae6440e06a69f9",
+      "acceptance_record": "provenance/mobile-resolve-20260919.json",
+      "app_commit": "0d7d0f2a89d90aeac16065982b8ee5a783a6cfd8",
+      "limits": [
+        "Historical consumer-specific image, not a neutral recipe build or new runtime admission.",
+        "Private originals, failed attempts and codec limits remain retained."
+      ],
+      "distribution": {
+        "status": "local-only",
+        "remote_uri": null,
+        "remote_restore_verified": false
+      }
+    },
+    {
+      "id": "android-neutral-cold-restore-20260919",
+      "platform": "linux-amd64-android",
+      "kind": "neutral-toolchain-image",
+      "parent_reference": "collab-e2e/runner-agent-base@sha256:1a82fc62361111cacf1047df523f4d9ac9f342d21e5b8d4448b33f1740d69d98",
+      "source_commit": "7c58ba113ec873aef65811af43bc1da44036beea",
+      "recipe_commit": "d4fcb6c4bcfc26dca1e46640088856f9a77a51e5",
+      "qualification": "qualification/image-builder-20260919/SUMMARY.json",
+      "distribution": {
+        "status": "local-only-verified-archive",
+        "remote_uri": null,
+        "remote_restore_verified": false,
+        "remote_storage_requested": false
+      },
+      "runtime_admission": false,
+      "application_e2e": "not-run",
+      "image_reference": "ai-runner-images/runner-android@sha256:ed4ac120e65f95ac832b2f0eec49ef97c6452eab91b331e11cf13fb042ebf2d6",
+      "classification": "neutral-toolchain-image",
+      "architecture": "amd64",
+      "status": "built-and-cold-restored-tools-qualified"
     }
   ],
   "kind": "image-catalog-not-runtime-admission",
@@ -935,7 +998,7 @@
   "schema_version": 1,
   "updated_at_utc": "2026-09-16T18:57:16.166662+00:00",
   "current_consumer_references": {
-    "ios": "enviaflores-storefront-ios-20260917",
-    "android": "enviaflores-storefront-android-20260917"
+    "ios": "enviaflores-storefront-ios-resolve-20260919",
+    "android": "enviaflores-storefront-android-resolve-20260919"
   }
 }

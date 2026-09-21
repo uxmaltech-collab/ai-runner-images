@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites name="SwiftLint" failures="0" errors="1" tests="1">
+	<testsuite name="SwiftLint" failures="0" errors="1" tests="1">
+		<testcase classname='Formatting Test' name='/Users/qualifier/swiftlint-qualification/Invalid.swift'>
+			<failure message='Force casts should be avoided'>Error:Line:2</failure>
+		</testcase>
+	</testsuite>
+</testsuites>
