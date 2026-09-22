@@ -9,6 +9,7 @@
   "admission_enabled": false,
   "preparation_module": "collab_infra.runners.prepare_native_image",
   "installer_module": "collab_infra.runners.native_image",
+  "accountless_preparation_recipe": "recipes/native-runtime/clean-runner-diagnostics.py",
   "runtime_destination": "/opt/collab/runtime",
   "runtime_lock": "compatibility/collab-runtime.lock.json"
 }
