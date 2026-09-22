@@ -2,11 +2,11 @@
   "schema": "collab.runtime-lock/v1",
   "runtime": {
     "repository": "uxmaltech-collab/cli",
-    "version": "0.2.0",
-    "commit": "cf3cb8d35e96e4f89dd1f68b3014136447dc5562",
+    "version": "0.2.3",
+    "commit": "63c60623eb3cd267f9ec06f252498b821740599a",
     "artifact": {
-      "name": "uxmaltech_collab-0.2.0-py3-none-any.whl",
-      "sha256": "ef991f1a3c92d85ce74adb247f017b1436e685ba5152096c4400c32587f0349c"
+      "name": "uxmaltech_collab-0.2.3-py3-none-any.whl",
+      "sha256": "1c99b6564f1d014e78fa3f7504e5acbfc168fcb46fba09e772b232a95c3b3c34"
     }
   }
 }

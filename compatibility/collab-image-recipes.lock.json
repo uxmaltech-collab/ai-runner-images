@@ -1,7 +1,8 @@
 {
   "files": {
-    "recipes/collab-runners/README.md": "9457ed500ce48f1d76a01003d721e7a8217ca54fd6170f56c08486d570665752",
+    "recipes/collab-runners/README.md": "23b1326d5a776045bb740b6356c7129372808ea852d81b67f5d3fb2bb94ecec3",
     "recipes/collab-runners/extraction.json": "0b9210953aefb6443f2d1fdacd0aae513744a7b758f38fa4666d04de85403ada",
+    "recipes/collab-runners/qa-extraction.json": "df6c01e37fd1fd22f903dafb8645e8c7f21c1f15fd0d204a8be226844874d27c",
     "recipes/collab-runners/runner-agent-base/Dockerfile": "5c5dee44692a318abf3d5f22561ec82a310088352f9e60b66c28654790e43592",
     "recipes/collab-runners/runner-base/Dockerfile": "3e42ad428b2e00eae78692b4b87a9a30cb9b1ed5cf96a72cd07004354c053fd3",
     "recipes/collab-runners/runner-base/entrypoint-jit.sh": "cca0e4d5515ffa2691a2464ed7297bcf5089404776a55c45195c890b358eacce",
@@ -27,6 +28,8 @@
     "recipes/collab-runners/runner-resolver-storefront-ios/image-build.json": "74895997d99cfab35a5298e672a9a86236b8c6759a471fb9871e92e0be2a46b6",
     "recipes/collab-runners/runner-resolver-storefront-ios/journey-driver.json": "401a7c6f93983ee9aecede44772230f70f496d71b6339bfa913ae5a0bb90595b",
     "recipes/collab-runners/runner-resolver-storefront-ios/journey-execution.json": "70fdc240ad9aaa5672d5eae846dcec54e30a2e84741312e08507dce79513b1d4",
+    "recipes/collab-runners/runner-resolver-storefront-mobile-qa/Dockerfile": "e3c0cb0758ef5ac4a1d0b5ea8d4c9a48532a798ee1d86df90d8be269467120a0",
+    "recipes/collab-runners/runner-resolver-storefront-web-qa/Dockerfile": "8a49e1a34a6afbaff35c36cec02ca69bac5add1e45b966b827861c8956636784",
     "recipes/collab-runners/runner-resolver-storefront-web/Dockerfile": "89b11ab3e1fffbfe7d96d216b8e50711fad5aac68c2748c2266e5ad92b4368a3",
     "recipes/collab-runners/runner-resolver-storefront-web/scripts/ef-storefront-web-playwright-mcp.sh": "671ffdb42798bd3e14fca9b62bc9de4549118528de9b0120b8e752a1d742eb2b",
     "recipes/collab-runners/runner-resolver-storefront-web/scripts/ef-storefront-web-screenshot.sh": "4e82f368b077b0893e56625a91ff3cafe622726cad505c671e1e72dd0fdea8d2",
@@ -43,20 +46,20 @@
     "recipes/templates/runner-base/entrypoint-jit.sh": "cca0e4d5515ffa2691a2464ed7297bcf5089404776a55c45195c890b358eacce",
     "recipes/templates/uxmaltech-base-image/Dockerfile": "5d77cef5453d232d172238d58d5a66622ac254113dd042fb4ec13b72c031f9c8",
     "stacks/collab-control-plane/Dockerfile": "4c1eaa4f3baa5735931bf47b9e8621dd23a61c8cfe51e417048a5f3ac6868a97",
-    "stacks/collab-control-plane/README.md": "5300fe53937d3686df5edaca3794f40d91fc95034521703540a75c65becdf6ff",
+    "stacks/collab-control-plane/README.md": "a900829338a1f316f96ef28411b22573c0a545f1bbe011312591d34fac0d1ea0",
     "stacks/collab-control-plane/prepare.py": "fca1162de353d4005b8083a57da07b12443fb65d10274b1a2530e1394b3feee6"
   },
   "image_build": "not-run",
   "qualification": "source-pinned-not-built",
-  "release_manifest_sha256": "3773afdad321e7065daf37d88cfb4ea8cc18ab77d9f508f3b4a614f2e990dfde",
+  "release_manifest_sha256": "d0be5b34e0ec8b8e1c36ff5af9353678533b9238d6cfd20be37448142609f6aa",
   "runtime": {
     "artifact": {
-      "name": "uxmaltech_collab-0.2.0-py3-none-any.whl",
-      "sha256": "ef991f1a3c92d85ce74adb247f017b1436e685ba5152096c4400c32587f0349c"
+      "name": "uxmaltech_collab-0.2.3-py3-none-any.whl",
+      "sha256": "1c99b6564f1d014e78fa3f7504e5acbfc168fcb46fba09e772b232a95c3b3c34"
     },
-    "commit": "cf3cb8d35e96e4f89dd1f68b3014136447dc5562",
+    "commit": "63c60623eb3cd267f9ec06f252498b821740599a",
     "repository": "uxmaltech-collab/cli",
-    "version": "0.2.0"
+    "version": "0.2.3"
   },
   "runtime_consumers": [
     "recipes/collab-runners/runner-agent-base/Dockerfile",

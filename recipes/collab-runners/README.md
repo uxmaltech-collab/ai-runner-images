@@ -20,11 +20,19 @@ with a separate verified runtime tree. The image-owned journey supervisor select
 application validators remain in their application repositories. Recipe and
 runtime pins do not qualify the image, admit a guest, or promote a host.
 
-The selected runtime is `uxmaltech-collab==0.2.0` from CLI main commit
-`cf3cb8d35e96e4f89dd1f68b3014136447dc5562`. Its base, runners and Infra
+The selected runtime is `uxmaltech-collab==0.2.3` from CLI main commit
+`63c60623eb3cd267f9ec06f252498b821740599a`. Its base, runners and Infra
 provider wheels were built and installed offline on Linux amd64. The recipe
 lock binds the full Infra bundle, which supplies every declared provider.
-These artifacts are a local main candidate; final release publication, native
-qualification, image construction and operational canaries remain pending.
+The exact artifacts are published in [Collab v0.2.3](https://github.com/uxmaltech-collab/cli/releases/tag/v0.2.3).
+Native qualification, image construction and operational canaries remain pending.
 The native preparation and installer identifiers belong to `collab_infra`;
 the base wheel does not contain host implementations.
+
+The Web QA and Mobile QA leaf recipes preserve the two additional profiles
+already declared in the resource catalog. Their independent source provenance
+is recorded in [qa-extraction.json](qa-extraction.json); the original extraction
+record remains unchanged. Both inherit the same combined agent base and
+Collab 0.2.3 runtime. The Mobile QA recipe is a Linux resolver, not a native
+mobile build or journey qualification. These source recipes do not establish
+that either route has an installed image or a successful canary.
