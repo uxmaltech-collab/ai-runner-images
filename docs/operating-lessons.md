@@ -64,3 +64,23 @@ Selectors and business assertions stay in the application repository.
 
 See the [promotion audit](mobile-knowledge-promotion-20260919.md) for ownership,
 source status and the remaining native qualification/distribution work.
+
+## Keep the native Runner template free of diagnostics
+
+`Runner.Listener --version` can create `_diag` even without registration. An
+inherited root-only diagnostic directory prevents the nonadministrator probe
+from copying the template. Preserve that failed observation; eight successful
+tool probes do not make the ninth pass.
+
+Before installing the Collab guest payload, run the accountless preparation
+recipe declared by the native iOS `image-build.json`. Invoke
+`recipes/native-runtime/clean-runner-diagnostics.py` with `--runner-root`, the
+independently verified `--runner-sha256`, and a new `--receipt` path through the
+Tart owner in a disposable builder. It removes only `_diag`, inspects metadata
+without reading log contents, and preserves the pinned executable. Configured
+runners, active runner processes, nonvirtual hosts and account-bearing guests
+are refused. A retained started claim requires reconciliation, never blind replay.
+
+Keep the original parent tuple. Build and seal a new derivative, then qualify
+its actual nonadministrator session and Runner probe. This cleanup does not
+change the CLI release, grant image admission, or credit a repository canary.
