@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "runtime": {
+    "repository": "uxmaltech-collab/cli",
+    "version": "0.2.3",
+    "commit": "63c60623eb3cd267f9ec06f252498b821740599a",
+    "artifact": {
+      "name": "uxmaltech_collab-0.2.3-py3-none-any.whl",
+      "sha256": "1c99b6564f1d014e78fa3f7504e5acbfc168fcb46fba09e772b232a95c3b3c34"
+    }
+  },
+  "release_manifest_sha256": "d0be5b34e0ec8b8e1c36ff5af9353678533b9238d6cfd20be37448142609f6aa",
+  "verified_recipe_files": 48,
+  "qa_recipes_equal_current_repo_main": "3824bdccd2f331c6733157e882075d72eb544a61",
+  "image_build": "NOT_RUN",
+  "host_adoption": "NOT_RUN",
+  "tests": {
+    "control_plane_context": {
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0
+    },
+    "console_relocation": {
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "initial_failures": "Retained local tests.xml (missing import input) and tests-02.xml (release-directory symlinks rejected). Corrected only isolated test inputs; tests-03.xml passes all 22 context cases with regular verified release directories. Nine unaffected console cases passed in tests-02.xml and were reused.",
+  "evidence_directory": "/root/work/collab-adoption-20260920/validation/images-023-01",
+  "release_url": "https://github.com/uxmaltech-collab/cli/releases/tag/v0.2.3",
+  "native_qualification": "Pending Mac final 0.2.3 receipts"
+}

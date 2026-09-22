@@ -1,0 +1,18 @@
+{
+  "schema": "collab.recipe-extraction/v1",
+  "source_repository": "enviaflores/ai-repo-resources",
+  "source_commit": "6c9ba4b16da185ca649a0af7b9c1fde2793f1a74",
+  "files": [
+    {
+      "source": "runners/images/runner-resolver-storefront-web-qa/Dockerfile",
+      "source_sha256": "8a49e1a34a6afbaff35c36cec02ca69bac5add1e45b966b827861c8956636784",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-web-qa/Dockerfile"
+    },
+    {
+      "source": "runners/images/runner-resolver-storefront-mobile-qa/Dockerfile",
+      "source_sha256": "e3c0cb0758ef5ac4a1d0b5ea8d4c9a48532a798ee1d86df90d8be269467120a0",
+      "destination": "recipes/collab-runners/runner-resolver-storefront-mobile-qa/Dockerfile"
+    }
+  ],
+  "qualification": "Source extraction only; image build, admission and operational canaries are not run."
+}
