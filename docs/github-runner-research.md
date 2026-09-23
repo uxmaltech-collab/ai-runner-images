@@ -3,6 +3,25 @@
 Primary documentation checked on 2026-09-23. The decisions below are our
 operating design, not requirements attributed to GitHub or Tart.
 
+## Read first when resuming a failed attempt
+
+Restore the current task scope, owner AGENTS, selected runtime/recipe/pack,
+last operation, attempt count and first error. Then select just the relevant
+reference below; do not repeat inventory or browse every topic on each retry.
+
+| Stage | Official reference |
+| --- | --- |
+| Routing and ephemeral lifecycle | [Self-hosted runners](https://docs.github.com/en/actions/reference/runners/self-hosted-runners) |
+| JIT registration and permission scope | [Runner REST API](https://docs.github.com/en/rest/actions/self-hosted-runners#create-configuration-for-a-just-in-time-runner-for-a-repository) |
+| Webhook delivery and job state | [workflow_job payload](https://docs.github.com/en/webhooks/webhook-events-and-payloads#workflow_job) |
+| Listener, network and job failures | [Runner troubleshooting](https://docs.github.com/en/actions/how-tos/manage-runners/self-hosted-runners/monitor-and-troubleshoot) |
+| Quota and request pacing | [REST best practices](https://docs.github.com/en/rest/using-the-rest-api/best-practices-for-using-the-rest-api) |
+| Native VM mechanics | [Tart quick start](https://tart.run/quick-start/) and [Tart source](https://github.com/cirruslabs/tart) |
+
+Use the installed version's source for implementation questions. Follow this
+with the local owner entrypoint/contract, then a changed hypothesis and the
+smallest real execution that can confirm or refute it.
+
 ## Separate provisioning, execution and acceptance
 
 GitHub routes a job by matching runner labels/groups and availability. A job
