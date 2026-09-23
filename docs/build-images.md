@@ -83,6 +83,14 @@ must be recipe inputs/steps, not checkpoint-only repairs. The generic Python
 console relocation recipe is in `recipes/python-runtime`; the consumer owns its
 package name, entry point and final destination.
 
+## Development coverage
+
+Follow [autonomous native development](native-development.md) to own the complete
+mechanical repair loop and distinguish tool qualification from current-runtime
+and real GitHub integration. The existing native qualifier checks session/tools
+and SwiftLint; it does not yet supply the complete Collab mechanical fixture.
+Do not turn that implementation gap into an acknowledgment or report gate.
+
 ## Recovering a failed attempt
 
 Read `RESULT.json`, component logs and completed receipts first. Do not overwrite

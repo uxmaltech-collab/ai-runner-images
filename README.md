@@ -98,6 +98,9 @@ The [recipe](recipes/flutter-dart/README.md) gives the paths, commands, clone re
 
 The initial Flutter precache exposed a missing builder DNS step: the public network policy excluded the inherited private DHCP resolver. Applying the installed binding's public DNS servers inside the unfinished builder restored resolution. Recovery reused the verified extraction, preserved the failed log and reran only precache/version/seal; see [the recovery procedure](docs/recovery.md#recover-flutter-precache-after-a-network-failure).
 
+For native repair ownership and the actual qualification gap, read
+[autonomous native development](docs/native-development.md).
+
 ## Reuse without repeating commissioning
 
 Reuse host commissioning and unchanged image/tool qualification when their relevant bytes and inputs are identical. A repository onboarding changes app/source/environment bindings and tests the resulting real application. A CLI/module correction should use the supported stopped-image component update instead of reinstalling Xcode. Host changes, toolchain changes and application changes have different validation scopes.
