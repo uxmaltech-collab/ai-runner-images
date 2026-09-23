@@ -2,7 +2,7 @@
 
 | Surface | Existing owner |
 | --- | --- |
-| Host SRE installer, native executor, guest/session/RPC protocol and shared control-plane contracts | `uxmaltech-collab/ai-templates-resources`, consumed through canonical pins |
+| Current Collab host SRE installer, native executor, guest/session/RPC and control-plane implementations | `uxmaltech-collab/cli`, installed through its published runtime/providers; Templates owns shared declarative instructions. Historical qualification modules retain their explicitly recorded Templates pins. |
 | All runner image recipes and toolchain installation/launch support for iOS/macOS, Android, Linux, web and future platforms; compatibility locks, artifact catalog and qualification fixtures/history | `uxmaltech-collab/ai-runner-images` |
 | Ordinary CLI/hydration, consumer journey driver and command registration | Their existing CLI/library/resource-pack owner; upstream extraction is explicit work |
 | Agent catalog, GitHub/OIDC/account references, repository environment and publication policy | Each organization's resource-pack/control-plane deployment |

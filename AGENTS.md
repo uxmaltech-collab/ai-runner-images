@@ -12,6 +12,18 @@ For Flutter iOS, the required image order is Tart macOS/Xcode/Maestro base, then
 - Keep host-specific identities, storage, endpoint and network bindings in the host owner's declaration, including APFS/keychain settings where macOS requires them. Never assume a personal shell environment is the executor's environment.
 - Preserve unrelated accounts, services, VMs, builders, original image tuples, worktrees and receipts.
 
+## Development and production adoption
+
+Follow [autonomous native development](docs/native-development.md) for an image,
+feature or mechanical-canary repair. The native owner executes and fixes the
+whole applicable mechanical path in a disposable clone; it does not wait for
+another host to report each next failure. Use production adoption for an already
+qualified generation, preserving admission control, active jobs and recovery.
+An image/tool check is not current-runtime execution or GitHub delivery. Use
+the selected release's real entrypoints and report unsupported stages honestly.
+Instruction-only changes do not trigger runtime releases, image builds or
+application pin churn. Keep one publication owner and reuse existing approval.
+
 ## Evidence and execution
 
 - Inspect recipes, locks and completed receipts before preparing replacements. Resume only unfinished steps after reconciling uncertain results; do not blindly repeat publication, VM lifecycle, UI actions or cleanup.
@@ -21,6 +33,12 @@ For Flutter iOS, the required image order is Tart macOS/Xcode/Maestro base, then
 - Select regressions by the changed surface. Reuse valid evidence for unchanged inputs; do not repeat full suites for documentation edits, transfers or handoffs.
 - Preserve failures and partial evidence. Optional narrative/media problems become explicit warnings; do not turn failed assertions into passed results or claim a different commit was tested.
 - Qualify each image in its intended unprivileged execution context. For GUI applications, build and interact with the real app in that guest/session or emulator/browser context. Independent replay reconstructs exact committed inputs in a clean execution and excludes agent credentials.
+
+After three failed attempts at the same operation, research the first error,
+actual inputs and current primary sources before another execution. Carry the
+count across releases, hosts and sessions; retries require a justified changed
+approach and remain within existing authority. See
+[the research and operational decisions](docs/github-runner-research.md).
 
 ## Secrets and artifacts
 
