@@ -97,3 +97,14 @@ Host upgrades also need an isolated lifecycle rehearsal covering the changed
 forward path, observed failed state and recovery; an image fixture does not
 replace this separate host behavior. Keep production source and service changes
 with their installed authorities and drain active jobs before replacement.
+
+## Repeated failure and research
+
+After three failed attempts at the same operation, investigate before the next
+execution; do not reset the count for a new image tag, release, host or session.
+Use the existing task record, inspect the first error and actual runtime inputs,
+consult primary documentation/source, and explain the changed diagnosis and
+next observable test. Research earlier for deterministic failures. This does
+not increase an existing retry limit or authorize replay of uncertain effects.
+See the [GitHub runner research](github-runner-research.md) for the operational
+facts behind this division of work.

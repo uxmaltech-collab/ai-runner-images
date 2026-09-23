@@ -34,6 +34,12 @@ application pin churn. Keep one publication owner and reuse existing approval.
 - Preserve failures and partial evidence. Optional narrative/media problems become explicit warnings; do not turn failed assertions into passed results or claim a different commit was tested.
 - Qualify each image in its intended unprivileged execution context. For GUI applications, build and interact with the real app in that guest/session or emulator/browser context. Independent replay reconstructs exact committed inputs in a clean execution and excludes agent credentials.
 
+After three failed attempts at the same operation, research the first error,
+actual inputs and current primary sources before another execution. Carry the
+count across releases, hosts and sessions; retries require a justified changed
+approach and remain within existing authority. See
+[the research and operational decisions](docs/github-runner-research.md).
+
 ## Secrets and artifacts
 
 - Never commit secrets, private keys, authentication sessions, raw private transcripts or customer configuration values. Use managed references and sanitized verification results.
