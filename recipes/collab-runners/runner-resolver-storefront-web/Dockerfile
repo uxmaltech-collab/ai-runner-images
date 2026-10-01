@@ -2,14 +2,11 @@
 ARG AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE
 FROM ${AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE}
 
-ARG AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE
-ARG AI_REPO_RESOURCES_BUNDLE_COMMIT
 ARG AI_REPO_RESOURCES_PLAYWRIGHT_VERSION=1.61.1
 ARG AI_REPO_RESOURCES_PLAYWRIGHT_MCP_VERSION=0.0.76
 ARG AI_REPO_RESOURCES_COREPACK_VERSION=0.35.0
 ARG AI_REPO_RESOURCES_PNPM_VERSION=11.17.0
 LABEL org.opencontainers.image.title="runner-resolver-storefront-web" \
-      org.opencontainers.image.revision="${AI_REPO_RESOURCES_BUNDLE_COMMIT}" \
       io.enviaflores.runner.profile="resolver-storefront-web" \
       io.enviaflores.runner.engine="codex" \
       io.enviaflores.runner.stack="nuxt-pnpm"
@@ -38,10 +35,7 @@ COPY recipes/collab-runners/runner-resolver-storefront-web/scripts/ef-storefront
 COPY recipes/collab-runners/runner-resolver-storefront-web/scripts/ef-storefront-web-playwright-mcp.sh /usr/local/bin/ef-storefront-web-playwright-mcp
 COPY recipes/collab-runners/runner-resolver-storefront-web/scripts/ef-storefront-web-screenshot.sh /usr/local/bin/ef-storefront-web-screenshot
 COPY --chown=runner:runner recipes/collab-runners/runner-resolver-storefront-web/stack-probe /opt/ef-storefront-web-stack-probe
-RUN test -n "${AI_REPO_RESOURCES_BUNDLE_COMMIT}" \
-    && case "${AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE}" in *@sha256:*) ;; \
-      *) echo "Agent base must be digest-qualified" >&2; exit 1 ;; esac \
-    && chmod 0755 \
+RUN chmod 0755 \
       /usr/local/bin/ef-storefront-web-stack-install \
       /usr/local/bin/ef-storefront-web-stack-probe \
       /usr/local/bin/ef-storefront-web-playwright-mcp \
@@ -74,3 +68,18 @@ USER runner
 # offline, which is what the publisher's in-image probe re-runs.
 RUN HOME=/home/runner ef-storefront-web-stack-install --project "${EF_STOREFRONT_WEB_STACK_PROBE}" \
     && HOME=/home/runner ef-storefront-web-stack-probe
+
+# Collab changes most often, so it is the last layer. The pack revision changes
+# with every publication, so it is declared only after it, and the parent digest
+# is never redeclared inside a stage: a Collab release rebuilds this layer alone
+# on top of the cached technology stack, and a pack change rebuilds nothing.
+USER root
+COPY collab-release /opt/collab-release
+RUN python3.12 /opt/collab-release/install.py install --artifacts /opt/collab-release --prefix /opt/collab/runtime \
+    && /opt/collab/runtime/bin/collab --version
+ENV PATH="/opt/collab/runtime/bin:${PATH}" \
+    ARCHIFY_PUBLISH_PYTHON=/opt/collab/runtime/bin/python \
+    ARCHIFY_UPDATE_CHECK_DISABLED=1
+ARG AI_REPO_RESOURCES_BUNDLE_COMMIT
+LABEL org.opencontainers.image.revision="${AI_REPO_RESOURCES_BUNDLE_COMMIT}"
+USER runner

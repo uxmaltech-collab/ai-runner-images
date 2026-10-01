@@ -10,7 +10,6 @@ ARG RUNNER_BASE_OS_IMAGE
 FROM ${RUNNER_BASE_OS_IMAGE}
 
 ARG RUNNER_BASE_OS_IMAGE
-ARG RUNNER_BASE_REVISION
 ARG ACTIONS_RUNNER_VERSION=2.335.1
 ARG ACTIONS_RUNNER_SHA256_AMD64
 ARG ACTIONS_RUNNER_SHA256_ARM64
@@ -28,7 +27,6 @@ ARG JIT_CONFIG_ENV=RUNNERS_PACK_JIT_CONFIG
 ARG TARGETARCH
 
 LABEL org.opencontainers.image.title="runner-base" \
-      org.opencontainers.image.revision="${RUNNER_BASE_REVISION}" \
       io.uxmaltech.runner.lineage="runner-base"
 
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -36,7 +34,6 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 RUN case "${RUNNER_BASE_OS_IMAGE}" in *@sha256:*) ;; \
       *) echo "RUNNER_BASE_OS_IMAGE must be digest-qualified" >&2; exit 1 ;; esac \
-    && test -n "${RUNNER_BASE_REVISION}" \
     && test -n "${ACTIONS_RUNNER_SHA256_AMD64}" \
     && test -n "${ACTIONS_RUNNER_SHA256_ARM64}" \
     && test -n "${ACTIONLINT_SHA256_AMD64}" \
@@ -109,3 +106,8 @@ ENV JIT_CONFIG_ENV=${JIT_CONFIG_ENV}
 
 USER runner
 ENTRYPOINT ["/entrypoint.sh"]
+
+# The pack revision changes with every publication. Declared last, it labels the
+# image without invalidating any cached layer above it.
+ARG RUNNER_BASE_REVISION
+LABEL org.opencontainers.image.revision="${RUNNER_BASE_REVISION}"

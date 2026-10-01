@@ -2,11 +2,8 @@
 ARG AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE
 FROM ${AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE}
 
-ARG AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE
-ARG AI_REPO_RESOURCES_BUNDLE_COMMIT
 ARG TARGETARCH
 LABEL org.opencontainers.image.title="runner-resolver-storefront-android" \
-      org.opencontainers.image.revision="${AI_REPO_RESOURCES_BUNDLE_COMMIT}" \
       io.enviaflores.runner.profile="resolver-storefront-android" \
       io.enviaflores.runner.engine="codex" \
       io.enviaflores.runner.stack="android-gradle-maestro"
@@ -28,10 +25,7 @@ COPY recipes/collab-runners/runner-resolver-storefront-android/scripts/install-t
 COPY recipes/collab-runners/runner-resolver-storefront-android/scripts/ef-storefront-android-emulator.py /usr/local/bin/ef-storefront-android-emulator
 COPY recipes/collab-runners/runner-resolver-storefront-android/scripts/ef-storefront-android-stack-probe.sh /usr/local/bin/ef-storefront-android-stack-probe
 COPY recipes/collab-runners/runner-resolver-storefront-android/scripts/entrypoint-android.py /usr/local/bin/entrypoint-android
-RUN test -n "${AI_REPO_RESOURCES_BUNDLE_COMMIT}" \
-    && case "${AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE}" in *@sha256:*) ;; \
-      *) echo "Agent base must be digest-qualified" >&2; exit 1 ;; esac \
-    && test "${TARGETARCH:-$(dpkg --print-architecture)}" = amd64 \
+RUN test "${TARGETARCH:-$(dpkg --print-architecture)}" = amd64 \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
       libasound2t64 libdbus-1-3 libfontconfig1 libfreetype6 libgl1 libglu1-mesa \
@@ -49,6 +43,22 @@ USER runner
 # An offline toolchain check; the authorized E2E proves KVM, staging build,
 # authentication and the journey. No app sources or credentials enter this image.
 RUN --network=none HOME=/home/runner ef-storefront-android-stack-probe
+
+# Collab changes most often, so it is the last layer. The pack revision changes
+# with every publication, so it is declared only after it, and the parent digest
+# is never redeclared inside a stage: a Collab release rebuilds this layer alone
+# on top of the cached technology stack, and a pack change rebuilds nothing.
+USER root
+COPY collab-release /opt/collab-release
+RUN python3.12 /opt/collab-release/install.py install --artifacts /opt/collab-release --prefix /opt/collab/runtime \
+    && /opt/collab/runtime/bin/collab --version
+ENV PATH="/opt/collab/runtime/bin:${PATH}" \
+    ARCHIFY_PUBLISH_PYTHON=/opt/collab/runtime/bin/python \
+    ARCHIFY_UPDATE_CHECK_DISABLED=1
+ARG AI_REPO_RESOURCES_BUNDLE_COMMIT
+LABEL org.opencontainers.image.revision="${AI_REPO_RESOURCES_BUNDLE_COMMIT}"
+USER runner
+
 # The bootstrap adds only the mapped device group and immediately execs the
 # inherited /entrypoint.sh as UID/GID 1001, preserving no-new-privileges.
 USER root
