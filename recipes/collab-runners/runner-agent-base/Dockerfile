@@ -1,6 +1,9 @@
 # syntax=docker/dockerfile:1.7
 # runner-agent-base — runner-base plus the three agent harnesses (Claude Code,
-# Codex CLI, Grok CLI) and the separately pinned Collab Python runtime. One image serves every resolver profile; the
+# Codex CLI, Grok CLI), Python 3.12 and the browser runtime: the technology
+# stack, which changes rarely. It carries no Collab runtime: each leaf image
+# installs Collab as its last layer, so a Collab release rebuilds only that
+# layer and every stack layer stays cached. One image serves every resolver profile; the
 # control plane's catalog decides which harness a profile invokes and which
 # auth seed it receives, so the image itself excludes nothing.
 ARG RUNNER_BASE_IMAGE
@@ -8,8 +11,6 @@ ARG PYTHON_BASE_IMAGE=docker.io/library/python@sha256:78387bc3881b8273120a12ebe6
 FROM ${PYTHON_BASE_IMAGE} AS collab-python
 FROM ${RUNNER_BASE_IMAGE} AS agents
 
-ARG RUNNER_BASE_IMAGE
-ARG RUNNER_BASE_REVISION
 ARG CLAUDE_CODE_VERSION=2.1.251
 ARG CODEX_CLI_VERSION=0.151.0
 ARG GROK_CLI_VERSION=1.0.13
@@ -17,7 +18,6 @@ ARG GROK_CLI_VERSION=1.0.13
 # its checksum (the script changes upstream without notice).
 ARG GROK_INSTALLER_SHA256
 LABEL org.opencontainers.image.title="runner-agent-base" \
-      org.opencontainers.image.revision="${RUNNER_BASE_REVISION}" \
       io.uxmaltech.runner.engines="claude,codex,grok" \
       io.uxmaltech.runner.lineage="runner-base,runner-agent-base" \
       io.uxmaltech.runner.engine.claude.version="${CLAUDE_CODE_VERSION}" \
@@ -28,12 +28,7 @@ LABEL org.opencontainers.image.title="runner-agent-base" \
 ENV DISABLE_AUTOUPDATER=1
 
 USER root
-RUN case "${RUNNER_BASE_IMAGE}" in *@sha256:*) ;; \
-      *) echo "RUNNER_BASE_IMAGE must be digest-qualified" >&2; exit 1 ;; esac || \
-    { echo "RUNNER_BASE_IMAGE must be digest-qualified" >&2; exit 1; }; \
-    test -n "${RUNNER_BASE_REVISION}" || \
-    { echo "RUNNER_BASE_REVISION is required" >&2; exit 1; }; \
-    test -n "${GROK_INSTALLER_SHA256}" || \
+RUN test -n "${GROK_INSTALLER_SHA256}" || \
     { echo "GROK_INSTALLER_SHA256 is required" >&2; exit 1; }; \
     command -v npm >/dev/null || \
     { echo "runner-base must provide npm" >&2; exit 1; }; \
@@ -51,15 +46,10 @@ RUN npm install --global "@anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}" "@op
     && codex --version \
     && grok --version
 
-# One verified Collab distribution supplies the CLI and Archify Python runtime.
+# Python 3.12 for the Collab runtime each leaf image installs last.
 COPY --from=collab-python /usr/local/ /usr/local/
 ARG PYTHON_BASE_IMAGE
 RUN case "${PYTHON_BASE_IMAGE}" in *@sha256:*) ;; *) exit 1 ;; esac && ldconfig && python3.12 -c "import sys; assert sys.version_info[:2] == (3, 12)"
-COPY collab-release /opt/collab-release
-RUN python3.12 /opt/collab-release/install.py install --artifacts /opt/collab-release --prefix /opt/collab/runtime
-ENV PATH="/opt/collab/runtime/bin:${PATH}" \
-    ARCHIFY_PUBLISH_PYTHON=/opt/collab/runtime/bin/python \
-    ARCHIFY_UPDATE_CHECK_DISABLED=1
 
 # One browser runtime is inherited by every flavor. Its pinned Playwright
 # release selects Chromium; the same executable supports direct Archify checks.
@@ -107,6 +97,11 @@ RUN set -eux; \
 
 USER runner
 
-# The final image inherits the common installed runtime; no organization code.
+# The final image carries the stack only; no Collab runtime and no organization code.
 FROM agents AS consumer
-RUN collab --version
+RUN python3.12 -c "import sys; assert sys.version_info[:2] == (3, 12)" && claude --version && codex --version && grok --version
+
+# The pack revision changes with every publication. Declared last, it labels the
+# image without invalidating any cached layer above it.
+ARG RUNNER_BASE_REVISION
+LABEL org.opencontainers.image.revision="${RUNNER_BASE_REVISION}"

@@ -1,8 +1,12 @@
 # Collab runner recipe adoption
 
 These current Linux toolchain recipes were extracted from the source recorded in
-extraction.json. The combined agent base consumes one exact Collab release
-prepared as `collab-release` in the build context. No resource package supplies
+extraction.json. The combined agent base carries the technology stack only.
+Every leaf image installs one exact Collab release, prepared as `collab-release`
+in the build context, as its last layer, and declares the arguments that change
+with every publication (its parent digest and the pack revision) only after the
+stack layers, so a Collab release rebuilds one layer per leaf on top of the
+cached stack. No resource package supplies
 executable code or a local CLI. Browser and agent toolchains remain external
 dependencies with their existing pins. No image has been built or promoted by
 this change. Recipes require their own Linux qualification after adoption.
