@@ -58,3 +58,7 @@ fixed platform backends, documented in `docs/build-images.md`. Checkpoint script
 are historical evidence, not build dependencies. Keep the source commit, pinned
 parent, local artifact and qualification results distinct. Local Mac images are
 permitted; remote publication is not a prerequisite for source reconstruction.
+
+## Organization-agnostic source of truth
+
+This runner-image repository is a source of truth shared by every organization that adopts it. Its versioned content, its issues and its pull requests know no organization: no organization name, host name, account identifier, cloud region, repository name, environment-variable name, nor a cloud or vendor product used as a concept of the design. Examples use placeholders such as `<organization>/<repository>`, `<host>`, `<listener-id>` or `__PLACEHOLDER__`. An organization's facts live in that organization's own repositories (its canon declarations, its resource packs, its infrastructure) and reach this code only through declarations and configuration read at runtime. A change that needs an organization's fact to make sense belongs in that organization's repository, not here. Product names of harnesses and tools (Codex, Claude Code, Grok Build, GitHub) are allowed where the code or document is about that product.
