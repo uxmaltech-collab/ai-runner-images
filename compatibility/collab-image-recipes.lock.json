@@ -39,7 +39,7 @@
     "recipes/collab-runners/runner-resolver-storefront-web/stack-probe/pnpm-lock.yaml": "d8fe6eacc251d1a4878a6e2e93be4d76e17734aa8999b311ac3de0fdccc417fa",
     "recipes/native-runtime/guest-agent-host-only.patch": "979994e0df2f9d08d4efc27dba4105863691cb4451fd95010345bce273b081b9",
     "recipes/native-runtime/vsock-host-only-probe.c": "5be09429c7a64a8883801dce8892d9d49d698a4074c2d14c984945de410dde33",
-    "recipes/templates/agent-base/Dockerfile": "1498164a02dc170a15b4526a214c60b2f0c7347c72c37889e008cc1f6e1442a5",
+    "recipes/templates/agent-base/Dockerfile": "eca80e981c0376ae8090fb0ea052c4ca5db09b921355a816b75eef44261f06ec",
     "recipes/templates/agent-base/flavors/EXAMPLE.Dockerfile": "0f3b3dc5802330655a034bfe59f4846c06e534b579b616a6ea411304779a1e0c",
     "recipes/templates/runner-agent-base/Dockerfile": "5c5dee44692a318abf3d5f22561ec82a310088352f9e60b66c28654790e43592",
     "recipes/templates/runner-base/Dockerfile": "3e42ad428b2e00eae78692b4b87a9a30cb9b1ed5cf96a72cd07004354c053fd3",

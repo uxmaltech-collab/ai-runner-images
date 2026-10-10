@@ -11,18 +11,18 @@
 # Every download is version-pinned by build argument and digest-verified; the
 # base OS image is digest-qualified. Override the ARG defaults to bump.
 ARG PYTHON_BASE_IMAGE=docker.io/library/python@sha256:78387bc3881b8273120a12ebe6c1ab22b018ccc2c9adf565ae1ac9b536e184ea
+ARG AGENT_BASE_OS_IMAGE=node:22-trixie@sha256:2082d2bf902c8835655c6bcfee3594c00ea900498a9f6e2b96d3352536f9e8d8
 FROM ${PYTHON_BASE_IMAGE} AS collab-python-runtime
 
-ARG AGENT_BASE_OS_IMAGE=node:22-trixie@sha256:2082d2bf902c8835655c6bcfee3594c00ea900498a9f6e2b96d3352536f9e8d8
 FROM ${AGENT_BASE_OS_IMAGE}
 COPY --from=collab-python-runtime /usr/local/ /usr/local/
 RUN ldconfig && python3.12 --version
 
 ARG AGENT_BASE_OS_IMAGE
 ARG AGENT_BASE_REVISION=unknown
-ARG CLAUDE_CODE_VERSION=2.1.251
-ARG CODEX_CLI_VERSION=0.151.0
-ARG GROK_CLI_VERSION=1.0.13
+ARG CLAUDE_CODE_VERSION=2.1.296
+ARG CODEX_CLI_VERSION=0.162.1
+ARG GROK_CLI_VERSION=1.0.50
 ARG GROK_INSTALLER_SHA256=7fd6fdc75d9418b2e58356726fcbf1ae849416f773925da07d0ccc7a60d3e791
 ARG GH_VERSION=2.96.0
 ARG GH_SHA256_AMD64=83d5c2ccad5498f58bf6368acb1ab32588cf43ab3a4b1c301bf36328b1c8bd60
