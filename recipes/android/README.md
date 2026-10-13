@@ -16,6 +16,14 @@ with no-new-privileges. Code-only resolve works without KVM. Visual resolve and 
 and owns a temporary AVD; it refuses an existing emulator and records cleanup.
 The offline probe proves tool launch only, never staging or customer acceptance.
 
+When the controller mounts a tool seed (`COLLAB_TOOL_SEED`), the entrypoint
+also lets a job run the repository's Gradle wrapper without the network. It
+creates a Gradle home under `/tmp`, which a sandboxed command may write, with
+only the wrapper's marker and a link to the seed's distribution, and exports
+`GRADLE_USER_HOME` and `GRADLE_RO_DEP_CACHE`. The seed stays read-only and is
+never part of the image. A seed the entrypoint cannot use changes nothing and
+is reported on standard error; the job then needs the network.
+
 `extraction.json` maps the previously exercised consumer implementation to this
 neutral namespace. Algorithm bodies and lock bytes are preserved. App driver,
 credentials, flows and profile declarations stay downstream. The retained consumer

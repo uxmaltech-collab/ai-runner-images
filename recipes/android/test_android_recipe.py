@@ -249,3 +249,39 @@ def test_compile_and_sdk36_test_java_are_distinct_locked_runtimes():
     assert '/opt/java /usr/lib/jvm/temurin-21 /opt/maestro' in dockerfile
     probe = (IMAGE / 'scripts/runner-android-stack-probe.sh').read_text()
     assert '"$JAVA21_HOME/bin/java" -version' in probe
+
+
+def tool_seed(root, **gradle):
+    """A seed as a rollout leaves it: the manifest, an unpacked distribution and a dependency cache."""
+    (root / 'gradle' / 'distribution' / 'gradle-8.13' / 'bin').mkdir(parents=True)
+    (root / 'gradle' / 'distribution' / 'gradle-8.13' / 'bin' / 'gradle').write_text('#!/bin/sh\n')
+    (root / 'gradle' / 'ro-dep-cache' / 'modules-2').mkdir(parents=True)
+    (root / 'manifest.json').write_text(json.dumps({'gradle': {
+        'wrapper_directory': 'gradle-8.13-bin/5xuhj0ry160q40clulazy9h7d', 'archive_name': 'gradle-8.13-bin.zip',
+        'distribution': 'gradle/distribution/gradle-8.13', 'ro_dep_cache': 'gradle/ro-dep-cache', **gradle}}))
+    return root
+
+
+def test_a_tool_seed_gives_the_wrapper_a_writable_home_that_points_at_the_read_only_seed(tmp_path):
+    seed, home = tool_seed(tmp_path / 'seed'), tmp_path / 'tmp' / 'gradle-home'
+    home.parent.mkdir()
+    environment = entrypoint.gradle_seed_environment(seed, home=home, owner=(os.getuid(), os.getgid()))
+    assert environment == {'GRADLE_USER_HOME': str(home), 'GRADLE_RO_DEP_CACHE': str(seed / 'gradle' / 'ro-dep-cache')}
+    kept = home / 'wrapper' / 'dists' / 'gradle-8.13-bin' / '5xuhj0ry160q40clulazy9h7d'
+    # What the Gradle wrapper asks before it downloads: its marker and exactly one distribution directory.
+    assert (kept / 'gradle-8.13-bin.zip.ok').is_file()
+    assert [entry.name for entry in kept.iterdir() if entry.is_dir()] == ['gradle-8.13']
+    assert (kept / 'gradle-8.13').resolve() == (seed / 'gradle' / 'distribution' / 'gradle-8.13').resolve()
+    assert sorted(path.name for path in home.rglob('*') if path.is_file() and not path.is_symlink()) == ['gradle-8.13-bin.zip.ok']
+
+
+@pytest.mark.parametrize('broken', [
+    {'ro_dep_cache': 'gradle/absent'}, {'distribution': 'gradle/absent'},
+    {'wrapper_directory': '../../outside'}, {'archive_name': 'a/b.zip'},
+])
+def test_a_seed_the_image_cannot_use_changes_nothing_and_says_so(tmp_path, capsys, broken):
+    home = tmp_path / 'gradle-home'
+    assert entrypoint.gradle_seed_environment(tool_seed(tmp_path / 'seed', **broken), home=home,
+                                              owner=(os.getuid(), os.getgid())) == {}
+    assert 'tool seed not used' in capsys.readouterr().err and not home.exists()
+    assert entrypoint.gradle_seed_environment(tmp_path / 'no-seed', home=home) == {}
