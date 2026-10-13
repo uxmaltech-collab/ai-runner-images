@@ -51,6 +51,16 @@ No privileged container, host networking, Docker socket or published emulator
 port is required. Actual KVM boot, app build, authenticated agent and journey
 remain part of the separately authorized E2E, not claims of the static probe.
 
+When the controller mounts a tool seed (`COLLAB_TOOL_SEED`), the entrypoint
+also lets a job run the repository's Gradle wrapper without the network. It
+creates a Gradle home under `/tmp`, which a sandboxed command may write, with
+only the wrapper's marker and a link to the seed's distribution, and exports
+`GRADLE_USER_HOME` and `GRADLE_RO_DEP_CACHE`. The seed stays read-only and is
+never part of the image. A seed the entrypoint cannot use changes nothing and
+is reported on standard error; the job then needs the network. This is the
+entrypoint the published image runs: keep it byte-identical to
+`recipes/android/scripts/entrypoint-android.py`.
+
 Official tool contracts: [SDK manager](https://developer.android.com/tools/sdkmanager),
 [emulator command line](https://developer.android.com/studio/run/emulator-commandline),
 [acceleration](https://developer.android.com/studio/run/emulator-acceleration),
