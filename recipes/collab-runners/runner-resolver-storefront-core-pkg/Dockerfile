@@ -16,6 +16,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
       autoconf build-essential pkg-config libcurl4-openssl-dev libicu-dev \
       libonig-dev libsqlite3-dev libssl-dev libxml2-dev libzip-dev zlib1g-dev \
+      libpng-dev libjpeg-dev libwebp-dev \
     && curl -fsSL "https://www.php.net/distributions/php-${PHP_VERSION}.tar.xz" -o /tmp/php.tar.xz \
     && echo "${PHP_SOURCE_SHA256}  /tmp/php.tar.xz" | sha256sum -c - \
     && mkdir /tmp/php-source \
@@ -25,7 +26,7 @@ RUN apt-get update \
       --with-config-file-scan-dir=/opt/php/etc/conf.d --disable-cgi --disable-phpdbg \
       --without-pear --with-openssl --with-zlib --with-curl --enable-bcmath \
       --enable-intl --enable-mbstring --enable-pcntl --with-pdo-sqlite \
-      --with-sqlite3 --with-zip \
+      --with-sqlite3 --with-zip --enable-gd --with-jpeg --with-webp \
     && make -j4 \
     && make install \
     && mkdir -p /opt/php/etc/conf.d \
@@ -53,7 +54,7 @@ USER root
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
       openssh-client rsync zip libcurl4t64 libicu78 libonig5 libsqlite3-0 \
-      libssl3t64 libxml2-16 libzip5 zlib1g \
+      libssl3t64 libxml2-16 libzip5 zlib1g libpng16-16t64 libjpeg-turbo8 libwebp7 \
     && rm -rf /var/lib/apt/lists/*
 COPY --from=php-build /opt/php /opt/php
 # Login shells used by the harness reset PATH; expose the same PHP there too.
