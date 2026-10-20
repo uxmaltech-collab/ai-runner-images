@@ -62,6 +62,27 @@ of identical OCI bytes: upstream APT/npm transitive inputs are not snapshot-lock
 Restoring the preserved archive does require the original image ID and layers.
 Keep these two reproducibility claims distinct.
 
+## Swift package cache for the resolver image
+
+The collab runner image a macOS executor runs (`macos_host image-build` in
+Collab infra 0.3.156 or later) accepts `--cache-tree <directory>`: a tree the
+host prepared that the image carries at `/opt/collab/cache`. For an iOS
+resolver, warm it on the build host with the host's Xcode and the app's
+checkout before the build:
+
+```sh
+python3 -m collab_infra.runners.spm_cache --project /path/to/App.xcodeproj \
+  --output /private/image-cache --developer-dir /Applications/Xcode.app/Contents/Developer
+```
+
+`spm_cache` resolves the project's Swift packages once into `<output>/spm`,
+the directory a job's `xcodebuild -packageCachePath` reads, and records the
+`Package.resolved` digest in `<output>/receipt.json`. A validator or an agent in
+the guest that passes `-packageCachePath /opt/collab/cache/spm` then resolves
+and fetches nothing from the network. The cache is public tool and dependency
+bytes only; it holds no credential, no app source and no derived build. Warm it
+again when `Package.resolved` changes, and rebuild the image to carry it.
+
 ## Native composition contract
 
 The backend interface is `build(inputs, work, root, commit, *, profile)` and
