@@ -11,12 +11,16 @@ ARG PYTHON_BASE_IMAGE=docker.io/library/python@sha256:78387bc3881b8273120a12ebe6
 FROM ${PYTHON_BASE_IMAGE} AS collab-python
 FROM ${RUNNER_BASE_IMAGE} AS agents
 
-ARG CLAUDE_CODE_VERSION=2.1.251
-ARG CODEX_CLI_VERSION=0.151.0
-ARG GROK_CLI_VERSION=1.0.13
-# The x.ai installer script has no version pin of its own; the consumer pins
-# its checksum (the script changes upstream without notice).
-ARG GROK_INSTALLER_SHA256
+# The exact harness pins have no default here: the consumer passes the
+# Templates canon class's compatibility/harness-pins.yaml (collab.harness-pins/v1)
+# as build arguments, and a build without them stops. Grok is the vendor's
+# versioned Linux binary, verified against its per-architecture digest.
+ARG CLAUDE_CODE_VERSION
+ARG CODEX_CLI_VERSION
+ARG GROK_CLI_VERSION
+ARG GROK_SHA256_AMD64
+ARG GROK_SHA256_ARM64
+ARG TARGETARCH
 LABEL org.opencontainers.image.title="runner-agent-base" \
       io.uxmaltech.runner.engines="claude,codex,grok" \
       io.uxmaltech.runner.lineage="runner-base,runner-agent-base" \
@@ -28,23 +32,29 @@ LABEL org.opencontainers.image.title="runner-agent-base" \
 ENV DISABLE_AUTOUPDATER=1
 
 USER root
-RUN test -n "${GROK_INSTALLER_SHA256}" || \
-    { echo "GROK_INSTALLER_SHA256 is required" >&2; exit 1; }; \
+RUN for pin in "${CLAUDE_CODE_VERSION}" "${CODEX_CLI_VERSION}" "${GROK_CLI_VERSION}" "${GROK_SHA256_AMD64}" "${GROK_SHA256_ARM64}"; do \
+      test -n "${pin}" || { echo "the harness pins are build arguments of compatibility/harness-pins.yaml" >&2; exit 1; }; \
+    done; \
     command -v npm >/dev/null || \
     { echo "runner-base must provide npm" >&2; exit 1; }; \
     node -e 'process.exit(Number(process.versions.node.split(".")[0]) >= 20 ? 0 : 1)' || \
     { echo "runner-base must provide Node.js 20 or newer for the npm harnesses" >&2; exit 1; }
-RUN npm install --global "@anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}" "@openai/codex@${CODEX_CLI_VERSION}" \
-    && npm cache clean --force \
-    && curl -fsSL https://x.ai/cli/install.sh -o /tmp/install-grok.sh \
-    && echo "${GROK_INSTALLER_SHA256}  /tmp/install-grok.sh" | sha256sum -c - \
-    && install -d -m 0755 /opt/grok \
-    && HOME=/opt/grok GROK_BIN_DIR=/usr/local/bin bash /tmp/install-grok.sh "${GROK_CLI_VERSION}" \
-    && rm -f /tmp/install-grok.sh \
-    && chmod -R a+rX /opt/grok \
-    && claude --version \
-    && codex --version \
-    && grok --version
+RUN set -eux; \
+    case "${TARGETARCH:-$(dpkg --print-architecture)}" in \
+      amd64) grok_platform=linux-x86_64; grok_sha="${GROK_SHA256_AMD64}" ;; \
+      arm64) grok_platform=linux-aarch64; grok_sha="${GROK_SHA256_ARM64}" ;; \
+      *) echo "unsupported harness architecture" >&2; exit 1 ;; \
+    esac; \
+    npm install --global "@anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}" "@openai/codex@${CODEX_CLI_VERSION}"; \
+    npm cache clean --force; \
+    curl -fsSL "https://x.ai/cli/grok-${GROK_CLI_VERSION}-${grok_platform}" -o /tmp/grok \
+      || curl -fsSL "https://storage.googleapis.com/grok-build-public-artifacts/cli/grok-${GROK_CLI_VERSION}-${grok_platform}" -o /tmp/grok; \
+    echo "${grok_sha}  /tmp/grok" | sha256sum -c -; \
+    install -m 0755 /tmp/grok /usr/local/bin/grok; \
+    rm -f /tmp/grok; \
+    claude --version; \
+    codex --version; \
+    grok --version | grep -F "${GROK_CLI_VERSION}"
 
 # Python 3.12 for the Collab runtime each leaf image installs last.
 COPY --from=collab-python /usr/local/ /usr/local/
