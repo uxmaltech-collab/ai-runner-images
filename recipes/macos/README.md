@@ -17,12 +17,13 @@ The backend uses `scripts/tart-layer.py` for APFS clone, boot, bounded root RPC,
     "sha256": "<64 hexadecimal characters>",
     "layer": "macos-xcode-maestro"
   },
+  "harness_pins": "/absolute/consumer-pack/compatibility/harness-pins.yaml",
   "artifacts": {
     "swiftlint": "/absolute/offline/portable_swiftlint.zip",
     "codex": "/absolute/offline/codex",
     "codex_companion": "/absolute/offline/codex-code-mode-host",
-    "claude": "/absolute/offline/claude-2.1.266-darwin-arm64",
-    "grok": "/absolute/offline/grok-1.0.24-macos-aarch64"
+    "claude": "/absolute/offline/claude-<version>-darwin-arm64",
+    "grok": "/absolute/offline/grok-<version>-macos-aarch64"
   },
   "git": "/absolute/usable/git",
   "qualification": {
@@ -32,9 +33,11 @@ The backend uses `scripts/tart-layer.py` for APFS clone, boot, bounded root RPC,
 }
 ```
 
+`harness_pins` is required for every profile and parent: it is the consumer resource pack's adopted `collab.harness-pins/v2` document, the one declaration of the exact harness releases. The backend refuses another schema or a document without the `darwin-arm64` digests of `claude`, `codex`, its `codex-code-mode-host` companion and `grok` before any VM exists, stages the exact bytes in the guest payload at `recipes/agent-build/harness-pins.yaml` (never in the checkout) and records its identity in the result. The agent recipe installs or verifies from that staged copy; `<version>` in the artifact names above is the pinned version.
+
 Paths are host inputs, not values to copy unchanged onto another host. They contain no secrets. The binding has the fields documented by `scripts/tart-layer.py`: actual user/UID/GID, Tart executable/home, child HOME, PATH, CPU, memory, network arguments and optional DNS. No identity or resource assignment is invented by the backend.
 
-The logical stack is **macOS/Xcode/Simulator/Java/Maestro/SwiftLint → Codex + Claude + Grok-build together → Flutter/Dart**. A `shared-agent-build` parent reuses all four locked agent binaries and requires only `swiftlint` for iOS. Flutter from a base or agent parent additionally requires `artifacts.flutter`, the locked official SDK zip. A `flutter-dart-ios` parent reuses its locked SDK and precache receipts and requires only `swiftlint`; it is accepted only for `macos-flutter`. Reuse verifies installed locks, executable hashes, launchers and the full physical parent tuple. An overlay on an existing Flutter image adds the missing base capability without claiming to have rebuilt its earlier layers.
+The logical stack is **macOS/Xcode/Simulator/Java/Maestro/SwiftLint → Codex + Claude + Grok-build together → Flutter/Dart**. A `shared-agent-build` parent reuses all four agent binaries and requires only `swiftlint` for iOS, when its installed harness pins receipt pins the same versions and digests as the staged document. Flutter from a base or agent parent additionally requires `artifacts.flutter`, the locked official SDK zip. A `flutter-dart-ios` parent reuses its locked SDK and precache receipts and requires only `swiftlint`; it is accepted only for `macos-flutter`. Reuse verifies installed locks, executable hashes, launchers and the full physical parent tuple. An overlay on an existing Flutter image adds the missing base capability without claiming to have rebuilt its earlier layers.
 
 Every supplied archive/binary is verified again by its owning recipe inside the guest. Nothing is downloaded by the native backend. The Flutter recipe may fetch the declared iOS precache through the approved network policy; completed Flutter parents reuse that evidence. Both profiles receive the same SwiftLint binary, LICENSE, protected launcher and explicit runtime PATH. A mismatch preserves the prior image and failed derivative for reconciliation.
 
@@ -46,7 +49,7 @@ On a new Mac, the host's canonical `image_build` operation owns obtaining the Ap
 
 The existing owner's [Immutable macOS guest candidate contract](https://github.com/enviaflores/ai-repo-resources/blob/33a563c935e92f4d94981e11bafd1af6069b947f/runners/control-plane/macos-image/README.md) lists the required macOS manifest/build, Xcode archive checksum, Simulator runtime, Java/Maestro and RPC provenance. Its [Offline disposable-guest installer candidate instructions](https://github.com/enviaflores/ai-repo-resources/blob/33a563c935e92f4d94981e11bafd1af6069b947f/runners/control-plane/macos-image/INSTALLER.md) define the reviewed `plan`, `stage`, reboot and `finalize` sequence. Those operations consume already supplied artifacts; they do not obtain Apple credentials or prove a fresh-machine restoration. On this host, the reusable local parent is `uxmal-macos-xcode-maestro-v3-20260916`, manifest `2a77a0c4faed3dcbf9524d6c9238eddaa1cddce0af9b130f8f0577d76d69eceb`. Its retained toolchain is macOS26.6.2 build25G83, Xcode26.5 build17F42 and iOS26.5 build23F77. The private handoff supplies the absolute tuple and manifest locations; the backend verifies their bytes before cloning.
 
-For the retained legacy prepack builder, first take a stopped COW copy with `scripts/tart-layer.py`, then follow `recipes/macos-xcode-maestro/README.md`: run its existing `neutralize.py` and `install-rpc.py` **inside the copy**, export their receipts, normally stop and seal it. The RPC bytes come from their canonical owner, not this repository. Do not point this backend at a consumer-specific executor image and call it neutral. Fresh Apple installation remains an explicit external prerequisite; this backend starts at the declared measured parent.
+For the retained legacy prepack builder, first take a stopped COW copy with `scripts/tart-layer.py`, then follow `recipes/macos-xcode-maestro/README.md`: run its existing `neutralize.py` (with its dated `--record`) and `install-rpc.py` **inside the copy**, export their receipts, normally stop and seal it. The RPC bytes come from their canonical owner, not this repository. Do not point this backend at a consumer-specific executor image and call it neutral. Fresh Apple installation remains an explicit external prerequisite; this backend starts at the declared measured parent.
 
 There is no configured remote artifact store. Final images remain on the host, `distribution=local-only`, `runtime_admission=false`, `remote_restore_verified=false`. A recipe commit is not a disk digest or a successful restore. Copying/admitting an image and changing a consumer pin remain separately owned operations.
 
@@ -92,7 +95,7 @@ CLI console relocation belongs to the consumer's existing image preparation owne
 
 `DEADLINES.json` records the actual tar size and the selected outer and component deadlines. Staging allows 120 seconds plus one second per 2 MiB of payload for transfer, extraction and verification; this is a conservative allowance, not a claimed measured rate. Installation allows the sum of selected component budgets plus 300 seconds for inherited-tool checks and receipt work. SwiftLint and the combined agent recipe each receive 300 seconds. Flutter's owning installer exposes its six step deadlines (2,280 seconds total) plus 600 seconds for archive inspection and SDK inventory; both the guest and host use that same budget. A full Flutter build therefore allows 3,780 seconds for installation. An unchanged Flutter overlay allows 600 seconds and transfers no SDK or agent binaries.
 
-`host.py` owns shared packing, hashes and the owner client. `stage_payload.py` contains the guest staging program. The disposable session policy and its configuration program live beside the existing `qualification-session` adapter; the policy declares fixture identities, Python compatibility and PATH. Session source identity comes from the verified payload and SwiftLint's version comes from its pin. Installer functions define launchers and layouts, so inherited-tool verification checks the same bytes as fresh installation.
+`host.py` owns shared packing, hashes and the owner client. `stage_payload.py` contains the guest staging program. The disposable session policy and its configuration program live beside the existing `qualification-session` adapter; the policy declares fixture identities, Python compatibility and PATH. Session source identity comes from the verified payload and SwiftLint's version comes from its pin. Installer functions define launchers, layouts and the reading of the harness pins, so inherited-tool verification checks the same bytes as fresh installation.
 
 Focused regressions (use importlib mode because independent recipes share test filenames):
 

@@ -22,8 +22,10 @@ PROFILES = ('macos-ios', 'macos-flutter')
 def validate(inputs, profile):
     if profile not in PROFILES or inputs.get('schema_version') != 1:
         raise ValueError('Unsupported native profile or input schema')
-    if set(inputs) - {'schema_version', 'name', 'binding', 'parent', 'artifacts', 'git', 'qualification'}:
+    if set(inputs) - {'schema_version', 'name', 'binding', 'parent', 'harness_pins', 'artifacts', 'git', 'qualification'}:
         raise ValueError('Unknown native build inputs')
+    if not isinstance(inputs.get('harness_pins'), str):
+        raise ValueError('Provide harness_pins: the consumer pack\'s adopted compatibility/harness-pins.yaml')
     if not re.fullmatch(r'[a-z][a-z0-9-]{2,60}', inputs['name']):
         raise ValueError('Use a unique lowercase native build name')
     parent = inputs['parent']
@@ -44,7 +46,7 @@ def validate(inputs, profile):
     if (set(qualification) != {'source_checkout', 'source_kind'}
             or qualification['source_kind'] not in ('templates', 'consumer')):
         raise ValueError('Declare the existing locked canonical session source')
-    for value in [inputs['binding'], parent['directory'], parent['manifest'],
+    for value in [inputs['binding'], parent['directory'], parent['manifest'], inputs['harness_pins'],
                   qualification['source_checkout'], *inputs['artifacts'].values()]:
         if not Path(value).is_absolute():
             raise ValueError('Native input locations must be absolute')
@@ -60,18 +62,31 @@ def qualify_artifact(root, work, inputs):
                           source['source_checkout'], inputs.get('git', 'git'), source['source_kind'])
 
 
-def payload(root, work, artifacts):
-    """Stage only versioned recipe bytes and explicitly supplied locked artifacts."""
+def agent_installer(root):
+    spec = importlib.util.spec_from_file_location('native_agent_installer', root / 'recipes/agent-build/install.py')
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def payload(root, work, artifacts, harness_pins):
+    """Stage only versioned recipe bytes, the adopted harness pins and explicitly supplied locked artifacts."""
     entries = {}
     for directory in ('macos', 'macos-xcode-maestro/swiftlint', 'agent-build', 'flutter-dart'):
         for path in (root / 'recipes' / directory).rglob('*'):
             if path.is_file() and not path.is_symlink() and '__pycache__' not in path.parts:
                 if path.suffix in ('.py', '.json', '.swift', '.yml') and not path.name.startswith('test_'):
                     entries[path.relative_to(root).as_posix()] = path
-    pins = json.loads((root / 'recipes/agent-build/pins.json').read_text())
-    names = {'codex': pins['codex']['binary']['installed_name'],
-             'codex_companion': pins['codex']['companion']['installed_name'],
-             'claude': pins['claude']['file'], 'grok': pins['grok']['file'],
+    agents = agent_installer(root)
+    document = Path(harness_pins)
+    if not stat.S_ISREG(document.lstat().st_mode):
+        raise ValueError('harness_pins must be a regular file')
+    # Refuse another schema or a missing digest before any VM exists.
+    _, pins = agents.read_pins(document)
+    entries['recipes/agent-build/' + agents.PINS_NAME] = document
+    versioned = agents.input_names(pins)
+    names = {'codex': versioned['codex/codex'], 'codex_companion': versioned['codex/codex-code-mode-host'],
+             'claude': versioned['claude/claude'], 'grok': versioned['grok/grok'],
              'swiftlint': 'portable_swiftlint.zip', 'flutter': 'flutter.zip'}
     for name, source in artifacts.items():
         path = Path(source)
@@ -133,14 +148,15 @@ def build(inputs, work, root, commit, *, profile):
             raise ValueError(f'Parent tuple differs from manifest: {name}')
         before[name] = (info.st_ino, info.st_size, info.st_mtime_ns)
     write(work / 'PARENT-VERIFIED.json', {'physical_parent': parent, 'files': files, 'metadata': before})
-    archive = payload(root, work, inputs['artifacts'])
+    archive = payload(root, work, inputs['artifacts'], inputs['harness_pins'])
     deadlines = {'stage_seconds': stage_budget(archive.stat().st_size),
                  **install_budget(profile, parent['layer'])}
     write(work / 'DEADLINES.json', {'payload_bytes': archive.stat().st_size, **deadlines})
     owner = Owner(root, work, work / 'binding.json', inputs['name'])
     stage = '/opt/ai-runner-build-' + inputs['name']
     result = {'schema_version': 1, 'profile': profile, 'recipe_commit': commit,
-              'physical_parent': parent, 'status': 'started', 'distribution': 'local-only',
+              'physical_parent': parent, 'harness_pins': file_ref(inputs['harness_pins']),
+              'status': 'started', 'distribution': 'local-only',
               'runtime_admission': False, 'remote_restore_verified': False,
               'qualification': 'pending-disposable-nonadministrator-session',
               'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}

@@ -92,8 +92,8 @@ directory. The frontend calls only the profile's fixed backend.
 
 The native backend uses `scripts/tart-layer.py` and the existing image/session
 owners to compose macOS/Xcode/Maestro, the combined Codex/Claude/Grok layer, then
-optional Flutter/Dart. Inputs declare the parent tuple, tool payloads and host
-binding; no host identity or private endpoint is baked into a recipe. Document
+optional Flutter/Dart. Inputs declare the parent tuple, tool payloads, the consumer's adopted
+harness pins and host binding; no host identity or private endpoint is baked into a recipe. Document
 how to obtain the licensed macOS/Xcode parent and which retained artifacts are
 still prerequisites. A retained parent does not establish a clean-machine build.
 

@@ -224,8 +224,11 @@ def main():
     if not args.runtime_python.is_absolute() or not args.runtime_python.is_file():
         raise ValueError('Provide the permanent Python interpreter supplied by the base image.')
     runtime_python = args.runtime_python.resolve(strict=True)
-    parent_pins = json.loads(Path('/opt/ai-runner-images/agents/pins.json').read_bytes())
-    if set(parent_pins['engines']) != {'codex', 'claude', 'grok'}:
+    # The agent layer keeps the harness pins it was installed from and one launcher per engine.
+    agents = Path('/opt/ai-runner-images/agents')
+    parent_engines = ['codex', 'claude', 'grok']
+    if not (agents / 'harness-pins.yaml').is_file() or not all((agents / 'bin' / engine).is_file()
+                                                              for engine in parent_engines):
         raise ValueError('Flutter must inherit the complete three-agent layer.')
     for ancestor in (PREFIX.parent, *PREFIX.parent.parents):
         info = ancestor.lstat()
@@ -275,7 +278,7 @@ def main():
         'status': 'precache-complete-and-sealed', 'flutter_version': pins['flutter_version'],
         'flutter_revision': pins['flutter_revision'], 'dart_version': pins['dart_version'],
         'archive_sha256': pins['archive']['sha256'], 'manifest_sha256': sha_file(version_root / 'SDK-MANIFEST.json'),
-        'precache_platforms': ['ios'], 'agent_engines_in_parent': parent_pins['engines']})
+        'precache_platforms': ['ios'], 'agent_engines_in_parent': parent_engines})
     (stage / 'pins.json').write_bytes(pins_raw)
     shutil.copyfile(RECIPE / 'launcher.py', stage / 'launcher.py')
     (stage / 'bin').mkdir(mode=0o755)

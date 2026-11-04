@@ -16,12 +16,14 @@
   "limitations": [
     "APT repositories and npm transitive resolution are not snapshot locked. Use the verified image archive for exact restoration; a rebuild is a separately qualified artifact."
   ],
+  "note": "Its harness_versions and build_args.GROK_INSTALLER_SHA256 record the 2026-09-17 rehearsal and are not a pin source; the harness pins are the consumer's adopted collab.harness-pins/v2 document.",
   "platform": "linux/amd64",
   "roots": {
     "os": "docker.io/library/ubuntu:26.04@sha256:53958ec7b67c2c9355df922dd08dbf0360611f8c3cdb656875e81873db9ffdba",
     "python": "docker.io/library/python:3.12-slim@sha256:7a8b475003c4fe15a2cd4e55e5cfc2f3560bdc9333d624f24cdd6d4340fd7a17"
   },
   "schema_version": 1,
+  "status": "historical-qualification-record",
   "templates": {
     "commit": "c7a84f2875a5febea71fb6aee4f51b00fe19c8be",
     "files": {

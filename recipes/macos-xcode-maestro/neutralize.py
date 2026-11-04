@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 """Remove inventoried consumer/agent material from a new accountless builder copy.
 
-The parent is preserved by the host COW operation. This is a composition recipe,
-not a general deletion API or native executor installation.
+The parent is preserved by the host COW operation. The removal targets and their
+exact inventories come from the dated record of the retained legacy builder's
+neutralization (--record); nothing else is removed, and nothing is removed unless
+every target matches its record. This is a composition recipe, not a general
+deletion API or native executor installation.
 """
+import argparse
 import datetime
 import hashlib
 import json
@@ -12,16 +16,21 @@ from pathlib import Path
 import shutil
 import subprocess
 
-TARGETS = [
-    '/opt/macos-tart-bootstrap/resolver-tools/codex-0.151.0',
-    '/opt/ai-repo-resources', '/opt/macos-tart-guest', '/opt/macos-tart-journey.json',
-    '/private/etc/macos-tart-guest.json', '/usr/local/libexec/macos-tart-guest',
-    '/private/var/lib/macos-tart-image-build',
-    '/opt/macos-tart-bootstrap/native-completion-20260914-01',
-    '/opt/macos-tart-bootstrap/native-closure-20260914-01',
-    '/opt/macos-tart-bootstrap/native-recovery-20260914-01',
-    '/Library/LaunchDaemons/org.macos-tart.rehearsal.firstboot-probe.plist',
-]
+# Removal targets must sit below one of these parents, never be one of them.
+PARENTS = ('/opt/', '/private/etc/', '/private/var/lib/', '/usr/local/libexec/', '/Library/LaunchDaemons/')
+
+
+def recorded_targets(record):
+    """Return {absolute path: inventory} from the legacy builder's neutralization record."""
+    targets = json.loads(Path(record).read_text())['neutralization']['removed_inventories']
+    if not isinstance(targets, dict) or not targets:
+        raise ValueError('The record lists no inventoried targets')
+    for name, expected in targets.items():
+        if (not isinstance(name, str) or os.path.normpath(name) != name or not name.startswith(PARENTS)
+                or name.rstrip('/') + '/' in PARENTS or not isinstance(expected, dict)
+                or set(expected) != {'entries', 'file_bytes', 'inventory_sha256'}):
+            raise ValueError(f'Unexpected recorded target: {name!r}')
+    return targets
 
 
 def inventory(root):
@@ -44,6 +53,11 @@ def inventory(root):
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--record', type=Path, required=True,
+                        help='the dated native-base provenance record of the retained legacy builder')
+    args = parser.parse_args()
+    targets = recorded_targets(args.record)
     assert os.geteuid() == 0
     assert subprocess.check_output(['/usr/sbin/sysctl', '-n', 'hw.model']).decode().strip().startswith('VirtualMac')
     assert os.environ.get('AI_IMAGE_LAYER') == 'macos-xcode-maestro'
@@ -54,9 +68,6 @@ def main():
     assert not Path('/private/etc/kcpassword').exists()
     state = Path('/private/var/lib/macos-tart')
     assert not state.exists() or not list(state.iterdir())
-    codex = Path(TARGETS[0]) / 'codex-aarch64-apple-darwin'
-    with codex.open('rb') as stream:
-        assert hashlib.file_digest(stream, 'sha256').hexdigest() == '98491713ffb196061003ee148636e743997cc31d76144ba7c53462269896891d'
     required = [
         '/opt/macos-tart-bootstrap/resolver-tools/java-17.0.20.1+1/jdk-17.0.20.1+1/Contents/Home/bin/java',
         '/opt/macos-tart-bootstrap/resolver-tools/maestro-2.10.0/maestro/bin/maestro',
@@ -65,23 +76,32 @@ def main():
         '/opt/macos-tart-bootstrap/public-tools/Xcode_26.5-runner.app/Contents/Developer/usr/bin/xcodebuild',
         '/opt/macos-tart-guest-agent/bin/tart-guest-agent',
     ]
+    assert not any(item == name or item.startswith(name + '/') for name in targets
+                   for item in [*required, str(receipt.parent)]), 'A recorded target holds a preserved path'
     preserved = {}
     for name in required:
         path = Path(name)
         assert path.is_file() and os.access(path, os.X_OK), name
         with path.open('rb') as stream:
             preserved[name] = hashlib.file_digest(stream, 'sha256').hexdigest()
-    before = {name: inventory(Path(name)) for name in TARGETS if Path(name).exists()}
+    # This copy must be the recorded legacy builder: every target present, unchanged
+    # and reached without a symlinked parent, before anything is removed.
+    before = {}
+    for name, expected in sorted(targets.items()):
+        path = Path(name)
+        assert os.path.lexists(name) and os.path.realpath(path.parent) == str(path.parent), name
+        before[name] = inventory(path)
+        assert before[name] == expected, f'{name} differs from the record'
     receipt.parent.mkdir(mode=0o755, exist_ok=True)
     receipt.parent.chmod(0o755)
     (receipt.parent / 'neutralization-intent.json').write_text(json.dumps(before, indent=2) + '\n')
-    for name in TARGETS:
+    for name in sorted(targets):
         path = Path(name)
         if path.is_symlink() or path.is_file():
             path.unlink()
         elif path.is_dir():
             shutil.rmtree(path)
-    assert not any(os.path.lexists(name) for name in TARGETS)
+    assert not any(os.path.lexists(name) for name in targets)
     tool_root = '/opt/macos-tart-bootstrap/resolver-tools'
     paths = {
         'java_home': tool_root + '/java-17.0.20.1+1/jdk-17.0.20.1+1/Contents/Home',
