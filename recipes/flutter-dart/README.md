@@ -15,7 +15,7 @@ python3 /tmp/flutter-dart/install.py \
   --evidence-dir /var/tmp/flutter-installation-01
 ```
 
-`--runtime-python` is an explicit image binding; substitute the parent's actual permanent interpreter if it differs. The installer verifies the full archive digest, archive paths, entry types, symlink containment and bundled framework/Dart revisions before extracting. It then requires the parent to declare all three agents.
+`--runtime-python` is an explicit image binding; substitute the parent's actual permanent interpreter if it differs. The installer verifies the full archive digest, archive paths, entry types, symlink containment and bundled framework/Dart revisions before extracting. It then requires the parent's complete agent layer: the launchers of all three engines and the harness pins receipt that layer was installed from.
 
 The installer uses a newly created staging directory under `/opt/ai-runner-images`, with separate temporary HOME and pub cache paths. It disables Flutter/Dart analytics for this operation and runs only extraction, analytics configuration, iOS precache and version inspection. It preserves logs, pins, exact commands and byte hashes. No credentials, personal dotfiles or user repository caches are consulted. A failed operation leaves its own staging tree and evidence for recovery; it does not erase or replace a previous SDK.
 

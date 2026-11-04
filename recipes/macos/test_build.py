@@ -24,9 +24,13 @@ def inputs(tmp_path):
     binding.write_text(json.dumps({'tart_home': str(tmp_path)}))
     artifact = tmp_path / 'swiftlint.zip'
     artifact.write_bytes(b'fixture')
+    # The consumer pack's adopted document; payload staging and its checks are in test_contracts.py.
+    harness_pins = tmp_path / 'harness-pins.yaml'
+    harness_pins.write_text('schema: collab.harness-pins/v2\n')
     return {'schema_version': 1, 'name': 'fixture-ios', 'binding': str(binding),
             'parent': {'directory': str(parent), 'manifest': str(manifest),
                        'sha256': backend.sha(manifest), 'layer': 'shared-agent-build'},
+            'harness_pins': str(harness_pins),
             'artifacts': {'swiftlint': str(artifact)},
             'qualification': {'source_checkout': str(tmp_path), 'source_kind': 'consumer'}}
 
@@ -77,6 +81,7 @@ def test_stopped_tuple_is_sealed_only_after_export_and_normal_shutdown(tmp_path,
     assert result['runtime_admission'] is False
     assert result['distribution'] == 'local-only'
     assert result['recipe_commit'] == COMMIT and result['physical_parent'] == declaration['parent']
+    assert result['harness_pins']['sha256'] == backend.sha(declaration['harness_pins'])
     assert result['status'] == 'passed' and result['artifact_state'] == 'stopped-and-verified'
 
 
@@ -157,6 +162,19 @@ def test_owner_exception_preserves_native_receipt_and_front_end_failure_contract
     failed = json.loads((tmp_path / 'work/BUILD-RESULT.json').read_text())
     assert failed['error_type'] == 'RuntimeError' and failed['error'] == 'retained session failure'
     assert failed['status'] == 'failed'
+
+
+def test_native_build_requires_the_adopted_harness_pins_as_an_absolute_input(tmp_path, monkeypatch):
+    declaration = inputs(tmp_path)
+    calls = fake_host(monkeypatch, tmp_path)
+    for value, message in [(None, 'harness_pins'), ('compatibility/harness-pins.yaml', 'absolute')]:
+        if value is None:
+            del declaration['harness_pins']
+        else:
+            declaration['harness_pins'] = value
+        with pytest.raises(ValueError, match=message):
+            backend.build(declaration, tmp_path / 'work', tmp_path, COMMIT, profile='macos-ios')
+    assert not calls and not (tmp_path / 'work').exists()
 
 
 def test_flutter_from_base_requires_all_engines_and_flutter_archive(tmp_path):

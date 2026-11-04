@@ -16,6 +16,13 @@ the example value `1` is not an assertion that the group grants repository acces
 
 - `lock.json`: exact Templates commit, every consumed file digest, immutable
   root image references, tool archive checksums and combined harness versions.
+  It is a **historical qualification record** (`"status":
+  "historical-qualification-record"`): its harness versions and Grok installer
+  digest record the 2026-09-17 rehearsal and are not a pin source. The exact
+  harness pins are the consumer's adopted `collab.harness-pins/v2` document.
+  The procedure below rebuilds that rehearsal's inputs; it does not install the
+  current pins. The qualification summary records this stack's file digests
+  as qualified, before this marking.
 - `requirements.lock` and `wheels.lock.json`: complete hash-locked CPython 3.12
   Linux amd64 control-plane Python dependency closure.
 - `qualification.json`: tenant/repository identity, runner group, labels,

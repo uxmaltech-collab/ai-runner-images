@@ -31,7 +31,7 @@ def checked(path, pin, mode=None):
     info = path.lstat()
     if not stat.S_ISREG(info.st_mode) or info.st_uid != 0 or info.st_mode & 0o022:
         raise ValueError(f'Unprotected tool: {path}')
-    if info.st_size != pin['bytes'] or sha(path) != pin['sha256']:
+    if ('bytes' in pin and info.st_size != pin['bytes']) or sha(path) != pin['sha256']:
         raise ValueError(f'Tool differs from the locked bytes: {path}')
     if mode is not None and stat.S_IMODE(info.st_mode) != mode:
         raise ValueError(f'Tool permissions differ: {path}')
@@ -103,26 +103,33 @@ def main():
     result['components']['swiftlint'] = {'action': action, 'version': pins['version'], 'files': files,
                                        'launcher_sha256': sha(launcher), 'runtime_path': str(launcher.parent)}
     agents = recipes / 'agent-build'
-    pins = json.loads((agents / 'pins.json').read_text())
     agent_recipe = installer(agents)
+    # The consumer's adopted harness pins, staged by the host build; never a checkout copy.
+    staged = agents / agent_recipe.PINS_NAME
+    _, pins = agent_recipe.read_pins(staged)
+    names = agent_recipe.input_names(pins)
     agentroot = agent_recipe.PREFIX
     if args.parent_layer == 'macos-xcode-maestro':
-        run('agents', [sys.executable, '-I', '-B', str(agents / 'install.py'), '--artifacts', str(artifacts),
-            '--codex-binary', str(artifacts / pins['codex']['binary']['installed_name']), '--codex-companion', str(artifacts / pins['codex']['companion']['installed_name']),
+        run('agents', [sys.executable, '-I', '-B', str(agents / 'install.py'), '--harness-pins', str(staged),
+            '--artifacts', str(artifacts), '--codex-binary', str(artifacts / names['codex/codex']),
+            '--codex-companion', str(artifacts / names['codex/codex-code-mode-host']),
             '--receipt', str(evidence / 'agents.json')])
         action = 'installed'
     else:
         action = 'reused-verified'
-    if (agentroot / 'pins.json').read_bytes() != (agents / 'pins.json').read_bytes():
-        raise ValueError('Inherited agent lock differs from the recipe')
-    files = [checked(agentroot / path, pin, 0o755) for path, pin in [
-        ('codex/codex', pins['codex']['binary']), ('codex/codex-code-mode-host', pins['codex']['companion']),
-        ('claude/claude', pins['claude']), ('grok/grok', pins['grok'])]]
-    for engine in pins['engines']:
+    installed = agentroot / agent_recipe.PINS_NAME
+    if not installed.is_file():
+        raise ValueError('Inherited agent layer has no harness pins receipt; compose the agent layer from the base parent')
+    if agent_recipe.read_pins(installed)[1] != pins:
+        raise ValueError('Inherited agent layer was installed from other harness pins than the staged document')
+    files = [checked(agentroot / path, {'sha256': sha256}, 0o755) for path, sha256 in pins['files'].items()]
+    for engine in agent_recipe.ENGINES:
         wrapper = agent_recipe.launcher_bytes(engine)
         checked(agentroot / 'bin' / engine, {'bytes': len(wrapper),
                 'sha256': hashlib.sha256(wrapper).hexdigest()}, 0o755)
-    result['components']['agents'] = {'action': action, 'engines': pins['engines'], 'files': files}
+    result['components']['agents'] = {'action': action, 'engines': list(agent_recipe.ENGINES),
+        'versions': pins['versions'], 'harness_pins_sha256': sha(staged),
+        'installed_harness_pins_sha256': sha(installed), 'files': files}
     if args.profile == 'macos-flutter':
         flutter = recipes / 'flutter-dart'
         if args.parent_layer != 'flutter-dart-ios':

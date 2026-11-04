@@ -49,13 +49,7 @@ V3 composition uses guest `/bin/sync` and `/sbin/shutdown -h now`, then verifies
 
 ## Combined agent layer: installed and launched together
 
-Agent v3's exact immediate parent is base v3, `2a77a0c4faed3dcbf9524d6c9238eddaa1cddce0af9b130f8f0577d76d69eceb`. The [agent pins](../recipes/agent-build/pins.json), SHA-256 `0f1ee7fee8928058ce88b33d3ae9546871ffec1f6cf8be398522f5d0c5aff5c3`, install all engines together:
-
-| Engine | Pinned payload | Actual nonadministrator CLI result in qualification v3 |
-| --- | --- | --- |
-| Codex | 0.151.0, including `codex-code-mode-host` | `codex-cli 0.151.0`, exit 0 |
-| Claude | 2.1.266 | `2.1.266 (Claude Code)`, exit 0 |
-| Grok-build, executable `grok` | 1.0.24 | `grok 1.0.24 (68e414c661e3)`, exit 0 |
+Agent v3's exact immediate parent is base v3, `2a77a0c4faed3dcbf9524d6c9238eddaa1cddce0af9b130f8f0577d76d69eceb`. It installed all engines together, Codex with its `codex-code-mode-host` companion, from the agent pins file of its recipe commit (`recipes/agent-build/pins.json`, SHA-256 `0f1ee7fee8928058ce88b33d3ae9546871ffec1f6cf8be398522f5d0c5aff5c3`). That file has since been removed: the agent recipe now reads the consumer's adopted `collab.harness-pins/v2` document. The pinned versions and payload digests of v3 are in [combined-agent provenance](../provenance/combined-agents-20260916.json), and the actual nonadministrator CLI results of each engine (all exit 0, each reporting its pinned version) are in [the qualification's version check](../qualification/flutter-ios-hello-world-20260916/evidence/agent-versions.json).
 
 The full auth-free verifier reported `passed: true`; direct version diagnostics retained each command's output. This is actual nonadministrator executable compatibility, superseding the historical installation-only scope for those unchanged payloads. It does not establish managed model authentication or completion of an agent task. Flutter v4 inherits the same agent bytes; its repair touches SDK symlink modes and SDK metadata only.
 
