@@ -3,7 +3,7 @@
     "recipes/collab-runners/README.md": "7427cfe4081dd866019e43107ca9eaa0fd20318c0b3aa24020c8892db2a6890b",
     "recipes/collab-runners/extraction.json": "0b9210953aefb6443f2d1fdacd0aae513744a7b758f38fa4666d04de85403ada",
     "recipes/collab-runners/qa-extraction.json": "df6c01e37fd1fd22f903dafb8645e8c7f21c1f15fd0d204a8be226844874d27c",
-    "recipes/collab-runners/runner-agent-base/Dockerfile": "1ee5a5bfe590db11f99c4a936e0228f42b5051fc9bfad54f4eeaf2c6efe25116",
+    "recipes/collab-runners/runner-agent-base/Dockerfile": "82a27656714f74ef0246fd06f2e084016de8918255d852589789c3513759eb6b",
     "recipes/collab-runners/runner-base/Dockerfile": "9a036ff9b85670bd31b84771c68da7f0d669f671883fb9c18852720f254923d3",
     "recipes/collab-runners/runner-base/entrypoint-jit.sh": "cca0e4d5515ffa2691a2464ed7297bcf5089404776a55c45195c890b358eacce",
     "recipes/collab-runners/runner-ci-ai-resources/Dockerfile": "0ceab659e487665a56b9494642cdaa8ef6eab591733ac0b135cbf4bc646d7c3f",
