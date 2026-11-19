@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "source_repository": "enviaflores/ai-repo-resources",
+  "source_repository": "an organization pack",
   "source_commit": "3dc11a923ea56a4bee74ed9a24ae6440e06a69f9",
   "status": "neutral-recipe-extracted; consumer-artifact-evidence-retained; neutral-image-not-built",
   "normalizations": [
@@ -17,23 +17,23 @@
       "recipes/android"
     ],
     [
-      "/opt/ef-storefront-android",
+      "/opt/<org>-storefront-android",
       "/opt/runner-android"
     ],
     [
-      "ef-storefront-android-emulator",
+      "<org>-storefront-android-emulator",
       "runner-android-emulator"
     ],
     [
-      "ef-storefront-android-stack-probe",
+      "<org>-storefront-android-stack-probe",
       "runner-android-stack-probe"
     ],
     [
-      "ef-android-journey-",
+      "<org>-android-journey-",
       "android-journey-"
     ],
     [
-      "EF_ANDROID_EMULATOR_OWNED",
+      "<ORG>_ANDROID_EMULATOR_OWNED",
       "RUNNER_ANDROID_EMULATOR_OWNED"
     ]
   ],
@@ -63,13 +63,13 @@
       "recipe_sha256": "2cebc4bd57cf26fd2e650274c0f29332d56e314936a58481c6495b63b1bd0920"
     },
     {
-      "consumer_path": "runners/images/runner-resolver-storefront-android/scripts/ef-storefront-android-emulator.py",
+      "consumer_path": "runners/images/runner-resolver-storefront-android/scripts/<org>-storefront-android-emulator.py",
       "consumer_sha256": "5e0b792cd0aeb7523cdb386ae6a3a0d6278f32e20a5e29c6e52d1cae45ca3ddd",
       "recipe_path": "recipes/android/scripts/runner-android-emulator.py",
       "recipe_sha256": "3811da92a59202e1c95aaef795d51b5b938c5f73c7a079ef1f57a25e5171b8bd"
     },
     {
-      "consumer_path": "runners/images/runner-resolver-storefront-android/scripts/ef-storefront-android-stack-probe.sh",
+      "consumer_path": "runners/images/runner-resolver-storefront-android/scripts/<org>-storefront-android-stack-probe.sh",
       "consumer_sha256": "87f6d5ab7fbdf7ad6e22198e3cab41106689adaa70507598a4551a1ce8a82cb2",
       "recipe_path": "recipes/android/scripts/runner-android-stack-probe.sh",
       "recipe_sha256": "87f6d5ab7fbdf7ad6e22198e3cab41106689adaa70507598a4551a1ce8a82cb2"

@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "repository": "enviaflores/ef-storefront-ios",
+  "repository": "<organization>/<repository>",
   "profile": "resolver-storefront-ios-native",
   "pack_root": "/opt/collab/repo-pack",
   "python": "/opt/collab/runtime/bin/python3.12",

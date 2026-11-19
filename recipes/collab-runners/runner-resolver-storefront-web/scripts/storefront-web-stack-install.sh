@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# ef-storefront-web-stack-install [--offline] [--project <dir>]
+# storefront-web-stack-install [--offline] [--project <dir>]
 #
 # Install the storefront-web checkout's own pnpm-lock.yaml inside the
 # runner-resolver-storefront-web image, then prove that project Playwright and
-# the Playwright MCP are available. The install sequence is the contract of
-# enviaflores/ai-repo-resources#27 and honors `packageManager` in package.json:
+# the Playwright MCP are available. The install sequence is the pack's pnpm
+# contract and honors `packageManager` in package.json:
 #
 #   corepack enable
 #   corepack prepare --activate
@@ -20,14 +20,14 @@
 # before touching the network.
 set -euo pipefail
 
-readonly tool="ef-storefront-web-stack-install"
+readonly tool="storefront-web-stack-install"
 readonly registry_scope="@uxmaltech"
 readonly registry_host="npm.pkg.github.com"
 readonly token_env="AI_REPO_RESOURCES_STOREFRONT_WEB_NPM_TOKEN"
 
 usage() {
   cat >&2 <<'USAGE'
-Usage: ef-storefront-web-stack-install [--offline] [--project <dir>]
+Usage: storefront-web-stack-install [--offline] [--project <dir>]
 
 Installs the pnpm project in the current directory (or --project) with
 `corepack enable`, `corepack prepare --activate`, and
@@ -113,6 +113,6 @@ pnpm "${install_args[@]}"
 node -e "require.resolve('@playwright/test')"
 pnpm exec playwright --version
 playwright-mcp --version
-command -v ef-storefront-web-playwright-mcp >/dev/null
-command -v ef-storefront-web-screenshot >/dev/null
+command -v storefront-web-playwright-mcp >/dev/null
+command -v storefront-web-screenshot >/dev/null
 echo "${tool}: ok (node $(node --version), pnpm $(pnpm --version), corepack $(corepack --version))"

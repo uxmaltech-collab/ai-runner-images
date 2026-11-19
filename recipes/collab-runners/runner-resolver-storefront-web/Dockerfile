@@ -7,39 +7,39 @@ ARG AI_REPO_RESOURCES_PLAYWRIGHT_MCP_VERSION=0.0.76
 ARG AI_REPO_RESOURCES_COREPACK_VERSION=0.35.0
 ARG AI_REPO_RESOURCES_PNPM_VERSION=11.17.0
 LABEL org.opencontainers.image.title="runner-resolver-storefront-web" \
-      io.enviaflores.runner.profile="resolver-storefront-web" \
-      io.enviaflores.runner.engine="codex" \
-      io.enviaflores.runner.stack="nuxt-pnpm"
+      io.uxmaltech.runner.profile="resolver-storefront-web" \
+      io.uxmaltech.runner.engine="codex" \
+      io.uxmaltech.runner.stack="nuxt-pnpm"
 
-# Stack runtime for enviaflores/ef-storefront-web: pnpm through Corepack, so the
-# checkout's `packageManager` pin is honored. The toolchain is baked here; the
+# Stack runtime for the organization's web application repository: pnpm through
+# Corepack, so the checkout's `packageManager` pin is honored. The toolchain is baked here; the
 # checkout's own pnpm-lock.yaml is installed at job time by
-# ef-storefront-web-stack-install (corepack enable, corepack prepare --activate,
+# storefront-web-stack-install (corepack enable, corepack prepare --activate,
 # pnpm install --frozen-lockfile) - never `npm ci`, never package-lock.json. No
 # stack image is built from the target repository and nothing is read from the
 # predecessor pack. COREPACK_HOME is shared and world-writable so the
 # unprivileged runner can activate the pinned package manager offline.
 # Keep the stack's Playwright pin separate from the agent base's shared
 # @playwright/test runtime and binary. Both package trees remain available.
-ENV AI_REPO_RESOURCES_WEB_TOOLS_PREFIX=/opt/ef-storefront-web-tools \
-    PATH=/opt/ef-storefront-web-tools/bin:${PATH} \
+ENV AI_REPO_RESOURCES_WEB_TOOLS_PREFIX=/opt/storefront-web-tools \
+    PATH=/opt/storefront-web-tools/bin:${PATH} \
     PLAYWRIGHT_BROWSERS_PATH=/opt/ms-playwright \
     COREPACK_HOME=/opt/corepack \
     COREPACK_ENABLE_DOWNLOAD_PROMPT=0 \
     COREPACK_ENABLE_AUTO_PIN=0 \
-    EF_STOREFRONT_WEB_STACK_PROBE=/opt/ef-storefront-web-stack-probe
+    STOREFRONT_WEB_STACK_PROBE=/opt/storefront-web-stack-probe
 
 USER root
-COPY recipes/collab-runners/runner-resolver-storefront-web/scripts/ef-storefront-web-stack-install.sh /usr/local/bin/ef-storefront-web-stack-install
-COPY recipes/collab-runners/runner-resolver-storefront-web/scripts/ef-storefront-web-stack-probe.sh /usr/local/bin/ef-storefront-web-stack-probe
-COPY recipes/collab-runners/runner-resolver-storefront-web/scripts/ef-storefront-web-playwright-mcp.sh /usr/local/bin/ef-storefront-web-playwright-mcp
-COPY recipes/collab-runners/runner-resolver-storefront-web/scripts/ef-storefront-web-screenshot.sh /usr/local/bin/ef-storefront-web-screenshot
-COPY --chown=runner:runner recipes/collab-runners/runner-resolver-storefront-web/stack-probe /opt/ef-storefront-web-stack-probe
+COPY recipes/collab-runners/runner-resolver-storefront-web/scripts/storefront-web-stack-install.sh /usr/local/bin/storefront-web-stack-install
+COPY recipes/collab-runners/runner-resolver-storefront-web/scripts/storefront-web-stack-probe.sh /usr/local/bin/storefront-web-stack-probe
+COPY recipes/collab-runners/runner-resolver-storefront-web/scripts/storefront-web-playwright-mcp.sh /usr/local/bin/storefront-web-playwright-mcp
+COPY recipes/collab-runners/runner-resolver-storefront-web/scripts/storefront-web-screenshot.sh /usr/local/bin/storefront-web-screenshot
+COPY --chown=runner:runner recipes/collab-runners/runner-resolver-storefront-web/stack-probe /opt/storefront-web-stack-probe
 RUN chmod 0755 \
-      /usr/local/bin/ef-storefront-web-stack-install \
-      /usr/local/bin/ef-storefront-web-stack-probe \
-      /usr/local/bin/ef-storefront-web-playwright-mcp \
-      /usr/local/bin/ef-storefront-web-screenshot \
+      /usr/local/bin/storefront-web-stack-install \
+      /usr/local/bin/storefront-web-stack-probe \
+      /usr/local/bin/storefront-web-playwright-mcp \
+      /usr/local/bin/storefront-web-screenshot \
     && apt-get update \
     && apt-get install -y --no-install-recommends redis-server redis-tools rsync zip \
     && rm -rf /var/lib/apt/lists/* \
@@ -66,8 +66,8 @@ USER runner
 # probe project installs from its pnpm-lock.yaml with --frozen-lockfile and
 # exposes project Playwright plus the MCP; the same proof is then repeated
 # offline, which is what the publisher's in-image probe re-runs.
-RUN HOME=/home/runner ef-storefront-web-stack-install --project "${EF_STOREFRONT_WEB_STACK_PROBE}" \
-    && HOME=/home/runner ef-storefront-web-stack-probe
+RUN HOME=/home/runner storefront-web-stack-install --project "${STOREFRONT_WEB_STACK_PROBE}" \
+    && HOME=/home/runner storefront-web-stack-probe
 
 # Collab changes most often, so it is the last layer. The pack revision changes
 # with every publication, so it is declared only after it, and the parent digest

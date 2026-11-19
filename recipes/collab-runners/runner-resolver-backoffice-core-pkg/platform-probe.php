@@ -2,7 +2,7 @@
 
 // Run during build and publication, before this image can receive a resolver job.
 if (PHP_MAJOR_VERSION !== 8 || PHP_MINOR_VERSION !== 3) {
-    throw new RuntimeException('The last-mile-core-pkg resolver requires PHP 8.3.');
+    throw new RuntimeException('The backoffice-core-pkg resolver requires PHP 8.3.');
 }
 foreach (['bcmath', 'curl', 'dom', 'gd', 'intl', 'mbstring', 'openssl', 'pcntl', 'pdo_sqlite', 'redis', 'xml', 'xmlwriter', 'zip'] as $extension) {
     if (!extension_loaded($extension)) {
@@ -16,4 +16,4 @@ if (!function_exists('imagewebp') || empty(gd_info()['WebP Support']) || empty(g
 if (extension_loaded('rdkafka')) {
     throw new RuntimeException('The package resolver must prove operation without rdkafka.');
 }
-echo 'last-mile-core-pkg platform: PHP '.PHP_VERSION.', required extensions and GD with WebP present, rdkafka absent'.PHP_EOL;
+echo 'backoffice-core-pkg platform: PHP '.PHP_VERSION.', required extensions and GD with WebP present, rdkafka absent'.PHP_EOL;

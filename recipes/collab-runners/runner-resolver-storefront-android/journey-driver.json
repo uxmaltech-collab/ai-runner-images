@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "repository": "enviaflores/ef-storefront-android",
+  "repository": "<organization>/<repository>",
   "profile": "resolver-storefront-android",
   "backend": "linux-docker",
   "driver": "android-maestro",

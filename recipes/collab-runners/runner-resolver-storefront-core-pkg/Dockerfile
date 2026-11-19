@@ -47,8 +47,8 @@ RUN apt-get update \
 
 FROM ${AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE}
 LABEL org.opencontainers.image.title="runner-resolver-storefront-core-pkg" \
-      io.enviaflores.runner.profile="resolver-storefront-core-pkg" \
-      io.enviaflores.runner.engine="codex"
+      io.uxmaltech.runner.profile="resolver-storefront-core-pkg" \
+      io.uxmaltech.runner.engine="codex"
 
 USER root
 RUN apt-get update \

@@ -6,7 +6,7 @@ ARG AI_REPO_RESOURCES_RUNNER_BASE_IMAGE
 ARG AI_REPO_RESOURCES_BUNDLE_COMMIT
 LABEL org.opencontainers.image.title="runner-ci-php-laravel" \
       org.opencontainers.image.revision="${AI_REPO_RESOURCES_BUNDLE_COMMIT}" \
-      io.enviaflores.runner.stack="php-laravel"
+      io.uxmaltech.runner.stack="php-laravel"
 
 USER root
 RUN test -n "${AI_REPO_RESOURCES_BUNDLE_COMMIT}" \

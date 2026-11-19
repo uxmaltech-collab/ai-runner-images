@@ -65,12 +65,43 @@ The catalog preserves physical repair ancestry separately from those three logic
 
 ## Build entrypoint
 
-Use [`python3 scripts/build-images.py`](docs/build-images.md) to compose and
-qualify local images from this source. Linux and Android share the entrypoint;
-the native backend composes both macOS profiles and has
+This repository releases **recipes**, never built images. The Dockerfile recipes
+(the Linux runner recipes and the Android layer) are listed in
+[`recipes/manifest.json`](recipes/manifest.json) with their versions and are
+published as trees in `uxmaltech-collab/releases` (see [Releasing](#releasing)).
+The organization's console orders the build of an adopted recipe on its builder
+node and keeps the image in the console's registry; hosts pull
+`<console registry name>/<image>@sha256:<digest>` by digest and never build.
+
+**Transition.** The console route does not exist yet. Until the organization's
+console has its registry and a builder node, the previous route stays valid: use
+[`python3 scripts/build-images.py`](docs/build-images.md) to compose and qualify
+local images from this source, and pin the digest of the image in the registry the
+organization already uses. The native macOS profiles are Tart virtual machines, not
+OCI images: they are not in the manifest and keep this route. Linux and Android
+share the entrypoint; the native backend composes both macOS profiles and has
 [real native qualification](qualification/native-tool-recipes-20260919/README.md).
 It starts from a measured local Apple toolchain parent; a fresh-machine restore
-remains a separate prerequisite. No remote image storage is required.
+remains a separate prerequisite.
+
+## Releasing
+
+Releases are tags `vX.Y.Z` of this repository, recorded in
+[`CHANGELOG.md`](CHANGELOG.md). A release publishes recipes only.
+
+1. In the pull request, bump the `version` of each recipe whose directory changed in
+   [`recipes/manifest.json`](recipes/manifest.json) (a version is never reused),
+   set `repository_version` to the new `X.Y.Z` and add its `## X.Y.Z` section to
+   `CHANGELOG.md`.
+2. Run `python3 scripts/check-recipe-manifest.py` (it only warns) and the tests of
+   the files you touched, for example
+   `python3 -m pytest -q scripts/test_recipe_manifest.py`.
+3. Merge the pull request. Do not tag before the merge.
+4. Tag the merge commit `vX.Y.Z` and push the tag.
+5. Last step: publish the recipe trees in `uxmaltech-collab/releases` with the
+   release repository's publish command, which finds each recipe through
+   `recipes/manifest.json` (its `path`, `version` and component `recipe-<name>`).
+   Publishing adopts nothing, and no built image is ever published there.
 
 ## Where to start
 

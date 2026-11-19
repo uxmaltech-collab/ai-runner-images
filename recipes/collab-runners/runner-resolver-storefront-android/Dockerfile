@@ -4,9 +4,9 @@ FROM ${AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE}
 
 ARG TARGETARCH
 LABEL org.opencontainers.image.title="runner-resolver-storefront-android" \
-      io.enviaflores.runner.profile="resolver-storefront-android" \
-      io.enviaflores.runner.engine="codex" \
-      io.enviaflores.runner.stack="android-gradle-maestro"
+      io.uxmaltech.runner.profile="resolver-storefront-android" \
+      io.uxmaltech.runner.engine="codex" \
+      io.uxmaltech.runner.stack="android-gradle-maestro"
 
 # One image serves resolve and create-journey. Neither the entrypoint nor a
 # resolve job boots an emulator. The journey explicitly invokes the wrapper.
@@ -19,11 +19,11 @@ ENV JAVA_HOME=/opt/java \
     PATH="/opt/java/bin:/opt/android-sdk/cmdline-tools/19.0/bin:/opt/android-sdk/platform-tools:/opt/android-sdk/emulator:/opt/maestro/bin:${PATH}"
 
 USER root
-COPY recipes/collab-runners/runner-resolver-storefront-android/toolchain-lock.json /opt/ef-storefront-android/toolchain-lock.json
+COPY recipes/collab-runners/runner-resolver-storefront-android/toolchain-lock.json /opt/storefront-android/toolchain-lock.json
 COPY recipes/collab-runners/runner-resolver-storefront-android/journey-driver.json /opt/ai-repo-resources/journey-driver.json
-COPY recipes/collab-runners/runner-resolver-storefront-android/scripts/install-toolchain.py /opt/ef-storefront-android/install-toolchain.py
-COPY recipes/collab-runners/runner-resolver-storefront-android/scripts/ef-storefront-android-emulator.py /usr/local/bin/ef-storefront-android-emulator
-COPY recipes/collab-runners/runner-resolver-storefront-android/scripts/ef-storefront-android-stack-probe.sh /usr/local/bin/ef-storefront-android-stack-probe
+COPY recipes/collab-runners/runner-resolver-storefront-android/scripts/install-toolchain.py /opt/storefront-android/install-toolchain.py
+COPY recipes/collab-runners/runner-resolver-storefront-android/scripts/storefront-android-emulator.py /usr/local/bin/storefront-android-emulator
+COPY recipes/collab-runners/runner-resolver-storefront-android/scripts/storefront-android-stack-probe.sh /usr/local/bin/storefront-android-stack-probe
 COPY recipes/collab-runners/runner-resolver-storefront-android/scripts/entrypoint-android.py /usr/local/bin/entrypoint-android
 RUN test "${TARGETARCH:-$(dpkg --print-architecture)}" = amd64 \
     && apt-get update \
@@ -32,17 +32,17 @@ RUN test "${TARGETARCH:-$(dpkg --print-architecture)}" = amd64 \
       libnss3 libpulse0 libx11-6 libxcb1 libxcomposite1 libxcursor1 libxi6 \
       libxkbcommon0 libxkbfile1 libxrandr2 libxtst6 util-linux zip \
     && rm -rf /var/lib/apt/lists/* \
-    && python3 /opt/ef-storefront-android/install-toolchain.py \
+    && python3 /opt/storefront-android/install-toolchain.py \
     && yes | sdkmanager --sdk_root=/opt/android-sdk --licenses >/dev/null
-RUN chmod 0755 /usr/local/bin/entrypoint-android /usr/local/bin/ef-storefront-android-emulator /usr/local/bin/ef-storefront-android-stack-probe \
-    && chmod -R a+rX /opt/android-sdk /opt/java /usr/lib/jvm/temurin-21 /opt/maestro /opt/ef-storefront-android
+RUN chmod 0755 /usr/local/bin/entrypoint-android /usr/local/bin/storefront-android-emulator /usr/local/bin/storefront-android-stack-probe \
+    && chmod -R a+rX /opt/android-sdk /opt/java /usr/lib/jvm/temurin-21 /opt/maestro /opt/storefront-android
 # avdmanager requires this local package registration for a directly installed
 # emulator archive; source.properties alone does not register this package.
 COPY recipes/collab-runners/runner-resolver-storefront-android/emulator-package.xml /opt/android-sdk/emulator/package.xml
 USER runner
 # An offline toolchain check; the authorized E2E proves KVM, staging build,
 # authentication and the journey. No app sources or credentials enter this image.
-RUN --network=none HOME=/home/runner ef-storefront-android-stack-probe
+RUN --network=none HOME=/home/runner storefront-android-stack-probe
 
 # Collab changes most often, so it is the last layer. The pack revision changes
 # with every publication, so it is declared only after it, and the parent digest

@@ -58,6 +58,9 @@ fixed platform backends, documented in `docs/build-images.md`. Checkpoint script
 are historical evidence, not build dependencies. Keep the source commit, pinned
 parent, local artifact and qualification results distinct. Local Mac images are
 permitted; remote publication is not a prerequisite for source reconstruction.
+The release repository publishes recipes (`recipes/manifest.json`), never built
+images: the organization's console orders each Docker build on its builder node,
+and this entrypoint is the transition route until its console has a registry.
 
 ## Organization-agnostic source of truth
 

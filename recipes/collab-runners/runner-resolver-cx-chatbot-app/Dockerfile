@@ -3,8 +3,8 @@ ARG AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE
 FROM ${AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE}
 
 LABEL org.opencontainers.image.title="runner-resolver-cx-chatbot-app" \
-      io.enviaflores.runner.profile="resolver-cx-chatbot-app" \
-      io.enviaflores.runner.engine="codex"
+      io.uxmaltech.runner.profile="resolver-cx-chatbot-app" \
+      io.uxmaltech.runner.engine="codex"
 
 USER root
 RUN apt-get update \

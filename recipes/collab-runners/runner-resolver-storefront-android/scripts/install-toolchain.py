@@ -52,7 +52,7 @@ def install(lock, archive_cache=None):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--archive-cache', type=Path)
-    parser.add_argument('--lock', type=Path, default=Path('/opt/ef-storefront-android/toolchain-lock.json'))
+    parser.add_argument('--lock', type=Path, default=Path('/opt/storefront-android/toolchain-lock.json'))
     arguments = parser.parse_args(argv)
     install(json.loads(arguments.lock.read_text()), arguments.archive_cache)
 

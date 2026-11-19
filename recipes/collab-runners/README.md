@@ -1,7 +1,8 @@
 # Collab runner recipe adoption
 
-These current Linux toolchain recipes were extracted from the source recorded in
-extraction.json. The combined agent base carries the technology stack only.
+These current Linux toolchain recipes were extracted from an organization pack
+(its commit and the digest of each source file are recorded in extraction.json;
+the pack's identity is not kept). The combined agent base carries the technology stack only.
 Every leaf image installs one exact Collab release, prepared as `collab-release`
 in the build context, as its last layer, and declares the arguments that change
 with every publication (its parent digest and the pack revision) only after the
@@ -16,6 +17,26 @@ and [the recipe file manifest](../../compatibility/collab-image-recipes.lock.jso
 Before preparing a build context, verify the complete offline release against
 that runtime identity and verify every recipe file digest. The release is
 provided separately; it is never resolved through a floating version.
+
+## Release and builds
+
+Each directory here is a recipe listed in [`../manifest.json`](../manifest.json)
+with its version, and a release of this repository publishes its tree in
+`uxmaltech-collab/releases` (see Releasing in the root README). The recipe is what
+is released; the image is not. The organization's console orders the build on its
+builder node and keeps the image in the console's registry
+(`<console registry name>/<image>@sha256:<digest>`); a flavor builds
+`FROM <console registry name>/runner-agent-base@sha256:<digest>` and hosts pull by
+digest and never build. The builder labels the image with `collab.recipe.component`,
+`collab.recipe.version`, `collab.recipe.tree_digest` and `collab.build.id` (it
+passes them to `docker build` with `--label`; the Dockerfiles do not set them).
+These recipes have no `smoke.sh` yet; the build is qualified through
+`scripts/build-images.py`.
+
+**Transition.** The console route does not exist yet. Until the organization's
+console has its registry and a builder node, the previous route stays valid: build
+on the build host as [docs/build-images.md](../../docs/build-images.md) describes
+and pin the digest of the image in the registry the organization already uses.
 
 The native iOS recipe uses schema-two image declarations. Its installed
 preparation and image installer modules compose a sealed declarative Repo export

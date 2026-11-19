@@ -56,7 +56,7 @@ def execute(command, log_dir, boot_timeout=600, shutdown_timeout=20):
                'command_exit_code': None, 'cleanup_confirmed': False}
     emulator = child = None
     previous = {}
-    temporary_state = tempfile.TemporaryDirectory(prefix='ef-android-journey-')
+    temporary_state = tempfile.TemporaryDirectory(prefix='android-journey-')
     exit_code = 1
 
     def interrupted(signum, frame):
@@ -70,7 +70,7 @@ def execute(command, log_dir, boot_timeout=600, shutdown_timeout=20):
                            ANDROID_AVD_HOME=str(state / 'avd'),
                            ANDROID_USER_HOME=str(state / 'android'),
                            ANDROID_EMULATOR_HOME=str(state / 'android'),
-                           EF_ANDROID_EMULATOR_OWNED='1')
+                           ANDROID_EMULATOR_OWNED='1')
         for directory in ('avd', 'android'):
             (state / directory).mkdir(mode=0o700)
         # Containers have separate network namespaces. Still refuse a

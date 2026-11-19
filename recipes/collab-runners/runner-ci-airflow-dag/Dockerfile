@@ -6,7 +6,7 @@ ARG AI_REPO_RESOURCES_RUNNER_BASE_IMAGE
 ARG AI_REPO_RESOURCES_BUNDLE_COMMIT
 LABEL org.opencontainers.image.title="runner-ci-airflow-dag" \
       org.opencontainers.image.revision="${AI_REPO_RESOURCES_BUNDLE_COMMIT}" \
-      io.enviaflores.runner.profile="ci-airflow-dag"
+      io.uxmaltech.runner.profile="ci-airflow-dag"
 
 USER root
 RUN test -n "${AI_REPO_RESOURCES_BUNDLE_COMMIT}" \

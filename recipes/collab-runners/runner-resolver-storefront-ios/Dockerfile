@@ -8,8 +8,8 @@ ARG AI_REPO_RESOURCES_SWIFTLINT_VERSION=0.65.1
 ARG AI_REPO_RESOURCES_SWIFTLINT_SHA256_AMD64=caeed6f4a679c35539ffaf124f6c4ab4a8416917f7d8796279dc52b74026059d
 ARG TARGETARCH
 LABEL org.opencontainers.image.title="runner-resolver-storefront-ios" \
-      io.enviaflores.runner.profile="resolver-storefront-ios" \
-      io.enviaflores.runner.engine="codex"
+      io.uxmaltech.runner.profile="resolver-storefront-ios" \
+      io.uxmaltech.runner.engine="codex"
 
 USER root
 RUN case "${TARGETARCH:-$(dpkg --print-architecture)}" in \

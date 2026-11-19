@@ -46,9 +46,9 @@ RUN apt-get update \
     && chmod 0755 /opt/php/bin/composer
 
 FROM ${AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE}
-LABEL org.opencontainers.image.title="runner-resolver-last-mile-core-pkg" \
-      io.enviaflores.runner.profile="resolver-last-mile-core-pkg" \
-      io.enviaflores.runner.engine="codex"
+LABEL org.opencontainers.image.title="runner-resolver-backoffice-core-pkg" \
+      io.uxmaltech.runner.profile="resolver-backoffice-core-pkg" \
+      io.uxmaltech.runner.engine="codex"
 
 USER root
 RUN apt-get update \
@@ -60,7 +60,7 @@ COPY --from=php-build /opt/php /opt/php
 # Login shells used by the harness reset PATH; expose the same PHP there too.
 RUN ln -sfnT /opt/php/bin/php /usr/local/bin/php \
     && ln -sfnT /opt/php/bin/composer /usr/local/bin/composer
-COPY recipes/collab-runners/runner-resolver-last-mile-core-pkg/platform-probe.php /opt/php/platform-probe.php
+COPY recipes/collab-runners/runner-resolver-backoffice-core-pkg/platform-probe.php /opt/php/platform-probe.php
 RUN php --version && php /opt/php/platform-probe.php && composer --version && codex --version
 USER runner
 

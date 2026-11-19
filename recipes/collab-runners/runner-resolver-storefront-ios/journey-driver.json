@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "repository": "enviaflores/ef-storefront-ios",
+  "repository": "<organization>/<repository>",
   "profile": "resolver-storefront-ios-native",
   "backend": "macos-tart",
   "driver": "ios-maestro",

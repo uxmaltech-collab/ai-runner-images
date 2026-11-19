@@ -1,7 +1,7 @@
 # Android resolver and journey runner
 
 One `resolver-storefront-android` image supports both `resolve` and
-`create-journey` for `enviaflores/ef-storefront-android`. It inherits the same
+`create-journey` for the organization's Android application repository. It inherits the same
 digest-pinned `runner-agent-base`, Codex installation, JIT runner entrypoint and
 account seed contract as the other repository runners. It creates no second
 agent or authentication identity.
@@ -14,14 +14,14 @@ requirements. The application supplies its Gradle 8.13 wrapper. The lock records
 official archive URLs, upstream checksums where published and verified SHA-256
 for every archive; no `latest` package resolution occurs during installation.
 
-`ef-storefront-android-stack-probe` checks installed tools without starting an
+`storefront-android-stack-probe` checks installed tools without starting an
 emulator or building the application. The image build runs it without network.
 A resolve job uses those tools directly and starts no emulator automatically.
 
 A journey owns its emulator for the lifetime of one command:
 
 ```sh
-ef-storefront-android-emulator --log-dir "$RUNNER_TEMP/android-explore" -- \
+storefront-android-emulator --log-dir "$RUNNER_TEMP/android-explore" -- \
   python3 scripts/validate-maestro.py --commit "$COMMIT" --stage validate \
     --issue "$ISSUE" --staging-properties "$STAGING_PROPERTIES" \
     --flow "$FLOW" --output "$RUNNER_TEMP/android-evidence"
@@ -30,7 +30,7 @@ ef-storefront-android-emulator --log-dir "$RUNNER_TEMP/android-explore" -- \
 The caller supplies the real validator arguments. The wrapper creates an empty,
 private AVD outside the checkout, waits up to 600 seconds for boot, exports
 `ANDROID_SERIAL=emulator-5554` and the app validator's ownership marker
-`EF_ANDROID_EMULATOR_OWNED=1`, executes the command, then stops and reaps only its
+`ANDROID_EMULATOR_OWNED=1`, executes the command, then stops and reaps only its
 owned processes before removing the temporary AVD. Use a new log directory for
 each stage; replay gets a fresh AVD. `emulator-result.json` preserves boot status,
 the command's exit code and cleanup outcome, alongside original AVD/emulator logs.

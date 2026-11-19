@@ -5,6 +5,15 @@ a remote registry or backup bucket is not a prerequisite. Preserve original
 artifacts and receipts. This builds and qualifies images, without admitting them
 into an executor or deploying a control plane.
 
+**Which route.** The route for the Dockerfile recipes of
+[`recipes/manifest.json`](../recipes/manifest.json) is the organization's console:
+it orders the build on its builder node, which builds the released recipe tree and
+keeps the image in the console's registry; hosts pull by digest and never build.
+This entrypoint is the transition route, valid until the organization's console has
+its registry and a builder node, and it stays the only route for the native macOS
+profiles (Tart virtual machines, not OCI images). Everything below describes the
+entrypoint.
+
 ```sh
 python3 scripts/build-images.py plan --profile android \
   --inputs /private/build-inputs.json --work-dir /private/new-image-build
