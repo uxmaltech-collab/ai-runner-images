@@ -1,7 +1,8 @@
-"""Plan-time inputs: a journey binding is rendered or kept, never a placeholder; aliases are linked or skipped."""
+"""Plan-time inputs: a journey binding is rendered from its template or not written, never a placeholder or another organization's; aliases, markers and registries are applied or skipped; only another artifact stops."""
 import importlib.util
 import json
 import os
+import re
 import stat
 from pathlib import Path
 
@@ -12,11 +13,11 @@ tool = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(tool)
 RECIPES = Path(__file__).resolve().parents[1]
 
-# Fixtures never use a real organization: example-org / example-* only.
-DRIVER = {'schema_version': 1, 'repository': 'example-org/example-prior', 'profile': 'example-prior-profile',
-          'backend': 'linux-docker', 'driver': 'android-maestro', 'validator': 'scripts/prior-validate.py',
+# Fixtures never use a real organization: example-org / example-* only. A template binds a fact with null.
+DRIVER = {'schema_version': 1, 'repository': None, 'profile': None,
+          'backend': 'linux-docker', 'driver': 'android-maestro', 'validator': None,
           'maximum_seconds': 7200}
-EXECUTION = {'schema_version': 2, 'repository': 'example-org/example-prior', 'profile': 'example-prior-profile',
+EXECUTION = {'schema_version': 2, 'repository': None, 'profile': None,
              'pack_root': '/opt/collab/repo-pack', 'driver': '/opt/ai-repo-resources/journey-driver.json',
              'capability': 'repo.journey.ios.v2'}
 INPUTS = ['--repository', 'example-org/example-app', '--profile', 'example-app-profile',
@@ -35,10 +36,10 @@ def render(capsys, *arguments, environment=None):
     return status, json.loads(captured.out.splitlines()[-1]), captured.err
 
 
-def test_all_inputs_rendered_over_the_prior_binding_keep_its_constants(tmp_path, capsys):
-    fallback = prior(tmp_path)
+def test_all_inputs_rendered_into_the_template_keep_its_constants(tmp_path, capsys):
+    template = prior(tmp_path)
     output = tmp_path / 'out' / 'journey-driver.json'
-    status, result, err = render(capsys, 'journey', '--fallback', str(fallback), '--output', str(output), *INPUTS)
+    status, result, err = render(capsys, 'journey', '--template', str(template), '--output', str(output), *INPUTS)
     assert status == 0 and result['status'] == 'rendered' and result['source'] == 'plan-inputs'
     assert result['warnings'] == [] and err == ''
     document = json.loads(output.read_text())
@@ -49,31 +50,34 @@ def test_all_inputs_rendered_over_the_prior_binding_keep_its_constants(tmp_path,
     assert not list(output.parent.glob('.*.part'))
 
 
-def test_no_inputs_keep_the_prior_binding_byte_for_byte_and_warn(tmp_path, capsys):
-    fallback = prior(tmp_path)
-    before = fallback.read_bytes()
-    status, result, err = render(capsys, 'journey', '--fallback', str(fallback), '--output', str(fallback))
-    assert status == 0 and result['status'] == 'kept' and result['source'] == 'prior-verified'
-    assert 'keeping the prior verified binding' in result['warnings'][0]
+def test_no_inputs_write_no_binding_and_warn_and_the_build_goes_on(tmp_path, capsys):
+    template = prior(tmp_path)
+    output = tmp_path / 'out' / 'journey-driver.json'
+    before = template.read_bytes()
+    status, result, err = render(capsys, 'journey', '--template', str(template), '--output', str(output))
+    assert status == 0 and result['status'] == 'not_done' and result['source'] == 'none'
+    assert 'no journey binding was resolved' in result['warnings'][0] and 'built without one' in result['warnings'][0]
     assert err.startswith('WARNING: ')
-    assert fallback.read_bytes() == before
+    assert not output.exists() and template.read_bytes() == before
 
 
-def test_the_prior_binding_is_copied_to_another_output_when_no_inputs_are_given(tmp_path, capsys):
-    fallback, output = prior(tmp_path), tmp_path / 'rendered.json'
-    status, result, _ = render(capsys, 'journey', '--fallback', str(fallback), '--output', str(output))
-    assert status == 0 and result['status'] == 'kept'
-    assert json.loads(output.read_text()) == DRIVER
+def test_a_binding_already_in_the_output_is_not_replaced_by_a_failed_render(tmp_path, capsys):
+    template = prior(tmp_path)
+    output = tmp_path / 'journey-driver.json'
+    output.write_text('{"kept": true}\n')
+    status, result, _ = render(capsys, 'journey', '--template', str(template), '--output', str(output))
+    assert status == 0 and result['status'] == 'not_done'
+    assert output.read_text() == '{"kept": true}\n'
 
 
-def test_a_partial_set_is_not_mixed_into_the_prior_binding(tmp_path, capsys):
-    fallback = prior(tmp_path)
-    before = fallback.read_bytes()
-    status, result, _ = render(capsys, 'journey', '--fallback', str(fallback), '--output', str(fallback),
+def test_a_partial_set_is_not_written(tmp_path, capsys):
+    template = prior(tmp_path)
+    output = tmp_path / 'out.json'
+    status, result, _ = render(capsys, 'journey', '--template', str(template), '--output', str(output),
                                '--repository', 'example-org/example-app')
-    assert status == 0 and result['status'] == 'kept'
+    assert status == 0 and result['status'] == 'not_done'
     assert 'missing: profile, validator' in result['warnings'][0]
-    assert fallback.read_bytes() == before
+    assert not output.exists()
 
 
 @pytest.mark.parametrize('field, value', [
@@ -87,21 +91,21 @@ def test_a_partial_set_is_not_mixed_into_the_prior_binding(tmp_path, capsys):
     ('--validator', 'scripts\\validate.py'),
 ])
 def test_a_placeholder_or_malformed_value_is_never_written(tmp_path, capsys, field, value):
-    fallback = prior(tmp_path)
-    before = fallback.read_bytes()
+    template = prior(tmp_path)
+    output = tmp_path / 'out.json'
     arguments = dict(zip(INPUTS[::2], INPUTS[1::2]))
     arguments[field] = value
     flat = [item for pair in arguments.items() for item in pair]
-    status, result, _ = render(capsys, 'journey', '--fallback', str(fallback), '--output', str(fallback), *flat)
-    assert status == 0 and result['status'] == 'kept'
+    status, result, _ = render(capsys, 'journey', '--template', str(template), '--output', str(output), *flat)
+    assert status == 0 and result['status'] == 'not_done'
     assert f'invalid: {field[2:]}' in result['warnings'][0]
-    assert fallback.read_bytes() == before
+    assert not output.exists()
 
 
 def test_a_document_without_a_validator_needs_only_the_facts_it_binds(tmp_path, capsys):
-    fallback = prior(tmp_path, EXECUTION, 'journey-execution.json')
+    template = prior(tmp_path, EXECUTION, 'journey-execution.json')
     output = tmp_path / 'execution.json'
-    status, result, _ = render(capsys, 'journey', '--fallback', str(fallback), '--output', str(output),
+    status, result, _ = render(capsys, 'journey', '--template', str(template), '--output', str(output),
                                '--repository', 'example-org/example-app', '--profile', 'example-app-profile',
                                '--validator', 'scripts/ignored.py')
     assert status == 0 and result['status'] == 'rendered'
@@ -110,37 +114,42 @@ def test_a_document_without_a_validator_needs_only_the_facts_it_binds(tmp_path, 
 
 
 def test_the_inputs_can_come_from_the_build_arguments_in_the_environment(tmp_path, capsys):
-    fallback = prior(tmp_path)
+    template = prior(tmp_path)
+    output = tmp_path / 'out.json'
     environment = {'RUNNER_JOURNEY_REPOSITORY': 'example-org/example-env', 'RUNNER_JOURNEY_PROFILE': 'example-env-profile',
                    'RUNNER_JOURNEY_VALIDATOR': 'tools/validate.py'}
-    status, result, _ = render(capsys, 'journey', '--fallback', str(fallback), '--output', str(fallback),
+    status, result, _ = render(capsys, 'journey', '--template', str(template), '--output', str(output),
                                environment=environment)
     assert status == 0 and result['status'] == 'rendered'
-    assert json.loads(fallback.read_text())['repository'] == 'example-org/example-env'
+    assert json.loads(output.read_text())['repository'] == 'example-org/example-env'
 
 
-def test_an_unreadable_prior_binding_writes_nothing_and_still_succeeds(tmp_path, capsys):
+def test_an_unreadable_template_writes_nothing_and_still_succeeds(tmp_path, capsys):
     missing = tmp_path / 'absent.json'
     output = tmp_path / 'out.json'
-    status, result, err = render(capsys, 'journey', '--fallback', str(missing), '--output', str(output), *INPUTS)
+    status, result, err = render(capsys, 'journey', '--template', str(missing), '--output', str(output), *INPUTS)
     assert status == 0 and result['status'] == 'not_done'
     assert 'cannot be read' in result['warnings'][0] and 'WARNING:' in err
     assert not output.exists()
     broken = tmp_path / 'broken.json'
     broken.write_text('[1, 2]')
-    status, result, _ = render(capsys, 'journey', '--fallback', str(broken), '--output', str(output), *INPUTS)
+    status, result, _ = render(capsys, 'journey', '--template', str(broken), '--output', str(output), *INPUTS)
     assert status == 0 and result['status'] == 'not_done' and not output.exists()
+    plain = prior(tmp_path, {'schema_version': 1, 'driver': 'x'}, 'plain.json')
+    status, result, _ = render(capsys, 'journey', '--template', str(plain), '--output', str(output), *INPUTS)
+    assert status == 0 and result['status'] == 'not_done' and 'binds no organization fact' in result['warnings'][0]
+    assert not output.exists()
 
 
 def test_an_output_that_cannot_be_written_is_a_warning(tmp_path, capsys):
-    fallback = prior(tmp_path)
+    template = prior(tmp_path)
     blocked = tmp_path / 'file'
     blocked.write_text('x')
-    status, result, _ = render(capsys, 'journey', '--fallback', str(fallback), '--output', str(blocked / 'out.json'), *INPUTS)
+    status, result, _ = render(capsys, 'journey', '--template', str(template), '--output', str(blocked / 'out.json'), *INPUTS)
     assert status == 0 and result['status'] == 'not_done' and 'cannot be written' in result['warnings'][0]
 
 
-@pytest.mark.parametrize('arguments', [[], ['bogus'], ['journey'], ['journey', '--fallback', 'x'], ['aliases', '--unknown']])
+@pytest.mark.parametrize('arguments', [[], ['bogus'], ['journey'], ['journey', '--template', 'x'], ['aliases', '--unknown'], ['markers', '--bogus'], ['parent', '--bogus']])
 def test_a_malformed_command_line_warns_and_exits_zero(capsys, arguments):
     status, result, err = render(capsys, *arguments)
     assert status == 0 and result['status'] == 'not_done'
@@ -226,15 +235,153 @@ def test_the_tool_and_the_recipes_that_use_it_carry_no_organization_value():
     assert '<organization>' not in text
 
 
-@pytest.mark.parametrize('recipe, name', [('runner-resolver-android', 'journey-driver.json'),
-                                          ('runner-resolver-ios', 'journey-driver.json'),
-                                          ('runner-resolver-ios', 'journey-execution.json')])
-def test_the_shipped_prior_binding_is_a_complete_document_without_a_placeholder(recipe, name):
+TEMPLATES = [('runner-resolver-android', 'journey-driver.json'), ('runner-resolver-ios', 'journey-driver.json'),
+             ('runner-resolver-ios', 'journey-execution.json'), ('runner-resolver-ios', 'image-build.json')]
+
+
+@pytest.mark.parametrize('recipe, name', TEMPLATES)
+def test_a_shipped_declaration_binds_no_organization_and_only_names_the_facts_to_bind(recipe, name):
     document = json.loads((RECIPES / recipe / name).read_text())
-    for fact in ('repository', 'profile'):
-        assert tool.FACTS[fact](document[fact]), (recipe, name, fact)
-    if 'validator' in document:
-        assert tool.FACTS['validator'](document['validator'])
+    bound = [fact for fact in tool.FACTS if fact in document]
+    assert bound, (recipe, name)
+    assert all(document[fact] is None for fact in bound), (recipe, name)
+    text = (RECIPES / recipe / name).read_text().lower()
+    assert 'storefront' not in text and 'enviaflores' not in text and 'ef-' not in text
+
+
+def test_no_recipe_file_carries_an_organization_binding_or_a_helper_default():
+    """The values of an organization's journey, registry scope, host and credential variable are never in a recipe."""
+    forbidden = ('enviaflores', 'ef-storefront', 'storefront', '@uxmaltech', 'npm.pkg.github.com', 'STOREFRONT_WEB_NPM_TOKEN')
+    hits = []
+    for path in RECIPES.rglob('*'):
+        if (path.is_file() and path.suffix in {'.py', '.sh', '.json', '.md', ''} and '__pycache__' not in path.parts
+                and path.name not in {'extraction.json', 'qa-extraction.json', 'test_plan_inputs.py'}
+                and not path.name.startswith('test_')):
+            text = path.read_text(errors='ignore')
+            hits += [f'{path.relative_to(RECIPES)}: {word}' for word in forbidden if word in text]
+    assert hits == []
+
+
+def test_every_shipped_template_renders_with_example_facts_and_without_them_writes_nothing(tmp_path, capsys):
+    for recipe, name in TEMPLATES:
+        template = RECIPES / recipe / name
+        output = tmp_path / recipe / name
+        status, result, _ = render(capsys, 'journey', '--template', str(template), '--output', str(output))
+        assert status == 0 and result['status'] == 'not_done' and not output.exists(), (recipe, name)
+        status, result, _ = render(capsys, 'journey', '--template', str(template), '--output', str(output), *INPUTS)
+        assert status == 0 and result['status'] == 'rendered', (recipe, name)
+        document = json.loads(output.read_text())
+        assert document['profile'] == 'example-app-profile'
+        assert set(json.loads(template.read_text())) == set(document)
+
+
+def test_marker_aliases_are_written_to_the_image_owned_file(tmp_path, capsys):
+    output = tmp_path / 'etc' / 'runner-android-emulator' / 'marker-aliases'
+    status, result, err = render(capsys, 'markers', '--output', str(output), '--names', 'FORMER_OWNED NOT-A-NAME FORMER_OWNED OTHER_FORMER')
+    assert status == 0 and result['status'] == 'ok' and result['names'] == ['FORMER_OWNED', 'OTHER_FORMER']
+    assert len(result['warnings']) == 1 and "'NOT-A-NAME'" in err
+    assert output.read_text() == 'FORMER_OWNED\nOTHER_FORMER\n'
+    assert stat.S_IMODE(output.stat().st_mode) == 0o644
+
+
+def test_marker_aliases_come_from_the_build_argument_and_none_writes_no_file(tmp_path, capsys):
+    output = tmp_path / 'marker-aliases'
+    status, result, _ = render(capsys, 'markers', '--output', str(output), environment={'RUNNER_ANDROID_MARKER_ALIASES': 'FROM_ENV'})
+    assert result['status'] == 'ok' and output.read_text() == 'FROM_ENV\n'
+    other = tmp_path / 'none'
+    status, result, err = render(capsys, 'markers', '--output', str(other))
+    assert status == 0 and result['status'] == 'none' and result['warnings'] == [] and not other.exists()
+    assert err.startswith('NOTE: ')
+
+
+def test_an_unwritable_marker_file_is_a_warning(tmp_path, capsys):
+    blocked = tmp_path / 'file'
+    blocked.write_text('x')
+    status, result, _ = render(capsys, 'markers', '--output', str(blocked / 'marker-aliases'), '--names', 'FORMER_OWNED')
+    assert status == 0 and result['status'] == 'not_done' and 'cannot be written' in result['warnings'][0]
+
+
+def test_registry_bindings_are_written_with_the_variable_name_only(tmp_path, capsys):
+    output = tmp_path / 'etc' / 'registries'
+    spec = '@example-scope=packages.example.test=EXAMPLE_NPM_TOKEN @other=registry.example.test:8443/npm bad @x=host=1BAD @y=h=A=B'
+    status, result, err = render(capsys, 'registries', '--output', str(output), '--entries', spec)
+    assert status == 0 and result['status'] == 'ok'
+    assert output.read_text() == '@example-scope=packages.example.test=EXAMPLE_NPM_TOKEN\n@other=registry.example.test:8443/npm\n'
+    assert len(result['warnings']) == 3 and err.count('WARNING:') == 3
+    assert 'EXAMPLE_NPM_TOKEN' not in ''.join(result['warnings'])
+
+
+def test_no_registry_binding_writes_no_file(tmp_path, capsys):
+    output = tmp_path / 'registries'
+    status, result, err = render(capsys, 'registries', '--output', str(output))
+    assert status == 0 and result['status'] == 'none' and not output.exists() and err.startswith('NOTE: ')
+
+
+APPROVED = 'sha256:' + 'a' * 64
+OTHER = 'sha256:' + 'b' * 64
+
+
+def parent(capsys, *arguments, environment=None):
+    return render(capsys, 'parent', *arguments, environment=environment)
+
+
+def test_a_digest_qualified_parent_that_is_the_approved_artifact_is_verified(capsys):
+    status, result, err = parent(capsys, '--reference', f'registry.example.test/example-android@{APPROVED}', '--approved', APPROVED)
+    assert status == 0 and result['status'] == 'verified' and result['warnings'] == [] and err == ''
+
+
+def test_a_tag_reference_only_warns_and_its_resolved_digest_is_what_is_checked(capsys):
+    reference = 'example-android:local'
+    status, result, err = parent(capsys, '--reference', reference, '--approved', APPROVED, '--resolved', APPROVED)
+    assert status == 0 and result['status'] == 'verified'
+    assert 'only a spelling' in result['warnings'][0] and err.startswith('WARNING: ')
+
+
+def test_a_resolved_digest_that_differs_from_the_approved_one_is_the_only_stop(capsys):
+    status, result, err = parent(capsys, '--reference', 'example-android:local', '--approved', APPROVED, '--resolved', OTHER)
+    assert status == 1 and result['status'] == 'mismatch'
+    assert 'another artifact' in result['warnings'][-1] and OTHER in result['warnings'][-1]
+    status, result, _ = parent(capsys, '--reference', f'registry.example.test/example-android@{OTHER}', '--approved', APPROVED)
+    assert status == 1 and result['status'] == 'mismatch'
+
+
+@pytest.mark.parametrize('arguments, expected', [
+    (['--reference', 'example-android:local', '--approved', APPROVED], 'is not known here'),
+    (['--reference', 'example-android:local', '--resolved', APPROVED], 'no approved digest'),
+    (['--reference', f'example-android@{APPROVED}'], 'no approved digest'),
+    (['--reference', f'example-android@{APPROVED}', '--approved', 'not-a-digest'], 'is not sha256:<64 hex>'),
+    (['--reference', 'example-android:local', '--approved', APPROVED, '--resolved', 'not-a-digest'], 'is not sha256:<64 hex>'),
+    (['--reference', ''], 'no parent reference'),
+])
+def test_a_parent_that_cannot_be_verified_is_unverified_and_the_build_goes_on(capsys, arguments, expected):
+    status, result, _ = parent(capsys, *arguments)
+    assert status == 0 and result['status'] == 'unverified'
+    assert any(expected in warning for warning in result['warnings'])
+
+
+def test_the_parent_check_reads_the_build_arguments_from_the_environment(capsys):
+    environment = {'RUNNER_PARENT_REFERENCE': 'example-android:local', 'RUNNER_PARENT_DIGEST': APPROVED,
+                   'RUNNER_PARENT_RESOLVED_DIGEST': OTHER}
+    status, result, _ = parent(capsys, environment=environment)
+    assert status == 1 and result['status'] == 'mismatch'
+
+
+def test_no_dockerfile_stops_on_the_spelling_of_a_parent_reference():
+    checked = 0
+    for dockerfile in RECIPES.parent.rglob('*Dockerfile'):
+        text = dockerfile.read_text().replace('\\\n', ' ')
+        assert 'must be digest-qualified' not in text and 'must be a registry digest' not in text, dockerfile
+        for match in re.finditer(r'case "\$\{[A-Za-z_]+\}" in \*@sha256:\*[^;]*\) ;;(.*?)esac', text):
+            checked += 1
+            assert 'exit' not in match.group(1), (dockerfile, match.group(0))
+    assert checked >= 9
+
+
+def test_the_android_resolver_reaches_the_digest_check_through_its_build_arguments():
+    text = (RECIPES / 'runner-resolver-android' / 'Dockerfile').read_text()
+    assert 'plan-inputs.py parent' in text and 'ARG RUNNER_ANDROID_IMAGE_DIGEST=' in text
+    assert 'ARG RUNNER_ANDROID_IMAGE_RESOLVED_DIGEST=' in text
+    assert 'ENV RUNNER_ANDROID_EMULATOR_OWNED_ALIASES' not in text
 
 
 def pinned_runtime(tmp_path, monkeypatch, declaration=None):
@@ -257,23 +404,23 @@ def pinned_runtime(tmp_path, monkeypatch, declaration=None):
 def test_rendered_bindings_pass_the_pinned_runtimes_own_validation(tmp_path, monkeypatch, capsys):
     """Skipped unless the pinned runtime is importable (PYTHONPATH=<cli>/src:<cli>/providers/runners/src)."""
     docker_journey, journey_jobs, native_image = pinned_runtime(tmp_path, monkeypatch)
-    driver = {'schema_version': 1, 'repository': 'example-org/prior', 'profile': 'prior', 'backend': 'linux-docker',
-              'driver': 'android-maestro', 'validator': 'scripts/prior.py', 'maximum_seconds': 7200}
+    driver = {'schema_version': 1, 'repository': None, 'profile': None, 'backend': 'linux-docker',
+              'driver': 'android-maestro', 'validator': None, 'maximum_seconds': 7200}
     android = tmp_path / 'android.json'
-    render(capsys, 'journey', '--fallback', str(prior(tmp_path, driver, 'android-prior.json')), '--output', str(android), *INPUTS)
+    render(capsys, 'journey', '--template', str(prior(tmp_path, driver, 'android-template.json')), '--output', str(android), *INPUTS)
     monkeypatch.setattr(docker_journey, 'DRIVER', android)
     docker_journey.validate_recipe()  # raises when the image driver differs from the pack's declaration
 
     ios_driver = {**driver, 'backend': 'macos-tart', 'driver': 'ios-maestro'}
     ios = tmp_path / 'ios.json'
-    render(capsys, 'journey', '--fallback', str(prior(tmp_path, ios_driver, 'ios-prior.json')), '--output', str(ios), *INPUTS)
+    render(capsys, 'journey', '--template', str(prior(tmp_path, ios_driver, 'ios-template.json')), '--output', str(ios), *INPUTS)
     journey_jobs.driver(json.loads(ios.read_text()))
 
-    execution = {'schema_version': 2, 'repository': 'example-org/prior', 'profile': 'prior', 'pack_root': '/opt/collab/repo-pack',
+    execution = {'schema_version': 2, 'repository': None, 'profile': None, 'pack_root': '/opt/collab/repo-pack',
                  'python': '/opt/collab/runtime/bin/python3.12', 'driver': '/opt/ai-repo-resources/journey-driver.json',
                  'runtime_root': '/opt/collab/runtime', 'capability': 'repo.journey.ios.v2'}
     rendered = tmp_path / 'execution.json'
-    render(capsys, 'journey', '--fallback', str(prior(tmp_path, execution, 'execution-prior.json')), '--output', str(rendered), *INPUTS)
+    render(capsys, 'journey', '--template', str(prior(tmp_path, execution, 'execution-template.json')), '--output', str(rendered), *INPUTS)
     declared = native_image.execution_declaration(json.loads(rendered.read_text()))
     # The selected-repository comparison of prepare_native_image.main, against the repository the pack's agent targets.
     assert declared['repository'] == 'example-org/example-app'
@@ -292,21 +439,33 @@ def test_the_pinned_runtime_rejects_a_literal_placeholder(tmp_path, monkeypatch)
         docker_journey.validate_recipe()
 
 
-def test_the_shipped_prior_bindings_pass_the_pinned_runtime_when_the_pack_declares_the_same_values(tmp_path, monkeypatch):
-    """The fallback is the binding verified before: with a pack that declares its values it is accepted as shipped."""
-    android = json.loads((RECIPES / 'runner-resolver-android' / 'journey-driver.json').read_text())
-    docker_journey, journey_jobs, native_image = pinned_runtime(
-        tmp_path, monkeypatch, {key: android[key] for key in ('repository', 'profile', 'validator')})
-    monkeypatch.setattr(docker_journey, 'DRIVER', RECIPES / 'runner-resolver-android' / 'journey-driver.json')
+def test_the_shipped_templates_rendered_with_the_packs_values_pass_the_pinned_runtime(tmp_path, monkeypatch, capsys):
+    """The shipped templates, filled with the facts a pack declares, are what the pinned runtime accepts."""
+    docker_journey, journey_jobs, native_image = pinned_runtime(tmp_path, monkeypatch)
+    android = tmp_path / 'journey-driver.json'
+    render(capsys, 'journey', '--template', str(RECIPES / 'runner-resolver-android' / 'journey-driver.json'),
+           '--output', str(android), *INPUTS)
+    monkeypatch.setattr(docker_journey, 'DRIVER', android)
     docker_journey.validate_recipe()
 
-    ios = json.loads((RECIPES / 'runner-resolver-ios' / 'journey-driver.json').read_text())
-    execution = json.loads((RECIPES / 'runner-resolver-ios' / 'journey-execution.json').read_text())
-    monkeypatch.undo()
-    docker_journey, journey_jobs, native_image = pinned_runtime(
-        tmp_path / 'ios', monkeypatch, {key: ios[key] for key in ('repository', 'profile', 'validator')})
-    journey_jobs.driver(ios)
-    declared = native_image.execution_declaration(execution)
-    assert declared['repository'] == ios['repository']
-    assert declared['profile'] == journey_jobs.setting('native', 'profile')
+    ios = tmp_path / 'ios-driver.json'
+    render(capsys, 'journey', '--template', str(RECIPES / 'runner-resolver-ios' / 'journey-driver.json'),
+           '--output', str(ios), *INPUTS)
+    journey_jobs.driver(json.loads(ios.read_text()))
+    execution = tmp_path / 'execution.json'
+    render(capsys, 'journey', '--template', str(RECIPES / 'runner-resolver-ios' / 'journey-execution.json'),
+           '--output', str(execution), *INPUTS)
+    declared = native_image.execution_declaration(json.loads(execution.read_text()))
+    assert declared['repository'] == 'example-org/example-app'
     assert declared['driver'] == '/opt/ai-repo-resources/journey-driver.json'
+
+
+def test_a_template_left_unrendered_is_a_missing_binding_not_another_organizations(tmp_path, monkeypatch, capsys):
+    """Without inputs no binding exists in the image, so the runtime has nothing of a different organization to mismatch."""
+    docker_journey, journey_jobs, native_image = pinned_runtime(tmp_path, monkeypatch)
+    output = tmp_path / 'journey-driver.json'
+    render(capsys, 'journey', '--template', str(RECIPES / 'runner-resolver-android' / 'journey-driver.json'), '--output', str(output))
+    assert not output.exists()
+    monkeypatch.setattr(docker_journey, 'DRIVER', output)
+    with pytest.raises(Exception):
+        docker_journey.validate_recipe()

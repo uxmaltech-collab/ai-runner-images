@@ -33,24 +33,46 @@ publication.
   namespace, its profile id or an engine declares the alias in its canon and the
   planner adds it with `--label`. The two base recipes keep the labels they had.
 - Plan-time inputs: a journey's repository, profile and validator, the former helper
-  paths and the former emulator ownership marker are organization facts. A recipe takes
-  them as build arguments that the planner resolves from the canon, declared under
-  `inputs` in the manifest and applied by `recipes/collab-runners/common/plan-inputs.py`.
-  The journey declarations keep their prior verified bindings, unchanged, as the
-  fallback: with no value, or an incomplete or invalid set, the binding is kept and a
-  warning is printed and returned, so the image stays what was verified, and no
-  placeholder is ever written. The pinned runtime's own validation accepts the rendered
-  and the shipped bindings (the tests run it when the runtime source is available).
+  paths and the former emulator ownership marker are organization facts, and so are the
+  package registries (scope, host and the *name* of the credential variable) the web
+  install helper needs, and the approved digest of the Android layer. A recipe takes
+  them as build arguments that the planner resolves from the organization's canon,
+  declared under `inputs` in the manifest and applied by
+  `recipes/collab-runners/common/plan-inputs.py`. The journey declarations are templates:
+  their constants, and `null` where an organization fact goes. With no value, or an
+  incomplete or invalid set, no binding is written and the build goes on as the generic
+  image with a warning: nothing is kept from, or invented for, any organization, and
+  no placeholder is ever written. The pinned runtime's own validation accepts the
+  rendered bindings (the tests run it when the runtime source is available).
+- The pinned runtime launches the emulator helper with a fixed list of environment
+  variables, so the former marker names reach it through an image-owned file
+  (`/etc/runner-android-emulator/marker-aliases`) instead of the variable the image used
+  to set. The web install helper reads its registry bindings from RUNNER_WEB_REGISTRIES
+  or `/etc/runner-web-stack/registries`, names the credential variable of each binding
+  (never a value), keeps the user's other npm settings, and warns instead of stopping
+  when a variable is empty or nothing is declared.
+- A parent image's reference spelling is only metadata: the Dockerfiles that stopped a
+  build because a reference was not written `<image>@sha256:<digest>` now warn. The
+  Android resolver verifies the digest the reference resolves to against the approved
+  one (`plan-inputs.py parent`); only a different digest stops the build.
+- `runner-base`'s `RUNNER_BASE_CONTEXT` defaults to a path the release tree holds
+  (`recipes/collab-runners/runner-base`), and the manifest check resolves every `COPY`
+  source of every recipe, with the `ARG` defaults applied, inside the recipe's path or its
+  `shared` paths (`context_inputs` names what the builder supplies, such as
+  `collab-release`).
+- `scripts/check-recipe-manifest.py` also compares each recipe with the previous release
+  tag and warns about a recipe whose Dockerfile, copied sources or parent version
+  changed without a version bump (it only warns).
 - Helpers: the installed commands, the `/opt` paths and the environment variables that
   carried an organization prefix lose it. The Android helpers are the layer's
   `runner-android-emulator` and `runner-android-stack-probe`, and the web helpers are
   `runner-web-stack-install`, `-stack-probe`, `-playwright-mcp` and `-screenshot`; the
   manifest lists them by capability under `helpers`. The emulator wrapper exports the
   ownership marker `RUNNER_ANDROID_EMULATOR_OWNED` and, with the same value, each former
-  marker name in `RUNNER_ANDROID_EMULATOR_OWNED_ALIASES`; `plan-inputs.py aliases` links
+  marker name listed in the image-owned file or in `RUNNER_ANDROID_EMULATOR_OWNED_ALIASES`; `plan-inputs.py aliases` links
   each former helper path of the canon to its neutral helper without replacing a file.
 - The Android layer is released once. `runner-resolver-android` builds `FROM` the
-  image of the `android` recipe by digest (`RUNNER_ANDROID_IMAGE`, pinned by version
+  image of the `android` recipe (`RUNNER_ANDROID_IMAGE`, pinned by version
   in the manifest's `parent`) and no longer repeats the toolchain lock, the emulator
   registration, the helpers or the entrypoint.
 - Provenance: the extraction records (`extraction.json`, `qa-extraction.json`,
@@ -60,8 +82,16 @@ publication.
   organization's change.
 - Builds: the organization's console orders the build of an adopted recipe on its
   builder node and keeps the image in the console's registry; hosts pull by digest and
-  never build. The previous route (`scripts/build-images.py` on the build host) stays
-  valid until the organization's console has its registry.
+  never build. Until it does, `scripts/build-images.py` builds and qualifies only the
+  Android layer, the Linux control plane and the native macOS profiles; the resolver and
+  CI recipes have no profile, and the build host builds them with Docker from the release
+  tree as `docs/build-images.md` describes (unqualified: no `smoke.sh`, no backend).
+- Release procedure: the README states what the publisher does today. It does not read
+  `recipes/manifest.json`; it publishes this repository as one tree per version (no
+  per-recipe component, no lookup by a recipe's name and version in the index, no
+  `--path`), and ends at a local commit of the release repository that must be delivered
+  there. Publishing each recipe under its own component is a change of that publisher
+  and is not made.
 - `uxmaltech-base-image`: the copy under `recipes/templates/` was an earlier state of
   the source of truth's Dockerfile, not a deliberate variant. It is replaced by a
   pointer to `containers/uxmaltech-base-image` in `uxmaltech-collab/ai-templates-resources`.

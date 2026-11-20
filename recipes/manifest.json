@@ -1,7 +1,7 @@
 {
   "schema": "collab.recipes-manifest/v1",
   "repository_version": "0.1.0",
-  "context": "Each Dockerfile COPYs repository-relative paths: the build context is a tree in which the recipe sits at its `path`, together with every path of its `shared` list. `name` is the release identifier and names a stack, never a repository; which repository uses which recipe, and which engine, is organization data that the planner reads from the canon. `parent` names the recipe whose released image is the base (its digest is passed as the build argument `build_arg`). `inputs` maps each plan-time build argument to the organization fact the planner resolves for it; a recipe never carries the value. `helpers` lists the stable neutral commands a recipe installs, by capability.",
+  "context": "Each Dockerfile COPYs repository-relative paths: the build context is a tree in which the recipe sits at its `path`, together with every path of its `shared` list. `name` is the release identifier and names a stack, never a repository; which repository uses which recipe, and which engine, is organization data that the planner reads from the canon. `parent` names the recipe whose released image is the base (its digest is passed as the build argument `build_arg`). `inputs` maps each plan-time build argument to the organization fact the planner resolves for it; a recipe never carries the value. `helpers` lists the stable neutral commands a recipe installs, by capability. `context_inputs` names what the builder places at the root of the context itself (the exact Collab release the resolver recipes install as their last layer); every other COPY source is a path of the release tree, inside the recipe's `path` or one of its `shared` paths.",
   "recipes": [
     {
       "name": "android",
@@ -67,7 +67,10 @@
       "path": "recipes/collab-runners/runner-resolver-airflow-dag",
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
-      "smoke": null
+      "smoke": null,
+      "context_inputs": [
+        "collab-release"
+      ]
     },
     {
       "name": "collab-runners-runner-resolver-android",
@@ -75,6 +78,9 @@
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
       "smoke": null,
+      "context_inputs": [
+        "collab-release"
+      ],
       "parent": {
         "recipe": "android",
         "version": "0.1.0",
@@ -88,7 +94,9 @@
         "RUNNER_JOURNEY_PROFILE": "journey.profile",
         "RUNNER_JOURNEY_VALIDATOR": "journey.validator",
         "RUNNER_HELPER_ALIASES": "helper.aliases",
-        "RUNNER_ANDROID_MARKER_ALIASES": "helper.marker_aliases"
+        "RUNNER_ANDROID_MARKER_ALIASES": "helper.marker_aliases",
+        "RUNNER_ANDROID_IMAGE_DIGEST": "image_pins.digest",
+        "RUNNER_ANDROID_IMAGE_RESOLVED_DIGEST": "builder.resolved_parent_digest"
       }
     },
     {
@@ -96,14 +104,20 @@
       "path": "recipes/collab-runners/runner-resolver-ios",
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
-      "smoke": null
+      "smoke": null,
+      "context_inputs": [
+        "collab-release"
+      ]
     },
     {
       "name": "collab-runners-runner-resolver-mobile-qa",
       "path": "recipes/collab-runners/runner-resolver-mobile-qa",
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
-      "smoke": null
+      "smoke": null,
+      "context_inputs": [
+        "collab-release"
+      ]
     },
     {
       "name": "collab-runners-runner-resolver-nuxt-pnpm",
@@ -111,11 +125,15 @@
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
       "smoke": null,
+      "context_inputs": [
+        "collab-release"
+      ],
       "shared": [
         "recipes/collab-runners/common"
       ],
       "inputs": {
-        "RUNNER_HELPER_ALIASES": "helper.aliases"
+        "RUNNER_HELPER_ALIASES": "helper.aliases",
+        "RUNNER_WEB_REGISTRIES": "web.registries"
       },
       "helpers": [
         {
@@ -141,28 +159,40 @@
       "path": "recipes/collab-runners/runner-resolver-php-laravel",
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
-      "smoke": null
+      "smoke": null,
+      "context_inputs": [
+        "collab-release"
+      ]
     },
     {
       "name": "collab-runners-runner-resolver-php-mysql-redis",
       "path": "recipes/collab-runners/runner-resolver-php-mysql-redis",
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
-      "smoke": null
+      "smoke": null,
+      "context_inputs": [
+        "collab-release"
+      ]
     },
     {
       "name": "collab-runners-runner-resolver-php83",
       "path": "recipes/collab-runners/runner-resolver-php83",
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
-      "smoke": null
+      "smoke": null,
+      "context_inputs": [
+        "collab-release"
+      ]
     },
     {
       "name": "collab-runners-runner-resolver-web-qa",
       "path": "recipes/collab-runners/runner-resolver-web-qa",
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
-      "smoke": null
+      "smoke": null,
+      "context_inputs": [
+        "collab-release"
+      ]
     }
   ]
 }

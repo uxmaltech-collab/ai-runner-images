@@ -16,18 +16,38 @@ SERIAL = 'emulator-5554'
 SYSTEM_IMAGE = 'system-images;android-36;google_apis;x86_64'
 MARKER = 'RUNNER_ANDROID_EMULATOR_OWNED'
 MARKER_ALIASES = 'RUNNER_ANDROID_EMULATOR_OWNED_ALIASES'
+# The image-owned list written at build time from the planner's input. A journey launcher
+# starts this helper with a fixed list of environment variables, so the list cannot rely
+# on the environment alone.
+MARKER_ALIASES_FILE = Path('/etc/runner-android-emulator/marker-aliases')
+
+
+def listed_aliases(environment):
+    """Names from the environment (explicit input) and from the image-owned file, in that order."""
+    names = environment.get(MARKER_ALIASES, '').split()
+    try:
+        names += MARKER_ALIASES_FILE.read_text(encoding='utf-8').split()
+    except FileNotFoundError:
+        pass
+    except (OSError, UnicodeError) as error:
+        print(f'WARNING: the ownership marker alias list {MARKER_ALIASES_FILE} cannot be read '
+              f'({type(error).__name__}); only the neutral marker is exported for it', file=sys.stderr)
+    return names
 
 
 def marker_aliases(environment, taken):
     """The former ownership-marker names a consumer's validator still reads.
 
-    They are organization data, listed by the planner in MARKER_ALIASES (names separated
-    by spaces) and exported with the same value as MARKER. A name that is not an
-    environment variable name, or that would replace a variable already set, warns and
-    is skipped; the marker itself is always exported.
+    They are organization data, listed by the planner (names separated by spaces) in the
+    image-owned file written at build time, or in MARKER_ALIASES when the caller passes
+    it, and exported with the same value as MARKER. A name that is not an environment
+    variable name, or that would replace a variable already set, warns and is skipped;
+    the marker itself is always exported.
     """
     names = {}
-    for name in environment.get(MARKER_ALIASES, '').split():
+    for name in listed_aliases(environment):
+        if name in names:
+            continue
         if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,127}', name):
             print(f'WARNING: ignored the ownership marker alias {name!r}: not an environment variable name', file=sys.stderr)
         elif name in taken:

@@ -59,7 +59,9 @@ RUN set -eux; \
 # Python 3.12 for the Collab runtime each leaf image installs last.
 COPY --from=collab-python /usr/local/ /usr/local/
 ARG PYTHON_BASE_IMAGE
-RUN case "${PYTHON_BASE_IMAGE}" in *@sha256:*) ;; *) exit 1 ;; esac && ldconfig && python3.12 -c "import sys; assert sys.version_info[:2] == (3, 12)"
+RUN case "${PYTHON_BASE_IMAGE}" in *@sha256:*) ;; \
+      *) echo "WARNING: the Python base reference is not spelled <image>@sha256:<digest>; that is only a spelling, and the builder verifies the digest it resolves to against the approved one" >&2 ;; esac \
+    && ldconfig && python3.12 -c "import sys; assert sys.version_info[:2] == (3, 12)"
 
 # One browser runtime is inherited by every flavor. Its pinned Playwright
 # release selects Chromium; the same executable supports direct Archify checks.

@@ -20,10 +20,14 @@ The stable neutral helpers are `/usr/local/bin/runner-android-emulator` and
 `/usr/local/bin/runner-android-stack-probe`; the manifest lists them by capability
 under `helpers`. The wrapper exports the ownership marker
 `RUNNER_ANDROID_EMULATOR_OWNED=1` and, with the same value, each name listed in
-`RUNNER_ANDROID_EMULATOR_OWNED_ALIASES` (separated by spaces): the former marker
-names that a consumer's validator still reads during its migration, which the
-planner takes from the organization's canon. A name that is not an environment
-variable name, or that would replace a variable already set, warns and is skipped.
+the image-owned file `/etc/runner-android-emulator/marker-aliases` (one name per line,
+written by the resolver recipe at build time) or in
+`RUNNER_ANDROID_EMULATOR_OWNED_ALIASES` (separated by spaces) when the caller passes it:
+the former marker names that a consumer's validator still reads during its migration,
+which the planner takes from the organization's canon. The file is the route that works
+through a journey launcher, which starts the helper with a fixed list of environment
+variables. A name that is not an environment variable name, or that would replace a
+variable already set, warns and is skipped.
 The resolver image builds `FROM` the image of this layer
 ([`runner-resolver-android`](../collab-runners/runner-resolver-android/README.md)),
 so the toolchain lock, the registration, the helpers and the entrypoint exist here

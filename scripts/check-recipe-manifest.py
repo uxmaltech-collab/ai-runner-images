@@ -5,10 +5,15 @@ Every finding is a WARNING and the exit status is always 0: nothing here refuses
 release over metadata. A manifest or changelog that is missing, unreadable or malformed,
 a field of the wrong type and an option without its value each warn; the checks that do
 not depend on the affected part still run. The manifest is read once.
-Usage: check-recipe-manifest.py [--root <repository>]
+Besides the manifest itself it compares each recipe with the previous release: a recipe whose
+Dockerfile, copied source (the recipe's own files and the shared paths it copies) or parent version
+changed since the previous release tag, and whose version did not, warns. `--since <ref>` names
+another reference; with no earlier release tag the comparison is skipped.
+Usage: check-recipe-manifest.py [--root <repository>] [--since <ref>]
 """
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -98,6 +103,9 @@ def check_entry(root, entry, index, versions, seen, listed, warnings):
         elif not (directory / smoke).is_file():
             warnings.append(f'{label}: smoke {smoke!r} is not a file in {where}')
     check_shared(root, entry.get('shared'), label, warnings)
+    context_inputs = check_context_inputs(entry.get('context_inputs'), label, warnings)
+    if text is not None:
+        check_copy_sources(root, where, entry.get('shared'), context_inputs, label, text, warnings)
     check_parent(entry.get('parent'), label, text, versions, warnings)
     check_inputs(entry.get('inputs'), label, text, warnings)
     check_helpers(entry.get('helpers'), label, text, warnings)
@@ -114,6 +122,60 @@ def check_shared(root, shared, label, warnings):
             warnings.append(f'{label}: shared path {show(item)} must be a relative path inside the repository')
         elif not (root / item).exists():
             warnings.append(f'{label}: shared path {item!r} does not exist')
+
+
+def check_context_inputs(value, label, warnings):
+    """Names the builder places at the root of the build context itself (not part of the tree)."""
+    if value is None:
+        return set()
+    if not isinstance(value, list) or not all(inside(Path('.'), item) for item in value):
+        warnings.append(f'{label}: context_inputs must be a list of relative names')
+        return set()
+    return {Path(item).parts[0] for item in value}
+
+
+def copy_sources(text):
+    """The (source, unresolved build argument or None) pairs of every COPY that reads the build context."""
+    text = re.sub(r'\\\n', ' ', text)
+    defaults = dict(re.findall(r'^\s*ARG\s+([A-Za-z_][A-Za-z0-9_]*)=(\S*)', text, re.M))
+    found = []
+    for line in text.splitlines():
+        tokens = line.split()
+        if not tokens or tokens[0].upper() != 'COPY' or any(token.startswith('--from=') for token in tokens):
+            continue
+        for source in [token for token in tokens[1:-1] if not token.startswith('--')]:
+            unresolved = None
+            for _ in range(5):
+                names = re.findall(r'\$\{([A-Za-z_][A-Za-z0-9_]*)\}|\$([A-Za-z_][A-Za-z0-9_]*)', source)
+                if not names:
+                    break
+                name = next(a or b for a, b in names)
+                if name not in defaults:
+                    unresolved = name
+                    break
+                source = re.sub(rf'\$\{{{name}\}}|\${name}\b', defaults[name].replace('\\', '\\\\'), source)
+            found.append((source, unresolved))
+    return found
+
+
+def check_copy_sources(root, where, shared, context_inputs, label, text, warnings):
+    """Every COPY source resolves, with the ARG defaults applied, inside the tree this recipe is released with."""
+    allowed = [Path(where).as_posix()] + [Path(item).as_posix() for item in shared if inside(root, item)] \
+        if isinstance(shared, list) else [Path(where).as_posix()]
+    for source, unresolved in copy_sources(text):
+        if unresolved is not None:
+            warnings.append(f'{label}: COPY source {source!r} depends on build argument {unresolved}, which has no default; '
+                            'it was not checked')
+        elif Path(source).parts[:1] and Path(source).parts[0] in context_inputs:
+            continue
+        elif not inside(root, source):
+            warnings.append(f'{label}: COPY source {source!r} is not a relative path inside the build context')
+        elif not any(root.glob(Path(source).as_posix())):
+            warnings.append(f'{label}: COPY source {source!r} does not exist in the release tree; '
+                            'declare it under context_inputs if the builder supplies it')
+        elif not any(Path(source).as_posix() == place or Path(source).as_posix().startswith(place + '/') for place in allowed):
+            warnings.append(f'{label}: COPY source {source!r} is outside the recipe path and its shared paths; '
+                            'add its directory to shared')
 
 
 def check_parent(parent, label, text, versions, warnings):
@@ -224,12 +286,92 @@ def check(root):
     return inspect(Path(root))[0]
 
 
+def git(root, *arguments):
+    """The standard output of a git command, or None when it cannot run or fails."""
+    try:
+        done = subprocess.run(['git', '-C', str(root), *arguments], capture_output=True, text=True, timeout=60)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    return done.stdout if done.returncode == 0 else None
+
+
+def matches(changed, source):
+    """True when the changed path is the copied source, below it, or matched by it (a glob)."""
+    return (changed == source or changed.startswith(source.rstrip('/') + '/')
+            or re.fullmatch(re.escape(source).replace(r'\*', '[^/]*').replace(r'\?', '[^/]'), changed) is not None)
+
+
+def check_changes(root, since=None):
+    """Warnings for recipes whose bytes (or parent) changed since the previous release but not their version.
+
+    What a recipe's version covers is what its image is built from: its Dockerfile, every source its Dockerfile
+    copies (so a change to a shared path counts only when the file is one the Dockerfile copies) and the version of
+    its parent. Nothing here refuses: with no previous release, no readable manifest there or no git, it skips.
+    """
+    root = Path(root)
+    ref = since
+    if ref is None:
+        described = git(root, 'describe', '--tags', '--abbrev=0', '--match', 'v[0-9]*', 'HEAD')
+        ref = described.strip() if described else None
+    if not ref:
+        return []
+    document, _ = read_manifest(root)
+    earlier = git(root, 'show', f'{ref}:recipes/manifest.json')
+    try:
+        before = json.loads(earlier) if earlier else None
+    except ValueError:
+        before = None
+    if document is None or not isinstance(document.get('recipes'), list):
+        return []  # the manifest checks already warned
+    if not isinstance(before, dict):
+        return [f'the recipe versions were not compared with {ref}: it has no readable recipes/manifest.json']
+    changed = set((git(root, 'diff', '--name-only', ref, '--') or '').split('\n')) | \
+        set((git(root, 'ls-files', '--others', '--exclude-standard') or '').split('\n'))
+    changed.discard('')
+    old = {e['name']: e for e in (before.get('recipes') or []) if isinstance(e, dict) and isinstance(e.get('name'), str)}
+    warnings = []
+    for entry in document['recipes']:
+        if not isinstance(entry, dict) or not isinstance(entry.get('name'), str) or not isinstance(entry.get('path'), str):
+            continue
+        previous = old.get(entry['name'])
+        if previous is None or previous.get('version') != entry.get('version'):
+            continue  # a new recipe, or one whose version already moved
+        dockerfile = entry.get('dockerfile') if isinstance(entry.get('dockerfile'), str) else 'Dockerfile'
+        recipe_dockerfile = (Path(entry['path']) / dockerfile).as_posix()
+        try:
+            text = (root / recipe_dockerfile).read_text(encoding='utf-8', errors='replace')
+        except OSError:
+            continue
+        context_inputs = check_context_inputs(entry.get('context_inputs'), entry['name'], [])
+        sources = [recipe_dockerfile] + [source for source, unresolved in copy_sources(text)
+                                         if unresolved is None and Path(source).parts[:1] and Path(source).parts[0] not in context_inputs]
+        causes = sorted({path for path in changed if any(matches(path, source) for source in sources)})
+        parent, before_parent = entry.get('parent'), previous.get('parent')
+        if (isinstance(parent, dict) and isinstance(before_parent, dict)
+                and parent.get('version') != before_parent.get('version')):
+            causes.append(f"the parent {parent.get('recipe')} moved from {before_parent.get('version')} to {parent.get('version')}")
+        if causes:
+            warnings.append(f"{entry['name']}: {', '.join(causes[:3])}{' and more' if len(causes) > 3 else ''} changed since {ref} "
+                            f"but its version is still {entry.get('version')}; bump it in recipes/manifest.json")
+    return warnings
+
+
 def options(argv):
-    """The repository root and the warnings about options that could not be used."""
-    root, warnings, index = DEFAULT_ROOT, [], 0
+    """The repository root, the reference to compare with and the warnings about options that could not be used."""
+    root, warnings, index, since = DEFAULT_ROOT, [], 0, None
     while index < len(argv):
         argument = argv[index]
-        if argument == '--root':
+        if argument == '--since':
+            if index + 1 < len(argv) and not argv[index + 1].startswith('--'):
+                since, index = argv[index + 1], index + 1
+            else:
+                warnings.append('--since needs a value; the latest release tag is used')
+        elif argument.startswith('--since='):
+            if argument[len('--since='):]:
+                since = argument[len('--since='):]
+            else:
+                warnings.append('--since needs a value; the latest release tag is used')
+        elif argument == '--root':
             if index + 1 < len(argv) and not argv[index + 1].startswith('--'):
                 root, index = Path(argv[index + 1]), index + 1
             else:
@@ -242,7 +384,7 @@ def options(argv):
         else:
             warnings.append(f'ignored the unknown option {show(argument)}')
         index += 1
-    return root, warnings
+    return root, since, warnings
 
 
 def main(argv=None):
@@ -250,11 +392,12 @@ def main(argv=None):
     if any(argument in ('-h', '--help') for argument in argv):
         print(__doc__)
         return 0
-    root, warnings = options(argv)
+    root, since, warnings = options(argv)
     count = 0
     try:
         found, count = inspect(root)
         warnings += found
+        warnings += check_changes(root, since)
     except Exception as error:  # advisory tool: an unexpected failure is a warning, never a refusal
         warnings.append(f'the check stopped early ({type(error).__name__}: {str(error)[:80]})')
     for warning in warnings:

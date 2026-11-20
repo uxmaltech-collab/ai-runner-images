@@ -24,7 +24,9 @@ PROFILES = {
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('operation', choices=['plan', 'build'])
-    parser.add_argument('--profile', required=True, choices=PROFILES)
+    parser.add_argument('--profile', required=True, choices=PROFILES,
+                        help='an image profile; the other recipes of recipes/manifest.json (resolver, CI) are not profiles: '
+                             'see docs/build-images.md, Resolver and CI recipes')
     parser.add_argument('--inputs', required=True, type=Path)
     parser.add_argument('--work-dir', required=True, type=Path)
     args = parser.parse_args(argv)

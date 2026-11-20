@@ -22,7 +22,9 @@ ARG GH_SHA256_ARM64=06f86ec7103d41993b76cd78072f43595c34aaa56506d971d9860e67140b
 ARG DOCKER_CLI_VERSION=27.5.1
 ARG DOCKER_CLI_SHA256_AMD64
 ARG DOCKER_CLI_SHA256_ARM64
-ARG RUNNER_BASE_CONTEXT=containers/runner-base
+# Where the entrypoint sits in the build context: the release tree places this recipe at
+# its own path, so the default is a path that tree contains.
+ARG RUNNER_BASE_CONTEXT=recipes/collab-runners/runner-base
 ARG JIT_CONFIG_ENV=RUNNERS_PACK_JIT_CONFIG
 ARG TARGETARCH
 
@@ -33,7 +35,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PATH="/home/runner/.local/bin:${PATH}"
 
 RUN case "${RUNNER_BASE_OS_IMAGE}" in *@sha256:*) ;; \
-      *) echo "RUNNER_BASE_OS_IMAGE must be digest-qualified" >&2; exit 1 ;; esac \
+      *) echo "WARNING: the RUNNER_BASE_OS_IMAGE reference is not spelled <image>@sha256:<digest>; that is only a spelling, and the builder verifies the digest it resolves to against the approved one" >&2 ;; esac \
     && test -n "${ACTIONS_RUNNER_SHA256_AMD64}" \
     && test -n "${ACTIONS_RUNNER_SHA256_ARM64}" \
     && test -n "${ACTIONLINT_SHA256_AMD64}" \

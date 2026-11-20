@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "repository": "enviaflores/ef-storefront-ios",
-  "profile": "resolver-storefront-ios-native",
+  "repository": null,
+  "profile": null,
   "backend": "macos-tart",
   "driver": "ios-maestro",
-  "validator": "scripts/validate-maestro.py",
+  "validator": null,
   "maximum_seconds": 7200
 }

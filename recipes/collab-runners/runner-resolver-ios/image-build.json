@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "profile": "resolver-storefront-ios-native",
+  "profile": null,
   "backend": "macos-tart",
   "engine": "codex",
   "driver": "recipes/collab-runners/runner-resolver-ios/journey-driver.json",

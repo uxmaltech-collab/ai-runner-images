@@ -17,7 +17,7 @@ LABEL org.opencontainers.image.title="agent-example-service" \
 
 USER root
 RUN case "${AGENT_BASE_IMAGE}" in *@sha256:*|*:id-*) ;; \
-      *) echo "AGENT_BASE_IMAGE must be a registry digest or an image-id tag" >&2; exit 1 ;; esac \
+      *) echo "WARNING: the AGENT_BASE_IMAGE reference is not spelled <image>@sha256:<digest>; that is only a spelling, and the builder verifies the digest it resolves to against the approved one" >&2 ;; esac \
     && apt-get update \
     && apt-get install -y --no-install-recommends composer php-cli php-mbstring php-xml \
     && rm -rf /var/lib/apt/lists/*

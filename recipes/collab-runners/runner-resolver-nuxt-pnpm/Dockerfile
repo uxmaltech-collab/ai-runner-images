@@ -10,7 +10,7 @@ LABEL org.opencontainers.image.title="runner-resolver-nuxt-pnpm" \
       collab.runner.profile="resolver-nuxt-pnpm" \
       collab.runner.stack="nuxt-pnpm"
 
-# Stack runtime for the organization's web application repository: pnpm through
+# Stack runtime for a web application repository: pnpm through
 # Corepack, so the checkout's `packageManager` pin is honored. The toolchain is baked here; the
 # checkout's own pnpm-lock.yaml is installed at job time by
 # runner-web-stack-install (corepack enable, corepack prepare --activate,
@@ -61,13 +61,18 @@ RUN chmod 0755 \
     && playwright-mcp --version \
     && redis-server --version
 
-# Plan-time input: the former helper paths a consumer still declares, as ALIAS=TARGET
-# pairs the planner reads from the organization canon (see common/plan-inputs.py).
-# Without it only the neutral helper names are installed. It is declared after the
-# toolchain layer so that a change of the canon rebuilds only the layers below it.
+# Plan-time inputs, read by the planner from the organization canon (see
+# common/plan-inputs.py): the former helper paths a consumer still declares, as ALIAS=TARGET
+# pairs, and the package registries the install needs, as SCOPE=HOST[=CREDENTIAL_VARIABLE_NAME]
+# entries (the variable's name, never a value). Without them only the neutral helper names
+# are installed and the install uses the job's own npm configuration, with a warning. They
+# are declared after the toolchain layer so that a change of the canon rebuilds only the
+# layers below it.
 ARG RUNNER_HELPER_ALIASES=
+ARG RUNNER_WEB_REGISTRIES=
 COPY recipes/collab-runners/common/plan-inputs.py /opt/runner-plan-inputs/plan-inputs.py
 RUN python3 /opt/runner-plan-inputs/plan-inputs.py aliases \
+    && python3 /opt/runner-plan-inputs/plan-inputs.py registries \
     && chmod -R a+rX /opt/runner-plan-inputs
 USER runner
 # Prove the job-time install contract as the unprivileged runner: the bundled

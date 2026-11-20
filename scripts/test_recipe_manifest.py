@@ -48,26 +48,90 @@ def test_the_repository_manifest_is_complete_and_consistent():
     assert module.check(ROOT) == []
 
 
+def test_the_recipe_lock_records_the_current_bytes_of_every_file_it_lists():
+    """compatibility/collab-image-recipes.lock.json is the digest list a builder verifies; regenerate it with each recipe change."""
+    import hashlib
+    lock = json.loads((ROOT / 'compatibility' / 'collab-image-recipes.lock.json').read_text())
+    stale = [name for name, digest in lock['files'].items()
+             if not (ROOT / name).is_file() or hashlib.sha256((ROOT / name).read_bytes()).hexdigest() != digest]
+    assert stale == []
+
+
 def test_the_repository_manifest_uses_the_neutral_schema_id():
     manifest = json.loads((ROOT / 'recipes' / 'manifest.json').read_text())
     assert manifest['schema'] == 'collab.recipes-manifest/v1'
 
 
-def test_every_copied_source_of_a_listed_recipe_exists_in_the_tree():
+def test_every_copied_source_of_a_listed_recipe_resolves_inside_its_release_tree():
+    """With the ARG defaults applied: a source is in the recipe's path or its shared paths, or the builder supplies it."""
     manifest = json.loads((ROOT / 'recipes' / 'manifest.json').read_text())
-    missing = []
+    resolved = 0
     for entry in manifest['recipes']:
-        text = (ROOT / entry['path'] / entry['dockerfile']).read_text().replace('\\\n', ' ')
-        for line in text.splitlines():
-            tokens = line.split()
-            if not tokens or tokens[0] != 'COPY' or any(token.startswith('--from=') for token in tokens):
-                continue
-            sources = [token for token in tokens[1:-1] if not token.startswith('--')]
-            # `collab-release` is a build-context artifact the builder places at the context root, and a
-            # source that names a build argument is resolved by the build, not by the tree.
-            missing += [f'{entry["name"]}: {source}' for source in sources
-                        if source != 'collab-release' and '$' not in source and not (ROOT / source).exists()]
-    assert missing == []
+        text = (ROOT / entry['path'] / entry['dockerfile']).read_text()
+        warnings = []
+        module.check_copy_sources(ROOT, entry['path'], entry.get('shared'), set(entry.get('context_inputs', [])),
+                                  entry['name'], text, warnings)
+        assert warnings == [], warnings
+        sources = module.copy_sources(text)
+        assert all(unresolved is None for _, unresolved in sources), (entry['name'], sources)
+        resolved += len(sources)
+    assert resolved > 20
+
+
+def test_the_runner_base_entrypoint_resolves_through_its_context_argument_default():
+    """The review's scenario: the default of RUNNER_BASE_CONTEXT named a directory the release tree does not hold."""
+    entry = next(e for e in json.loads((ROOT / 'recipes' / 'manifest.json').read_text())['recipes']
+                 if e['name'] == 'collab-runners-runner-base')
+    text = (ROOT / entry['path'] / 'Dockerfile').read_text()
+    assert module.copy_sources(text) == [('recipes/collab-runners/runner-base/entrypoint-jit.sh', None)]
+    assert (ROOT / 'recipes/collab-runners/runner-base/entrypoint-jit.sh').is_file()
+    assert not (ROOT / 'containers').exists()
+
+
+def test_a_copy_source_the_release_tree_does_not_hold_warns(tmp_path):
+    root = repository(tmp_path, None)
+    entry = recipe(root, 'base', 'ARG CTX=containers/base\nFROM scratch\nCOPY ${CTX}/entry.sh /entry.sh\nCOPY collab-release /c\nCOPY --from=x /a /b\n')
+    repository(tmp_path, good_manifest(entry))
+    warnings = module.check(root)
+    assert any("COPY source 'containers/base/entry.sh' does not exist in the release tree" in w for w in warnings)
+    assert any("COPY source 'collab-release' does not exist" in w for w in warnings)
+    assert len(warnings) == 2
+    entry['context_inputs'] = ['collab-release']
+    repository(tmp_path, good_manifest(entry))
+    assert [w for w in module.check(root) if 'collab-release' in w] == []
+
+
+def test_a_copy_source_outside_the_recipe_and_its_shared_paths_warns(tmp_path):
+    root = repository(tmp_path, None)
+    (root / 'common').mkdir()
+    (root / 'common' / 'tool.py').write_text('')
+    (root / 'other').mkdir()
+    (root / 'other' / 'file').write_text('')
+    entry = recipe(root, 'one', 'FROM scratch\nCOPY common/tool.py /t\nCOPY other/file /o\n')
+    repository(tmp_path, good_manifest(entry))
+    warnings = module.check(root)
+    assert any("COPY source 'common/tool.py' is outside the recipe path and its shared paths" in w for w in warnings)
+    assert any("COPY source 'other/file' is outside" in w for w in warnings)
+    entry['shared'] = ['common']
+    repository(tmp_path, good_manifest(entry))
+    warnings = module.check(root)
+    assert not any('common/tool.py' in w for w in warnings) and any('other/file' in w for w in warnings)
+
+
+def test_a_copy_source_that_depends_on_an_argument_without_default_warns_and_the_rest_is_checked(tmp_path):
+    root = repository(tmp_path, None)
+    entry = recipe(root, 'one', 'FROM scratch\nARG CTX\nCOPY ${CTX}/f /f\nCOPY recipes/one/Dockerfile /d\n')
+    repository(tmp_path, good_manifest(entry))
+    warnings = module.check(root)
+    assert warnings == ["one: COPY source '${CTX}/f' depends on build argument CTX, which has no default; it was not checked"]
+
+
+def test_a_wrong_typed_context_inputs_warns(tmp_path):
+    root = repository(tmp_path, None)
+    entry = recipe(root, 'one')
+    entry['context_inputs'] = 'collab-release'
+    repository(tmp_path, good_manifest(entry))
+    assert module.check(root) == ['one: context_inputs must be a list of relative names']
 
 
 def test_a_recipe_takes_its_bindings_from_plan_time_inputs_not_from_literals():
@@ -258,3 +322,105 @@ def test_parent_inputs_and_helpers_must_match_the_recipes(tmp_path):
     assert "orphan: parent recipe 'nowhere' is not in the manifest" in warnings
     assert "orphan: shared path 'recipes/not-there' does not exist" in warnings
     assert not any('KNOWN' in warning or '/usr/local/bin/tool' in warning for warning in warnings)
+
+
+# --- versions against the previous release -------------------------------------------------------
+
+def git_run(root, *arguments):
+    import subprocess
+    subprocess.run(['git', '-C', str(root), '-c', 'user.name=Example', '-c', 'user.email=example@example.test',
+                    '-c', 'commit.gpgsign=false', '-c', 'tag.gpgsign=false', *arguments], check=True, capture_output=True)
+
+
+def released(tmp_path):
+    """A repository tagged v0.1.0 with a recipe that copies one shared file, a recipe with a parent and a bystander."""
+    root = tmp_path / 'repo'
+    (root / 'recipes').mkdir(parents=True)
+    (root / 'common').mkdir()
+    (root / 'common' / 'tool.py').write_text('v1')
+    (root / 'common' / 'test_tool.py').write_text('t1')
+    (root / 'CHANGELOG.md').write_text(CHANGELOG)
+    base = recipe(root, 'base', 'FROM scratch\n')
+    child = recipe(root, 'child', 'ARG BASE\nFROM ${BASE}\nCOPY common/tool.py /t\nCOPY collab-release /c\n')
+    child.update(shared=['common'], parent={'recipe': 'base', 'version': '0.1.0', 'build_arg': 'BASE'},
+                 context_inputs=['collab-release'])
+    other = recipe(root, 'other', 'FROM scratch\nCOPY common/tool.py /t\n')
+    other.update(shared=['common'])
+    (root / 'recipes' / 'manifest.json').write_text(json.dumps(good_manifest(base, child, other)))
+    git_run(root, 'init', '-q', '-b', 'main')
+    git_run(root, 'add', '-A')
+    git_run(root, 'commit', '-q', '-m', 'release')
+    git_run(root, 'tag', 'v0.1.0')
+    return root
+
+
+def bump(root, name, version='0.1.1'):
+    path = root / 'recipes' / 'manifest.json'
+    manifest = json.loads(path.read_text())
+    for entry in manifest['recipes']:
+        if entry['name'] == name:
+            entry['version'] = version
+        if entry.get('parent', {}).get('recipe') == name:
+            entry['parent']['version'] = version
+    path.write_text(json.dumps(manifest))
+
+
+def test_an_unchanged_tree_has_no_version_warning(tmp_path):
+    assert module.check_changes(released(tmp_path)) == []
+
+
+def test_a_change_to_a_shared_file_a_recipe_copies_asks_for_its_version_and_leaves_the_others(tmp_path):
+    root = released(tmp_path)
+    (root / 'common' / 'tool.py').write_text('v2')
+    warnings = module.check_changes(root)
+    assert sorted(w.split(':')[0] for w in warnings) == ['child', 'other']
+    assert all('common/tool.py changed since v0.1.0 but its version is still 0.1.0' in w for w in warnings)
+    bump(root, 'child')
+    bump(root, 'other')
+    assert module.check_changes(root) == []
+
+
+def test_a_shared_file_no_dockerfile_copies_does_not_ask_for_a_version(tmp_path):
+    root = released(tmp_path)
+    (root / 'common' / 'test_tool.py').write_text('t2')
+    (root / 'common' / 'new-untracked.txt').write_text('x')
+    assert module.check_changes(root) == []
+
+
+def test_a_change_to_the_recipes_own_dockerfile_or_files_asks_for_its_version(tmp_path):
+    root = released(tmp_path)
+    (root / 'recipes' / 'base' / 'Dockerfile').write_text('FROM scratch\nLABEL a=b\n')
+    warnings = module.check_changes(root)
+    assert len(warnings) == 1 and warnings[0].startswith('base: recipes/base/Dockerfile changed')
+
+
+def test_a_moved_parent_asks_for_the_childs_version(tmp_path):
+    root = released(tmp_path)
+    bump(root, 'base')
+    warnings = module.check_changes(root)
+    assert any(w.startswith('child: the parent base moved from 0.1.0 to 0.1.1') for w in warnings)
+    assert not any(w.startswith('base:') for w in warnings)
+
+
+def test_the_comparison_uses_the_named_reference_and_skips_without_one(tmp_path):
+    root = released(tmp_path)
+    (root / 'common' / 'tool.py').write_text('v2')
+    git_run(root, 'commit', '-q', '-am', 'change')
+    git_run(root, 'tag', 'v0.1.1')
+    assert module.check_changes(root) == []  # the latest tag already holds the change
+    assert len(module.check_changes(root, since='v0.1.0')) == 2
+    plain = tmp_path / 'plain'
+    plain.mkdir()
+    assert module.check_changes(plain) == []  # not a git checkout: skipped, never refused
+    assert module.check_changes(root, since='no-such-ref')[0].startswith('the recipe versions were not compared with no-such-ref')
+
+
+def test_the_command_reports_the_version_warnings_and_exits_zero(tmp_path, capsys):
+    root = released(tmp_path)
+    (root / 'common' / 'tool.py').write_text('v2')
+    status, out = run(root, capsys)
+    assert status == 0 and 'WARNING: child: common/tool.py changed since v0.1.0' in out
+    status, out = run(root, capsys, '--since', 'v0.1.0')
+    assert status == 0 and '2 warning(s)' in out
+    status, out = run(root, capsys, '--since')
+    assert status == 0 and '--since needs a value' in out

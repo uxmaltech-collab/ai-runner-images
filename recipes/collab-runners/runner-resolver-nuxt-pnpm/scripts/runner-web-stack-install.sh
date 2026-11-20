@@ -12,18 +12,25 @@
 #
 # It never runs `npm ci` and never reads package-lock.json.
 #
-# The @uxmaltech scope is pinned to GitHub Packages through a temporary npm user
-# config that lives outside the checkout and is removed on exit. Its token comes
-# only from AI_REPO_RESOURCES_STOREFRONT_WEB_NPM_TOKEN at job time; no value is
-# written into the image, the workspace, or the logs. When the lockfile resolves
-# packages from that registry and the token is empty, the install fails closed
-# before touching the network.
+# Registry configuration is organization data. Each private package scope the install
+# needs is declared as `<scope>=<registry-host>[=<credential-variable-name>]` entries,
+# separated by spaces, in RUNNER_WEB_REGISTRIES and/or in the image-owned file
+# /etc/runner-web-stack/registries (written at build time from the planner's input). The
+# helper names the variable that holds a credential, never its value: the value is read
+# from the job's environment at install time and goes only into a temporary npm user
+# config outside the checkout (mode 0600, removed on exit); it is written into no image,
+# workspace or log. The temporary config starts from the user config npm would have used
+# ($NPM_CONFIG_USERCONFIG, else ~/.npmrc), so unrelated settings are kept. Nothing here
+# stops the install: an entry that cannot be used, an empty credential variable or no
+# declaration at all is a warning and the install goes on with what is configured.
 set -euo pipefail
 
 readonly tool="runner-web-stack-install"
-readonly registry_scope="@uxmaltech"
-readonly registry_host="npm.pkg.github.com"
-readonly token_env="AI_REPO_RESOURCES_STOREFRONT_WEB_NPM_TOKEN"
+readonly registries_file="${RUNNER_WEB_STACK_REGISTRIES_FILE:-/etc/runner-web-stack/registries}"
+
+warn() {
+  echo "${tool}: WARNING: $*" >&2
+}
 
 usage() {
   cat >&2 <<'USAGE'
@@ -69,8 +76,11 @@ cd "${project}"
 [[ -f pnpm-lock.yaml ]] || fail "pnpm-lock.yaml not found in ${PWD}; this stack installs only from pnpm-lock.yaml"
 [[ ! -e package-lock.json ]] || fail "package-lock.json is present in ${PWD}; the web stack is pnpm-only and never installs from an npm lockfile"
 
-# Registry configuration: scope pin always, credential only from the secret env.
-token="${!token_env:-}"
+# Registry configuration, from the declared bindings only.
+declared="${RUNNER_WEB_REGISTRIES:-}"
+if [[ -r "${registries_file}" ]]; then
+  declared="${declared} $(tr '\n' ' ' < "${registries_file}")"
+fi
 config_dir="$(mktemp -d "${TMPDIR:-/tmp}/${tool}.XXXXXX")"
 cleanup() {
   rm -rf -- "${config_dir}"
@@ -80,13 +90,42 @@ npmrc="${config_dir}/npmrc"
 # The directory is 0700 from mktemp; create the file itself as 0600 from the
 # start (subshell so the restrictive umask never reaches pnpm's own files).
 (umask 077 && : > "${npmrc}")
-printf '%s:registry=https://%s\n' "${registry_scope}" "${registry_host}" >> "${npmrc}"
-if [[ -n "${token}" ]]; then
-  printf '//%s/:_authToken=%s\n' "${registry_host}" "${token}" >> "${npmrc}"
-elif grep -qF "${registry_host}" pnpm-lock.yaml; then
-  fail "pnpm-lock.yaml resolves packages from ${registry_host} but ${token_env} is empty"
+bound=0
+set -f  # an entry is data, never a pattern to expand
+for entry in ${declared}; do
+  IFS== read -r scope host variable extra <<< "${entry}"
+  if [[ -n "${extra}" ]] \
+    || [[ ! "${scope}" =~ ^@[a-z0-9][a-z0-9._-]*$ ]] \
+    || [[ ! "${host}" =~ ^[A-Za-z0-9][A-Za-z0-9.-]*(:[0-9]{1,5})?(/[A-Za-z0-9._~/-]*)?$ ]] \
+    || { [[ -n "${variable}" ]] && [[ ! "${variable}" =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]]; }; then
+    warn "ignored a registry entry that is not <scope>=<host>[=<credential-variable-name>]"
+    continue
+  fi
+  host="${host%/}"
+  if [[ "${bound}" -eq 0 ]]; then
+    # Keep the settings npm would have read; the entries below are appended after them.
+    base_config="${NPM_CONFIG_USERCONFIG:-${HOME:-}/.npmrc}"
+    if [[ -f "${base_config}" && -r "${base_config}" ]]; then
+      cat -- "${base_config}" >> "${npmrc}"
+      printf '\n' >> "${npmrc}"
+    fi
+  fi
+  bound=$((bound + 1))
+  printf '%s:registry=https://%s/\n' "${scope}" "${host}" >> "${npmrc}"
+  if [[ -n "${variable}" ]]; then
+    if [[ -n "${!variable:-}" ]]; then
+      printf '//%s/:_authToken=%s\n' "${host}" "${!variable}" >> "${npmrc}"
+    else
+      warn "the credential variable ${variable} for ${scope} is empty; ${scope} is configured without credentials"
+    fi
+  fi
+done
+set +f
+if [[ "${bound}" -eq 0 ]]; then
+  warn "no registry binding is declared (RUNNER_WEB_REGISTRIES or ${registries_file}); the install uses the npm configuration the job already has, and a lockfile that resolves from a private registry needs the job to supply it"
+else
+  export NPM_CONFIG_USERCONFIG="${npmrc}"
 fi
-export NPM_CONFIG_USERCONFIG="${npmrc}"
 
 if [[ "${offline}" -eq 1 ]]; then
   export COREPACK_ENABLE_NETWORK=0

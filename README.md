@@ -80,46 +80,82 @@ node and keeps the image in the console's registry; hosts pull
 `<console registry name>/<image>@sha256:<digest>` by digest and never build.
 
 **Transition.** The console route does not exist yet. Until the organization's
-console has its registry and a builder node, the previous route stays valid: use
-[`python3 scripts/build-images.py`](docs/build-images.md) to compose and qualify
-local images from this source, and pin the digest of the image in the registry the
-organization already uses. The native macOS profiles are Tart virtual machines, not
-OCI images: they are not in the manifest and keep this route. Linux and Android
-share the entrypoint; the native backend composes both macOS profiles and has
-[real native qualification](qualification/native-tool-recipes-20260919/README.md).
-It starts from a measured local Apple toolchain parent; a fresh-machine restore
-remains a separate prerequisite.
+console has its registry and a builder node, the previous route stays valid, and it
+covers only part of the recipes:
+
+| What | Command today | Qualification |
+| --- | --- | --- |
+| The neutral Android layer (recipe `android`) and the Linux control plane | `python3 scripts/build-images.py plan\|build --profile android` (or `linux-control-plane`), see [docs/build-images.md](docs/build-images.md) | the profile's own cold restore and offline tool checks |
+| Native macOS profiles (Tart virtual machines, not OCI images; not in the manifest) | `--profile macos-ios` / `macos-flutter` | [real native qualification](qualification/native-tool-recipes-20260919/README.md); it starts from a measured local Apple toolchain parent, and a fresh-machine restore remains a separate prerequisite |
+| Every other recipe of the manifest, the resolver recipes included | no profile: `build-images.py` rejects the name (`plan --profile runner-resolver-android` is not a profile) and `--profile android` builds only the parent. A build host builds them with `docker build` from the release tree, as [Resolver and CI recipes](docs/build-images.md#resolver-and-ci-recipes) gives | none yet: these recipes have no `smoke.sh` and no backend qualifies them; an image built that way is unqualified until one does |
+
+The resolver recipes need the exact Collab release as `collab-release/` at the root
+of the context and their plan-time inputs as build arguments; that page lists both,
+and the command that verifies the parent image against its approved digest.
 
 ## Releasing
 
 Releases are tags `vX.Y.Z` of this repository, recorded in
-[`CHANGELOG.md`](CHANGELOG.md). A release publishes recipes only.
+[`CHANGELOG.md`](CHANGELOG.md). A release publishes recipes only, as one tree.
 
-1. In the pull request, bump the `version` of each recipe whose directory changed in
-   [`recipes/manifest.json`](recipes/manifest.json) (a version is never reused; a
-   recipe whose `parent` is a recipe that changed pins the new parent version),
-   set `repository_version` to the new `X.Y.Z` and add its `## X.Y.Z` section to
-   `CHANGELOG.md`.
-2. Run `python3 scripts/check-recipe-manifest.py` (it only warns and always exits 0)
-   and the tests of the files you touched, for example
+1. In the pull request, set `repository_version` in
+   [`recipes/manifest.json`](recipes/manifest.json) to the new `X.Y.Z`, add its
+   `## X.Y.Z` section to `CHANGELOG.md`, and bump the `version` of **every recipe
+   whose build inputs changed** (a version is never reused). A recipe's build inputs
+   are its Dockerfile, every file its Dockerfile copies (its own directory and the
+   `shared` paths: a change to `common/plan-inputs.py` bumps each recipe that copies
+   it) and the version of its `parent` recipe (a recipe whose parent changed pins the
+   parent's new version and is bumped itself).
+2. Run `python3 scripts/check-recipe-manifest.py` (it only warns and always exits 0).
+   Besides the manifest it compares every recipe with the previous release tag
+   (`--since <ref>` names another) and warns about each recipe whose inputs changed
+   and whose version did not. Then run the tests of the files you touched, for example
    `python3 -m pytest -q scripts/test_recipe_manifest.py recipes/collab-runners/common`.
 3. Merge the pull request. Do not tag before the merge.
 4. Tag the merge commit `vX.Y.Z` and push the tag.
-5. Last step: publish this repository with the release repository's publish command,
-   `python3 -I scripts/publish.py <owner>/ai-runner-images X.Y.Z --root <directory of the checkouts>`.
-   Publishing adopts nothing, and no built image is ever published there.
+5. Publish with the release repository's publisher (`scripts/publish.py`, described in
+   its "Proceso de release"). Run it with the checkouts it reads up to date
+   (`git fetch --tags` in the checkout of this repository, inside `--root`) and the
+   organization's publisher declaration (`--declaration <file>` or
+   `COLLAB_RELEASES_DECLARATION`; this repository must be declared there, as an
+   `image-recipe`):
 
-**What the publisher does today.** It does not read `recipes/manifest.json`. It
-publishes one component, this repository, as one tree tar of the tag's commit (the
-whole tree, or only `--path <directory>`), so the tree holds every recipe at its
-`path` with the manifest beside them. It derives no per-recipe component name
-(`recipe-<name>`), version or path from the manifest: a component name the publisher
-does not declare, such as `recipe-android`, is warned about and skipped, and no
-artifact is built for it. Packing one recipe with `--path` leaves out the `shared`
-paths its Dockerfile copies. Publishing each recipe under its own component, with the
-name, version and path read from the committed manifest, is a change of the release
-repository's publisher and is not made yet; until then a recipe's version lives only
-in the manifest, and the publish command line neither repeats nor checks it.
+   ```sh
+   python3 -I scripts/publish.py <owner>/ai-runner-images X.Y.Z \
+     --declaration <declaration> --root <directory of the checkouts>
+   ```
+
+   Publishing adopts nothing, and no built image is ever published there. Give no
+   `--path`: see below.
+6. The command stops at a **local commit** in the release repository's checkout
+   (`releases.json` and the new `artifacts/.../X.Y.Z/` folder). Remote consumers see
+   nothing until that commit is delivered by the release repository's own process
+   (its README says `git push` after the command; a protected branch takes a pull
+   request). Deliver it, then check that the raw `releases.json` lists the component
+   at `X.Y.Z` with its artifact. A run that exits 3 (an actual byte mismatch: the
+   version was already published with other bytes) changed no live file and committed
+   nothing; cut a new version instead.
+
+**What the publisher does today, and what it does not.** It does not read
+`recipes/manifest.json`, and nothing in this repository makes it. It publishes **one
+component per repository version**: this repository, as one tree tar of the tag's
+commit (`<slug>-X.Y.Z.tar`, with its sha256 and `tree_digest`), whose tree holds every
+recipe at its `path`, the `shared` paths and the manifest. So:
+
+- the release index has an entry for `<owner>/ai-runner-images` at `X.Y.Z`, never one
+  per recipe: a lookup by a recipe's `name` and `version` finds nothing in the index.
+  The way to a recipe is the one the artifact gives: the index, the component's
+  release `X.Y.Z`, its tree tar, then `recipes/manifest.json` in it (a recipe's
+  `name`, `version`, `path`, `shared`, `parent` and `inputs`);
+- a recipe's version is therefore a statement inside the tree; the publish command
+  neither repeats nor checks it (the check in step 2 is the only guard);
+- `--path <directory>` packs one directory of the tag and leaves out the `shared`
+  paths its Dockerfile copies, and a second publication under the same version with
+  another `--path` is refused as other bytes for a published version: publish the
+  whole tree, once;
+- publishing each recipe under its own component, with its name, version and path
+  read from the committed manifest, would be a change of the release repository's
+  publisher. It is not made, and this repository does not ship a substitute.
 
 ## Where to start
 

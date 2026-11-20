@@ -6,7 +6,7 @@ an Android application repository. It is the neutral Android layer
 plus what is specific to a resolver: the journey binding, the helper aliases and the
 Collab runtime. The toolchain lock, the emulator registration, the helpers and the
 entrypoint exist only in the Android layer; this recipe builds `FROM` that layer's
-image by digest (`RUNNER_ANDROID_IMAGE`) and repeats none of them. The layer in turn
+image (`RUNNER_ANDROID_IMAGE`) and repeats none of them. The layer in turn
 inherits the digest-pinned `runner-agent-base`, the Codex installation, the JIT runner
 entrypoint and the account seed contract, and creates no second agent or
 authentication identity. The toolchain, the offline probe, the emulator ownership and
@@ -25,7 +25,11 @@ They are also listed under `helpers` in [`recipes/manifest.json`](../../manifest
 so a planner resolves the helper path from the released recipe instead of copying it.
 The wrapper exports `ANDROID_SERIAL=emulator-5554` and the ownership marker
 `RUNNER_ANDROID_EMULATOR_OWNED=1`, and the same value under each former marker name
-listed in `RUNNER_ANDROID_EMULATOR_OWNED_ALIASES`.
+listed for it. The list is read from the image-owned file
+`/etc/runner-android-emulator/marker-aliases` (written at build time) and, joined to it,
+from `RUNNER_ANDROID_EMULATOR_OWNED_ALIASES` when the caller passes that variable. The
+file is what works through the journey launcher: the pinned runtime starts the helper
+with a fixed list of environment variables that does not include the alias variable.
 
 A consumer that still declares a former helper path or marker during its migration
 keeps that handling on its side, or has the organization's canon declare the former
@@ -34,10 +38,10 @@ written in this repository.
 
 ## Plan-time inputs
 
-The repository, the profile id and the application validator of the journey, and the
-former helper paths, are organization data. The planner reads them from the
-organization's canon and passes them as build arguments, which the recipe declares in
-`recipes/manifest.json` under `inputs`:
+The repository, the profile id and the application validator of the journey, the former
+helper paths and marker names, and the approved digest of the Android layer are
+organization data. The planner reads them from the organization's canon and passes them
+as build arguments, which the recipe declares in `recipes/manifest.json` under `inputs`:
 
 | Build argument | Fact | Applied by |
 | --- | --- | --- |
@@ -45,16 +49,25 @@ organization's canon and passes them as build arguments, which the recipe declar
 | `RUNNER_JOURNEY_PROFILE` | `journey.profile` | `common/plan-inputs.py journey` |
 | `RUNNER_JOURNEY_VALIDATOR` | `journey.validator` | `common/plan-inputs.py journey` |
 | `RUNNER_HELPER_ALIASES` | `helper.aliases` (`ALIAS=TARGET` pairs under `/usr/local`) | `common/plan-inputs.py aliases` |
-| `RUNNER_ANDROID_MARKER_ALIASES` | `helper.marker_aliases` (names of the former ownership marker) | `runner-android-emulator` |
+| `RUNNER_ANDROID_MARKER_ALIASES` | `helper.marker_aliases` (names of the former ownership marker) | `common/plan-inputs.py markers` |
+| `RUNNER_ANDROID_IMAGE_DIGEST` | `image_pins.digest` (the approved digest of the Android layer) | `common/plan-inputs.py parent` |
+| `RUNNER_ANDROID_IMAGE_RESOLVED_DIGEST` | `builder.resolved_parent_digest` (what the build host observed a tag to resolve to; not a canon fact) | `common/plan-inputs.py parent` |
 
 `/opt/ai-repo-resources/journey-driver.json` is the document the pinned runtime
 compares, field by field, with the pack's own declaration of the same journey: a
 placeholder or a value that differs makes the journey fail, so the file is never a
-template. [`journey-driver.json`](journey-driver.json) is the prior verified binding.
-With all three journey inputs resolved and valid the tool writes them over it; with
-none, or with a partial or invalid set, it keeps the prior verified binding unchanged
-and the build log carries a warning, so an image built without the canon is exactly
-the image that was verified before. The build never stops over a binding.
+template. [`journey-driver.json`](journey-driver.json) in this directory **is** a
+template: its constants, and `null` where the three organization facts go. With all
+three journey inputs resolved and valid the tool writes the document; with none, or a
+partial or invalid set, it writes nothing, the build log carries a warning and the image
+is the generic Android resolver, without a binding: nothing of any organization is baked
+in, and nothing is kept from a previous build. The build never stops over a binding.
+
+The reference of the Android layer may be a tag or a digest: its spelling only warns. The
+build compares the digest it resolves to (the one in the reference, or the one the build
+host passes as `RUNNER_ANDROID_IMAGE_RESOLVED_DIGEST`) with the approved one and stops
+only when they differ, because that image is another artifact; with no approved or no
+observed digest it warns that the parent is unverified.
 
 The Collab runtime and the pack revision are the last layer, as in the other
 resolvers. Like them, this recipe has no `smoke.sh` yet and no image has been built or

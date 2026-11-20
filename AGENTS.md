@@ -63,8 +63,8 @@ never built images: the organization's console orders each Docker build on its
 builder node, and this entrypoint is the transition route until its console has a
 registry. A recipe identifier names a stack, never a repository, and an
 organization's facts (a journey's repository, profile and validator, former helper
-names) reach a recipe only as plan-time inputs read from that organization's canon;
-the recipe keeps the prior verified value and warns when it has none.
+names, package registries) reach a recipe only as plan-time inputs read from that organization's canon;
+a recipe ships no binding of any organization, and with no value it builds the generic image and warns.
 
 ## Organization-agnostic source of truth
 

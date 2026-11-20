@@ -8,32 +8,43 @@ ARG RUNNER_ANDROID_IMAGE
 FROM ${RUNNER_ANDROID_IMAGE}
 
 ARG RUNNER_ANDROID_IMAGE
-# Plan-time inputs. The planner resolves them from the organization's canon and passes
-# them as build arguments; this recipe carries no organization value. Without them the
-# prior verified journey binding stays in the image and the build warns (see
-# common/plan-inputs.py). RUNNER_HELPER_ALIASES is a list of ALIAS=TARGET pairs for the
-# former helper paths, and RUNNER_ANDROID_MARKER_ALIASES a list of former emulator
-# ownership-marker names, that a consumer still reads during its migration.
+# Plan-time inputs. The planner resolves them from the organization's canon (or from its
+# own last verified read of it) and passes them as build arguments; this recipe carries no
+# organization value. Without them the image is built without a journey binding and the
+# build warns (see common/plan-inputs.py): nothing is kept from, or invented for, any
+# organization. RUNNER_HELPER_ALIASES is a list of ALIAS=TARGET pairs for the former helper
+# paths, and RUNNER_ANDROID_MARKER_ALIASES a list of former emulator ownership-marker
+# names, that a consumer still reads during its migration.
 ARG RUNNER_JOURNEY_REPOSITORY=
 ARG RUNNER_JOURNEY_PROFILE=
 ARG RUNNER_JOURNEY_VALIDATOR=
 ARG RUNNER_HELPER_ALIASES=
 ARG RUNNER_ANDROID_MARKER_ALIASES=
-ENV RUNNER_ANDROID_EMULATOR_OWNED_ALIASES="${RUNNER_ANDROID_MARKER_ALIASES}"
+# The approved digest of the Android layer (the canon's image pin) and, when the reference
+# is a tag, the digest the builder observed it resolve to. The spelling of the reference is
+# only metadata; a resolved digest that differs from the approved one is another artifact.
+ARG RUNNER_ANDROID_IMAGE_DIGEST=
+ARG RUNNER_ANDROID_IMAGE_RESOLVED_DIGEST=
 LABEL org.opencontainers.image.title="runner-resolver-android" \
       collab.runner.profile="resolver-android" \
       collab.runner.stack="android-gradle-maestro"
 
 USER root
-RUN case "${RUNNER_ANDROID_IMAGE}" in *@sha256:*) ;; \
-      *) echo "The Android layer must be digest-qualified" >&2; exit 1 ;; esac
 # The stable neutral helpers are runner-android-emulator and runner-android-stack-probe,
 # installed by the parent in /usr/local/bin.
 COPY recipes/collab-runners/common/plan-inputs.py /opt/runner-plan-inputs/plan-inputs.py
-COPY recipes/collab-runners/runner-resolver-android/journey-driver.json /opt/ai-repo-resources/journey-driver.json
-RUN python3 /opt/runner-plan-inputs/plan-inputs.py journey \
-      --fallback /opt/ai-repo-resources/journey-driver.json --output /opt/ai-repo-resources/journey-driver.json \
+COPY recipes/collab-runners/runner-resolver-android/journey-driver.json /opt/runner-plan-inputs/journey-driver.template.json
+# Each step warns and goes on, except the first when the Android layer is another artifact
+# than the approved one. The marker aliases go to an image-owned file because the journey
+# launcher starts the emulator helper with a fixed list of environment variables.
+RUN python3 /opt/runner-plan-inputs/plan-inputs.py parent \
+      --reference "${RUNNER_ANDROID_IMAGE}" --approved "${RUNNER_ANDROID_IMAGE_DIGEST}" \
+      --resolved "${RUNNER_ANDROID_IMAGE_RESOLVED_DIGEST}" \
+    && mkdir -p /opt/ai-repo-resources \
+    && python3 /opt/runner-plan-inputs/plan-inputs.py journey \
+      --template /opt/runner-plan-inputs/journey-driver.template.json --output /opt/ai-repo-resources/journey-driver.json \
     && python3 /opt/runner-plan-inputs/plan-inputs.py aliases \
+    && python3 /opt/runner-plan-inputs/plan-inputs.py markers \
     && chmod -R a+rX /opt/ai-repo-resources /opt/runner-plan-inputs
 
 # Collab changes most often, so it is the last layer. The pack revision changes

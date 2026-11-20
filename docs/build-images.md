@@ -71,6 +71,54 @@ of identical OCI bytes: upstream APT/npm transitive inputs are not snapshot-lock
 Restoring the preserved archive does require the original image ID and layers.
 Keep these two reproducibility claims distinct.
 
+## Resolver and CI recipes
+
+`scripts/build-images.py` has no profile for the Dockerfile recipes of the manifest
+other than the Android layer: `plan --profile runner-resolver-android` is rejected as
+an unknown profile, and `--profile android` builds the neutral Android layer only. Until
+the console builds them, a build host builds one of these recipes with Docker from the
+**release tree**. No `docker build` is run by the tests or by the release procedure, and
+no backend qualifies the result: these recipes have no `smoke.sh` and an image built this
+way is unqualified.
+
+1. **Context.** A checkout of the release tag, or the extracted tree tar of the release,
+   is the context: each recipe sits at its `path` with its `shared` paths beside it, and
+   every Dockerfile `COPY` source is a path of that tree
+   (`python3 scripts/check-recipe-manifest.py` warns about one that is not). The recipes
+   that install Collab (`context_inputs: ["collab-release"]` in the manifest) also need
+   the exact release as `collab-release/` at the root of the context, verified first
+   against [`compatibility/collab-runtime.lock.json`](../compatibility/collab-runtime.lock.json).
+2. **Parent.** `parent` in the manifest names the recipe whose image is the base and the
+   build argument that carries it. The reference may be a tag or a digest; its spelling is
+   only metadata. What matters is the digest it resolves to: pass the approved digest
+   (the organization's image pin) and, for a tag, the digest the build host observed:
+
+   ```sh
+   docker image inspect --format '{{index .RepoDigests 0}}' <parent reference>
+   python3 recipes/collab-runners/common/plan-inputs.py parent \
+     --reference <parent reference> --approved sha256:<approved> --resolved sha256:<observed>
+   ```
+
+   The command warns about a tag, or about a digest it cannot verify, and goes on. It
+   stops (exit 1) only when the resolved digest is not the approved one: that image is
+   another artifact. The same check runs inside the build of `runner-resolver-android`
+   (`RUNNER_ANDROID_IMAGE_DIGEST`, `RUNNER_ANDROID_IMAGE_RESOLVED_DIGEST`).
+3. **Plan-time inputs.** Each fact an organization owns is a `--build-arg` named under
+   `inputs` in the manifest; the values come from the organization's canon through its
+   planner, never from this repository. Without them the recipe still builds and warns.
+4. **Build.**
+
+   ```sh
+   docker build -f recipes/collab-runners/runner-resolver-android/Dockerfile \
+     --build-arg RUNNER_ANDROID_IMAGE=<parent reference> \
+     --build-arg RUNNER_ANDROID_IMAGE_DIGEST=sha256:<approved> \
+     --build-arg <input>=<value> ... -t <image> .
+   ```
+
+   The builder labels the image with `collab.recipe.component`, `collab.recipe.version`,
+   `collab.recipe.tree_digest` and `collab.build.id` (`--label`), and records the digest
+   of the result for the registry the organization already uses.
+
 ## Swift package cache for the resolver image
 
 The collab runner image a macOS executor runs (`macos_host image-build` in
