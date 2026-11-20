@@ -1,6 +1,6 @@
 {
   "schema": "collab.recipe-extraction/v1",
-  "source_repository": "an organization pack",
+  "source_repository": "enviaflores/ai-repo-resources",
   "source_commit": "4dc98317f2683ab985fa59e65ff6f75b322154bb",
   "files": [
     {
@@ -74,14 +74,14 @@
       "destination": "recipes/collab-runners/runner-resolver-storefront-android/journey-driver.json"
     },
     {
-      "source": "runners/images/runner-resolver-storefront-android/scripts/<org>-storefront-android-emulator.py",
+      "source": "runners/images/runner-resolver-storefront-android/scripts/ef-storefront-android-emulator.py",
       "source_sha256": "5e0b792cd0aeb7523cdb386ae6a3a0d6278f32e20a5e29c6e52d1cae45ca3ddd",
-      "destination": "recipes/collab-runners/runner-resolver-storefront-android/scripts/storefront-android-emulator.py"
+      "destination": "recipes/collab-runners/runner-resolver-storefront-android/scripts/ef-storefront-android-emulator.py"
     },
     {
-      "source": "runners/images/runner-resolver-storefront-android/scripts/<org>-storefront-android-stack-probe.sh",
+      "source": "runners/images/runner-resolver-storefront-android/scripts/ef-storefront-android-stack-probe.sh",
       "source_sha256": "1b4b3def394b7b395a7b92a6df405e4b16d515b5da1112f0f4baeca0a1c65c6e",
-      "destination": "recipes/collab-runners/runner-resolver-storefront-android/scripts/storefront-android-stack-probe.sh"
+      "destination": "recipes/collab-runners/runner-resolver-storefront-android/scripts/ef-storefront-android-stack-probe.sh"
     },
     {
       "source": "runners/images/runner-resolver-storefront-android/scripts/entrypoint-android.py",
@@ -139,24 +139,24 @@
       "destination": "recipes/collab-runners/runner-resolver-storefront-web/Dockerfile"
     },
     {
-      "source": "runners/images/runner-resolver-storefront-web/scripts/<org>-storefront-web-playwright-mcp.sh",
+      "source": "runners/images/runner-resolver-storefront-web/scripts/ef-storefront-web-playwright-mcp.sh",
       "source_sha256": "671ffdb42798bd3e14fca9b62bc9de4549118528de9b0120b8e752a1d742eb2b",
-      "destination": "recipes/collab-runners/runner-resolver-storefront-web/scripts/storefront-web-playwright-mcp.sh"
+      "destination": "recipes/collab-runners/runner-resolver-storefront-web/scripts/ef-storefront-web-playwright-mcp.sh"
     },
     {
-      "source": "runners/images/runner-resolver-storefront-web/scripts/<org>-storefront-web-screenshot.sh",
+      "source": "runners/images/runner-resolver-storefront-web/scripts/ef-storefront-web-screenshot.sh",
       "source_sha256": "89a2b3654ba608b46d97aeae8cb2d79658312d22cbd655a9fd8a6cc690d7ac19",
-      "destination": "recipes/collab-runners/runner-resolver-storefront-web/scripts/storefront-web-screenshot.sh"
+      "destination": "recipes/collab-runners/runner-resolver-storefront-web/scripts/ef-storefront-web-screenshot.sh"
     },
     {
-      "source": "runners/images/runner-resolver-storefront-web/scripts/<org>-storefront-web-stack-install.sh",
+      "source": "runners/images/runner-resolver-storefront-web/scripts/ef-storefront-web-stack-install.sh",
       "source_sha256": "126f17b7bf8a23b16184571a08398937a2822a028a0034678b86129e7d660806",
-      "destination": "recipes/collab-runners/runner-resolver-storefront-web/scripts/storefront-web-stack-install.sh"
+      "destination": "recipes/collab-runners/runner-resolver-storefront-web/scripts/ef-storefront-web-stack-install.sh"
     },
     {
-      "source": "runners/images/runner-resolver-storefront-web/scripts/<org>-storefront-web-stack-probe.sh",
+      "source": "runners/images/runner-resolver-storefront-web/scripts/ef-storefront-web-stack-probe.sh",
       "source_sha256": "f8b75884ff51b1682d2faa563c0bc5b57b6de6c634be720a5843aabc39bbdbf7",
-      "destination": "recipes/collab-runners/runner-resolver-storefront-web/scripts/storefront-web-stack-probe.sh"
+      "destination": "recipes/collab-runners/runner-resolver-storefront-web/scripts/ef-storefront-web-stack-probe.sh"
     },
     {
       "source": "runners/images/runner-resolver-storefront-web/stack-probe/package.json",

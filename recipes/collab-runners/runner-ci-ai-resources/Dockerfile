@@ -6,7 +6,7 @@ ARG AI_REPO_RESOURCES_RUNNER_BASE_IMAGE
 ARG AI_REPO_RESOURCES_BUNDLE_COMMIT
 LABEL org.opencontainers.image.title="runner-ci-ai-resources" \
       org.opencontainers.image.revision="${AI_REPO_RESOURCES_BUNDLE_COMMIT}" \
-      io.uxmaltech.runner.profile="ci-ai-resources"
+      collab.runner.profile="ci-ai-resources"
 
 USER root
 RUN test -n "${AI_REPO_RESOURCES_BUNDLE_COMMIT}" \

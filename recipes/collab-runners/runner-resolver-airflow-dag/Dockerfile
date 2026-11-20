@@ -3,8 +3,7 @@ ARG AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE
 FROM ${AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE}
 
 LABEL org.opencontainers.image.title="runner-resolver-airflow-dag" \
-      io.uxmaltech.runner.profile="resolver-airflow-dag" \
-      io.uxmaltech.runner.engine="codex"
+      collab.runner.profile="resolver-airflow-dag"
 
 USER root
 RUN apt-get update \

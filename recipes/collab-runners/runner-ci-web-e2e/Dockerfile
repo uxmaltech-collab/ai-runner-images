@@ -7,7 +7,7 @@ ARG AI_REPO_RESOURCES_BUNDLE_COMMIT
 ARG AI_REPO_RESOURCES_PLAYWRIGHT_VERSION=1.61.1
 LABEL org.opencontainers.image.title="runner-ci-web-e2e" \
       org.opencontainers.image.revision="${AI_REPO_RESOURCES_BUNDLE_COMMIT}" \
-      io.uxmaltech.runner.stack="web-e2e"
+      collab.runner.stack="web-e2e"
 
 ENV PLAYWRIGHT_BROWSERS_PATH=/opt/ms-playwright
 USER root

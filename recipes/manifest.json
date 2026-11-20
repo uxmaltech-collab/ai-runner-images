@@ -1,14 +1,24 @@
 {
-  "schema": "uxmaltech-collab.recipe-manifest/v1",
+  "schema": "collab.recipes-manifest/v1",
   "repository_version": "0.1.0",
-  "context": "Each Dockerfile COPYs repository-relative paths: the build context is a tree in which the recipe sits at its `path`.",
+  "context": "Each Dockerfile COPYs repository-relative paths: the build context is a tree in which the recipe sits at its `path`, together with every path of its `shared` list. `name` is the release identifier and names a stack, never a repository; which repository uses which recipe, and which engine, is organization data that the planner reads from the canon. `parent` names the recipe whose released image is the base (its digest is passed as the build argument `build_arg`). `inputs` maps each plan-time build argument to the organization fact the planner resolves for it; a recipe never carries the value. `helpers` lists the stable neutral commands a recipe installs, by capability.",
   "recipes": [
     {
       "name": "android",
       "path": "recipes/android",
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
-      "smoke": null
+      "smoke": null,
+      "helpers": [
+        {
+          "capability": "android.emulator-owner",
+          "path": "/usr/local/bin/runner-android-emulator"
+        },
+        {
+          "capability": "android.stack-probe",
+          "path": "/usr/local/bin/runner-android-stack-probe"
+        }
+      ]
     },
     {
       "name": "collab-runners-runner-agent-base",
@@ -60,64 +70,96 @@
       "smoke": null
     },
     {
-      "name": "collab-runners-runner-resolver-backoffice-core-pkg",
-      "path": "recipes/collab-runners/runner-resolver-backoffice-core-pkg",
+      "name": "collab-runners-runner-resolver-android",
+      "path": "recipes/collab-runners/runner-resolver-android",
+      "version": "0.1.0",
+      "dockerfile": "Dockerfile",
+      "smoke": null,
+      "parent": {
+        "recipe": "android",
+        "version": "0.1.0",
+        "build_arg": "RUNNER_ANDROID_IMAGE"
+      },
+      "shared": [
+        "recipes/collab-runners/common"
+      ],
+      "inputs": {
+        "RUNNER_JOURNEY_REPOSITORY": "journey.repository",
+        "RUNNER_JOURNEY_PROFILE": "journey.profile",
+        "RUNNER_JOURNEY_VALIDATOR": "journey.validator",
+        "RUNNER_HELPER_ALIASES": "helper.aliases",
+        "RUNNER_ANDROID_MARKER_ALIASES": "helper.marker_aliases"
+      }
+    },
+    {
+      "name": "collab-runners-runner-resolver-ios",
+      "path": "recipes/collab-runners/runner-resolver-ios",
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
       "smoke": null
     },
     {
-      "name": "collab-runners-runner-resolver-cx-chatbot-app",
-      "path": "recipes/collab-runners/runner-resolver-cx-chatbot-app",
+      "name": "collab-runners-runner-resolver-mobile-qa",
+      "path": "recipes/collab-runners/runner-resolver-mobile-qa",
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
       "smoke": null
     },
     {
-      "name": "collab-runners-runner-resolver-storefront-android",
-      "path": "recipes/collab-runners/runner-resolver-storefront-android",
+      "name": "collab-runners-runner-resolver-nuxt-pnpm",
+      "path": "recipes/collab-runners/runner-resolver-nuxt-pnpm",
+      "version": "0.1.0",
+      "dockerfile": "Dockerfile",
+      "smoke": null,
+      "shared": [
+        "recipes/collab-runners/common"
+      ],
+      "inputs": {
+        "RUNNER_HELPER_ALIASES": "helper.aliases"
+      },
+      "helpers": [
+        {
+          "capability": "web.stack-install",
+          "path": "/usr/local/bin/runner-web-stack-install"
+        },
+        {
+          "capability": "web.stack-probe",
+          "path": "/usr/local/bin/runner-web-stack-probe"
+        },
+        {
+          "capability": "web.playwright-mcp",
+          "path": "/usr/local/bin/runner-web-playwright-mcp"
+        },
+        {
+          "capability": "web.screenshot",
+          "path": "/usr/local/bin/runner-web-screenshot"
+        }
+      ]
+    },
+    {
+      "name": "collab-runners-runner-resolver-php-laravel",
+      "path": "recipes/collab-runners/runner-resolver-php-laravel",
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
       "smoke": null
     },
     {
-      "name": "collab-runners-runner-resolver-storefront-backend",
-      "path": "recipes/collab-runners/runner-resolver-storefront-backend",
+      "name": "collab-runners-runner-resolver-php-mysql-redis",
+      "path": "recipes/collab-runners/runner-resolver-php-mysql-redis",
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
       "smoke": null
     },
     {
-      "name": "collab-runners-runner-resolver-storefront-core-pkg",
-      "path": "recipes/collab-runners/runner-resolver-storefront-core-pkg",
+      "name": "collab-runners-runner-resolver-php83",
+      "path": "recipes/collab-runners/runner-resolver-php83",
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
       "smoke": null
     },
     {
-      "name": "collab-runners-runner-resolver-storefront-ios",
-      "path": "recipes/collab-runners/runner-resolver-storefront-ios",
-      "version": "0.1.0",
-      "dockerfile": "Dockerfile",
-      "smoke": null
-    },
-    {
-      "name": "collab-runners-runner-resolver-storefront-mobile-qa",
-      "path": "recipes/collab-runners/runner-resolver-storefront-mobile-qa",
-      "version": "0.1.0",
-      "dockerfile": "Dockerfile",
-      "smoke": null
-    },
-    {
-      "name": "collab-runners-runner-resolver-storefront-web",
-      "path": "recipes/collab-runners/runner-resolver-storefront-web",
-      "version": "0.1.0",
-      "dockerfile": "Dockerfile",
-      "smoke": null
-    },
-    {
-      "name": "collab-runners-runner-resolver-storefront-web-qa",
-      "path": "recipes/collab-runners/runner-resolver-storefront-web-qa",
+      "name": "collab-runners-runner-resolver-web-qa",
+      "path": "recipes/collab-runners/runner-resolver-web-qa",
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
       "smoke": null

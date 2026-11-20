@@ -4,6 +4,7 @@ import argparse
 import json
 import os
 from pathlib import Path
+import re
 import signal
 import stat
 import subprocess
@@ -13,6 +14,27 @@ import time
 
 SERIAL = 'emulator-5554'
 SYSTEM_IMAGE = 'system-images;android-36;google_apis;x86_64'
+MARKER = 'RUNNER_ANDROID_EMULATOR_OWNED'
+MARKER_ALIASES = 'RUNNER_ANDROID_EMULATOR_OWNED_ALIASES'
+
+
+def marker_aliases(environment, taken):
+    """The former ownership-marker names a consumer's validator still reads.
+
+    They are organization data, listed by the planner in MARKER_ALIASES (names separated
+    by spaces) and exported with the same value as MARKER. A name that is not an
+    environment variable name, or that would replace a variable already set, warns and
+    is skipped; the marker itself is always exported.
+    """
+    names = {}
+    for name in environment.get(MARKER_ALIASES, '').split():
+        if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,127}', name):
+            print(f'WARNING: ignored the ownership marker alias {name!r}: not an environment variable name', file=sys.stderr)
+        elif name in taken:
+            print(f'WARNING: ignored the ownership marker alias {name}: it would replace a variable already set', file=sys.stderr)
+        else:
+            names[name] = '1'
+    return names
 
 
 def kvm_access():
@@ -70,7 +92,8 @@ def execute(command, log_dir, boot_timeout=600, shutdown_timeout=20):
                            ANDROID_AVD_HOME=str(state / 'avd'),
                            ANDROID_USER_HOME=str(state / 'android'),
                            ANDROID_EMULATOR_HOME=str(state / 'android'),
-                           RUNNER_ANDROID_EMULATOR_OWNED='1')
+                           **{MARKER: '1'})
+        environment.update(marker_aliases(os.environ, environment))
         for directory in ('avd', 'android'):
             (state / directory).mkdir(mode=0o700)
         # Containers have separate network namespaces. Still refuse a

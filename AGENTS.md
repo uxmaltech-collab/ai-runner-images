@@ -58,9 +58,13 @@ fixed platform backends, documented in `docs/build-images.md`. Checkpoint script
 are historical evidence, not build dependencies. Keep the source commit, pinned
 parent, local artifact and qualification results distinct. Local Mac images are
 permitted; remote publication is not a prerequisite for source reconstruction.
-The release repository publishes recipes (`recipes/manifest.json`), never built
-images: the organization's console orders each Docker build on its builder node,
-and this entrypoint is the transition route until its console has a registry.
+The release repository publishes recipes (those listed in `recipes/manifest.json`),
+never built images: the organization's console orders each Docker build on its
+builder node, and this entrypoint is the transition route until its console has a
+registry. A recipe identifier names a stack, never a repository, and an
+organization's facts (a journey's repository, profile and validator, former helper
+names) reach a recipe only as plan-time inputs read from that organization's canon;
+the recipe keeps the prior verified value and warns when it has none.
 
 ## Organization-agnostic source of truth
 

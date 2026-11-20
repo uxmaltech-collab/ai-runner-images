@@ -1,0 +1,10 @@
+{
+  "schema_version": 2,
+  "repository": "enviaflores/ef-storefront-ios",
+  "profile": "resolver-storefront-ios-native",
+  "pack_root": "/opt/collab/repo-pack",
+  "python": "/opt/collab/runtime/bin/python3.12",
+  "driver": "/opt/ai-repo-resources/journey-driver.json",
+  "runtime_root": "/opt/collab/runtime",
+  "capability": "repo.journey.ios.v2"
+}

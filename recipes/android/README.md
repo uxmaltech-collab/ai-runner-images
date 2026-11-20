@@ -16,6 +16,19 @@ with no-new-privileges. Code-only resolve works without KVM. Visual resolve and 
 and owns a temporary AVD; it refuses an existing emulator and records cleanup.
 The offline probe proves tool launch only, never staging or customer acceptance.
 
+The stable neutral helpers are `/usr/local/bin/runner-android-emulator` and
+`/usr/local/bin/runner-android-stack-probe`; the manifest lists them by capability
+under `helpers`. The wrapper exports the ownership marker
+`RUNNER_ANDROID_EMULATOR_OWNED=1` and, with the same value, each name listed in
+`RUNNER_ANDROID_EMULATOR_OWNED_ALIASES` (separated by spaces): the former marker
+names that a consumer's validator still reads during its migration, which the
+planner takes from the organization's canon. A name that is not an environment
+variable name, or that would replace a variable already set, warns and is skipped.
+The resolver image builds `FROM` the image of this layer
+([`runner-resolver-android`](../collab-runners/runner-resolver-android/README.md)),
+so the toolchain lock, the registration, the helpers and the entrypoint exist here
+once.
+
 When the controller mounts a tool seed (`COLLAB_TOOL_SEED`), the entrypoint
 also lets a job run the repository's Gradle wrapper without the network. It
 creates a Gradle home under `/tmp`, which a sandboxed command may write, with

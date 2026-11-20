@@ -67,8 +67,14 @@ The catalog preserves physical repair ancestry separately from those three logic
 
 This repository releases **recipes**, never built images. The Dockerfile recipes
 (the Linux runner recipes and the Android layer) are listed in
-[`recipes/manifest.json`](recipes/manifest.json) with their versions and are
-published as trees in `uxmaltech-collab/releases` (see [Releasing](#releasing)).
+[`recipes/manifest.json`](recipes/manifest.json) with their versions, under
+identifiers that name a stack, never a repository (see [Releasing](#releasing) for
+what is published). Which repository uses which recipe, and which engine, is
+organization data: the organization declares it in its canon and the planner reads
+it. A recipe takes the facts that belong to an organization (a journey's repository,
+profile and validator, the former names of helpers a consumer still declares) as
+plan-time inputs and carries none of them; see
+[the runner recipes](recipes/collab-runners/README.md).
 The organization's console orders the build of an adopted recipe on its builder
 node and keeps the image in the console's registry; hosts pull
 `<console registry name>/<image>@sha256:<digest>` by digest and never build.
@@ -90,18 +96,30 @@ Releases are tags `vX.Y.Z` of this repository, recorded in
 [`CHANGELOG.md`](CHANGELOG.md). A release publishes recipes only.
 
 1. In the pull request, bump the `version` of each recipe whose directory changed in
-   [`recipes/manifest.json`](recipes/manifest.json) (a version is never reused),
+   [`recipes/manifest.json`](recipes/manifest.json) (a version is never reused; a
+   recipe whose `parent` is a recipe that changed pins the new parent version),
    set `repository_version` to the new `X.Y.Z` and add its `## X.Y.Z` section to
    `CHANGELOG.md`.
-2. Run `python3 scripts/check-recipe-manifest.py` (it only warns) and the tests of
-   the files you touched, for example
-   `python3 -m pytest -q scripts/test_recipe_manifest.py`.
+2. Run `python3 scripts/check-recipe-manifest.py` (it only warns and always exits 0)
+   and the tests of the files you touched, for example
+   `python3 -m pytest -q scripts/test_recipe_manifest.py recipes/collab-runners/common`.
 3. Merge the pull request. Do not tag before the merge.
 4. Tag the merge commit `vX.Y.Z` and push the tag.
-5. Last step: publish the recipe trees in `uxmaltech-collab/releases` with the
-   release repository's publish command, which finds each recipe through
-   `recipes/manifest.json` (its `path`, `version` and component `recipe-<name>`).
+5. Last step: publish this repository with the release repository's publish command,
+   `python3 -I scripts/publish.py <owner>/ai-runner-images X.Y.Z --root <directory of the checkouts>`.
    Publishing adopts nothing, and no built image is ever published there.
+
+**What the publisher does today.** It does not read `recipes/manifest.json`. It
+publishes one component, this repository, as one tree tar of the tag's commit (the
+whole tree, or only `--path <directory>`), so the tree holds every recipe at its
+`path` with the manifest beside them. It derives no per-recipe component name
+(`recipe-<name>`), version or path from the manifest: a component name the publisher
+does not declare, such as `recipe-android`, is warned about and skipped, and no
+artifact is built for it. Packing one recipe with `--path` leaves out the `shared`
+paths its Dockerfile copies. Publishing each recipe under its own component, with the
+name, version and path read from the committed manifest, is a change of the release
+repository's publisher and is not made yet; until then a recipe's version lives only
+in the manifest, and the publish command line neither repeats nor checks it.
 
 ## Where to start
 

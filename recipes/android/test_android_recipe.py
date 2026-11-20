@@ -86,6 +86,37 @@ def test_command_exit_and_cleanup_are_preserved(fake_tools, exit_code):
         os.kill(stopped['pid'], 0)
 
 
+def test_former_ownership_marker_names_are_exported_and_bad_ones_warn(fake_tools, monkeypatch, capsys):
+    """The planner lists the former marker names a consumer still reads; a bad name warns and the rest still run."""
+    monkeypatch.setenv('RUNNER_ANDROID_EMULATOR_OWNED_ALIASES', 'FORMER_OWNED NOT-A-NAME PATH ANOTHER_FORMER')
+    result = fake_tools / 'child.json'
+    code = ("import json,os;json.dump({k: os.environ.get(k) for k in ['RUNNER_ANDROID_EMULATOR_OWNED','FORMER_OWNED',"
+            "'ANOTHER_FORMER','PATH']},open(os.environ['FAKE_CHILD'],'w'))")
+    os.environ['FAKE_CHILD'] = str(result)
+    try:
+        assert emulator.execute([sys.executable, '-c', code], fake_tools / 'logs', boot_timeout=1) == 0
+    finally:
+        del os.environ['FAKE_CHILD']
+    child = json.loads(result.read_text())
+    assert child['RUNNER_ANDROID_EMULATOR_OWNED'] == child['FORMER_OWNED'] == child['ANOTHER_FORMER'] == '1'
+    assert child['PATH'] != '1'
+    err = capsys.readouterr().err
+    assert "ignored the ownership marker alias 'NOT-A-NAME'" in err
+    assert 'ignored the ownership marker alias PATH' in err
+
+
+def test_without_a_list_only_the_neutral_ownership_marker_is_exported(fake_tools, monkeypatch):
+    monkeypatch.delenv('RUNNER_ANDROID_EMULATOR_OWNED_ALIASES', raising=False)
+    result = fake_tools / 'child.json'
+    code = "import json,os;json.dump(sorted(k for k in os.environ if k.endswith('_EMULATOR_OWNED')),open(os.environ['FAKE_CHILD'],'w'))"
+    os.environ['FAKE_CHILD'] = str(result)
+    try:
+        assert emulator.execute([sys.executable, '-c', code], fake_tools / 'logs', boot_timeout=1) == 0
+    finally:
+        del os.environ['FAKE_CHILD']
+    assert json.loads(result.read_text()) == ['RUNNER_ANDROID_EMULATOR_OWNED']
+
+
 def test_boot_timeout_cleans_owned_vm_and_does_not_run_command(fake_tools, monkeypatch):
     monkeypatch.setenv('FAKE_BOOT_TIMEOUT', '1')
     result = fake_tools / 'must-not-exist'
