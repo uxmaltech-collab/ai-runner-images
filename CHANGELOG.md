@@ -60,6 +60,21 @@ publication.
   source of every recipe, with the `ARG` defaults applied, inside the recipe's path or its
   `shared` paths (`context_inputs` names what the builder supplies, such as
   `collab-release`).
+- Every recipe declares its base as `parent` in the manifest, so no build takes it
+  through an undeclared `ARG ... FROM ${...}`. A parent has three forms: a recipe of this
+  manifest (`{recipe, version, build_arg}`: `runner-agent-base` and the `runner-ci-*`
+  recipes on `runner-base`, the resolvers and the Android layer on `runner-agent-base`,
+  `runner-resolver-android` on `android`); the image of a recipe of another released
+  component (`{component, recipe?, version, build_arg}`, none used today); and an image no
+  recipe builds, by a neutral profile the organization pins by digest under `image_pins`
+  (`{pin, build_arg}`: `runner-base` on `runner-base-os`). No registry, tag or digest of
+  any organization is in the manifest.
+- The resolver recipes declare what fills `collab-release/` (`context`, in the shape of a
+  container recipe's `version.json` `build.context`): the Collab runtime's release
+  artifact set (`uxmaltech-collab/cli`, versions `>=0.2.3`); the version an organization
+  runs is the one its console's adoption names, never a pin of the recipe. The manifest
+  check validates both additions, warns about a `context_inputs` name with nothing that
+  fills it and about a `FROM ${ARG}` with no default that is not the parent's argument.
 - `scripts/check-recipe-manifest.py` also compares each recipe with the previous release
   tag and warns about a recipe whose Dockerfile, copied sources or parent version
   changed without a version bump (it only warns).

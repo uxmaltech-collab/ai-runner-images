@@ -88,8 +88,28 @@ way is unqualified.
    that install Collab (`context_inputs: ["collab-release"]` in the manifest) also need
    the exact release as `collab-release/` at the root of the context, verified first
    against [`compatibility/collab-runtime.lock.json`](../compatibility/collab-runtime.lock.json).
-2. **Parent.** `parent` in the manifest names the recipe whose image is the base and the
-   build argument that carries it. The reference may be a tag or a digest; its spelling is
+   The entry's `context` says what fills it, in the shape of a container recipe's
+   `version.json` `build.context`: `{"name": "collab-release", "kind": "artifact",
+   "component": "uxmaltech-collab/cli", "version": ">=0.2.3"}` (the release artifact set of
+   the Collab runtime, a version the recipe works with). Which version an organization
+   runs is its own choice: the console takes the one its adoption names (else the one it
+   adopted) and records it in the build; the recipe never pins it. The directory holds the
+   files of that release's artifact set as they are published, flat: `install.py`, its
+   `SHA256SUMS`, `release-manifest.json`, `collab-runtime.lock.json` and the wheels;
+   `install.py install --artifacts /opt/collab-release` reads them there.
+2. **Parent.** `parent` in the manifest names what the base is and the build argument
+   that carries it, in one of three forms:
+
+   | Form | The base | Example |
+   | --- | --- | --- |
+   | `{recipe, version, build_arg}` | the image of another recipe of this manifest | `runner-agent-base` on `runner-base` |
+   | `{component, recipe?, version, build_arg}` | the image of a recipe of another released component (its release index key; `recipe`, its manifest entry, when that tree holds several) | none here today |
+   | `{pin, build_arg}` | an image no recipe builds (an operating-system or third-party image), by a neutral profile name | `runner-base` on its OS image: `{"pin": "runner-base-os", "build_arg": "RUNNER_BASE_OS_IMAGE"}` |
+
+   A pin is the organization's own: it declares the digest under `image_pins` (`profile`:
+   the pin's name) in its canon, and the recipe names no registry, tag or digest. The
+   check warns about a `FROM ${ARG}` with no default that is not the parent's build
+   argument. The reference may be a tag or a digest; its spelling is
    only metadata. What matters is the digest it resolves to: pass the approved digest
    (the organization's image pin) and, for a tag, the digest the build host observed:
 

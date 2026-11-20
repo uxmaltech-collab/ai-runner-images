@@ -49,7 +49,17 @@ the release tree as [Resolver and CI recipes](../../docs/build-images.md#resolve
 describes, and pins the digest of the image in the registry the organization already uses.
 The context of every recipe is the release tree: `RUNNER_BASE_CONTEXT` of
 `runner-base` defaults to its own path in it, and the exact Collab release is
-`collab-release/` at the root (`context_inputs` in the manifest).
+`collab-release/` at the root (`context_inputs` in the manifest; the entry's `context`
+says it is the Collab runtime's release artifact set, and the console fills it with the
+version the organization's adoption names).
+
+Each recipe declares its base as `parent` in the manifest: `runner-agent-base` and the
+`runner-ci-*` recipes start from `runner-base`; the `runner-resolver-*` recipes and the
+Android layer start from `runner-agent-base` (it carries the Python 3.12 the leaf's
+Collab install runs with); `runner-resolver-android` starts from the Android layer.
+`runner-base` starts from an operating-system image that no recipe builds: its parent is
+the neutral pin `runner-base-os`, which the organization pins by digest under
+`image_pins` in its canon; without that pin the console defers the build.
 
 ### Identifiers name a stack
 

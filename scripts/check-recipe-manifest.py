@@ -106,8 +106,16 @@ def check_entry(root, entry, index, versions, seen, listed, warnings):
     context_inputs = check_context_inputs(entry.get('context_inputs'), label, warnings)
     if text is not None:
         check_copy_sources(root, where, entry.get('shared'), context_inputs, label, text, warnings)
+    check_context(entry.get('context'), context_inputs, label, warnings)
     check_parent(entry.get('parent'), label, text, versions, warnings)
     check_inputs(entry.get('inputs'), label, text, warnings)
+    if text is not None:
+        parent = entry.get('parent')
+        carried = parent.get('build_arg') if isinstance(parent, dict) else None
+        for name in undeclared_bases(text):
+            if name != carried:
+                warnings.append(f'{label}: a FROM starts from ${{{name}}}, which has no default and is not the parent\'s '
+                                'build_arg; declare the base as parent')
     check_helpers(entry.get('helpers'), label, text, warnings)
 
 
@@ -178,22 +186,64 @@ def check_copy_sources(root, where, shared, context_inputs, label, text, warning
                             'add its directory to shared')
 
 
+CONTEXT_KINDS = ('tree', 'artifact')
+PROFILE = re.compile(r'[a-z0-9][a-z0-9._-]{0,99}')
+
+
+def check_context(context, context_inputs, label, warnings):
+    """What fills each name of `context_inputs`: entries shaped as a container recipe's `version.json` `build.context`
+    (`{name, kind: tree|artifact, component: <release index key>, version: <constraint>}`). The version the organization
+    runs is chosen by its console (its adoption); the recipe only states the component and the versions it works with."""
+    filled = set()
+    if context is not None and not isinstance(context, list):
+        warnings.append(f'{label}: context must be a list of {{name, kind, component, version}} entries')
+        context = []
+    for item in context or []:
+        if (not isinstance(item, dict) or not isinstance(item.get('name'), str) or not inside(Path('.'), item['name'])
+                or item.get('kind') not in CONTEXT_KINDS or not isinstance(item.get('component'), str) or not item['component']
+                or not isinstance(item.get('version'), str) or not item['version'].strip()):
+            warnings.append(f'{label}: a context entry must be an object with a relative name, kind tree or artifact, '
+                            f'a component and a version constraint, found {show(item)}')
+            continue
+        filled.add(Path(item['name']).parts[0])
+    for name in sorted(context_inputs - filled):
+        warnings.append(f'{label}: context_inputs names {name!r} and no context entry says what fills it; '
+                        'the console cannot resolve it and the build is not made')
+
+
 def check_parent(parent, label, text, versions, warnings):
-    """A parent is a recipe of this manifest, referenced by its released version."""
+    """A parent is one of: a recipe of this manifest (`recipe`, `version`), the image of a recipe of another released
+    component (`component`, optional `recipe`, `version`), or an image no recipe builds, pinned by the organization under a
+    neutral profile (`pin`). Each names the `build_arg` that carries it."""
     if parent is None:
         return
-    if (not isinstance(parent, dict) or not isinstance(parent.get('recipe'), str)
-            or not isinstance(parent.get('version'), str) or not isinstance(parent.get('build_arg'), str)):
+    if not isinstance(parent, dict) or not isinstance(parent.get('build_arg'), str):
+        warnings.append(f'{label}: parent must be an object with a string build_arg and one of recipe, component or pin')
+        return
+    if 'pin' in parent:
+        if not isinstance(parent['pin'], str) or not PROFILE.fullmatch(parent['pin']):
+            warnings.append(f'{label}: parent pin must be a profile name matching {PROFILE.pattern}, found {show(parent["pin"])}')
+        elif set(parent) - {'pin', 'build_arg'}:
+            warnings.append(f'{label}: parent pin {parent["pin"]!r} names nothing else; '
+                            f'{", ".join(sorted(set(parent) - {"pin", "build_arg"}))} is ignored')
+    elif 'component' in parent:
+        if (not isinstance(parent['component'], str) or not parent['component'] or not isinstance(parent.get('version'), str)
+                or ('recipe' in parent and not isinstance(parent['recipe'], str))):
+            warnings.append(f'{label}: parent component must name a string component and version, and a string recipe if any')
+    elif not isinstance(parent.get('recipe'), str) or not isinstance(parent.get('version'), str):
         warnings.append(f'{label}: parent must be an object with string recipe, version and build_arg')
         return
-    released = versions.get(parent['recipe'])
-    if released is None:
-        warnings.append(f'{label}: parent recipe {parent["recipe"]!r} is not in the manifest')
-    elif released != parent['version']:
-        warnings.append(f'{label}: parent {parent["recipe"]} is pinned at {parent["version"]} '
-                        f'but the manifest lists {released}')
+    else:
+        released = versions.get(parent['recipe'])
+        if released is None:
+            warnings.append(f'{label}: parent recipe {parent["recipe"]!r} is not in the manifest')
+        elif released != parent['version']:
+            warnings.append(f'{label}: parent {parent["recipe"]} is pinned at {parent["version"]} '
+                            f'but the manifest lists {released}')
     if text is not None and not declares(text, parent['build_arg']):
         warnings.append(f'{label}: the Dockerfile does not declare ARG {parent["build_arg"]}')
+    if text is not None and not starts_from(text, parent['build_arg']):
+        warnings.append(f'{label}: no FROM of the Dockerfile starts from ${{{parent["build_arg"]}}}')
 
 
 def check_inputs(inputs, label, text, warnings):
@@ -227,6 +277,17 @@ def check_helpers(helpers, label, text, warnings):
 
 def declares(text, arg):
     return re.search(rf'^\s*ARG\s+{re.escape(arg)}(=|\s|$)', text, re.M) is not None
+
+
+def starts_from(text, arg):
+    return re.search(rf'^\s*FROM\s+(--\S+\s+)*\$\{{?{re.escape(arg)}\}}?(\s|$)', text, re.M) is not None
+
+
+def undeclared_bases(text):
+    """The build arguments a FROM line starts from that have no default: the base must then be declared as `parent`."""
+    defaults = dict(re.findall(r'^\s*ARG\s+([A-Za-z_][A-Za-z0-9_]*)=(\S+)', text, re.M))
+    found = re.findall(r'^\s*FROM\s+(?:--\S+\s+)*\$\{?([A-Za-z_][A-Za-z0-9_]*)\}?', text, re.M)
+    return sorted({name for name in found if name not in defaults})
 
 
 def inspect(root):

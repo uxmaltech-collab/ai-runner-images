@@ -91,7 +91,11 @@ covers only part of the recipes:
 
 The resolver recipes need the exact Collab release as `collab-release/` at the root
 of the context and their plan-time inputs as build arguments; that page lists both,
-and the command that verifies the parent image against its approved digest.
+and the command that verifies the parent image against its approved digest. Every
+recipe declares its base in the manifest (`parent`): another recipe of the manifest,
+or, for `runner-base`, a neutral pin (`runner-base-os`) that the organization pins by
+digest under `image_pins`; the resolvers declare what fills `collab-release/`
+(`context`: the Collab runtime's artifact set, the version the organization adopted).
 
 ## Releasing
 
@@ -146,7 +150,8 @@ recipe at its `path`, the `shared` paths and the manifest. So:
   per recipe: a lookup by a recipe's `name` and `version` finds nothing in the index.
   The way to a recipe is the one the artifact gives: the index, the component's
   release `X.Y.Z`, its tree tar, then `recipes/manifest.json` in it (a recipe's
-  `name`, `version`, `path`, `shared`, `parent` and `inputs`);
+  `name`, `version`, `path`, `shared`, `parent`, `inputs`, `context_inputs` and the
+  `context` that fills them);
 - a recipe's version is therefore a statement inside the tree; the publish command
   neither repeats nor checks it (the check in step 2 is the only guard);
 - `--path <directory>` packs one directory of the tag and leaves out the `shared`

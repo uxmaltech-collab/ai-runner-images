@@ -1,7 +1,7 @@
 {
   "schema": "collab.recipes-manifest/v1",
   "repository_version": "0.1.0",
-  "context": "Each Dockerfile COPYs repository-relative paths: the build context is a tree in which the recipe sits at its `path`, together with every path of its `shared` list. `name` is the release identifier and names a stack, never a repository; which repository uses which recipe, and which engine, is organization data that the planner reads from the canon. `parent` names the recipe whose released image is the base (its digest is passed as the build argument `build_arg`). `inputs` maps each plan-time build argument to the organization fact the planner resolves for it; a recipe never carries the value. `helpers` lists the stable neutral commands a recipe installs, by capability. `context_inputs` names what the builder places at the root of the context itself (the exact Collab release the resolver recipes install as their last layer); every other COPY source is a path of the release tree, inside the recipe's `path` or one of its `shared` paths.",
+  "context": "Each Dockerfile COPYs repository-relative paths: the build context is a tree in which the recipe sits at its `path`, together with every path of its `shared` list. `name` is the release identifier and names a stack, never a repository; which repository uses which recipe, and which engine, is organization data that the planner reads from the canon. `parent` names what the base is, passed as the build argument `build_arg`: `{recipe, version}` is a recipe of this manifest (its released image); `{component, recipe?, version}` is the image built from a recipe of another released component (its release index key, and its manifest entry when that tree holds several); `{pin}` is an image no recipe builds (an operating-system or third-party image), named by a neutral profile that the organization pins by digest in its own declaration. A recipe never carries a registry, tag or digest of any organization. `inputs` maps each plan-time build argument to the organization fact the planner resolves for it; a recipe never carries the value. `helpers` lists the stable neutral commands a recipe installs, by capability. `context_inputs` names what the builder places at the root of the context itself (the exact Collab release the resolver recipes install as their last layer), and `context` says what fills each name, with the shape of a container recipe's `version.json` `build.context` (`{name, kind: tree|artifact, component: <release index key>, version: <constraint>}`): the version the organization runs is chosen by the console from its adoption, never by the recipe; every other COPY source is a path of the release tree, inside the recipe's `path` or one of its `shared` paths.",
   "recipes": [
     {
       "name": "android",
@@ -9,6 +9,11 @@
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
       "smoke": null,
+      "parent": {
+        "recipe": "collab-runners-runner-agent-base",
+        "version": "0.1.0",
+        "build_arg": "RUNNER_AGENT_BASE_IMAGE"
+      },
       "helpers": [
         {
           "capability": "android.emulator-owner",
@@ -25,42 +30,71 @@
       "path": "recipes/collab-runners/runner-agent-base",
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
-      "smoke": null
+      "smoke": null,
+      "parent": {
+        "recipe": "collab-runners-runner-base",
+        "version": "0.1.0",
+        "build_arg": "RUNNER_BASE_IMAGE"
+      }
     },
     {
       "name": "collab-runners-runner-base",
       "path": "recipes/collab-runners/runner-base",
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
-      "smoke": null
+      "smoke": null,
+      "parent": {
+        "pin": "runner-base-os",
+        "build_arg": "RUNNER_BASE_OS_IMAGE"
+      }
     },
     {
       "name": "collab-runners-runner-ci-ai-resources",
       "path": "recipes/collab-runners/runner-ci-ai-resources",
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
-      "smoke": null
+      "smoke": null,
+      "parent": {
+        "recipe": "collab-runners-runner-base",
+        "version": "0.1.0",
+        "build_arg": "AI_REPO_RESOURCES_RUNNER_BASE_IMAGE"
+      }
     },
     {
       "name": "collab-runners-runner-ci-airflow-dag",
       "path": "recipes/collab-runners/runner-ci-airflow-dag",
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
-      "smoke": null
+      "smoke": null,
+      "parent": {
+        "recipe": "collab-runners-runner-base",
+        "version": "0.1.0",
+        "build_arg": "AI_REPO_RESOURCES_RUNNER_BASE_IMAGE"
+      }
     },
     {
       "name": "collab-runners-runner-ci-php-laravel",
       "path": "recipes/collab-runners/runner-ci-php-laravel",
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
-      "smoke": null
+      "smoke": null,
+      "parent": {
+        "recipe": "collab-runners-runner-base",
+        "version": "0.1.0",
+        "build_arg": "AI_REPO_RESOURCES_RUNNER_BASE_IMAGE"
+      }
     },
     {
       "name": "collab-runners-runner-ci-web-e2e",
       "path": "recipes/collab-runners/runner-ci-web-e2e",
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
-      "smoke": null
+      "smoke": null,
+      "parent": {
+        "recipe": "collab-runners-runner-base",
+        "version": "0.1.0",
+        "build_arg": "AI_REPO_RESOURCES_RUNNER_BASE_IMAGE"
+      }
     },
     {
       "name": "collab-runners-runner-resolver-airflow-dag",
@@ -70,7 +104,20 @@
       "smoke": null,
       "context_inputs": [
         "collab-release"
-      ]
+      ],
+      "context": [
+        {
+          "name": "collab-release",
+          "kind": "artifact",
+          "component": "uxmaltech-collab/cli",
+          "version": ">=0.2.3"
+        }
+      ],
+      "parent": {
+        "recipe": "collab-runners-runner-agent-base",
+        "version": "0.1.0",
+        "build_arg": "AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE"
+      }
     },
     {
       "name": "collab-runners-runner-resolver-android",
@@ -80,6 +127,14 @@
       "smoke": null,
       "context_inputs": [
         "collab-release"
+      ],
+      "context": [
+        {
+          "name": "collab-release",
+          "kind": "artifact",
+          "component": "uxmaltech-collab/cli",
+          "version": ">=0.2.3"
+        }
       ],
       "parent": {
         "recipe": "android",
@@ -107,7 +162,20 @@
       "smoke": null,
       "context_inputs": [
         "collab-release"
-      ]
+      ],
+      "context": [
+        {
+          "name": "collab-release",
+          "kind": "artifact",
+          "component": "uxmaltech-collab/cli",
+          "version": ">=0.2.3"
+        }
+      ],
+      "parent": {
+        "recipe": "collab-runners-runner-agent-base",
+        "version": "0.1.0",
+        "build_arg": "AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE"
+      }
     },
     {
       "name": "collab-runners-runner-resolver-mobile-qa",
@@ -117,7 +185,20 @@
       "smoke": null,
       "context_inputs": [
         "collab-release"
-      ]
+      ],
+      "context": [
+        {
+          "name": "collab-release",
+          "kind": "artifact",
+          "component": "uxmaltech-collab/cli",
+          "version": ">=0.2.3"
+        }
+      ],
+      "parent": {
+        "recipe": "collab-runners-runner-agent-base",
+        "version": "0.1.0",
+        "build_arg": "AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE"
+      }
     },
     {
       "name": "collab-runners-runner-resolver-nuxt-pnpm",
@@ -128,6 +209,19 @@
       "context_inputs": [
         "collab-release"
       ],
+      "context": [
+        {
+          "name": "collab-release",
+          "kind": "artifact",
+          "component": "uxmaltech-collab/cli",
+          "version": ">=0.2.3"
+        }
+      ],
+      "parent": {
+        "recipe": "collab-runners-runner-agent-base",
+        "version": "0.1.0",
+        "build_arg": "AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE"
+      },
       "shared": [
         "recipes/collab-runners/common"
       ],
@@ -162,7 +256,20 @@
       "smoke": null,
       "context_inputs": [
         "collab-release"
-      ]
+      ],
+      "context": [
+        {
+          "name": "collab-release",
+          "kind": "artifact",
+          "component": "uxmaltech-collab/cli",
+          "version": ">=0.2.3"
+        }
+      ],
+      "parent": {
+        "recipe": "collab-runners-runner-agent-base",
+        "version": "0.1.0",
+        "build_arg": "AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE"
+      }
     },
     {
       "name": "collab-runners-runner-resolver-php-mysql-redis",
@@ -172,7 +279,20 @@
       "smoke": null,
       "context_inputs": [
         "collab-release"
-      ]
+      ],
+      "context": [
+        {
+          "name": "collab-release",
+          "kind": "artifact",
+          "component": "uxmaltech-collab/cli",
+          "version": ">=0.2.3"
+        }
+      ],
+      "parent": {
+        "recipe": "collab-runners-runner-agent-base",
+        "version": "0.1.0",
+        "build_arg": "AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE"
+      }
     },
     {
       "name": "collab-runners-runner-resolver-php83",
@@ -182,7 +302,20 @@
       "smoke": null,
       "context_inputs": [
         "collab-release"
-      ]
+      ],
+      "context": [
+        {
+          "name": "collab-release",
+          "kind": "artifact",
+          "component": "uxmaltech-collab/cli",
+          "version": ">=0.2.3"
+        }
+      ],
+      "parent": {
+        "recipe": "collab-runners-runner-agent-base",
+        "version": "0.1.0",
+        "build_arg": "AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE"
+      }
     },
     {
       "name": "collab-runners-runner-resolver-web-qa",
@@ -192,7 +325,20 @@
       "smoke": null,
       "context_inputs": [
         "collab-release"
-      ]
+      ],
+      "context": [
+        {
+          "name": "collab-release",
+          "kind": "artifact",
+          "component": "uxmaltech-collab/cli",
+          "version": ">=0.2.3"
+        }
+      ],
+      "parent": {
+        "recipe": "collab-runners-runner-agent-base",
+        "version": "0.1.0",
+        "build_arg": "AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE"
+      }
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "files": {
-    "recipes/collab-runners/README.md": "0ab79f94e46436d3eb5b00fad2b0141e2eff3dd5554980b4fd3f9b203636e00c",
+    "recipes/collab-runners/README.md": "ea1ea94a657770f8680da45e0f6052260becb2329c3c3083fabd8a4bb283589c",
     "recipes/collab-runners/common/plan-inputs.py": "8c07a6af562e81f208923ba5336dbcbbc99772f165355e5a4e9b8aff4689f2c5",
     "recipes/collab-runners/extraction.json": "0b9210953aefb6443f2d1fdacd0aae513744a7b758f38fa4666d04de85403ada",
     "recipes/collab-runners/qa-extraction.json": "df6c01e37fd1fd22f903dafb8645e8c7f21c1f15fd0d204a8be226844874d27c",
@@ -32,7 +32,7 @@
     "recipes/collab-runners/runner-resolver-php83/Dockerfile": "634db2233c41564635080749a463fc0f9dc32363da5a0568d8ccc3f0722ec955",
     "recipes/collab-runners/runner-resolver-php83/platform-probe.php": "8504cfbf01685f19210d05ef275015f6cdd22b9919cecd36f5c9f8f69ad5fcb5",
     "recipes/collab-runners/runner-resolver-web-qa/Dockerfile": "42a9caa2c5ad3a92fef4853e5be0ec0d365a1c25b5c3282d2e9b9eed67ae4be6",
-    "recipes/manifest.json": "9fb06ecfffe708e160259e41117ae76a72af8f15d5aeb97088c218ac797414a5",
+    "recipes/manifest.json": "64809133f4c977b2d704e80f7ae023da2c781832731e4dbae5d7388e8e1a12e6",
     "recipes/native-runtime/guest-agent-host-only.patch": "979994e0df2f9d08d4efc27dba4105863691cb4451fd95010345bce273b081b9",
     "recipes/native-runtime/vsock-host-only-probe.c": "5be09429c7a64a8883801dce8892d9d49d698a4074c2d14c984945de410dde33",
     "recipes/templates/agent-base/flavors/EXAMPLE.Dockerfile": "b47887a09152a6d64754b0a7f0aef3083f0b516b6a26a9ab317ce0dd01f59856",

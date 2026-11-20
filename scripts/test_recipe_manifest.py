@@ -98,6 +98,11 @@ def test_a_copy_source_the_release_tree_does_not_hold_warns(tmp_path):
     assert len(warnings) == 2
     entry['context_inputs'] = ['collab-release']
     repository(tmp_path, good_manifest(entry))
+    assert [w for w in module.check(root) if 'collab-release' in w] == [
+        "base: context_inputs names 'collab-release' and no context entry says what fills it; "
+        'the console cannot resolve it and the build is not made']
+    entry['context'] = [{'name': 'collab-release', 'kind': 'artifact', 'component': 'example-org/example-cli', 'version': '>=0.1.0'}]
+    repository(tmp_path, good_manifest(entry))
     assert [w for w in module.check(root) if 'collab-release' in w] == []
 
 
@@ -324,6 +329,81 @@ def test_parent_inputs_and_helpers_must_match_the_recipes(tmp_path):
     assert not any('KNOWN' in warning or '/usr/local/bin/tool' in warning for warning in warnings)
 
 
+def test_every_base_a_recipe_starts_from_is_declared_as_its_parent():
+    """No recipe of the manifest takes its base through an undeclared `ARG ... FROM ${...}`: each such argument is the
+    `build_arg` of its `parent` (a recipe of this manifest, or a pin for the operating-system image of runner-base)."""
+    manifest = json.loads((ROOT / 'recipes' / 'manifest.json').read_text())
+    by_name = {entry['name']: entry for entry in manifest['recipes']}
+    for entry in manifest['recipes']:
+        text = (ROOT / entry['path'] / entry['dockerfile']).read_text()
+        bases = module.undeclared_bases(text)
+        assert bases == [entry['parent']['build_arg']], (entry['name'], bases, entry.get('parent'))
+        parent = entry['parent']
+        if 'recipe' in parent:
+            assert parent['version'] == by_name[parent['recipe']]['version']
+    assert by_name['collab-runners-runner-base']['parent'] == {'pin': 'runner-base-os', 'build_arg': 'RUNNER_BASE_OS_IMAGE'}
+    assert by_name['android']['parent']['recipe'] == 'collab-runners-runner-agent-base'
+    # The pin is a neutral profile name: no registry, tag or digest of any organization is in the manifest.
+    assert not any('@sha256:' in json.dumps(entry.get('parent')) or '/' in json.dumps(entry.get('parent', {}).get('pin', ''))
+                   for entry in manifest['recipes'])
+
+
+def test_every_context_input_says_what_fills_it_with_the_runtime_of_the_lock_and_no_pinned_version():
+    manifest = json.loads((ROOT / 'recipes' / 'manifest.json').read_text())
+    runtime = json.loads((ROOT / 'compatibility' / 'collab-runtime.lock.json').read_text())['runtime']
+    needing = [entry for entry in manifest['recipes'] if entry.get('context_inputs')]
+    assert len(needing) == 9
+    for entry in needing:
+        assert entry['context'] == [{'name': 'collab-release', 'kind': 'artifact', 'component': runtime['repository'],
+                                     'version': '>=' + runtime['version']}], entry['name']
+    assert not any(entry.get('context') for entry in manifest['recipes'] if not entry.get('context_inputs'))
+
+
+def test_the_three_parent_forms_are_read_and_a_malformed_one_warns(tmp_path):
+    root = repository(tmp_path, None)
+    os_based = recipe(root, 'os-based', 'ARG OS_IMAGE\nFROM ${OS_IMAGE}\n')
+    os_based['parent'] = {'pin': 'example-os', 'build_arg': 'OS_IMAGE'}
+    foreign = recipe(root, 'foreign', 'ARG AGENT_IMAGE\nFROM ${AGENT_IMAGE} AS agents\n')
+    foreign['parent'] = {'component': 'containers/example-agent-base', 'version': '^0.4.0', 'build_arg': 'AGENT_IMAGE'}
+    entry = recipe(root, 'entry', 'ARG AGENT_IMAGE\nFROM ${AGENT_IMAGE}\n')
+    entry['parent'] = {'component': 'example-org/example-images', 'recipe': 'example-base', 'version': '0.2.0', 'build_arg': 'AGENT_IMAGE'}
+    repository(tmp_path, good_manifest(os_based, foreign, entry))
+    assert module.check(root) == []
+    os_based['parent'] = {'pin': 'Example/OS:latest', 'build_arg': 'OS_IMAGE'}
+    foreign['parent'] = {'component': 'containers/example-agent-base', 'build_arg': 'AGENT_IMAGE'}
+    entry['parent'] = {'pin': 'example-os', 'version': '1', 'build_arg': 'OTHER'}
+    repository(tmp_path, good_manifest(os_based, foreign, entry))
+    warnings = module.check(root)
+    assert any(w.startswith('os-based: parent pin must be a profile name') for w in warnings)
+    assert 'foreign: parent component must name a string component and version, and a string recipe if any' in warnings
+    assert "entry: parent pin 'example-os' names nothing else; version is ignored" in warnings
+    assert 'entry: the Dockerfile does not declare ARG OTHER' in warnings
+    assert any(w.startswith('entry: a FROM starts from ${AGENT_IMAGE}, which has no default') for w in warnings)
+
+
+def test_a_base_taken_through_an_argument_without_default_and_without_parent_warns(tmp_path):
+    root = repository(tmp_path, None)
+    plain = recipe(root, 'plain', 'ARG BASE\nFROM ${BASE}\nARG PINNED=docker.io/library/debian@sha256:' + 'a' * 64 + '\nFROM ${PINNED}\n')
+    repository(tmp_path, good_manifest(plain))
+    assert module.check(root) == [
+        "plain: a FROM starts from ${BASE}, which has no default and is not the parent's build_arg; declare the base as parent"]
+
+
+def test_a_malformed_context_warns_and_the_rest_is_checked(tmp_path):
+    root = repository(tmp_path, None)
+    entry = recipe(root, 'one', 'FROM scratch\nCOPY collab-release /c\n')
+    entry['context_inputs'] = ['collab-release']
+    entry['context'] = [{'name': '../up', 'kind': 'artifact', 'component': 'x', 'version': '*'},
+                        {'name': 'collab-release', 'kind': 'image', 'component': 'x', 'version': '*'}]
+    repository(tmp_path, good_manifest(entry))
+    warnings = module.check(root)
+    assert sum('a context entry must be an object' in w for w in warnings) == 2
+    assert any("context_inputs names 'collab-release' and no context entry" in w for w in warnings)
+    entry['context'] = 'collab-release'
+    repository(tmp_path, good_manifest(entry))
+    assert 'one: context must be a list of {name, kind, component, version} entries' in module.check(root)
+
+
 # --- versions against the previous release -------------------------------------------------------
 
 def git_run(root, *arguments):
@@ -343,7 +423,8 @@ def released(tmp_path):
     base = recipe(root, 'base', 'FROM scratch\n')
     child = recipe(root, 'child', 'ARG BASE\nFROM ${BASE}\nCOPY common/tool.py /t\nCOPY collab-release /c\n')
     child.update(shared=['common'], parent={'recipe': 'base', 'version': '0.1.0', 'build_arg': 'BASE'},
-                 context_inputs=['collab-release'])
+                 context_inputs=['collab-release'],
+                 context=[{'name': 'collab-release', 'kind': 'artifact', 'component': 'example-org/example-cli', 'version': '*'}])
     other = recipe(root, 'other', 'FROM scratch\nCOPY common/tool.py /t\n')
     other.update(shared=['common'])
     (root / 'recipes' / 'manifest.json').write_text(json.dumps(good_manifest(base, child, other)))
