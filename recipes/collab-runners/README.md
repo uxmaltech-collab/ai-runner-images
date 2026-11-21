@@ -136,9 +136,9 @@ approved one:
   credential, never a value. With none declared the helper changes no npm configuration
   and warns.
 - `parent`: compares the digest the parent reference resolves to with the approved one.
-  The reference must be digest-qualified: a tag is mutable and stops, as it does on
-  `main`; no approved digest leaves the parent `unverified`, with a warning; a different
-  digest stops.
+  A tag spelling only warns; what is verified is the digest. A tag needs both the approved
+  and the observed digest and stops without either, or when they differ; a
+  digest-qualified reference with no approved digest is `unverified`, with a warning.
 
 The stable neutral helpers are listed under `helpers` in the manifest, by capability
 (for example `android.emulator-owner`: `/usr/local/bin/runner-android-emulator`).

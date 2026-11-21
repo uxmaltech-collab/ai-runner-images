@@ -7,8 +7,7 @@ organization data. The planner reads it from the organization's canon (or, when 
 cannot be read, from its own last verified read of it) and hands it to the build as
 inputs; this tool applies them. It knows the shape of each input, never its content, and
 it carries no organization value. Every finding is a warning and the exit status is 0,
-except one: a parent image that is not the approved artifact, or is named by a mutable tag
-(`parent`). The last line of standard output is a JSON result with `status` and
+except one: a parent image whose bytes are not verified to be the approved artifact (`parent`). The last line of standard output is a JSON result with `status` and
 `warnings` that the caller can read, and each warning is also written to standard error.
 
   plan-inputs.py journey --template FILE --output FILE
@@ -38,12 +37,13 @@ registries Writes the valid package registry bindings (`<scope>=<host>[=<credent
           name>]`) to the image-owned file the web install helper reads. A binding names the
           variable that holds a credential, never a value; an entry of another shape is
           skipped with a warning.
-parent    Verifies the identity of the parent image. The reference must be spelled
-          <image>@sha256:<digest>: a tag is mutable, so building from it is building from
-          bytes nobody approved, and that stops (exit 1), as does a digest that differs from
-          the approved one. A digest-qualified parent with no approved digest to compare
-          warns that it is unverified and goes on. `--resolved` is an optional cross-check
-          of the digest the builder observed for the reference; a difference only warns.
+parent    Verifies the identity of the parent image by its digest. The spelling of the
+          reference does not matter: a tag only warns. The digest is the one in the
+          reference or, for a tag, the one the builder observed (`--resolved`), and it must
+          be the approved one (`--approved`). It stops (exit 1) when a tag has no observed or
+          no approved digest, because nothing then says what bytes the build starts from, and
+          when the digest differs from the approved one: that image is another artifact.
+          A digest-qualified parent with no approved digest to compare warns and goes on.
 
 An input missing from the command line is read from RUNNER_JOURNEY_REPOSITORY,
 RUNNER_JOURNEY_PROFILE, RUNNER_JOURNEY_VALIDATOR, RUNNER_JOURNEY_DRIVER, RUNNER_HELPER_ALIASES,
@@ -262,7 +262,7 @@ def write_registries(spec, output):
 
 
 def check_parent(reference, approved, resolved):
-    """Verifies the parent: it must be digest-qualified, and its digest must be the approved one."""
+    """Verifies the bytes of the parent: its digest must be the approved one, however the reference is spelled."""
     warnings = []
     result = {'command': 'parent', 'reference': reference[:256], 'warnings': warnings}
     qualified = re.search(r'@(sha256:[0-9a-f]{64})$', reference)
@@ -270,22 +270,25 @@ def check_parent(reference, approved, resolved):
         warnings.append('no parent reference was given; the parent is not verified')
         return {**result, 'status': 'unverified', 'resolved': None}
     if qualified is None:
-        # A tag is mutable and the build pulls it again after anything observed about it: what
-        # the image is built from would not be the approved bytes. `main` rejects it too.
-        warnings.append(f'the parent reference {reference[:128]!r} is a mutable tag, not <image>@sha256:<digest>; '
-                        'resolve it to its digest before the build and pass the digest-qualified reference: '
-                        'the build is not made from an unverified parent')
-        return {**result, 'status': 'mutable', 'resolved': None}
+        warnings.append(f'the parent reference {reference[:128]!r} is not spelled as <image>@sha256:<digest>; '
+                        'that is only a spelling, and the digest it resolves to is what is checked')
     if resolved and not DIGEST.fullmatch(resolved):
         warnings.append(f'the resolved digest {resolved[:80]!r} is not sha256:<64 hex>; it was not used')
         resolved = ''
     if approved and not DIGEST.fullmatch(approved):
-        warnings.append(f'the approved digest {approved[:80]!r} is not sha256:<64 hex>; the parent is not verified')
+        warnings.append(f'the approved digest {approved[:80]!r} is not sha256:<64 hex>; it was not used')
         approved = ''
-    if resolved and resolved != qualified.group(1):
+    if qualified is not None and resolved and resolved != qualified.group(1):
         warnings.append('the resolved digest differs from the digest in the reference; the reference was used')
-    actual = qualified.group(1)
-    result['resolved'] = actual
+    actual = qualified.group(1) if qualified is not None else resolved
+    result['resolved'] = actual or None
+    if qualified is None and not (approved and actual):
+        # A tag names no bytes by itself: without the approved digest and the digest the builder
+        # observed there is nothing that identifies what the build starts from.
+        warnings.append('the parent is named by a tag and its identity cannot be verified '
+                        f'(approved digest {"given" if approved else "missing"}, observed digest '
+                        f'{"given" if actual else "missing"}); the build does not start from an unverified parent')
+        return {**result, 'status': 'unresolved'}
     if not approved:
         warnings.append('no approved digest was given for the parent image; it is not verified against an approved artifact')
         return {**result, 'status': 'unverified'}
@@ -350,8 +353,8 @@ def main(argv=None, environment=None):
     if result.get('note'):
         print('NOTE: ' + result['note'], file=sys.stderr)
     print(json.dumps(result, sort_keys=True))
-    # The one stop: the parent is a mutable tag, or a different artifact than the approved one.
-    return 1 if result.get('status') in {'mismatch', 'mutable'} else 0
+    # The one stop: the parent's bytes are not verified to be the approved artifact.
+    return 1 if result.get('status') in {'mismatch', 'unresolved'} else 0
 
 
 if __name__ == '__main__':

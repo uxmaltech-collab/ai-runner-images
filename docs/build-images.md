@@ -118,22 +118,22 @@ way is unqualified.
    A pin is the organization's own: it declares the digest under `image_pins` (`profile`:
    the pin's name) in its canon, and the recipe names no registry, tag or digest. The
    check warns about a `FROM ${ARG}` with no default that is not the parent's build
-   argument. The reference is always digest-qualified, `<image>@sha256:<digest>`: a tag is
-   mutable, so it is resolved to its digest first and the digest-qualified reference is
-   what the build uses (the console's builder does this). A Dockerfile whose base is a
-   tag stops, as it does on `main`. Verify the parent against the approved digest (the
-   organization's image pin):
+   argument. The reference may be a tag or a digest and its spelling only warns: what
+   is verified is the digest it resolves to. The builder resolves the tag, compares the
+   digest it observed with the approved one (the organization's image pin) and builds from
+   the digest-qualified reference `<image>@sha256:<digest>`:
 
    ```sh
-   docker image inspect --format '{{index .RepoDigests 0}}' <parent image>   # the digest to build from
+   docker image inspect --format '{{index .RepoDigests 0}}' <parent reference>
    python3 recipes/collab-runners/common/plan-inputs.py parent \
-     --reference <image>@sha256:<digest> --approved sha256:<approved>
+     --reference <parent reference> --approved sha256:<approved> --resolved sha256:<observed>
    ```
 
-   The command stops (exit 1) when the reference is a tag, and when its digest is not the
-   approved one: that image is another artifact. With no approved digest it warns that the
-   parent is unverified and goes on. `--resolved` is an optional cross-check of the digest
-   the builder observed; a difference only warns. The same check runs inside the build of
+   The command warns about a tag and goes on only when the digest is the approved one
+   (digest-qualified, or the observed digest of a tag). It stops (exit 1) when the observed
+   digest is missing or is not the approved one, and when a tag has no approved digest:
+   without them nothing says what bytes the build starts from. A digest-qualified reference
+   with no approved digest only warns. The same check runs inside the build of
    `runner-resolver-android` (`RUNNER_ANDROID_IMAGE_DIGEST`,
    `RUNNER_ANDROID_IMAGE_RESOLVED_DIGEST`).
 3. **Plan-time inputs.** Each fact is a `--build-arg` named under `inputs` in the
@@ -144,10 +144,16 @@ way is unqualified.
 
    ```sh
    docker build -f recipes/collab-runners/runner-resolver-android/Dockerfile \
-     --build-arg RUNNER_ANDROID_IMAGE=<image>@sha256:<digest> \
+     --build-arg RUNNER_ANDROID_IMAGE=<parent reference> \
      --build-arg RUNNER_ANDROID_IMAGE_DIGEST=sha256:<approved> \
+     --build-arg RUNNER_ANDROID_IMAGE_RESOLVED_DIGEST=sha256:<observed> \
      --build-arg <input>=<value> ... -t <image> .
    ```
+
+   With a tag as `<parent reference>`, the builder resolves it first, compares the observed
+   digest with the approved one, and then builds from `<image>@sha256:<observed>` as the
+   reference, which leaves no window between what was verified and what is pulled; the
+   digest arguments are the same.
 
    The builder labels the image with `collab.recipe.component`, `collab.recipe.version`,
    `collab.recipe.tree_digest` and `collab.build.id` (`--label`), and records the digest
@@ -192,7 +198,7 @@ keys come from two places:
     requires it and gets none (the console holds no exact commit for that release)
     stops at its own `test -n`; nothing invents one.
   - `image_pins.digest`: the digest of the parent the build record pins;
-    `builder.resolved_parent_digest`: what the builder observes for the pulled parent (an optional cross-check).
+    `builder.resolved_parent_digest`: what the builder observes for the pulled parent.
   - `context` is reserved for facts of a resolved context entry; none is supplied yet.
 
 "Required" below means that the Dockerfile has no default for the argument and stops

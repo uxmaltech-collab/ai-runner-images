@@ -51,11 +51,15 @@ publication.
   or `/etc/runner-web-stack/registries`, names the credential variable of each binding
   (never a value), keeps the user's other npm settings, and warns instead of stopping
   when a variable is empty or nothing is declared.
-- A parent image is built by digest, as on `main`: the Dockerfiles keep stopping a build
-  whose base reference is not written `<image>@sha256:<digest>` (a tag is mutable, so
-  building from one is building from unverified bytes). The Android resolver also verifies
-  the digest of its reference against the approved one (`plan-inputs.py parent`), which
-  stops on a tag and on a different digest; with no approved digest it only warns.
+- A parent image's reference spelling is only metadata, its digest is what is verified: the
+  Dockerfiles that stopped a build because a reference was not written
+  `<image>@sha256:<digest>` now warn. The Android resolver checks the digest of its
+  reference (for a tag, the one the builder observed and passes as
+  `RUNNER_ANDROID_IMAGE_RESOLVED_DIGEST`) against the approved one (`plan-inputs.py
+  parent`). It stops when a tag has no observed or no approved digest, and when the digest
+  is not the approved one, because the bytes the build starts from would not be verified;
+  an equal digest continues with a warning about the spelling. A digest-qualified reference
+  with no approved digest only warns.
 - The native iOS `image-build.json` is a template whose `driver` is `null`: the plan renders
   `journey-driver.json` first and `image-build.json` with `--driver <rendered driver>`, so the
   declaration points at the rendered driver, never at the template.

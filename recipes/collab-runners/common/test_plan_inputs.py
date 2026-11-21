@@ -369,86 +369,80 @@ def test_a_digest_qualified_parent_that_is_the_approved_artifact_is_verified(cap
     assert status == 0 and result['status'] == 'verified' and result['warnings'] == [] and err == ''
 
 
-def test_a_resolved_digest_that_differs_from_the_approved_one_stops(capsys):
+def test_a_digest_qualified_parent_that_differs_from_the_approved_one_stops(capsys):
     status, result, _ = parent(capsys, '--reference', f'registry.example.test/example-android@{OTHER}', '--approved', APPROVED)
     assert status == 1 and result['status'] == 'mismatch'
     assert 'another artifact' in result['warnings'][-1] and OTHER in result['warnings'][-1]
 
 
+def test_a_tag_whose_observed_digest_is_the_approved_one_continues_with_a_warning_about_the_spelling(capsys):
+    status, result, err = parent(capsys, '--reference', 'example-android:local', '--approved', APPROVED, '--resolved', APPROVED)
+    assert status == 0 and result['status'] == 'verified' and result['resolved'] == APPROVED
+    assert 'only a spelling' in result['warnings'][0] and err.startswith('WARNING: ')
+
+
 @pytest.mark.parametrize('arguments', [
-    # A tag is mutable: whatever digest it resolved to when it was observed, the build pulls the tag again.
-    ['--reference', 'example-android:local', '--approved', APPROVED, '--resolved', APPROVED],
-    ['--reference', 'example-android:local', '--approved', APPROVED, '--resolved', OTHER],
     ['--reference', 'example-android:local', '--approved', APPROVED],
+    ['--reference', 'example-android:local', '--approved', APPROVED, '--resolved', ''],
+    ['--reference', 'example-android:local', '--approved', APPROVED, '--resolved', 'not-a-digest'],
+])
+def test_a_tag_whose_observed_digest_is_missing_stops(capsys, arguments):
+    """The review's blocker: a tag plus an approved digest, with no observed digest, must not build."""
+    status, result, err = parent(capsys, *arguments)
+    assert status == 1 and result['status'] == 'unresolved' and result['resolved'] is None
+    assert any('unverified parent' in warning and 'observed digest missing' in warning for warning in result['warnings'])
+    assert err.startswith('WARNING: ')
+
+
+def test_a_tag_whose_observed_digest_differs_from_the_approved_one_stops(capsys):
+    status, result, _ = parent(capsys, '--reference', 'example-android:local', '--approved', APPROVED, '--resolved', OTHER)
+    assert status == 1 and result['status'] == 'mismatch'
+    assert 'another artifact' in result['warnings'][-1] and OTHER in result['warnings'][-1]
+
+
+@pytest.mark.parametrize('arguments', [
     ['--reference', 'example-android:local', '--resolved', APPROVED],
     ['--reference', 'example-android:local'],
-    ['--reference', 'example-android'],
+    ['--reference', 'example-android:local', '--approved', 'not-a-digest', '--resolved', APPROVED],
 ])
-def test_a_parent_named_by_a_mutable_tag_stops_whatever_else_was_given(capsys, arguments):
-    """`main` rejects a parent that is not digest-qualified; the identity of the bytes built from is integrity."""
-    status, result, err = parent(capsys, *arguments)
-    assert status == 1 and result['status'] == 'mutable' and err.startswith('WARNING: ')
-    assert any('mutable' in warning and '<image>@sha256:<digest>' in warning for warning in result['warnings'])
+def test_a_tag_with_no_approved_digest_stops_because_nothing_identifies_its_bytes(capsys, arguments):
+    status, result, _ = parent(capsys, *arguments)
+    assert status == 1 and result['status'] == 'unresolved'
 
 
 @pytest.mark.parametrize('arguments, expected', [
     (['--reference', f'example-android@{APPROVED}'], 'no approved digest'),
     (['--reference', f'example-android@{APPROVED}', '--approved', 'not-a-digest'], 'is not sha256:<64 hex>'),
-    (['--reference', f'example-android@{APPROVED}', '--approved', APPROVED, '--resolved', 'not-a-digest'], 'is not sha256:<64 hex>'),
+    (['--reference', ''], 'no parent reference'),
 ])
-def test_a_digest_qualified_parent_that_cannot_be_approved_warns_and_the_build_goes_on(capsys, arguments, expected):
+def test_a_digest_qualified_parent_that_cannot_be_compared_is_unverified_and_the_build_goes_on(capsys, arguments, expected):
     status, result, _ = parent(capsys, *arguments)
-    assert status == 0 and result['status'] in {'unverified', 'verified'}
+    assert status == 0 and result['status'] == 'unverified'
     assert any(expected in warning for warning in result['warnings'])
 
 
-def test_no_parent_reference_is_unverified_and_the_build_goes_on(capsys):
-    status, result, _ = parent(capsys, '--reference', '')
-    assert status == 0 and result['status'] == 'unverified'
-    assert any('no parent reference' in warning for warning in result['warnings'])
-
-
 def test_the_parent_check_reads_the_build_arguments_from_the_environment(capsys):
-    environment = {'RUNNER_PARENT_REFERENCE': f'example-android@{OTHER}', 'RUNNER_PARENT_DIGEST': APPROVED}
+    environment = {'RUNNER_PARENT_REFERENCE': 'example-android:local', 'RUNNER_PARENT_DIGEST': APPROVED,
+                   'RUNNER_PARENT_RESOLVED_DIGEST': OTHER}
     status, result, _ = parent(capsys, environment=environment)
     assert status == 1 and result['status'] == 'mismatch'
-    environment = {'RUNNER_PARENT_REFERENCE': 'example-android:local', 'RUNNER_PARENT_DIGEST': APPROVED}
+    environment['RUNNER_PARENT_RESOLVED_DIGEST'] = APPROVED
     status, result, _ = parent(capsys, environment=environment)
-    assert status == 1 and result['status'] == 'mutable'
+    assert status == 0 and result['status'] == 'verified'
+    del environment['RUNNER_PARENT_RESOLVED_DIGEST']
+    status, result, _ = parent(capsys, environment=environment)
+    assert status == 1 and result['status'] == 'unresolved'
 
 
-GUARDED = {
-    'recipes/android', 'recipes/collab-runners/runner-agent-base', 'recipes/collab-runners/runner-base',
-    'recipes/collab-runners/runner-ci-ai-resources', 'recipes/collab-runners/runner-ci-airflow-dag',
-    'recipes/collab-runners/runner-ci-php-laravel', 'recipes/collab-runners/runner-ci-web-e2e',
-    'recipes/templates/runner-base', 'recipes/templates/agent-base/flavors'}
-REFERENCE_GUARD = re.compile(r'case "\$\{([A-Za-z_]+)\}" in (\*@sha256:\*[^)]*)\) ;;(.*?)esac')
-
-
-def sh_guard(block, variable, value):
-    """Runs one Dockerfile guard (`case ... esac`, then a success marker) with the reference set to `value`."""
-    import subprocess
-    result = subprocess.run(['sh', '-c', f'{block} && echo passed'], env={variable: value, 'PATH': os.environ['PATH']},
-                            capture_output=True, text=True)
-    return result.returncode, result.stdout, result.stderr
-
-
-def test_every_dockerfile_that_main_guards_still_stops_on_a_reference_that_is_not_digest_qualified():
-    """A tag is mutable: building from it is not building from the approved bytes. Spelling is not the issue, identity is."""
-    root = RECIPES.parents[1]
-    found = set()
-    for dockerfile in sorted((root / 'recipes').rglob('*Dockerfile')):
+def test_no_dockerfile_stops_on_the_spelling_of_a_parent_reference():
+    checked = 0
+    for dockerfile in RECIPES.parent.rglob('*Dockerfile'):
         text = dockerfile.read_text().replace('\\\n', ' ')
-        for match in REFERENCE_GUARD.finditer(text):
-            variable, block = match.group(1), match.group(0)
-            found.add(dockerfile.parent.relative_to(root).as_posix())
-            digest = 'registry.example.test/example-image@sha256:' + 'a' * 64
-            code, out, _ = sh_guard(block, variable, digest)
-            assert (code, out.strip()) == (0, 'passed'), (dockerfile, variable)
-            for tag in ('registry.example.test/example-image:latest', 'registry.example.test/example-image'):
-                code, out, err = sh_guard(block, variable, tag)
-                assert code != 0 and 'passed' not in out and err.strip(), (dockerfile, variable, tag)
-    assert found == GUARDED
+        assert 'must be digest-qualified' not in text and 'must be a registry digest' not in text, dockerfile
+        for match in re.finditer(r'case "\$\{[A-Za-z_]+\}" in \*@sha256:\*[^;]*\) ;;(.*?)esac', text):
+            checked += 1
+            assert 'exit' not in match.group(1), (dockerfile, match.group(0))
+    assert checked >= 9
 
 
 def test_the_android_resolver_reaches_the_digest_check_through_its_build_arguments():

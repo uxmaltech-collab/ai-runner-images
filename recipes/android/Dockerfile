@@ -26,7 +26,7 @@ COPY recipes/android/scripts/runner-android-stack-probe.sh /usr/local/bin/runner
 COPY recipes/android/scripts/entrypoint-android.py /usr/local/bin/entrypoint-android
 RUN test -n "${RUNNER_SOURCE_COMMIT}" \
     && case "${RUNNER_AGENT_BASE_IMAGE}" in *@sha256:*) ;; \
-      *) echo "Agent base must be digest-qualified; resolve a tag to its digest before the build" >&2; exit 1 ;; esac \
+      *) echo "WARNING: the Agent base reference is not spelled <image>@sha256:<digest>; that is only a spelling, and the builder verifies the digest it resolves to against the approved one" >&2 ;; esac \
     && test "${TARGETARCH:-$(dpkg --print-architecture)}" = amd64 \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
