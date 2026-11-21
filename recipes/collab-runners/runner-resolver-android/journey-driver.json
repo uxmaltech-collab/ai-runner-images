@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "repository": null,
+  "profile": null,
+  "backend": "linux-docker",
+  "driver": "android-maestro",
+  "validator": null,
+  "maximum_seconds": 7200
+}

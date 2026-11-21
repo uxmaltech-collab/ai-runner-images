@@ -86,6 +86,100 @@ def test_command_exit_and_cleanup_are_preserved(fake_tools, exit_code):
         os.kill(stopped['pid'], 0)
 
 
+def test_former_ownership_marker_names_are_exported_and_bad_ones_warn(fake_tools, monkeypatch, capsys):
+    """The planner lists the former marker names a consumer still reads; a bad name warns and the rest still run."""
+    monkeypatch.setenv('RUNNER_ANDROID_EMULATOR_OWNED_ALIASES', 'FORMER_OWNED NOT-A-NAME PATH ANOTHER_FORMER')
+    result = fake_tools / 'child.json'
+    code = ("import json,os;json.dump({k: os.environ.get(k) for k in ['RUNNER_ANDROID_EMULATOR_OWNED','FORMER_OWNED',"
+            "'ANOTHER_FORMER','PATH']},open(os.environ['FAKE_CHILD'],'w'))")
+    os.environ['FAKE_CHILD'] = str(result)
+    try:
+        assert emulator.execute([sys.executable, '-c', code], fake_tools / 'logs', boot_timeout=1) == 0
+    finally:
+        del os.environ['FAKE_CHILD']
+    child = json.loads(result.read_text())
+    assert child['RUNNER_ANDROID_EMULATOR_OWNED'] == child['FORMER_OWNED'] == child['ANOTHER_FORMER'] == '1'
+    assert child['PATH'] != '1'
+    err = capsys.readouterr().err
+    assert "ignored the ownership marker alias 'NOT-A-NAME'" in err
+    assert 'ignored the ownership marker alias PATH' in err
+
+
+def test_without_a_list_only_the_neutral_ownership_marker_is_exported(fake_tools, monkeypatch):
+    monkeypatch.delenv('RUNNER_ANDROID_EMULATOR_OWNED_ALIASES', raising=False)
+    result = fake_tools / 'child.json'
+    code = "import json,os;json.dump(sorted(k for k in os.environ if k.endswith('_EMULATOR_OWNED')),open(os.environ['FAKE_CHILD'],'w'))"
+    os.environ['FAKE_CHILD'] = str(result)
+    try:
+        assert emulator.execute([sys.executable, '-c', code], fake_tools / 'logs', boot_timeout=1) == 0
+    finally:
+        del os.environ['FAKE_CHILD']
+    assert json.loads(result.read_text()) == ['RUNNER_ANDROID_EMULATOR_OWNED']
+
+
+def run_child(monkeypatch, environment, fake_tools, names):
+    """Runs the helper as a journey launcher starts it: with `environment` as its whole environment."""
+    result = fake_tools / 'child.json'
+    code = ("import json,os;json.dump({k: os.environ.get(k) for k in %r},open(%r,'w'))" % (names, str(result)))
+    for key in list(os.environ):
+        if key not in environment:
+            monkeypatch.delenv(key)
+    for key, value in environment.items():
+        monkeypatch.setenv(key, value)
+    assert emulator.execute([sys.executable, '-c', code], fake_tools / 'logs', boot_timeout=1) == 0
+    return json.loads(result.read_text())
+
+
+def test_former_ownership_marker_names_come_from_the_image_owned_file(fake_tools, monkeypatch, capsys):
+    """The planner's list is written to a file at build time, so a launcher that passes no such variable still gets it."""
+    listing = fake_tools / 'marker-aliases'
+    listing.write_text('FORMER_OWNED\nNOT-A-NAME\nANOTHER_FORMER\n')
+    monkeypatch.setattr(emulator, 'MARKER_ALIASES_FILE', listing)
+    monkeypatch.delenv('RUNNER_ANDROID_EMULATOR_OWNED_ALIASES', raising=False)
+    child = run_child(monkeypatch, {key: value for key, value in os.environ.items() if key == 'PATH' or key.startswith('FAKE_')},
+                      fake_tools, ['RUNNER_ANDROID_EMULATOR_OWNED', 'FORMER_OWNED', 'ANOTHER_FORMER'])
+    assert child == {'RUNNER_ANDROID_EMULATOR_OWNED': '1', 'FORMER_OWNED': '1', 'ANOTHER_FORMER': '1'}
+    assert "ignored the ownership marker alias 'NOT-A-NAME'" in capsys.readouterr().err
+
+
+def test_the_environment_and_the_file_lists_are_joined_without_repeats(fake_tools, monkeypatch):
+    listing = fake_tools / 'marker-aliases'
+    listing.write_text('FROM_FILE\nSHARED\n')
+    monkeypatch.setattr(emulator, 'MARKER_ALIASES_FILE', listing)
+    assert emulator.listed_aliases({'RUNNER_ANDROID_EMULATOR_OWNED_ALIASES': 'FROM_ENV SHARED'}) == ['FROM_ENV', 'SHARED', 'FROM_FILE', 'SHARED']
+    assert emulator.marker_aliases({'RUNNER_ANDROID_EMULATOR_OWNED_ALIASES': 'FROM_ENV SHARED'}, {}) == {
+        'FROM_ENV': '1', 'SHARED': '1', 'FROM_FILE': '1'}
+
+
+def test_a_missing_or_unreadable_alias_file_is_not_an_error(fake_tools, monkeypatch, capsys):
+    monkeypatch.setattr(emulator, 'MARKER_ALIASES_FILE', fake_tools / 'absent')
+    assert emulator.listed_aliases({}) == []
+    assert capsys.readouterr().err == ''
+    monkeypatch.setattr(emulator, 'MARKER_ALIASES_FILE', fake_tools)  # a directory cannot be read as a file
+    assert emulator.listed_aliases({}) == []
+    assert 'cannot be read' in capsys.readouterr().err
+
+
+def test_the_pinned_journey_launcher_strips_the_alias_variable_but_the_file_still_reaches_the_helper(fake_tools, monkeypatch):
+    """Skipped unless the pinned runtime is importable (PYTHONPATH=<cli>/src:<cli>/providers/runners/src).
+
+    The pinned launcher starts the emulator helper with a fixed list of environment variables: the variable the
+    image used to set never reaches it. The image-owned file is what carries the list.
+    """
+    docker_journey = pytest.importorskip('collab.repo.journeys.docker_journey')
+    listing = fake_tools / 'marker-aliases'
+    listing.write_text('FORMER_OWNED\n')
+    monkeypatch.setattr(emulator, 'MARKER_ALIASES_FILE', listing)
+    caller = dict(os.environ, RUNNER_ANDROID_EMULATOR_OWNED_ALIASES='FORMER_OWNED')
+    for explore in (False, True):
+        launched = docker_journey.child_environment(caller, fake_tools, explore=explore)
+        assert 'RUNNER_ANDROID_EMULATOR_OWNED_ALIASES' not in launched  # the reproduction of the finding
+    launched = docker_journey.child_environment(caller, fake_tools, explore=False)
+    launched.update({key: value for key, value in os.environ.items() if key.startswith('FAKE_')})
+    child = run_child(monkeypatch, launched, fake_tools, ['RUNNER_ANDROID_EMULATOR_OWNED', 'FORMER_OWNED'])
+    assert child == {'RUNNER_ANDROID_EMULATOR_OWNED': '1', 'FORMER_OWNED': '1'}
+
+
 def test_boot_timeout_cleans_owned_vm_and_does_not_run_command(fake_tools, monkeypatch):
     monkeypatch.setenv('FAKE_BOOT_TIMEOUT', '1')
     result = fake_tools / 'must-not-exist'
