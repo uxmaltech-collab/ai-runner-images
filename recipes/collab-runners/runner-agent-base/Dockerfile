@@ -11,10 +11,11 @@ ARG PYTHON_BASE_IMAGE=docker.io/library/python@sha256:78387bc3881b8273120a12ebe6
 FROM ${PYTHON_BASE_IMAGE} AS collab-python
 FROM ${RUNNER_BASE_IMAGE} AS agents
 
-# The exact harness pins have no default here: the consumer passes the
-# Templates canon class's compatibility/harness-pins.yaml (collab.harness-pins/v1)
-# as build arguments, and a build without them stops. Grok is the vendor's
-# versioned Linux binary, verified against its per-architecture digest.
+# The exact harness pins have no default here: they are the organization's
+# recipe inputs (`harness.*` under `inputs` in recipes/manifest.json, the
+# versions of the harness pins it adopted), and a build without them stops.
+# Grok is the vendor's versioned Linux binary, verified against its
+# per-architecture digest.
 ARG CLAUDE_CODE_VERSION
 ARG CODEX_CLI_VERSION
 ARG GROK_CLI_VERSION
@@ -33,7 +34,7 @@ ENV DISABLE_AUTOUPDATER=1
 
 USER root
 RUN for pin in "${CLAUDE_CODE_VERSION}" "${CODEX_CLI_VERSION}" "${GROK_CLI_VERSION}" "${GROK_SHA256_AMD64}" "${GROK_SHA256_ARM64}"; do \
-      test -n "${pin}" || { echo "the harness pins are build arguments of compatibility/harness-pins.yaml" >&2; exit 1; }; \
+      test -n "${pin}" || { echo "the harness pins are recipe inputs (harness.* in recipes/manifest.json) and one is missing" >&2; exit 1; }; \
     done; \
     command -v npm >/dev/null || \
     { echo "runner-base must provide npm" >&2; exit 1; }; \

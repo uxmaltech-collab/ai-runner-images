@@ -123,9 +123,10 @@ way is unqualified.
    stops (exit 1) only when the resolved digest is not the approved one: that image is
    another artifact. The same check runs inside the build of `runner-resolver-android`
    (`RUNNER_ANDROID_IMAGE_DIGEST`, `RUNNER_ANDROID_IMAGE_RESOLVED_DIGEST`).
-3. **Plan-time inputs.** Each fact an organization owns is a `--build-arg` named under
-   `inputs` in the manifest; the values come from the organization's canon through its
-   planner, never from this repository. Without them the recipe still builds and warns.
+3. **Plan-time inputs.** Each fact is a `--build-arg` named under `inputs` in the
+   manifest, which maps the argument to a fact key `<group>.<fact>`; the values never
+   come from this repository. See [Recipe inputs](#recipe-inputs) for the keys of each
+   recipe and who supplies each one.
 4. **Build.**
 
    ```sh
@@ -138,6 +139,75 @@ way is unqualified.
    The builder labels the image with `collab.recipe.component`, `collab.recipe.version`,
    `collab.recipe.tree_digest` and `collab.build.id` (`--label`), and records the digest
    of the result for the registry the organization already uses.
+
+## Recipe inputs
+
+Every build argument a recipe takes from outside is mapped under `inputs` in
+[`recipes/manifest.json`](../recipes/manifest.json) to a fact key `<group>.<fact>`. The
+keys come from two places:
+
+- **The organization's declaration.** The organization declares the value of a key
+  under `recipe_inputs.<recipe name>.<group>.<fact>` of its canon declaration
+  (`governance/release-adoption.yaml`): a string, or a list of strings. Its console
+  passes it with the build. The groups are named after a tool family, and each key
+  is `<tool>_version` or `<tool>_sha256`, with `_amd64` or `_arm64` added when the
+  digest differs per architecture:
+  - `tools`: the runner tools of `runner-base` (`actions_runner`, `actionlint`,
+    `docker_cli`);
+  - `harness`: the agent harnesses of `runner-agent-base` (`claude_code`, `codex_cli`,
+    `grok_cli`), the versions of the harness pins the organization adopted;
+  - `php`: the PHP 8.3 build of `runner-resolver-php83` (`php`: the source tarball,
+    `redis`: the PECL redis extension, `composer`: the PHAR);
+  - `journey`, `helper`, `web`: the bindings of an organization's journeys, its former
+    helper names and its package registries (see
+    [Plan-time inputs](../recipes/collab-runners/README.md#plan-time-inputs)).
+
+  A `*_sha256` value is the SHA-256 hex digest of the exact file the recipe downloads.
+  The recipe keeps verifying the download against it (`sha256sum -c`), so a digest that
+  is not the file's stops the build inside the recipe: that file is another artifact.
+  A version and its digests go together. A `*_version` key that is not declared keeps
+  the Dockerfile's default, so the digests declared must be the ones for that default.
+  Both keys of an `_amd64`/`_arm64` pair are declared and both are passed; the
+  Dockerfile picks the one for `TARGETARCH`.
+- **Reserved groups, never declared.** `release`, `context`, `builder` and `image_pins`
+  are filled from what is already verified. A declared key of one of these groups is
+  left out with a warning, by the console and by the builder:
+  - `release.commit`: the commit of the release whose tree is built, as the release
+    index row gives it (its `commit`, else its `tag_commit`). The console holds it
+    with the stored tree and sends it with the build. It is the source revision of the
+    image (`RUNNER_SOURCE_COMMIT`, `AI_REPO_RESOURCES_BUNDLE_COMMIT`). A recipe that
+    requires it and gets none (the console holds no exact commit for that release)
+    stops at its own `test -n`; nothing invents one.
+  - `image_pins.digest`: the digest of the parent the build record pins;
+    `builder.resolved_parent_digest`: what the builder observes for the pulled parent.
+  - `context` is reserved for facts of a resolved context entry; none is supplied yet.
+
+"Required" below means that the Dockerfile has no default for the argument and stops
+without it. "Optional" means that the recipe builds its generic image, or uses the
+Dockerfile's default, without it. `scripts/check-recipe-manifest.py` warns about a
+required argument that is neither mapped under `inputs` nor the parent's `build_arg`.
+
+| Recipe | Required: the organization declares | Optional: the organization may declare | Supplied, never declared |
+| --- | --- | --- | --- |
+| `android` | none | none | `release.commit` |
+| `collab-runners-runner-agent-base` | `harness.claude_code_version`, `harness.codex_cli_version`, `harness.grok_cli_sha256_amd64`, `harness.grok_cli_sha256_arm64`, `harness.grok_cli_version` | none | none |
+| `collab-runners-runner-base` | `tools.actionlint_sha256_amd64`, `tools.actionlint_sha256_arm64`, `tools.actions_runner_sha256_amd64`, `tools.actions_runner_sha256_arm64`, `tools.docker_cli_sha256_amd64`, `tools.docker_cli_sha256_arm64` | `tools.actionlint_version`, `tools.actions_runner_version`, `tools.docker_cli_version` | none |
+| `collab-runners-runner-ci-ai-resources` | none | none | `release.commit` |
+| `collab-runners-runner-ci-airflow-dag` | none | none | `release.commit` |
+| `collab-runners-runner-ci-php-laravel` | none | none | `release.commit` |
+| `collab-runners-runner-ci-web-e2e` | none | none | `release.commit` |
+| `collab-runners-runner-resolver-airflow-dag` | none | none | `release.commit` |
+| `collab-runners-runner-resolver-android` | none | `helper.aliases`, `helper.marker_aliases`, `journey.profile`, `journey.repository`, `journey.validator` | `builder.resolved_parent_digest`, `image_pins.digest`, `release.commit` |
+| `collab-runners-runner-resolver-ios` | none | none | `release.commit` |
+| `collab-runners-runner-resolver-mobile-qa` | none | none | `release.commit` |
+| `collab-runners-runner-resolver-nuxt-pnpm` | none | `helper.aliases`, `web.registries` | `release.commit` |
+| `collab-runners-runner-resolver-php-laravel` | none | none | `release.commit` |
+| `collab-runners-runner-resolver-php-mysql-redis` | none | none | `release.commit` |
+| `collab-runners-runner-resolver-php83` | `php.composer_sha256`, `php.php_sha256`, `php.redis_sha256` | `php.composer_version`, `php.php_version`, `php.redis_version` | `release.commit` |
+| `collab-runners-runner-resolver-web-qa` | none | none | `release.commit` |
+
+`release.commit` is required by `android` and the four `runner-ci-*` recipes, which
+stop without it. The resolvers only use it to label the image's revision.
 
 ## Swift package cache for the resolver image
 

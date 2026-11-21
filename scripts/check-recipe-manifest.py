@@ -112,6 +112,12 @@ def check_entry(root, entry, index, versions, seen, listed, warnings):
     if text is not None:
         parent = entry.get('parent')
         carried = parent.get('build_arg') if isinstance(parent, dict) else None
+        mapped = set(entry['inputs']) if isinstance(entry.get('inputs'), dict) else set()
+        for name in required_arguments(text):
+            if name != carried and name not in mapped:
+                warnings.append(f'{label}: the Dockerfile stops without build argument {name}, which has no default, '
+                                'is not the parent\'s build_arg and is not mapped under inputs; map it to the fact that '
+                                'carries it (or give it a default when it is a constant of the recipe)')
         for name in undeclared_bases(text):
             if name != carried:
                 warnings.append(f'{label}: a FROM starts from ${{{name}}}, which has no default and is not the parent\'s '
@@ -247,7 +253,9 @@ def check_parent(parent, label, text, versions, warnings):
 
 
 def check_inputs(inputs, label, text, warnings):
-    """Each plan-time input is a build argument the Dockerfile declares, bound to a canon fact."""
+    """Each plan-time input is a build argument the Dockerfile declares, bound to a fact key `<group>.<fact>`. A key of a
+    reserved group is a fact the console or the builder supplies, never the organization's declaration: only the keys
+    of SUPPLIED are filled."""
     if inputs is None:
         return
     if not isinstance(inputs, dict):
@@ -256,8 +264,61 @@ def check_inputs(inputs, label, text, warnings):
     for arg, fact in inputs.items():
         if not ARG_NAME.fullmatch(arg) or not isinstance(fact, str) or not fact:
             warnings.append(f'{label}: input {show(arg)} must map an ARG_NAME to a fact name')
-        elif text is not None and not declares(text, arg):
+            continue
+        if text is not None and not declares(text, arg):
             warnings.append(f'{label}: the Dockerfile does not declare ARG {arg}')
+        if not FACT_KEY.fullmatch(fact):
+            warnings.append(f'{label}: input {arg} maps {show(fact)}, which is not a key <group>.<fact> '
+                            '(lower case, digits and _); the console cannot read a declaration for it')
+        elif fact.partition('.')[0] in RESERVED_GROUPS and fact not in SUPPLIED:
+            warnings.append(f'{label}: input {arg} maps {fact}, a key of a reserved group that nobody supplies '
+                            f'(supplied: {", ".join(sorted(SUPPLIED))}); it is never passed')
+
+
+# A fact key is `<group>.<fact>`: the console flattens `recipe_inputs.<recipe>.<group>.<fact>` to it.
+FACT_KEY = re.compile(r'[a-z][a-z0-9_]*\.[a-z][a-z0-9_]*')
+# Groups an organization never declares: their facts come from the console (the verified release the build is made
+# from) or from the builder. A declared key of one of them is left out with a warning by the console and the builder.
+RESERVED_GROUPS = frozenset({'release', 'context', 'builder', 'image_pins'})
+SUPPLIED = frozenset({
+    'release.commit',                  # the console: the commit of the stored release whose tree is built
+    'image_pins.digest',               # the builder: the digest of the parent the build record pins
+    'builder.resolved_parent_digest',  # the builder: what it observes for the pulled parent (not observed yet)
+})
+# Arguments BuildKit sets on every build.
+AUTOMATIC_ARGS = frozenset({'TARGETARCH', 'TARGETOS', 'TARGETPLATFORM', 'TARGETVARIANT',
+                            'BUILDARCH', 'BUILDOS', 'BUILDPLATFORM', 'BUILDVARIANT'})
+SHELL_NAME = r'\$\{?([A-Za-z_][A-Za-z0-9_]*)'
+
+
+def required_arguments(text):
+    """The build arguments the Dockerfile cannot build without: declared with no default (by every ARG of that name)
+    and then required by a RUN, through `test -n` / `[ -n ... ]` or as the expected digest `sha256sum -c` reads, either
+    directly or through a shell variable assigned from it (a `case` arm per architecture, a `for` loop over pins).
+    Both arguments of a per-architecture pair are found: each is assigned in its own arm."""
+    joined = re.sub(r'\\\n', ' ', text)
+    declared = re.findall(r'^\s*ARG\s+([A-Za-z_][A-Za-z0-9_]*)(=?)', joined, re.M)
+    candidates = {name for name, eq in declared if not eq} - {name for name, eq in declared if eq} - AUTOMATIC_ARGS
+    aliases, checked = {}, set()
+    for line in joined.splitlines():
+        if not re.match(r'\s*RUN\b', line):
+            continue
+        for statement in re.split(r'&&|\|\||;', line):
+            names = set(re.findall(SHELL_NAME, statement))
+            for variable, source in re.findall(r'(?<![\w$])([A-Za-z_][A-Za-z0-9_]*)="?\$\{([A-Za-z_][A-Za-z0-9_]*)\}"?', statement):
+                aliases.setdefault(variable, set()).add(source)
+            loop = re.match(r'\s*(?:RUN\s+)?for\s+([A-Za-z_][A-Za-z0-9_]*)\s+in\s+(.*)', statement)
+            if loop:
+                aliases.setdefault(loop.group(1), set()).update(re.findall(SHELL_NAME, loop.group(2)))
+            elif re.search(r'\btest\s+-n\b|\[\s+-n\b', statement) or re.search(r'\bsha256sum\s+(-\S*\s+)*-c\b', statement):
+                checked |= names
+    pending, seen = list(checked), set()
+    while pending:
+        name = pending.pop()
+        if name not in seen:
+            seen.add(name)
+            pending.extend(aliases.get(name, ()))
+    return sorted(seen & candidates)
 
 
 def check_helpers(helpers, label, text, warnings):

@@ -99,7 +99,13 @@ the fact each carries, under `inputs` in the manifest, and declares each as an `
 one declaration the owner names for them: `governance/release-adoption.yaml` of the
 organization canon, until the owner says they live in an existing one; the fact names in
 the manifest (`journey.repository`, `helper.aliases`, `web.registries`, ...) are the
-planner's keys, never values. [`common/plan-inputs.py`](common/plan-inputs.py) applies
+planner's keys, never values. The tool versions and digests that `runner-base`,
+`runner-agent-base` and `runner-resolver-php83` verify their downloads against are inputs
+too (`tools.*`, `harness.*`, `php.*`), and the source revision of every image is the
+reserved `release.commit`, which the console supplies and no organization declares: the
+[table of recipe inputs](../../docs/build-images.md#recipe-inputs) lists, for each recipe,
+the keys the organization declares and the ones it never does.
+[`common/plan-inputs.py`](common/plan-inputs.py) applies
 them and never stops a build, except for a parent image that is another artifact than the
 approved one:
 

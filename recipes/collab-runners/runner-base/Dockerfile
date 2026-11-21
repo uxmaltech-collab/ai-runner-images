@@ -4,8 +4,10 @@
 #
 # Nothing organization-specific lives here: the OS base image, tool versions,
 # digests, build context paths, and the JIT-config environment variable name
-# are all build arguments a consumer pins from its own pack. Flavor images
-# extend this per repository type and stay consumer-owned.
+# are all build arguments. The tool versions and digests are the organization's
+# recipe inputs (`tools.*` under `inputs` in recipes/manifest.json); every
+# download is verified against its digest, and a build without one stops.
+# Flavor images extend this per repository type and stay consumer-owned.
 ARG RUNNER_BASE_OS_IMAGE
 FROM ${RUNNER_BASE_OS_IMAGE}
 

@@ -505,3 +505,107 @@ def test_the_command_reports_the_version_warnings_and_exits_zero(tmp_path, capsy
     assert status == 0 and '2 warning(s)' in out
     status, out = run(root, capsys, '--since')
     assert status == 0 and '--since needs a value' in out
+
+
+REQUIRED_DOCKERFILE = '''ARG BASE
+FROM ${BASE}
+ARG TOOL_VERSION=1.0.0
+ARG TOOL_SHA256_AMD64
+ARG TOOL_SHA256_ARM64
+ARG DIRECT_SHA256
+ARG PIN_A
+ARG PIN_B
+ARG SOURCE_COMMIT
+ARG LABEL_ONLY
+ARG DEFAULTED=x
+ARG TARGETARCH
+RUN case "${TARGETARCH}" in \\
+      amd64) arch=x64; tool_sha="${TOOL_SHA256_AMD64}" ;; \\
+      arm64) arch=arm64; tool_sha="${TOOL_SHA256_ARM64}" ;; \\
+    esac; \\
+    echo "${tool_sha}  /tmp/tool" | sha256sum -c -
+RUN echo "${DIRECT_SHA256}  /tmp/direct" | sha256sum -c - && test -n "${DEFAULTED}"
+RUN for pin in "${PIN_A}" "${PIN_B}"; do test -n "${pin}" || exit 1; done
+RUN test -n "${SOURCE_COMMIT}" && test -n "${TARGETARCH}"
+LABEL revision="${LABEL_ONLY}"
+'''
+
+
+def test_the_required_arguments_are_found_directly_through_a_variable_and_per_architecture():
+    """No default and checked by test -n or sha256sum -c; a default, a label-only use and BuildKit's own are not."""
+    assert module.required_arguments(REQUIRED_DOCKERFILE) == [
+        'DIRECT_SHA256', 'PIN_A', 'PIN_B', 'SOURCE_COMMIT', 'TOOL_SHA256_AMD64', 'TOOL_SHA256_ARM64']
+
+
+def test_a_required_argument_that_is_not_mapped_warns_and_the_run_exits_zero(tmp_path, capsys):
+    root = repository(tmp_path, None)
+    partial = recipe(root, 'partial', REQUIRED_DOCKERFILE)
+    partial['parent'] = {'pin': 'example-os', 'build_arg': 'BASE'}
+    partial['inputs'] = {'TOOL_SHA256_AMD64': 'tools.tool_sha256_amd64', 'TOOL_SHA256_ARM64': 'tools.tool_sha256_arm64',
+                         'DIRECT_SHA256': 'tools.direct_sha256', 'SOURCE_COMMIT': 'release.commit'}
+    repository(tmp_path, good_manifest(partial))
+    status, out = run(root, capsys)
+    assert status == 0
+    unmapped = sorted(re.findall(r'stops without build argument (\w+)', out))
+    assert unmapped == ['PIN_A', 'PIN_B'], out
+    partial['inputs'].update(PIN_A='harness.a_version', PIN_B='harness.b_version')
+    repository(tmp_path, good_manifest(partial))
+    assert module.check(root) == []
+
+
+def test_an_input_key_must_be_group_dot_fact_and_a_reserved_key_must_be_one_that_is_supplied(tmp_path):
+    root = repository(tmp_path, None)
+    entry = recipe(root, 'keys', 'FROM scratch\nARG A=\nARG B=\nARG C=\nARG D=\n')
+    entry['inputs'] = {'A': 'release.commit', 'B': 'release.branch', 'C': 'NoDot', 'D': 'context.example-release.commit'}
+    repository(tmp_path, good_manifest(entry))
+    warnings = module.check(root)
+    assert any('input B maps release.branch, a key of a reserved group that nobody supplies' in w for w in warnings)
+    assert any("input C maps 'NoDot', which is not a key <group>.<fact>" in w for w in warnings)
+    assert any("input D maps 'context.example-release.commit', which is not a key" in w for w in warnings)
+    assert not any('input A ' in w for w in warnings)
+
+
+def test_every_required_argument_of_every_recipe_is_mapped_and_both_architectures_are():
+    """The console's builder can build each recipe: what a Dockerfile stops without is mapped under inputs (or is the
+    parent's build_arg), each digest pair is mapped whole, and a source commit is the reserved release.commit."""
+    manifest = json.loads((ROOT / 'recipes' / 'manifest.json').read_text())
+    found = {}
+    for entry in manifest['recipes']:
+        text = (ROOT / entry['path'] / entry['dockerfile']).read_text()
+        inputs = entry.get('inputs', {})
+        required = module.required_arguments(text)
+        assert set(required) - {entry['parent']['build_arg']} <= set(inputs), entry['name']
+        for argument, key in inputs.items():
+            assert module.FACT_KEY.fullmatch(key), (entry['name'], key)
+            assert key.partition('.')[0] not in module.RESERVED_GROUPS or key in module.SUPPLIED, (entry['name'], key)
+            if argument.endswith(('_AMD64', '_ARM64')):
+                twin = argument[:-5] + ('ARM64' if argument.endswith('AMD64') else 'AMD64')
+                assert key[-5:] == argument[-5:].lower() and twin in inputs, (entry['name'], argument)
+            if argument.endswith('_COMMIT'):
+                assert key == 'release.commit', (entry['name'], argument)
+        found[entry['name']] = required
+    assert found['android'] == ['RUNNER_SOURCE_COMMIT']
+    assert len(found['collab-runners-runner-base']) == 6 and len(found['collab-runners-runner-agent-base']) == 5
+    assert found['collab-runners-runner-resolver-php83'] == ['COMPOSER_SHA256', 'PHP_REDIS_SHA256', 'PHP_SOURCE_SHA256']
+    assert all(found[f'collab-runners-runner-ci-{name}'] == ['AI_REPO_RESOURCES_BUNDLE_COMMIT']
+               for name in ('ai-resources', 'airflow-dag', 'php-laravel', 'web-e2e'))
+
+
+def test_the_documented_table_of_recipe_inputs_is_the_manifest():
+    """docs/build-images.md lists, per recipe, the required and optional keys the organization declares and the supplied
+    ones, exactly as the manifest and the Dockerfiles say; it holds keys, never a value."""
+    manifest = json.loads((ROOT / 'recipes' / 'manifest.json').read_text())
+    rows = {}
+    for line in (ROOT / 'docs' / 'build-images.md').read_text().splitlines():
+        cells = [cell.strip() for cell in line.strip().strip('|').split('|')]
+        if len(cells) == 4 and re.fullmatch(r'`[a-z0-9-]+`', cells[0]):
+            rows[cells[0].strip('`')] = [sorted(re.findall(r'`([^`]+)`', cell)) for cell in cells[1:]]
+    expected = {}
+    for entry in manifest['recipes']:
+        required = set(module.required_arguments((ROOT / entry['path'] / entry['dockerfile']).read_text()))
+        inputs = entry.get('inputs', {})
+        own = {argument: key for argument, key in inputs.items() if key.partition('.')[0] not in module.RESERVED_GROUPS}
+        expected[entry['name']] = [sorted({k for a, k in own.items() if a in required}),
+                                   sorted({k for a, k in own.items() if a not in required}),
+                                   sorted({k for k in inputs.values() if k.partition('.')[0] in module.RESERVED_GROUPS})]
+    assert rows == expected

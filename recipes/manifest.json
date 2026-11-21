@@ -1,7 +1,7 @@
 {
   "schema": "collab.recipes-manifest/v1",
   "repository_version": "0.1.0",
-  "context": "Each Dockerfile COPYs repository-relative paths: the build context is a tree in which the recipe sits at its `path`, together with every path of its `shared` list. `name` is the release identifier and names a stack, never a repository; which repository uses which recipe, and which engine, is organization data that the planner reads from the canon. `parent` names what the base is, passed as the build argument `build_arg`: `{recipe, version}` is a recipe of this manifest (its released image); `{component, recipe?, version}` is the image built from a recipe of another released component (its release index key, and its manifest entry when that tree holds several); `{pin}` is an image no recipe builds (an operating-system or third-party image), named by a neutral profile that the organization pins by digest in its own declaration. A recipe never carries a registry, tag or digest of any organization. `inputs` maps each plan-time build argument to the organization fact the planner resolves for it; a recipe never carries the value. `helpers` lists the stable neutral commands a recipe installs, by capability. `context_inputs` names what the builder places at the root of the context itself (the exact Collab release the resolver recipes install as their last layer), and `context` says what fills each name, with the shape of a container recipe's `version.json` `build.context` (`{name, kind: tree|artifact, component: <release index key>, version: <constraint>}`): the version the organization runs is chosen by the console from its adoption, never by the recipe; every other COPY source is a path of the release tree, inside the recipe's `path` or one of its `shared` paths.",
+  "context": "Each Dockerfile COPYs repository-relative paths: the build context is a tree in which the recipe sits at its `path`, together with every path of its `shared` list. `name` is the release identifier and names a stack, never a repository; which repository uses which recipe, and which engine, is organization data that the planner reads from the canon. `parent` names what the base is, passed as the build argument `build_arg`: `{recipe, version}` is a recipe of this manifest (its released image); `{component, recipe?, version}` is the image built from a recipe of another released component (its release index key, and its manifest entry when that tree holds several); `{pin}` is an image no recipe builds (an operating-system or third-party image), named by a neutral profile that the organization pins by digest in its own declaration. A recipe never carries a registry, tag or digest of any organization. `inputs` maps each plan-time build argument to the fact key `<group>.<fact>` that carries it; a recipe never carries the value. The organization declares a key under `recipe_inputs.<recipe name>` of its canon (a tool version or digest the recipe verifies its download against, a journey binding, ...); the groups `release`, `context`, `builder` and `image_pins` are reserved and never declared: `release.commit` is the commit of the verified release whose tree is built (the console supplies it), `image_pins.digest` the parent digest the build record pins and `builder.resolved_parent_digest` what the builder observes. A per-architecture pair (`*_AMD64`, `*_ARM64`) is mapped and passed whole; the Dockerfile picks by TARGETARCH. `helpers` lists the stable neutral commands a recipe installs, by capability. `context_inputs` names what the builder places at the root of the context itself (the exact Collab release the resolver recipes install as their last layer), and `context` says what fills each name, with the shape of a container recipe's `version.json` `build.context` (`{name, kind: tree|artifact, component: <release index key>, version: <constraint>}`): the version the organization runs is chosen by the console from its adoption, never by the recipe; every other COPY source is a path of the release tree, inside the recipe's `path` or one of its `shared` paths.",
   "recipes": [
     {
       "name": "android",
@@ -23,7 +23,10 @@
           "capability": "android.stack-probe",
           "path": "/usr/local/bin/runner-android-stack-probe"
         }
-      ]
+      ],
+      "inputs": {
+        "RUNNER_SOURCE_COMMIT": "release.commit"
+      }
     },
     {
       "name": "collab-runners-runner-agent-base",
@@ -35,6 +38,13 @@
         "recipe": "collab-runners-runner-base",
         "version": "0.1.0",
         "build_arg": "RUNNER_BASE_IMAGE"
+      },
+      "inputs": {
+        "CLAUDE_CODE_VERSION": "harness.claude_code_version",
+        "CODEX_CLI_VERSION": "harness.codex_cli_version",
+        "GROK_CLI_VERSION": "harness.grok_cli_version",
+        "GROK_SHA256_AMD64": "harness.grok_cli_sha256_amd64",
+        "GROK_SHA256_ARM64": "harness.grok_cli_sha256_arm64"
       }
     },
     {
@@ -46,6 +56,17 @@
       "parent": {
         "pin": "runner-base-os",
         "build_arg": "RUNNER_BASE_OS_IMAGE"
+      },
+      "inputs": {
+        "ACTIONS_RUNNER_VERSION": "tools.actions_runner_version",
+        "ACTIONS_RUNNER_SHA256_AMD64": "tools.actions_runner_sha256_amd64",
+        "ACTIONS_RUNNER_SHA256_ARM64": "tools.actions_runner_sha256_arm64",
+        "ACTIONLINT_VERSION": "tools.actionlint_version",
+        "ACTIONLINT_SHA256_AMD64": "tools.actionlint_sha256_amd64",
+        "ACTIONLINT_SHA256_ARM64": "tools.actionlint_sha256_arm64",
+        "DOCKER_CLI_VERSION": "tools.docker_cli_version",
+        "DOCKER_CLI_SHA256_AMD64": "tools.docker_cli_sha256_amd64",
+        "DOCKER_CLI_SHA256_ARM64": "tools.docker_cli_sha256_arm64"
       }
     },
     {
@@ -58,6 +79,9 @@
         "recipe": "collab-runners-runner-base",
         "version": "0.1.0",
         "build_arg": "AI_REPO_RESOURCES_RUNNER_BASE_IMAGE"
+      },
+      "inputs": {
+        "AI_REPO_RESOURCES_BUNDLE_COMMIT": "release.commit"
       }
     },
     {
@@ -70,6 +94,9 @@
         "recipe": "collab-runners-runner-base",
         "version": "0.1.0",
         "build_arg": "AI_REPO_RESOURCES_RUNNER_BASE_IMAGE"
+      },
+      "inputs": {
+        "AI_REPO_RESOURCES_BUNDLE_COMMIT": "release.commit"
       }
     },
     {
@@ -82,6 +109,9 @@
         "recipe": "collab-runners-runner-base",
         "version": "0.1.0",
         "build_arg": "AI_REPO_RESOURCES_RUNNER_BASE_IMAGE"
+      },
+      "inputs": {
+        "AI_REPO_RESOURCES_BUNDLE_COMMIT": "release.commit"
       }
     },
     {
@@ -94,6 +124,9 @@
         "recipe": "collab-runners-runner-base",
         "version": "0.1.0",
         "build_arg": "AI_REPO_RESOURCES_RUNNER_BASE_IMAGE"
+      },
+      "inputs": {
+        "AI_REPO_RESOURCES_BUNDLE_COMMIT": "release.commit"
       }
     },
     {
@@ -117,6 +150,9 @@
         "recipe": "collab-runners-runner-agent-base",
         "version": "0.1.0",
         "build_arg": "AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE"
+      },
+      "inputs": {
+        "AI_REPO_RESOURCES_BUNDLE_COMMIT": "release.commit"
       }
     },
     {
@@ -151,7 +187,8 @@
         "RUNNER_HELPER_ALIASES": "helper.aliases",
         "RUNNER_ANDROID_MARKER_ALIASES": "helper.marker_aliases",
         "RUNNER_ANDROID_IMAGE_DIGEST": "image_pins.digest",
-        "RUNNER_ANDROID_IMAGE_RESOLVED_DIGEST": "builder.resolved_parent_digest"
+        "RUNNER_ANDROID_IMAGE_RESOLVED_DIGEST": "builder.resolved_parent_digest",
+        "AI_REPO_RESOURCES_BUNDLE_COMMIT": "release.commit"
       }
     },
     {
@@ -175,6 +212,9 @@
         "recipe": "collab-runners-runner-agent-base",
         "version": "0.1.0",
         "build_arg": "AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE"
+      },
+      "inputs": {
+        "AI_REPO_RESOURCES_BUNDLE_COMMIT": "release.commit"
       }
     },
     {
@@ -198,6 +238,9 @@
         "recipe": "collab-runners-runner-agent-base",
         "version": "0.1.0",
         "build_arg": "AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE"
+      },
+      "inputs": {
+        "AI_REPO_RESOURCES_BUNDLE_COMMIT": "release.commit"
       }
     },
     {
@@ -227,7 +270,8 @@
       ],
       "inputs": {
         "RUNNER_HELPER_ALIASES": "helper.aliases",
-        "RUNNER_WEB_REGISTRIES": "web.registries"
+        "RUNNER_WEB_REGISTRIES": "web.registries",
+        "AI_REPO_RESOURCES_BUNDLE_COMMIT": "release.commit"
       },
       "helpers": [
         {
@@ -269,6 +313,9 @@
         "recipe": "collab-runners-runner-agent-base",
         "version": "0.1.0",
         "build_arg": "AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE"
+      },
+      "inputs": {
+        "AI_REPO_RESOURCES_BUNDLE_COMMIT": "release.commit"
       }
     },
     {
@@ -292,6 +339,9 @@
         "recipe": "collab-runners-runner-agent-base",
         "version": "0.1.0",
         "build_arg": "AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE"
+      },
+      "inputs": {
+        "AI_REPO_RESOURCES_BUNDLE_COMMIT": "release.commit"
       }
     },
     {
@@ -315,6 +365,15 @@
         "recipe": "collab-runners-runner-agent-base",
         "version": "0.1.0",
         "build_arg": "AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE"
+      },
+      "inputs": {
+        "PHP_VERSION": "php.php_version",
+        "PHP_SOURCE_SHA256": "php.php_sha256",
+        "PHP_REDIS_VERSION": "php.redis_version",
+        "PHP_REDIS_SHA256": "php.redis_sha256",
+        "COMPOSER_VERSION": "php.composer_version",
+        "COMPOSER_SHA256": "php.composer_sha256",
+        "AI_REPO_RESOURCES_BUNDLE_COMMIT": "release.commit"
       }
     },
     {
@@ -338,6 +397,9 @@
         "recipe": "collab-runners-runner-agent-base",
         "version": "0.1.0",
         "build_arg": "AI_REPO_RESOURCES_RUNNER_AGENT_BASE_IMAGE"
+      },
+      "inputs": {
+        "AI_REPO_RESOURCES_BUNDLE_COMMIT": "release.commit"
       }
     }
   ]

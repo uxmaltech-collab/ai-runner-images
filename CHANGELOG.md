@@ -75,6 +75,26 @@ publication.
   runs is the one its console's adoption names, never a pin of the recipe. The manifest
   check validates both additions, warns about a `context_inputs` name with nothing that
   fills it and about a `FROM ${ARG}` with no default that is not the parent's argument.
+- Every build argument a Dockerfile stops without is mapped under `inputs`, so the
+  console's builder can build every recipe of the manifest. An input is a fact key
+  `<group>.<fact>`. The tool versions and digests that the recipes verify their
+  downloads against are facts the organization declares under
+  `recipe_inputs.<recipe name>` of its canon: `tools.*` (`runner-base`: the Actions
+  runner, actionlint and the Docker CLI), `harness.*` (`runner-agent-base`: Claude Code,
+  Codex CLI and Grok CLI) and `php.*` (`runner-resolver-php83`: the PHP source, the
+  redis extension and Composer). Both arguments of an `_AMD64`/`_ARM64` pair are mapped,
+  and the recipe keeps verifying every download against its digest. The source revision
+  of an image (`RUNNER_SOURCE_COMMIT` of `android`, `AI_REPO_RESOURCES_BUNDLE_COMMIT` of
+  the `runner-ci-*` recipes and the resolvers) is the reserved `release.commit`: the
+  commit of the release whose tree is built. The console supplies it, and no
+  organization declares it. The groups `release`, `context`, `builder` and `image_pins`
+  are reserved. `docs/build-images.md` lists the keys of each recipe and who supplies
+  each one. No value is in this repository.
+- `scripts/check-recipe-manifest.py` warns about a build argument that has no default,
+  that the Dockerfile requires (`test -n`, or the digest `sha256sum -c` reads, directly
+  or through a shell variable), and that is neither mapped under `inputs` nor the
+  parent's `build_arg`. It also warns about an input key that is not `<group>.<fact>`,
+  or that belongs to a reserved group and is not a key that something supplies.
 - `scripts/check-recipe-manifest.py` also compares each recipe with the previous release
   tag and warns about a recipe whose Dockerfile, copied sources or parent version
   changed without a version bump (it only warns).
