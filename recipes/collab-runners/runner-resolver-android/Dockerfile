@@ -20,9 +20,9 @@ ARG RUNNER_JOURNEY_PROFILE=
 ARG RUNNER_JOURNEY_VALIDATOR=
 ARG RUNNER_HELPER_ALIASES=
 ARG RUNNER_ANDROID_MARKER_ALIASES=
-# The approved digest of the Android layer (the canon's image pin) and, when the reference
-# is a tag, the digest the builder observed it resolve to. The spelling of the reference is
-# only metadata; a resolved digest that differs from the approved one is another artifact.
+# The approved digest of the Android layer (the canon's image pin) and, optionally, the digest
+# the builder observed. The reference itself must be <image>@sha256:<digest>: a tag is
+# mutable and stops the build, and so does a digest that is not the approved one.
 ARG RUNNER_ANDROID_IMAGE_DIGEST=
 ARG RUNNER_ANDROID_IMAGE_RESOLVED_DIGEST=
 LABEL org.opencontainers.image.title="runner-resolver-android" \

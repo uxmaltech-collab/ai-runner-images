@@ -3,7 +3,7 @@
   "profile": null,
   "backend": "macos-tart",
   "engine": "codex",
-  "driver": "recipes/collab-runners/runner-resolver-ios/journey-driver.json",
+  "driver": null,
   "pack_destination": "/opt/collab/repo-pack",
   "driver_destination": "/opt/ai-repo-resources/journey-driver.json",
   "admission_enabled": false,

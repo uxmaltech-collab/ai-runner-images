@@ -51,10 +51,14 @@ publication.
   or `/etc/runner-web-stack/registries`, names the credential variable of each binding
   (never a value), keeps the user's other npm settings, and warns instead of stopping
   when a variable is empty or nothing is declared.
-- A parent image's reference spelling is only metadata: the Dockerfiles that stopped a
-  build because a reference was not written `<image>@sha256:<digest>` now warn. The
-  Android resolver verifies the digest the reference resolves to against the approved
-  one (`plan-inputs.py parent`); only a different digest stops the build.
+- A parent image is built by digest, as on `main`: the Dockerfiles keep stopping a build
+  whose base reference is not written `<image>@sha256:<digest>` (a tag is mutable, so
+  building from one is building from unverified bytes). The Android resolver also verifies
+  the digest of its reference against the approved one (`plan-inputs.py parent`), which
+  stops on a tag and on a different digest; with no approved digest it only warns.
+- The native iOS `image-build.json` is a template whose `driver` is `null`: the plan renders
+  `journey-driver.json` first and `image-build.json` with `--driver <rendered driver>`, so the
+  declaration points at the rendered driver, never at the template.
 - `runner-base`'s `RUNNER_BASE_CONTEXT` defaults to a path the release tree holds
   (`recipes/collab-runners/runner-base`), and the manifest check resolves every `COPY`
   source of every recipe, with the `ARG` defaults applied, inside the recipe's path or its
@@ -72,7 +76,9 @@ publication.
 - The resolver recipes declare what fills `collab-release/` (`context`, in the shape of a
   container recipe's `version.json` `build.context`): the Collab runtime's release
   artifact set (`uxmaltech-collab/cli`, versions `>=0.2.3`); the version an organization
-  runs is the one its console's adoption names, never a pin of the recipe. The manifest
+  runs is the one its console's adoption names, never a pin of the recipe. The runtime lock
+  of this repository is the floor and the exact identity of its own version; a newer release
+  is verified against its own lock (docs/build-images.md). The manifest
   check validates both additions, warns about a `context_inputs` name with nothing that
   fills it and about a `FROM ${ARG}` with no default that is not the parent's argument.
 - Every build argument a Dockerfile stops without is mapped under `inputs`, so the
@@ -96,8 +102,9 @@ publication.
   parent's `build_arg`. It also warns about an input key that is not `<group>.<fact>`,
   or that belongs to a reserved group and is not a key that something supplies.
 - `scripts/check-recipe-manifest.py` also compares each recipe with the previous release
-  tag and warns about a recipe whose Dockerfile, copied sources or parent version
-  changed without a version bump (it only warns).
+  tag and warns about a recipe whose Dockerfile, copied sources or parent declaration
+  changed without a version bump (it only warns); a parent that changes in any way (another
+  recipe, a pin, a build argument) counts, not only its version.
 - Helpers: the installed commands, the `/opt` paths and the environment variables that
   carried an organization prefix lose it. The Android helpers are the layer's
   `runner-android-emulator` and `runner-android-stack-probe`, and the web helpers are

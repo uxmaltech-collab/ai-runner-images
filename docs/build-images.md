@@ -86,8 +86,17 @@ way is unqualified.
    every Dockerfile `COPY` source is a path of that tree
    (`python3 scripts/check-recipe-manifest.py` warns about one that is not). The recipes
    that install Collab (`context_inputs: ["collab-release"]` in the manifest) also need
-   the exact release as `collab-release/` at the root of the context, verified first
-   against [`compatibility/collab-runtime.lock.json`](../compatibility/collab-runtime.lock.json).
+   the exact release as `collab-release/` at the root of the context, verified first.
+   The selection and the verification read the same declarations.
+   [`compatibility/collab-runtime.lock.json`](../compatibility/collab-runtime.lock.json)
+   is the floor of the selection (`>=` its `runtime.version`) and the exact identity of
+   that version: when the selected release is that version, its `collab-runtime.lock.json`,
+   its wheel name, wheel SHA-256 and commit must equal the lock's, byte for byte. A newer
+   selected release is not this lock's identity, so it is verified against its own
+   `collab-runtime.lock.json` (same `runtime.repository`, a `runtime.version` that is the
+   selected version and not older than the floor, a wheel whose SHA-256 is the one that
+   lock names and its `SHA256SUMS` lists); a mismatch stops the build, and this
+   repository holds no qualification evidence for a newer release.
    The entry's `context` says what fills it, in the shape of a container recipe's
    `version.json` `build.context`: `{"name": "collab-release", "kind": "artifact",
    "component": "uxmaltech-collab/cli", "version": ">=0.2.3"}` (the release artifact set of
@@ -109,20 +118,24 @@ way is unqualified.
    A pin is the organization's own: it declares the digest under `image_pins` (`profile`:
    the pin's name) in its canon, and the recipe names no registry, tag or digest. The
    check warns about a `FROM ${ARG}` with no default that is not the parent's build
-   argument. The reference may be a tag or a digest; its spelling is
-   only metadata. What matters is the digest it resolves to: pass the approved digest
-   (the organization's image pin) and, for a tag, the digest the build host observed:
+   argument. The reference is always digest-qualified, `<image>@sha256:<digest>`: a tag is
+   mutable, so it is resolved to its digest first and the digest-qualified reference is
+   what the build uses (the console's builder does this). A Dockerfile whose base is a
+   tag stops, as it does on `main`. Verify the parent against the approved digest (the
+   organization's image pin):
 
    ```sh
-   docker image inspect --format '{{index .RepoDigests 0}}' <parent reference>
+   docker image inspect --format '{{index .RepoDigests 0}}' <parent image>   # the digest to build from
    python3 recipes/collab-runners/common/plan-inputs.py parent \
-     --reference <parent reference> --approved sha256:<approved> --resolved sha256:<observed>
+     --reference <image>@sha256:<digest> --approved sha256:<approved>
    ```
 
-   The command warns about a tag, or about a digest it cannot verify, and goes on. It
-   stops (exit 1) only when the resolved digest is not the approved one: that image is
-   another artifact. The same check runs inside the build of `runner-resolver-android`
-   (`RUNNER_ANDROID_IMAGE_DIGEST`, `RUNNER_ANDROID_IMAGE_RESOLVED_DIGEST`).
+   The command stops (exit 1) when the reference is a tag, and when its digest is not the
+   approved one: that image is another artifact. With no approved digest it warns that the
+   parent is unverified and goes on. `--resolved` is an optional cross-check of the digest
+   the builder observed; a difference only warns. The same check runs inside the build of
+   `runner-resolver-android` (`RUNNER_ANDROID_IMAGE_DIGEST`,
+   `RUNNER_ANDROID_IMAGE_RESOLVED_DIGEST`).
 3. **Plan-time inputs.** Each fact is a `--build-arg` named under `inputs` in the
    manifest, which maps the argument to a fact key `<group>.<fact>`; the values never
    come from this repository. See [Recipe inputs](#recipe-inputs) for the keys of each
@@ -131,7 +144,7 @@ way is unqualified.
 
    ```sh
    docker build -f recipes/collab-runners/runner-resolver-android/Dockerfile \
-     --build-arg RUNNER_ANDROID_IMAGE=<parent reference> \
+     --build-arg RUNNER_ANDROID_IMAGE=<image>@sha256:<digest> \
      --build-arg RUNNER_ANDROID_IMAGE_DIGEST=sha256:<approved> \
      --build-arg <input>=<value> ... -t <image> .
    ```
@@ -179,7 +192,7 @@ keys come from two places:
     requires it and gets none (the console holds no exact commit for that release)
     stops at its own `test -n`; nothing invents one.
   - `image_pins.digest`: the digest of the parent the build record pins;
-    `builder.resolved_parent_digest`: what the builder observes for the pulled parent.
+    `builder.resolved_parent_digest`: what the builder observes for the pulled parent (an optional cross-check).
   - `context` is reserved for facts of a resolved context entry; none is supplied yet.
 
 "Required" below means that the Dockerfile has no default for the argument and stops

@@ -113,6 +113,43 @@ def test_a_document_without_a_validator_needs_only_the_facts_it_binds(tmp_path, 
                                                'profile': 'example-app-profile'}
 
 
+IMAGE_BUILD = RECIPES / 'runner-resolver-ios' / 'image-build.json'
+
+
+def test_the_image_declaration_is_rendered_pointing_at_the_rendered_driver_never_at_a_template(tmp_path, capsys):
+    """The native preparation reads `driver` of the rendered image declaration: it must name the rendered driver."""
+    template = json.loads(IMAGE_BUILD.read_text())
+    assert template['driver'] is None and template['profile'] is None
+    plan = tmp_path / 'plan'
+    driver = plan / 'journey-driver.json'
+    status, result, _ = render(capsys, 'journey', '--template', str(RECIPES / 'runner-resolver-ios' / 'journey-driver.json'),
+                               '--output', str(driver), *INPUTS)
+    assert status == 0 and result['status'] == 'rendered'
+    image = plan / 'image-build.json'
+    status, result, _ = render(capsys, 'journey', '--template', str(IMAGE_BUILD), '--output', str(image), *INPUTS,
+                               '--driver', str(driver))
+    assert status == 0 and result['status'] == 'rendered'
+    rendered = json.loads(image.read_text())
+    assert rendered == {**template, 'profile': 'example-app-profile', 'driver': str(driver)}
+    followed = json.loads(Path(rendered['driver']).read_text())
+    assert followed['repository'] == 'example-org/example-app' and followed['validator'] == 'scripts/validate-maestro.py'
+    assert not any(value is None for value in followed.values())
+
+
+def test_the_image_declaration_without_a_rendered_driver_is_not_written(tmp_path, capsys):
+    image = tmp_path / 'image-build.json'
+    status, result, _ = render(capsys, 'journey', '--template', str(IMAGE_BUILD), '--output', str(image), *INPUTS)
+    assert status == 0 and result['status'] == 'not_done' and 'missing: driver' in result['warnings'][0]
+    assert not image.exists()
+
+
+@pytest.mark.parametrize('value', ['recipes/x/journey-driver.json.tmpl', '../driver.json', '/a/../driver.json', 'a\\b.json', ''])
+def test_an_invalid_driver_path_is_never_written(tmp_path, capsys, value):
+    image = tmp_path / 'image-build.json'
+    status, result, _ = render(capsys, 'journey', '--template', str(IMAGE_BUILD), '--output', str(image), *INPUTS, '--driver', value)
+    assert status == 0 and result['status'] == 'not_done' and not image.exists()
+
+
 def test_the_inputs_can_come_from_the_build_arguments_in_the_environment(tmp_path, capsys):
     template = prior(tmp_path)
     output = tmp_path / 'out.json'
@@ -242,9 +279,10 @@ TEMPLATES = [('runner-resolver-android', 'journey-driver.json'), ('runner-resolv
 @pytest.mark.parametrize('recipe, name', TEMPLATES)
 def test_a_shipped_declaration_binds_no_organization_and_only_names_the_facts_to_bind(recipe, name):
     document = json.loads((RECIPES / recipe / name).read_text())
-    bound = [fact for fact in tool.FACTS if fact in document]
+    bound = [fact for fact in tool.FACTS if fact in document and document[fact] is None]
     assert bound, (recipe, name)
-    assert all(document[fact] is None for fact in bound), (recipe, name)
+    # Every fact field of a template is either null (bound at plan time) or a constant of the recipe.
+    assert all(document[fact] is None or fact == 'driver' for fact in tool.FACTS if fact in document), (recipe, name)
     text = (RECIPES / recipe / name).read_text().lower()
     assert 'storefront' not in text and 'enviaflores' not in text and 'ef-' not in text
 
@@ -268,7 +306,8 @@ def test_every_shipped_template_renders_with_example_facts_and_without_them_writ
         output = tmp_path / recipe / name
         status, result, _ = render(capsys, 'journey', '--template', str(template), '--output', str(output))
         assert status == 0 and result['status'] == 'not_done' and not output.exists(), (recipe, name)
-        status, result, _ = render(capsys, 'journey', '--template', str(template), '--output', str(output), *INPUTS)
+        status, result, _ = render(capsys, 'journey', '--template', str(template), '--output', str(output), *INPUTS,
+                                   *(['--driver', str(tmp_path / 'journey-driver.json')] if name == 'image-build.json' else []))
         assert status == 0 and result['status'] == 'rendered', (recipe, name)
         document = json.loads(output.read_text())
         assert document['profile'] == 'example-app-profile'
@@ -330,51 +369,86 @@ def test_a_digest_qualified_parent_that_is_the_approved_artifact_is_verified(cap
     assert status == 0 and result['status'] == 'verified' and result['warnings'] == [] and err == ''
 
 
-def test_a_tag_reference_only_warns_and_its_resolved_digest_is_what_is_checked(capsys):
-    reference = 'example-android:local'
-    status, result, err = parent(capsys, '--reference', reference, '--approved', APPROVED, '--resolved', APPROVED)
-    assert status == 0 and result['status'] == 'verified'
-    assert 'only a spelling' in result['warnings'][0] and err.startswith('WARNING: ')
-
-
-def test_a_resolved_digest_that_differs_from_the_approved_one_is_the_only_stop(capsys):
-    status, result, err = parent(capsys, '--reference', 'example-android:local', '--approved', APPROVED, '--resolved', OTHER)
-    assert status == 1 and result['status'] == 'mismatch'
-    assert 'another artifact' in result['warnings'][-1] and OTHER in result['warnings'][-1]
+def test_a_resolved_digest_that_differs_from_the_approved_one_stops(capsys):
     status, result, _ = parent(capsys, '--reference', f'registry.example.test/example-android@{OTHER}', '--approved', APPROVED)
     assert status == 1 and result['status'] == 'mismatch'
+    assert 'another artifact' in result['warnings'][-1] and OTHER in result['warnings'][-1]
+
+
+@pytest.mark.parametrize('arguments', [
+    # A tag is mutable: whatever digest it resolved to when it was observed, the build pulls the tag again.
+    ['--reference', 'example-android:local', '--approved', APPROVED, '--resolved', APPROVED],
+    ['--reference', 'example-android:local', '--approved', APPROVED, '--resolved', OTHER],
+    ['--reference', 'example-android:local', '--approved', APPROVED],
+    ['--reference', 'example-android:local', '--resolved', APPROVED],
+    ['--reference', 'example-android:local'],
+    ['--reference', 'example-android'],
+])
+def test_a_parent_named_by_a_mutable_tag_stops_whatever_else_was_given(capsys, arguments):
+    """`main` rejects a parent that is not digest-qualified; the identity of the bytes built from is integrity."""
+    status, result, err = parent(capsys, *arguments)
+    assert status == 1 and result['status'] == 'mutable' and err.startswith('WARNING: ')
+    assert any('mutable' in warning and '<image>@sha256:<digest>' in warning for warning in result['warnings'])
 
 
 @pytest.mark.parametrize('arguments, expected', [
-    (['--reference', 'example-android:local', '--approved', APPROVED], 'is not known here'),
-    (['--reference', 'example-android:local', '--resolved', APPROVED], 'no approved digest'),
     (['--reference', f'example-android@{APPROVED}'], 'no approved digest'),
     (['--reference', f'example-android@{APPROVED}', '--approved', 'not-a-digest'], 'is not sha256:<64 hex>'),
-    (['--reference', 'example-android:local', '--approved', APPROVED, '--resolved', 'not-a-digest'], 'is not sha256:<64 hex>'),
-    (['--reference', ''], 'no parent reference'),
+    (['--reference', f'example-android@{APPROVED}', '--approved', APPROVED, '--resolved', 'not-a-digest'], 'is not sha256:<64 hex>'),
 ])
-def test_a_parent_that_cannot_be_verified_is_unverified_and_the_build_goes_on(capsys, arguments, expected):
+def test_a_digest_qualified_parent_that_cannot_be_approved_warns_and_the_build_goes_on(capsys, arguments, expected):
     status, result, _ = parent(capsys, *arguments)
-    assert status == 0 and result['status'] == 'unverified'
+    assert status == 0 and result['status'] in {'unverified', 'verified'}
     assert any(expected in warning for warning in result['warnings'])
 
 
+def test_no_parent_reference_is_unverified_and_the_build_goes_on(capsys):
+    status, result, _ = parent(capsys, '--reference', '')
+    assert status == 0 and result['status'] == 'unverified'
+    assert any('no parent reference' in warning for warning in result['warnings'])
+
+
 def test_the_parent_check_reads_the_build_arguments_from_the_environment(capsys):
-    environment = {'RUNNER_PARENT_REFERENCE': 'example-android:local', 'RUNNER_PARENT_DIGEST': APPROVED,
-                   'RUNNER_PARENT_RESOLVED_DIGEST': OTHER}
+    environment = {'RUNNER_PARENT_REFERENCE': f'example-android@{OTHER}', 'RUNNER_PARENT_DIGEST': APPROVED}
     status, result, _ = parent(capsys, environment=environment)
     assert status == 1 and result['status'] == 'mismatch'
+    environment = {'RUNNER_PARENT_REFERENCE': 'example-android:local', 'RUNNER_PARENT_DIGEST': APPROVED}
+    status, result, _ = parent(capsys, environment=environment)
+    assert status == 1 and result['status'] == 'mutable'
 
 
-def test_no_dockerfile_stops_on_the_spelling_of_a_parent_reference():
-    checked = 0
-    for dockerfile in RECIPES.parent.rglob('*Dockerfile'):
+GUARDED = {
+    'recipes/android', 'recipes/collab-runners/runner-agent-base', 'recipes/collab-runners/runner-base',
+    'recipes/collab-runners/runner-ci-ai-resources', 'recipes/collab-runners/runner-ci-airflow-dag',
+    'recipes/collab-runners/runner-ci-php-laravel', 'recipes/collab-runners/runner-ci-web-e2e',
+    'recipes/templates/runner-base', 'recipes/templates/agent-base/flavors'}
+REFERENCE_GUARD = re.compile(r'case "\$\{([A-Za-z_]+)\}" in (\*@sha256:\*[^)]*)\) ;;(.*?)esac')
+
+
+def sh_guard(block, variable, value):
+    """Runs one Dockerfile guard (`case ... esac`, then a success marker) with the reference set to `value`."""
+    import subprocess
+    result = subprocess.run(['sh', '-c', f'{block} && echo passed'], env={variable: value, 'PATH': os.environ['PATH']},
+                            capture_output=True, text=True)
+    return result.returncode, result.stdout, result.stderr
+
+
+def test_every_dockerfile_that_main_guards_still_stops_on_a_reference_that_is_not_digest_qualified():
+    """A tag is mutable: building from it is not building from the approved bytes. Spelling is not the issue, identity is."""
+    root = RECIPES.parents[1]
+    found = set()
+    for dockerfile in sorted((root / 'recipes').rglob('*Dockerfile')):
         text = dockerfile.read_text().replace('\\\n', ' ')
-        assert 'must be digest-qualified' not in text and 'must be a registry digest' not in text, dockerfile
-        for match in re.finditer(r'case "\$\{[A-Za-z_]+\}" in \*@sha256:\*[^;]*\) ;;(.*?)esac', text):
-            checked += 1
-            assert 'exit' not in match.group(1), (dockerfile, match.group(0))
-    assert checked >= 9
+        for match in REFERENCE_GUARD.finditer(text):
+            variable, block = match.group(1), match.group(0)
+            found.add(dockerfile.parent.relative_to(root).as_posix())
+            digest = 'registry.example.test/example-image@sha256:' + 'a' * 64
+            code, out, _ = sh_guard(block, variable, digest)
+            assert (code, out.strip()) == (0, 'passed'), (dockerfile, variable)
+            for tag in ('registry.example.test/example-image:latest', 'registry.example.test/example-image'):
+                code, out, err = sh_guard(block, variable, tag)
+                assert code != 0 and 'passed' not in out and err.strip(), (dockerfile, variable, tag)
+    assert found == GUARDED
 
 
 def test_the_android_resolver_reaches_the_digest_check_through_its_build_arguments():

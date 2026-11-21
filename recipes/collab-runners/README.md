@@ -23,9 +23,13 @@ this change. Recipes require their own Linux qualification after adoption.
 
 The reviewed source uses [the exact runtime lock](../../compatibility/collab-runtime.lock.json)
 and [the recipe file manifest](../../compatibility/collab-image-recipes.lock.json).
-Before preparing a build context, verify the complete offline release against
-that runtime identity and verify every recipe file digest. The release is
-provided separately; it is never resolved through a floating version.
+Before preparing a build context, verify the complete offline release and verify
+every recipe file digest. The release is provided separately, and an exact release
+is verified, never a range: the lock above is the floor (`>=` its version) of what a
+console may select and the exact identity of that version; a newer selected release is
+verified against its own runtime lock and digests, and carries no qualification
+evidence from this repository (see Resolver and CI recipes in
+[`docs/build-images.md`](../../docs/build-images.md)).
 
 ## Release and builds
 
@@ -132,8 +136,9 @@ approved one:
   credential, never a value. With none declared the helper changes no npm configuration
   and warns.
 - `parent`: compares the digest the parent reference resolves to with the approved one.
-  A tag spelling only warns; no approved or observed digest leaves the parent
-  `unverified`, with a warning; only a different digest stops.
+  The reference must be digest-qualified: a tag is mutable and stops, as it does on
+  `main`; no approved digest leaves the parent `unverified`, with a warning; a different
+  digest stops.
 
 The stable neutral helpers are listed under `helpers` in the manifest, by capability
 (for example `android.emulator-owner`: `/usr/local/bin/runner-android-emulator`).
@@ -141,10 +146,14 @@ The stable neutral helpers are listed under `helpers` in the manifest, by capabi
 The declarations `runner-resolver-android/journey-driver.json`,
 `runner-resolver-ios/journey-driver.json`, `runner-resolver-ios/journey-execution.json`
 and `runner-resolver-ios/image-build.json` are **templates**: their organization facts
-(`repository`, `profile`, `validator`) are `null` and only their constants are shipped.
-The native iOS image is prepared by the organization's planner: it renders the files
-from the facts it resolved with `plan-inputs.py journey --template <the file here>
---output <the plan's file>`, which writes nothing and warns when it has no values. Run
+(`repository`, `profile`, `validator`, and `driver` in `image-build.json`) are `null` and
+only their constants are shipped. The native iOS image is prepared by the organization's
+planner: it renders the files from the facts it resolved with `plan-inputs.py journey
+--template <the file here> --output <the plan's file>`, which writes nothing and warns
+when it has no values. The image declaration `image-build.json` carries `driver: null`
+because it must point at the driver document the plan rendered, not at the template:
+render `journey-driver.json` first, then render `image-build.json` with `--driver <the
+rendered driver file>`; the native preparation follows that path. Run
 `PYTHONPATH=<cli>/src:<cli>/providers/runners/src python3 -m pytest -q recipes/collab-runners/common`
 with the pinned runtime source to also check the rendered bindings with the runtime's own
 validation (the tests skip without it).

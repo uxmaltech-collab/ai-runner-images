@@ -483,6 +483,39 @@ def test_a_moved_parent_asks_for_the_childs_version(tmp_path):
     assert not any(w.startswith('base:') for w in warnings)
 
 
+def edit_parent(root, name, parent):
+    path = root / 'recipes' / 'manifest.json'
+    manifest = json.loads(path.read_text())
+    for entry in manifest['recipes']:
+        if entry['name'] == name:
+            entry['parent'] = parent
+    path.write_text(json.dumps(manifest))
+
+
+@pytest.mark.parametrize('parent, said', [
+    ({'recipe': 'other', 'version': '0.1.0', 'build_arg': 'BASE'}, 'the parent changed from recipe base 0.1.0 to recipe other 0.1.0'),
+    ({'pin': 'example-os', 'build_arg': 'BASE'}, 'the parent changed from recipe base 0.1.0 to pin example-os'),
+    ({'recipe': 'base', 'version': '0.1.0', 'build_arg': 'OTHER'}, 'the parent changed from recipe base 0.1.0 to recipe base 0.1.0 (build argument OTHER)'),
+])
+def test_a_parent_that_changes_without_a_version_change_asks_for_the_childs_version(tmp_path, parent, said):
+    """Another parent recipe at the same version, a pin, or another build argument changes the build the same way a version does."""
+    root = released(tmp_path)
+    edit_parent(root, 'child', parent)
+    warnings = module.check_changes(root)
+    assert [w for w in warnings if w.startswith('child:')] and said in warnings[0], warnings
+    assert 'still 0.1.0' in warnings[0]
+
+
+def test_a_pin_renamed_asks_for_the_childs_version(tmp_path):
+    root = released(tmp_path)
+    edit_parent(root, 'child', {'pin': 'example-os', 'build_arg': 'BASE'})
+    git_run(root, 'commit', '-q', '-am', 'pin')
+    git_run(root, 'tag', 'v0.1.1')
+    edit_parent(root, 'child', {'pin': 'example-os-2', 'build_arg': 'BASE'})
+    warnings = module.check_changes(root, since='v0.1.1')
+    assert len(warnings) == 1 and 'the parent changed from pin example-os to pin example-os-2' in warnings[0]
+
+
 def test_the_comparison_uses_the_named_reference_and_skips_without_one(tmp_path):
     root = released(tmp_path)
     (root / 'common' / 'tool.py').write_text('v2')

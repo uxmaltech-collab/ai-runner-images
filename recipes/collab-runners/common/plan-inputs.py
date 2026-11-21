@@ -7,12 +7,12 @@ organization data. The planner reads it from the organization's canon (or, when 
 cannot be read, from its own last verified read of it) and hands it to the build as
 inputs; this tool applies them. It knows the shape of each input, never its content, and
 it carries no organization value. Every finding is a warning and the exit status is 0,
-except one: a parent image whose identity is a different artifact than the approved one
+except one: a parent image that is not the approved artifact, or is named by a mutable tag
 (`parent`). The last line of standard output is a JSON result with `status` and
 `warnings` that the caller can read, and each warning is also written to standard error.
 
   plan-inputs.py journey --template FILE --output FILE
-                         [--repository R] [--profile P] [--validator V]
+                         [--repository R] [--profile P] [--validator V] [--driver FILE]
   plan-inputs.py aliases [--map "ALIAS=TARGET ..."] [--root DIR]
   plan-inputs.py markers [--names "NAME ..."] [--output FILE]
   plan-inputs.py registries [--entries "SCOPE=HOST[=VARIABLE] ..."] [--output FILE]
@@ -20,7 +20,10 @@ except one: a parent image whose identity is a different artifact than the appro
 
 journey   FILE is the recipe's template of the document: it fixes the schema and every
           constant, and names each organization fact it binds by a `null` value
-          (`repository`, `profile`, `validator`, whichever it has). When every one of
+          (`repository`, `profile`, `validator`, `driver`, whichever it holds as null).
+          `driver` is the path of the journey driver document the plan rendered with this
+          same command: an image declaration points at that file, not at its template, and
+          renders only when it is given. When every one of
           those facts is given and valid the document is written to --output. Otherwise
           nothing is written, the result says so with a warning, and the build goes on
           as the generic image: a half-resolved binding would present unverified data as
@@ -35,15 +38,15 @@ registries Writes the valid package registry bindings (`<scope>=<host>[=<credent
           name>]`) to the image-owned file the web install helper reads. A binding names the
           variable that holds a credential, never a value; an entry of another shape is
           skipped with a warning.
-parent    Compares the identity of the parent image with the approved one. The reference
-          may be spelled as a tag: that only warns. The resolved digest is the one in the
-          reference, or the one the builder observed (`--resolved`). Only a resolved digest
-          that differs from the approved one stops (exit 1): it is another artifact. With
-          no approved digest, or no way to resolve one, it warns that the parent is
-          unverified and goes on.
+parent    Verifies the identity of the parent image. The reference must be spelled
+          <image>@sha256:<digest>: a tag is mutable, so building from it is building from
+          bytes nobody approved, and that stops (exit 1), as does a digest that differs from
+          the approved one. A digest-qualified parent with no approved digest to compare
+          warns that it is unverified and goes on. `--resolved` is an optional cross-check
+          of the digest the builder observed for the reference; a difference only warns.
 
 An input missing from the command line is read from RUNNER_JOURNEY_REPOSITORY,
-RUNNER_JOURNEY_PROFILE, RUNNER_JOURNEY_VALIDATOR, RUNNER_HELPER_ALIASES,
+RUNNER_JOURNEY_PROFILE, RUNNER_JOURNEY_VALIDATOR, RUNNER_JOURNEY_DRIVER, RUNNER_HELPER_ALIASES,
 RUNNER_ANDROID_MARKER_ALIASES, RUNNER_WEB_REGISTRIES, RUNNER_PARENT_REFERENCE, RUNNER_PARENT_DIGEST and
 RUNNER_PARENT_RESOLVED_DIGEST, which is how a Docker build passes its build arguments to
 a RUN step.
@@ -77,8 +80,19 @@ def validator(value):
             and not any(part in {'', '.', '..'} for part in value.split('/')))
 
 
-# The organization facts a journey document may bind, and the shape each must have.
-FACTS = {'repository': repository, 'profile': scalar, 'validator': validator}
+def driver_path(value):
+    """The path of the rendered journey driver document: a canonical `.json` path with no `..` part."""
+    if not scalar(value) or '\\' in value:
+        return False
+    path = PurePosixPath(value)
+    parts = value.split('/')[1:] if path.is_absolute() else value.split('/')
+    return path.as_posix() == value and path.suffix == '.json' and not any(part in {'', '.', '..'} for part in parts)
+
+
+# The facts a document binds, and the shape each must have. A template binds a fact by holding
+# `null` for it; a field that holds a value is a constant and is kept. `driver` is the path of
+# the driver document the plan rendered (an image declaration points at it, never at the template).
+FACTS = {'repository': repository, 'profile': scalar, 'validator': validator, 'driver': driver_path}
 
 
 class Usage(ValueError):
@@ -101,7 +115,7 @@ def render_journey(template, output, given):
     except (OSError, ValueError) as error:
         warnings.append(f'the journey template {template} cannot be read ({error}); nothing was written')
         return {**result, 'status': 'not_done', 'source': 'none'}
-    wanted = [name for name in FACTS if name in document]
+    wanted = [name for name in FACTS if name in document and document[name] is None]
     values = {name: given.get(name) or '' for name in wanted}
     missing = [name for name in wanted if not values[name]]
     invalid = [name for name in wanted if values[name] and not FACTS[name](values[name])]
@@ -248,7 +262,7 @@ def write_registries(spec, output):
 
 
 def check_parent(reference, approved, resolved):
-    """Compares the parent's resolved digest with the approved one; only a difference is a mismatch."""
+    """Verifies the parent: it must be digest-qualified, and its digest must be the approved one."""
     warnings = []
     result = {'command': 'parent', 'reference': reference[:256], 'warnings': warnings}
     qualified = re.search(r'@(sha256:[0-9a-f]{64})$', reference)
@@ -256,24 +270,24 @@ def check_parent(reference, approved, resolved):
         warnings.append('no parent reference was given; the parent is not verified')
         return {**result, 'status': 'unverified', 'resolved': None}
     if qualified is None:
-        warnings.append(f'the parent reference {reference[:128]!r} is not spelled as <image>@sha256:<digest>; '
-                        'that is only a spelling, and its resolved digest is what is checked')
+        # A tag is mutable and the build pulls it again after anything observed about it: what
+        # the image is built from would not be the approved bytes. `main` rejects it too.
+        warnings.append(f'the parent reference {reference[:128]!r} is a mutable tag, not <image>@sha256:<digest>; '
+                        'resolve it to its digest before the build and pass the digest-qualified reference: '
+                        'the build is not made from an unverified parent')
+        return {**result, 'status': 'mutable', 'resolved': None}
     if resolved and not DIGEST.fullmatch(resolved):
         warnings.append(f'the resolved digest {resolved[:80]!r} is not sha256:<64 hex>; it was not used')
         resolved = ''
     if approved and not DIGEST.fullmatch(approved):
         warnings.append(f'the approved digest {approved[:80]!r} is not sha256:<64 hex>; the parent is not verified')
         approved = ''
-    if qualified is not None and resolved and resolved != qualified.group(1):
+    if resolved and resolved != qualified.group(1):
         warnings.append('the resolved digest differs from the digest in the reference; the reference was used')
-    actual = qualified.group(1) if qualified is not None else resolved
-    result['resolved'] = actual or None
+    actual = qualified.group(1)
+    result['resolved'] = actual
     if not approved:
         warnings.append('no approved digest was given for the parent image; it is not verified against an approved artifact')
-        return {**result, 'status': 'unverified'}
-    if not actual:
-        warnings.append('the digest the parent reference resolves to is not known here (the builder passes it as '
-                        'RUNNER_PARENT_RESOLVED_DIGEST); the parent is not verified against the approved digest')
         return {**result, 'status': 'unverified'}
     if actual != approved:
         warnings.append(f'the parent image resolves to {actual}, not to the approved {approved}: it is another artifact')
@@ -336,8 +350,8 @@ def main(argv=None, environment=None):
     if result.get('note'):
         print('NOTE: ' + result['note'], file=sys.stderr)
     print(json.dumps(result, sort_keys=True))
-    # The one stop: the parent resolves to a different artifact than the approved one.
-    return 1 if result.get('status') == 'mismatch' else 0
+    # The one stop: the parent is a mutable tag, or a different artifact than the approved one.
+    return 1 if result.get('status') in {'mismatch', 'mutable'} else 0
 
 
 if __name__ == '__main__':

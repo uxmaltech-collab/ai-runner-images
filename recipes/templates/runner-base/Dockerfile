@@ -35,7 +35,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PATH="/home/runner/.local/bin:${PATH}"
 
 RUN case "${RUNNER_BASE_OS_IMAGE}" in *@sha256:*) ;; \
-      *) echo "WARNING: the RUNNER_BASE_OS_IMAGE reference is not spelled <image>@sha256:<digest>; that is only a spelling, and the builder verifies the digest it resolves to against the approved one" >&2 ;; esac \
+      *) echo "RUNNER_BASE_OS_IMAGE must be digest-qualified; resolve a tag to its digest before the build" >&2; exit 1 ;; esac \
     && test -n "${RUNNER_BASE_REVISION}" \
     && test -n "${ACTIONS_RUNNER_SHA256_AMD64}" \
     && test -n "${ACTIONS_RUNNER_SHA256_ARM64}" \

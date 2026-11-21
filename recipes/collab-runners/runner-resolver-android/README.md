@@ -63,11 +63,13 @@ partial or invalid set, it writes nothing, the build log carries a warning and t
 is the generic Android resolver, without a binding: nothing of any organization is baked
 in, and nothing is kept from a previous build. The build never stops over a binding.
 
-The reference of the Android layer may be a tag or a digest: its spelling only warns. The
-build compares the digest it resolves to (the one in the reference, or the one the build
-host passes as `RUNNER_ANDROID_IMAGE_RESOLVED_DIGEST`) with the approved one and stops
-only when they differ, because that image is another artifact; with no approved or no
-observed digest it warns that the parent is unverified.
+The reference of the Android layer must be `<image>@sha256:<digest>`, which is what the
+console's builder passes: a tag is mutable, so the build stops on one (the check inside the
+build and the Dockerfile guards of every recipe do the same). The build compares the digest
+of the reference with the approved one (`RUNNER_ANDROID_IMAGE_DIGEST`) and stops when they
+differ, because that image is another artifact; with no approved digest it warns that the
+parent is unverified. `RUNNER_ANDROID_IMAGE_RESOLVED_DIGEST` is an optional cross-check of
+the digest the build host observed; a difference only warns.
 
 The Collab runtime and the pack revision are the last layer, as in the other
 resolvers. Like them, this recipe has no `smoke.sh` yet and no image has been built or

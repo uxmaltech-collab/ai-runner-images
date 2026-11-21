@@ -423,6 +423,23 @@ def matches(changed, source):
             or re.fullmatch(re.escape(source).replace(r'\*', '[^/]*').replace(r'\?', '[^/]'), changed) is not None)
 
 
+def parent_name(parent):
+    """A parent declaration, named for a message: its recipe (or component and recipe) and version, or its pin."""
+    if isinstance(parent.get('pin'), str):
+        return f"pin {parent['pin']}"
+    subject = '/'.join(str(parent[key]) for key in ('component', 'recipe') if isinstance(parent.get(key), str)) or '?'
+    return f"recipe {subject} {parent.get('version')}" if parent.get('version') is not None else f'recipe {subject}'
+
+
+def parent_change(before, after):
+    """Why the parent declaration differs: the whole declaration is compared, not only its version."""
+    same_base = {key: before.get(key) for key in ('recipe', 'component', 'pin')} == {key: after.get(key) for key in ('recipe', 'component', 'pin')}
+    if same_base and before.get('build_arg') == after.get('build_arg') and 'pin' not in after:
+        return f"the parent {after.get('recipe')} moved from {before.get('version')} to {after.get('version')}"
+    detail = f" (build argument {after.get('build_arg')})" if before.get('build_arg') != after.get('build_arg') else ''
+    return f'the parent changed from {parent_name(before)} to {parent_name(after)}{detail}'
+
+
 def check_changes(root, since=None):
     """Warnings for recipes whose bytes (or parent) changed since the previous release but not their version.
 
@@ -469,9 +486,8 @@ def check_changes(root, since=None):
                                          if unresolved is None and Path(source).parts[:1] and Path(source).parts[0] not in context_inputs]
         causes = sorted({path for path in changed if any(matches(path, source) for source in sources)})
         parent, before_parent = entry.get('parent'), previous.get('parent')
-        if (isinstance(parent, dict) and isinstance(before_parent, dict)
-                and parent.get('version') != before_parent.get('version')):
-            causes.append(f"the parent {parent.get('recipe')} moved from {before_parent.get('version')} to {parent.get('version')}")
+        if parent != before_parent and isinstance(parent, dict) and isinstance(before_parent, dict):
+            causes.append(parent_change(before_parent, parent))
         if causes:
             warnings.append(f"{entry['name']}: {', '.join(causes[:3])}{' and more' if len(causes) > 3 else ''} changed since {ref} "
                             f"but its version is still {entry.get('version')}; bump it in recipes/manifest.json")
