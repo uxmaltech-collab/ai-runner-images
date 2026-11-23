@@ -12,11 +12,11 @@ recipe paths are the paths of the extraction: the recipe directories that carrie
 repository's name were renamed to the stack they install, and the Android inputs
 that the resolver repeated were removed in favor of the layer that owns them
 (`git log --follow <path>` finds a former path). The combined agent base carries the technology stack only.
-Every leaf image installs one exact Collab release, prepared as `collab-release`
-in the build context, as its last layer, and declares the arguments that change
+No image carries a Collab runtime: at job start the control plane mounts the host's
+verified runtime read-only and exports `COLLAB_RUNTIME=<path>@sha256:<digest>`, so a Collab
+release rebuilds no image. Every leaf image declares the arguments that change
 with every publication (its parent digest and the pack revision) only after the
-stack layers, so a Collab release rebuilds one layer per leaf on top of the
-cached stack. No resource package supplies
+stack layers, so a pack change rebuilds nothing. No resource package supplies
 executable code or a local CLI. Browser and agent toolchains remain external
 dependencies with their existing pins. No image has been built or promoted by
 this change. Recipes require their own Linux qualification after adoption.
@@ -52,10 +52,9 @@ console has its registry and a builder node, a build host builds a recipe with D
 the release tree as [Resolver and CI recipes](../../docs/build-images.md#resolver-and-ci-recipes)
 describes, and pins the digest of the image in the registry the organization already uses.
 The context of every recipe is the release tree: `RUNNER_BASE_CONTEXT` of
-`runner-base` defaults to its own path in it, and the exact Collab release is
-`collab-release/` at the root (`context_inputs` in the manifest; the entry's `context`
-says it is the Collab runtime's release artifact set, and the console fills it with the
-version the organization's adoption names).
+`runner-base` defaults to its own path in it. No recipe of the manifest takes a
+`collab-release/` context entry any more (`context_inputs` and `context` are absent): the
+runtime is not part of an image.
 
 Each recipe declares its base as `parent` in the manifest: `runner-agent-base` and the
 `runner-ci-*` recipes start from `runner-base`; the `runner-resolver-*` recipes and the

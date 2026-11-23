@@ -85,9 +85,11 @@ way is unqualified.
    is the context: each recipe sits at its `path` with its `shared` paths beside it, and
    every Dockerfile `COPY` source is a path of that tree
    (`python3 scripts/check-recipe-manifest.py` warns about one that is not). The recipes
-   that install Collab (`context_inputs: ["collab-release"]` in the manifest) also need
-   the exact release as `collab-release/` at the root of the context, verified first.
-   The selection and the verification read the same declarations.
+   of the manifest carry no Collab runtime and need no `collab-release/`: at job start the
+   control plane mounts the host's verified runtime read-only and exports
+   `COLLAB_RUNTIME=<path>@sha256:<digest>`. A stack that still installs Collab (the control
+   plane) needs the exact release as `collab-release/` at the root of its context, verified
+   first. The selection and the verification read the same declarations.
    [`compatibility/collab-runtime.lock.json`](../compatibility/collab-runtime.lock.json)
    is the floor of the selection (`>=` its `runtime.version`) and the exact identity of
    that version: when the selected release is that version, its `collab-runtime.lock.json`,
@@ -97,12 +99,12 @@ way is unqualified.
    selected version and not older than the floor, a wheel whose SHA-256 is the one that
    lock names and its `SHA256SUMS` lists); a mismatch stops the build, and this
    repository holds no qualification evidence for a newer release.
-   The entry's `context` says what fills it, in the shape of a container recipe's
-   `version.json` `build.context`: `{"name": "collab-release", "kind": "artifact",
-   "component": "uxmaltech-collab/cli", "version": ">=0.2.3"}` (the release artifact set of
-   the Collab runtime, a version the recipe works with). Which version an organization
-   runs is its own choice: the console takes the one its adoption names (else the one it
-   adopted) and records it in the build; the recipe never pins it. The directory holds the
+   A manifest entry that did take it would declare what fills it in `context`, in the shape
+   of a container recipe's `version.json` `build.context`: `{"name": "collab-release",
+   "kind": "artifact", "component": "uxmaltech-collab/cli", "version": ">=0.2.3"}`; no
+   entry does today. Which version an organization runs is its own choice: the console
+   takes the one its adoption names (else the one it adopted) and records it in the
+   build; a recipe never pins it. The directory holds the
    files of that release's artifact set as they are published, flat: `install.py`, its
    `SHA256SUMS`, `release-manifest.json`, `collab-runtime.lock.json` and the wheels;
    `install.py install --artifacts /opt/collab-release` reads them there.

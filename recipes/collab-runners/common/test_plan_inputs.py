@@ -434,6 +434,19 @@ def test_the_parent_check_reads_the_build_arguments_from_the_environment(capsys)
     assert status == 1 and result['status'] == 'unresolved'
 
 
+def test_no_resolver_image_bakes_the_collab_runtime_and_each_keeps_python():
+    """The control plane mounts the host runtime at job start; the interpreter the job check bootstraps from stays."""
+    resolvers = sorted(RECIPES.glob('runner-resolver-*/Dockerfile'))
+    assert len(resolvers) == 9
+    for dockerfile in resolvers:
+        text = dockerfile.read_text()
+        for baked in ('collab-release', '/opt/collab/runtime', 'ARCHIFY_PUBLISH_PYTHON', 'collab --version'):
+            assert baked not in text, (dockerfile, baked)
+    # Their parent stack keeps Python 3.12, which the job-start runtime check bootstraps from.
+    agent_base = (RECIPES / 'runner-agent-base' / 'Dockerfile').read_text()
+    assert 'python3.12 -c' in agent_base
+
+
 def test_no_dockerfile_stops_on_the_spelling_of_a_parent_reference():
     checked = 0
     for dockerfile in RECIPES.parent.rglob('*Dockerfile'):

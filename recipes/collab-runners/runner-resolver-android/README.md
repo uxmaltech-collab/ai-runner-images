@@ -3,8 +3,8 @@
 The `runner-resolver-android` image supports both `resolve` and `create-journey` for
 an Android application repository. It is the neutral Android layer
 ([`recipes/android`](../../android/README.md), released once as the recipe `android`)
-plus what is specific to a resolver: the journey binding, the helper aliases and the
-Collab runtime. The toolchain lock, the emulator registration, the helpers and the
+plus what is specific to a resolver: the journey binding and the helper aliases. The
+image carries no Collab runtime (the control plane mounts the host's at job start). The toolchain lock, the emulator registration, the helpers and the
 entrypoint exist only in the Android layer; this recipe builds `FROM` that layer's
 image (`RUNNER_ANDROID_IMAGE`) and repeats none of them. The layer in turn
 inherits the digest-pinned `runner-agent-base`, the Codex installation, the JIT runner
@@ -71,6 +71,6 @@ artifact) and when a tag comes without an observed or an approved digest, becaus
 then identifies the bytes it starts from. A digest-qualified reference with no approved
 digest only warns.
 
-The Collab runtime and the pack revision are the last layer, as in the other
-resolvers. Like them, this recipe has no `smoke.sh` yet and no image has been built or
+The pack revision is the last declaration, as in the other resolvers, and no Collab
+runtime is installed. Like them, this recipe has no `smoke.sh` yet and no image has been built or
 promoted by this source; it needs its own Linux qualification after adoption.

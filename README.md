@@ -89,13 +89,13 @@ covers only part of the recipes:
 | Native macOS profiles (Tart virtual machines, not OCI images; not in the manifest) | `--profile macos-ios` / `macos-flutter` | [real native qualification](qualification/native-tool-recipes-20260919/README.md); it starts from a measured local Apple toolchain parent, and a fresh-machine restore remains a separate prerequisite |
 | Every other recipe of the manifest, the resolver recipes included | no profile: `build-images.py` rejects the name (`plan --profile runner-resolver-android` is not a profile) and `--profile android` builds only the parent. A build host builds them with `docker build` from the release tree, as [Resolver and CI recipes](docs/build-images.md#resolver-and-ci-recipes) gives | none yet: these recipes have no `smoke.sh` and no backend qualifies them; an image built that way is unqualified until one does |
 
-The resolver recipes need the exact Collab release as `collab-release/` at the root
-of the context and their plan-time inputs as build arguments; that page lists both,
-and the command that verifies the parent image against its approved digest. Every
-recipe declares its base in the manifest (`parent`): another recipe of the manifest,
-or, for `runner-base`, a neutral pin (`runner-base-os`) that the organization pins by
-digest under `image_pins`; the resolvers declare what fills `collab-release/`
-(`context`: the Collab runtime's artifact set, the version the organization adopted).
+The resolver recipes need their plan-time inputs as build arguments; that page lists
+them, and the command that verifies the parent image against its approved digest. They
+carry no Collab runtime and need no `collab-release/` in the context: at job start the
+control plane mounts the host's verified runtime read-only and exports
+`COLLAB_RUNTIME=<path>@sha256:<digest>`. Every recipe declares its base in the manifest
+(`parent`): another recipe of the manifest, or, for `runner-base`, a neutral pin
+(`runner-base-os`) that the organization pins by digest under `image_pins`.
 
 ## Releasing
 
