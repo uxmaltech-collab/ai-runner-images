@@ -75,7 +75,7 @@ def test_every_copied_source_of_a_listed_recipe_resolves_inside_its_release_tree
         sources = module.copy_sources(text)
         assert all(unresolved is None for _, unresolved in sources), (entry['name'], sources)
         resolved += len(sources)
-    assert resolved > 20
+    assert resolved > 15  # the nine `COPY collab-release` sources are gone with the baked runtime
 
 
 def test_the_runner_base_entrypoint_resolves_through_its_context_argument_default():
@@ -348,15 +348,14 @@ def test_every_base_a_recipe_starts_from_is_declared_as_its_parent():
                    for entry in manifest['recipes'])
 
 
-def test_every_context_input_says_what_fills_it_with_the_runtime_of_the_lock_and_no_pinned_version():
+def test_no_recipe_of_the_manifest_declares_or_needs_the_collab_release():
+    """The host mounts its verified runtime into each job (cli#2630): no image takes `collab-release` into its context."""
     manifest = json.loads((ROOT / 'recipes' / 'manifest.json').read_text())
-    runtime = json.loads((ROOT / 'compatibility' / 'collab-runtime.lock.json').read_text())['runtime']
-    needing = [entry for entry in manifest['recipes'] if entry.get('context_inputs')]
-    assert len(needing) == 9
-    for entry in needing:
-        assert entry['context'] == [{'name': 'collab-release', 'kind': 'artifact', 'component': runtime['repository'],
-                                     'version': '>=' + runtime['version']}], entry['name']
-    assert not any(entry.get('context') for entry in manifest['recipes'] if not entry.get('context_inputs'))
+    resolvers = [entry for entry in manifest['recipes'] if '-runner-resolver-' in entry['name']]
+    assert len(resolvers) == 9
+    for entry in manifest['recipes']:
+        assert 'context_inputs' not in entry and 'context' not in entry, entry['name']
+        assert 'collab-release' not in (ROOT / entry['path'] / entry['dockerfile']).read_text(), entry['name']
 
 
 def test_the_three_parent_forms_are_read_and_a_malformed_one_warns(tmp_path):

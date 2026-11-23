@@ -135,17 +135,6 @@
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
       "smoke": null,
-      "context_inputs": [
-        "collab-release"
-      ],
-      "context": [
-        {
-          "name": "collab-release",
-          "kind": "artifact",
-          "component": "uxmaltech-collab/cli",
-          "version": ">=0.2.3"
-        }
-      ],
       "parent": {
         "recipe": "collab-runners-runner-agent-base",
         "version": "0.1.0",
@@ -161,17 +150,6 @@
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
       "smoke": null,
-      "context_inputs": [
-        "collab-release"
-      ],
-      "context": [
-        {
-          "name": "collab-release",
-          "kind": "artifact",
-          "component": "uxmaltech-collab/cli",
-          "version": ">=0.2.3"
-        }
-      ],
       "parent": {
         "recipe": "android",
         "version": "0.1.0",
@@ -197,17 +175,6 @@
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
       "smoke": null,
-      "context_inputs": [
-        "collab-release"
-      ],
-      "context": [
-        {
-          "name": "collab-release",
-          "kind": "artifact",
-          "component": "uxmaltech-collab/cli",
-          "version": ">=0.2.3"
-        }
-      ],
       "parent": {
         "recipe": "collab-runners-runner-agent-base",
         "version": "0.1.0",
@@ -223,17 +190,6 @@
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
       "smoke": null,
-      "context_inputs": [
-        "collab-release"
-      ],
-      "context": [
-        {
-          "name": "collab-release",
-          "kind": "artifact",
-          "component": "uxmaltech-collab/cli",
-          "version": ">=0.2.3"
-        }
-      ],
       "parent": {
         "recipe": "collab-runners-runner-agent-base",
         "version": "0.1.0",
@@ -249,17 +205,6 @@
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
       "smoke": null,
-      "context_inputs": [
-        "collab-release"
-      ],
-      "context": [
-        {
-          "name": "collab-release",
-          "kind": "artifact",
-          "component": "uxmaltech-collab/cli",
-          "version": ">=0.2.3"
-        }
-      ],
       "parent": {
         "recipe": "collab-runners-runner-agent-base",
         "version": "0.1.0",
@@ -298,17 +243,6 @@
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
       "smoke": null,
-      "context_inputs": [
-        "collab-release"
-      ],
-      "context": [
-        {
-          "name": "collab-release",
-          "kind": "artifact",
-          "component": "uxmaltech-collab/cli",
-          "version": ">=0.2.3"
-        }
-      ],
       "parent": {
         "recipe": "collab-runners-runner-agent-base",
         "version": "0.1.0",
@@ -324,17 +258,6 @@
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
       "smoke": null,
-      "context_inputs": [
-        "collab-release"
-      ],
-      "context": [
-        {
-          "name": "collab-release",
-          "kind": "artifact",
-          "component": "uxmaltech-collab/cli",
-          "version": ">=0.2.3"
-        }
-      ],
       "parent": {
         "recipe": "collab-runners-runner-agent-base",
         "version": "0.1.0",
@@ -350,17 +273,6 @@
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
       "smoke": null,
-      "context_inputs": [
-        "collab-release"
-      ],
-      "context": [
-        {
-          "name": "collab-release",
-          "kind": "artifact",
-          "component": "uxmaltech-collab/cli",
-          "version": ">=0.2.3"
-        }
-      ],
       "parent": {
         "recipe": "collab-runners-runner-agent-base",
         "version": "0.1.0",
@@ -382,17 +294,6 @@
       "version": "0.1.0",
       "dockerfile": "Dockerfile",
       "smoke": null,
-      "context_inputs": [
-        "collab-release"
-      ],
-      "context": [
-        {
-          "name": "collab-release",
-          "kind": "artifact",
-          "component": "uxmaltech-collab/cli",
-          "version": ">=0.2.3"
-        }
-      ],
       "parent": {
         "recipe": "collab-runners-runner-agent-base",
         "version": "0.1.0",

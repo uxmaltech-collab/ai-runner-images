@@ -7,6 +7,18 @@ repository as one tree in the release repository (see Releasing in the README
 for what the publisher does and does not read from the manifest). No built image
 is ever part of a release.
 
+## Unreleased
+
+- The resolver recipes (`runner-resolver-airflow-dag`, `-android`, `-ios`, `-mobile-qa`,
+  `-nuxt-pnpm`, `-php-laravel`, `-php-mysql-redis`, `-php83`, `-web-qa`) no longer bake the
+  Collab runtime: the `collab-release` copy and install, the `/opt/collab/runtime/bin` `PATH`
+  entry, `ARCHIFY_PUBLISH_PYTHON` and the `collab --version` probe are removed; `python3.12`
+  and the rest of each image stay. The manifest declares neither `context_inputs` nor
+  `context` for them. At job start the control plane mounts the host's verified runtime
+  read-only and exports `COLLAB_RUNTIME=<path>@sha256:<digest>`; a job with no host mount and
+  no baked runtime warns and leaves the variable unset. The control-plane stack and the
+  native macOS declarations are unchanged.
+
 ## 0.1.0
 
 First release: the recipes as they stand, with the repository ordered for

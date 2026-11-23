@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1.7
 # The resolver and journey runner for an Android application. It adds to the neutral
 # Android layer (recipes/android, released once as the recipe `android`) only what is
-# specific to a resolver: the journey binding, the helper aliases and the Collab
-# runtime. The toolchain lock, the emulator registration, the helpers and the
+# specific to a resolver: the journey binding and the helper aliases (the Collab runtime is
+# not part of the image). The toolchain lock, the emulator registration, the helpers and the
 # entrypoint are not repeated here: they come from the parent.
 ARG RUNNER_ANDROID_IMAGE
 FROM ${RUNNER_ANDROID_IMAGE}
@@ -48,16 +48,11 @@ RUN python3 /opt/runner-plan-inputs/plan-inputs.py parent \
     && python3 /opt/runner-plan-inputs/plan-inputs.py markers \
     && chmod -R a+rX /opt/ai-repo-resources /opt/runner-plan-inputs
 
-# Collab changes most often, so it is the last layer. The pack revision changes
-# with every publication, so it is declared only after it: a Collab release rebuilds
-# this layer alone on top of the cached Android layer, and a pack change rebuilds nothing.
-USER root
-COPY collab-release /opt/collab-release
-RUN python3.12 /opt/collab-release/install.py install --artifacts /opt/collab-release --prefix /opt/collab/runtime \
-    && /opt/collab/runtime/bin/collab --version
-ENV PATH="/opt/collab/runtime/bin:${PATH}" \
-    ARCHIFY_PUBLISH_PYTHON=/opt/collab/runtime/bin/python \
-    ARCHIFY_UPDATE_CHECK_DISABLED=1
+# The image carries no Collab runtime. At job start the control plane mounts the host's verified
+# runtime read-only, exports COLLAB_RUNTIME=<path>@sha256:<digest> and puts its bin first on PATH, so a
+# Collab release rebuilds no image. The pack revision changes with every publication, so it is declared
+# last, and the parent digest is never redeclared inside a stage: a pack change rebuilds nothing.
+ENV ARCHIFY_UPDATE_CHECK_DISABLED=1
 ARG AI_REPO_RESOURCES_BUNDLE_COMMIT
 LABEL org.opencontainers.image.revision="${AI_REPO_RESOURCES_BUNDLE_COMMIT}"
 
