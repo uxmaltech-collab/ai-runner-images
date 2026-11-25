@@ -9,6 +9,10 @@ is ever part of a release.
 
 ## Unreleased
 
+- `runner-resolver-php83` builds PHP with `--with-pdo-mysql` (bundled mysqlnd: no new build or
+  runtime package), and its platform probe requires `pdo_mysql`. The CBQ package resolvers run
+  their MySQL-backed tests with it; before, those tests could not open a MySQL connection.
+
 - The resolver recipes (`runner-resolver-airflow-dag`, `-android`, `-ios`, `-mobile-qa`,
   `-nuxt-pnpm`, `-php-laravel`, `-php-mysql-redis`, `-php83`, `-web-qa`) no longer bake the
   Collab runtime: the `collab-release` copy and install, the `/opt/collab/runtime/bin` `PATH`

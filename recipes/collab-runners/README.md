@@ -76,7 +76,7 @@ A release identifier (`name` in the manifest, the image title and the
 | `runner-resolver-nuxt-pnpm` | Node, pnpm through Corepack, Playwright and its MCP |
 | `runner-resolver-web-qa`, `runner-resolver-mobile-qa` | the agent base and the Collab runtime, for QA |
 | `runner-resolver-php-laravel`, `runner-resolver-php-mysql-redis` | PHP from the distribution with Composer and Redis (the first adds GD and PostgreSQL) |
-| `runner-resolver-php83` | PHP 8.3 built from source with Redis, Composer and GD with WebP (one recipe; every repository that needs it uses it) |
+| `runner-resolver-php83` | PHP 8.3 built from source with Redis, PDO MySQL (mysqlnd), Composer and GD with WebP (one recipe; every repository that needs it uses it) |
 | `runner-resolver-airflow-dag`, `runner-ci-*` | their stacks, as named |
 
 Which repository uses which recipe, and which engine, is organization data declared
