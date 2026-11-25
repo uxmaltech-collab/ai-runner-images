@@ -25,7 +25,7 @@ RUN apt-get update \
     && ./configure --prefix=/opt/php --with-config-file-path=/opt/php/etc \
       --with-config-file-scan-dir=/opt/php/etc/conf.d --disable-cgi --disable-phpdbg \
       --without-pear --with-openssl --with-zlib --with-curl --enable-bcmath \
-      --enable-intl --enable-mbstring --enable-pcntl --with-pdo-sqlite \
+      --enable-intl --enable-mbstring --enable-pcntl --with-pdo-sqlite --with-pdo-mysql \
       --with-sqlite3 --with-zip --enable-gd --with-jpeg --with-webp \
     && make -j4 \
     && make install \

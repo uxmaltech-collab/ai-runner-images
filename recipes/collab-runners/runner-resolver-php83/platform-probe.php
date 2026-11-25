@@ -4,7 +4,7 @@
 if (PHP_MAJOR_VERSION !== 8 || PHP_MINOR_VERSION !== 3) {
     throw new RuntimeException('The PHP 8.3 resolver requires PHP 8.3.');
 }
-foreach (['bcmath', 'curl', 'dom', 'gd', 'intl', 'mbstring', 'openssl', 'pcntl', 'pdo_sqlite', 'redis', 'xml', 'xmlwriter', 'zip'] as $extension) {
+foreach (['bcmath', 'curl', 'dom', 'gd', 'intl', 'mbstring', 'openssl', 'pcntl', 'pdo_mysql', 'pdo_sqlite', 'redis', 'xml', 'xmlwriter', 'zip'] as $extension) {
     if (!extension_loaded($extension)) {
         throw new RuntimeException('Missing required PHP extension: '.$extension);
     }

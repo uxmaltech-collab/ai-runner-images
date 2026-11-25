@@ -1,6 +1,6 @@
 {
   "files": {
-    "recipes/collab-runners/README.md": "096061e41bcd5e9589e89f137d3f394fd183a15f05a56bed1d0bf78d35e36f9b",
+    "recipes/collab-runners/README.md": "86c10bfffa534a5cd86710af53bc17b64849b93353f35b3b8284bb0626aaa0a5",
     "recipes/collab-runners/common/plan-inputs.py": "bcae4e10b2f356041e85fe7022cb1fd37a3da5b37defbf6af851e388d8acb1f4",
     "recipes/collab-runners/extraction.json": "0b9210953aefb6443f2d1fdacd0aae513744a7b758f38fa4666d04de85403ada",
     "recipes/collab-runners/qa-extraction.json": "df6c01e37fd1fd22f903dafb8645e8c7f21c1f15fd0d204a8be226844874d27c",
@@ -29,8 +29,8 @@
     "recipes/collab-runners/runner-resolver-nuxt-pnpm/stack-probe/pnpm-lock.yaml": "d8fe6eacc251d1a4878a6e2e93be4d76e17734aa8999b311ac3de0fdccc417fa",
     "recipes/collab-runners/runner-resolver-php-laravel/Dockerfile": "30c27d292e56a9b4c8632542799869389929ccdd0d24ce80106f71411c1bc052",
     "recipes/collab-runners/runner-resolver-php-mysql-redis/Dockerfile": "cc396ae1574cff38e7021ff2ee1214a080eb211fa81ea74ae70a1eb15a59219f",
-    "recipes/collab-runners/runner-resolver-php83/Dockerfile": "e01a3bbc07dfee7421a45f44b30fb41b11eb452238ed1032d5cf054ccaf263c8",
-    "recipes/collab-runners/runner-resolver-php83/platform-probe.php": "8504cfbf01685f19210d05ef275015f6cdd22b9919cecd36f5c9f8f69ad5fcb5",
+    "recipes/collab-runners/runner-resolver-php83/Dockerfile": "8755571dd8f8108868c3a75d1fcb9dbf53ce6ea1960b148dff4fc12025ffc627",
+    "recipes/collab-runners/runner-resolver-php83/platform-probe.php": "e08c344600c7a0053b1a3fabb3ea1eb3c6f8c7951ca4b0874dbe808720e1ca5e",
     "recipes/collab-runners/runner-resolver-web-qa/Dockerfile": "a46fa42bbc590f18ab85177bcfcc3f483c01e8e5afb17077391c96be2925ab29",
     "recipes/manifest.json": "f9d8eb32047ef6b5cb196d9b0f83d5d3c15769e645209358850ac3637c812c9e",
     "recipes/native-runtime/guest-agent-host-only.patch": "979994e0df2f9d08d4efc27dba4105863691cb4451fd95010345bce273b081b9",
